@@ -1,0 +1,48 @@
+{
+   "name": "panthrMath",
+   "version": "0.0.1",
+   "description": "Random number generators for PanthR",
+   "main": "index.js",
+   "scripts": {
+      "test": "mocha --reporter=progress --recursive",
+      "lint": "eslint .",
+      "doc": "node ./node_modules/panthrdoc/run.js ."
+   },
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/PanthR/panthrMath.git"
+   },
+   "keywords": [
+      "number"
+   ],
+   "author": {
+      "name": "PanthR Team",
+      "url": "https://github.com/PanthR/"
+   },
+   "contributors": [
+      {
+         "name": "Barb Wahl",
+         "email": "wahl@hanover.edu",
+         "url": "https://github.com/bwahl"
+      },
+      {
+         "name": "Haris Skiadas",
+         "email": "skiadas@hanover.edu",
+         "url": "https://github.com/skiadas"
+      }
+   ],
+   "license": "MIT",
+   "bugs": {
+      "url": "https://github.com/PanthR/panthrMath/issues"
+   },
+   "homepage": "https://github.com/PanthR/panthrMath",
+   "devDependencies": {
+      "chai": "^1.9.1",
+      "mocha": "~1.21.3",
+      "panthrdoc": "*",
+      "sinon": "^1.10.3",
+      "sinon-chai": "^2.5.0"
+   },
+   "dependencies": {
+   }
+}
