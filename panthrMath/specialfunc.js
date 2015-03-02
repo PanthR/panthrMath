@@ -46,7 +46,7 @@ define(function(require) {
       precomputed = [NaN];
       function compute(n) {
          var nsq = n * n;
-         return cs[0] - (cs[1] - (cs[2] - (cs[3] - cs[4] / nsq) / nsq) / nsq ) / n;
+         return (cs[0] - (cs[1] - (cs[2] - (cs[3] - cs[4] / nsq) / nsq) / nsq ) /nsq) / n;
       }
       for (N = 1; N < 16; N += 1) {
          precomputed[N] = compute(N);
