@@ -19,7 +19,8 @@ define(function(require) {
    panthrMath.C = require('./panthrMath/constants');
 
    mixin(panthrMath,
-      require('./panthrMath/specialfunc')
+      require('./panthrMath/specialfunc'),
+      require('./panthrMath/distributions')
    );
 
    return panthrMath;
