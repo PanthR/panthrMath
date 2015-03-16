@@ -9,17 +9,9 @@ define(function(require) {
     * Barb Wahl <wahl@hanover.edu>
     */
 
-   var panthrMath;
+   var panthrMath, mixin;
 
-   function mixin(target) {
-      Array.prototype.slice.call(arguments, 1)
-         .forEach(function(source) {
-            Object.keys(source).forEach(function(key) {
-               target[key] = source[key];
-            });
-         });
-      return target;
-   }
+   mixin = require('./panthrMath/utils').mixin;
 
    // Functions
 
