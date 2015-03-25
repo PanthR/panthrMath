@@ -15,4 +15,8 @@ describe('Polynomial class', function() {
          expect(P.evalAt(v)).to.be.closeTo(f(v),.0001);
       }
    });
+   it('constructor can take Polynomial argument and returns it', function() {
+      var P = new Polynomial([5, 3, 1, 1, 2]);
+      expect(new Polynomial(P)).to.equal(P);
+   });
 });

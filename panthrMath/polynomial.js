@@ -6,6 +6,7 @@ define(function(require) {
    // the array is [a, b, c, d], that is, the array indexing is
    // the reverse of the usual coefficient indexing
    function Polynomial(coefs) {
+      if (coefs instanceof Polynomial) { return coefs; }
       this.coefs = coefs;
    }
 
