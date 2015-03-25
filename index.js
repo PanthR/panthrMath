@@ -17,6 +17,7 @@ define(function(require) {
 
    panthrMath = {};
    panthrMath.C = require('./panthrMath/constants');
+   panthrMath.Polynomial = require('./panthrMath/polynomial');
 
    mixin(panthrMath,
       require('./panthrMath/specialfunc'),
