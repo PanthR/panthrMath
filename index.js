@@ -21,6 +21,7 @@ define(function(require) {
    panthrMath.Rational = require('./panthrMath/rational');
 
    mixin(panthrMath,
+      require('./panthrMath/basicfunc'),
       require('./panthrMath/specialfunc'),
       require('./panthrMath/distributions')
    );
