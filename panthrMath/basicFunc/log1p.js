@@ -2,7 +2,7 @@
 define(function(require) {
 
    /**
-    * Implementation / polyfill for log(1 + x).
+    * log(1 + x)
     * Taken from:  Computation of the Incomplete Gamma Function Ratios
     * and their Inverse, by DiDonato and Morris.
     */
