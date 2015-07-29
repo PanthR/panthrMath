@@ -5,13 +5,14 @@ define(function(require) {
     * Basic math functions.
     */
 
-   var basicFunc;
-
+   var basicFunc, mixin;
+   mixin = require('./utils').mixin;
    basicFunc = {};
 
    mixin(basicFunc,
-      require('basicFunc/log1p'),
-      require('basicFunc/expm1')
+      require('./basicFunc/log1p'),
+      require('./basicFunc/expm1'),
+      require('./basicFunc/erf')
    );
 
    return basicFunc;
