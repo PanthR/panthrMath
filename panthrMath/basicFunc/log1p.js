@@ -2,19 +2,12 @@
 define(function(require) {
 
    /**
-    * Basic math functions.
+    * Implementation / polyfill for log(1 + x)
     */
 
-   var basicFunc;
-
-   basicFunc = {};
-
-   mixin(basicFunc,
-      require('basicFunc/log1p'),
-      require('basicFunc/expm1')
-   );
-
-   return basicFunc;
+   return {
+      log1p: Math.log1p || function(x) { return Math.log(1 + x); }
+   };
 
 });  // end define
 
