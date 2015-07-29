@@ -9,7 +9,6 @@ chai.use(function(_chai, utils) {
    Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
       var x = utils.flag(this, 'object');
       var denom = Math.max(Math.abs(x0), Math.abs(x));
-      console.log(denom !== 0);
       if (denom !== 0) {
          var res = Math.abs(x - x0) / denom;
          new Assertion(res).to.be.below(delta);
@@ -31,7 +30,6 @@ describe('erf function', function() {
        [5,0.999999999998463],
        [1e-05,1.1283791670591e-05]
       ].forEach(function(pair) {
-      console.log(pair, erf(pair[0]));
       expect(erf(pair[0]))
          .to.be.relativelyCloseTo(pair[1], precision);
       });
@@ -49,7 +47,6 @@ describe('erf function', function() {
        [5,1.537459794428e-12],
        [1e-05,0.999988716208329]
       ].forEach(function(pair) {
-      console.log(pair, erfc(pair[0]));
       expect(erfc(pair[0]))
          .to.be.relativelyCloseTo(pair[1], precision);
       });

@@ -10,7 +10,6 @@ define(function(require) {
    var erf, erfc, R4small, R8med, R5large, Rational, piSqrtInv;
 
    piSqrtInv = 1 / Math.sqrt(Math.PI);
-   console.log(piSqrtInv);
    Rational = require('../rational');
 
    /* R4small is Cody's function R_lm with l = m = 4 for |x| <= 0.5*/
@@ -20,7 +19,7 @@ define(function(require) {
          113.8641541510501556495,
          377.4852376853020208137,
          3209.377589138469472562
-      ],[
+      ], [
          1,
          23.60129095234412093499,
          244.0246379344441733056,
