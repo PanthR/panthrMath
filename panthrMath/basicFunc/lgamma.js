@@ -1,9 +1,10 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, lgamma, lgammaLanczos, lgammaNear1or2, Rational;
+   var C, lgamma, lgammaLanczos, lgammaNear1or2, Rational, Polynomial;
 
    Rational = require('../rational');
+   Polynomial = require('../polynomial');
 
    C = require('../constants');
 
@@ -35,48 +36,54 @@ define(function(require) {
       };
    }());
 
+   // Performs (2,2)-pade approximation. (See lgamma.c in gsl)
+   // Corr is a Polynomial
+   function pade22(n1, n2, d1, d2, c, corr) {
+      return function(eps) {
+         var eps5, pade;
+         pade = c * (eps + n1) * (eps + n2) / ((eps + d1) * (eps + d2));
+         eps5 = eps * eps * eps * eps * eps;
+         return eps * (pade + eps5 * corr.evalAt(eps));
+      };
+   }
+
    /**
     * lgamma(x) for 0.8 <= x <= 2.25
-    * Taken from:  Computation of the Incomplete Gamma Function Ratios
-    * and their Inverse, by DiDonato and Morris.
+    * Taken from:  lgamma.c (GSL)
     */
    lgammaNear1or2 = (function() {
-      var R1, R2;
-      R1 = new Rational([
-         -0.00271935708322958,
-         -0.0673562214325671,
-         -0.402055799310489,
-         -0.780427615533591,
-         -0.168860593646662,
-          0.844203922187225,
-          0.577215664901533
-         ], [
-          0.667465618796164e-3,
-          0.0325038868253937,
-          0.361951990101499,
-          1.56875193295039,
-          3.12755088914843,
-          2.88743195473681,
-          1
-         ]);
-      R2 = new Rational([
-          0.497958207639485e-3,
-          0.0170502484022650,
-          0.156513060486551,
-          0.565221050691933,
-          0.848044614534529,
-          0.422784335098467
-         ], [
-          0.116165475989616e-3,
-          0.00713309612391000,
-          0.101552187439830,
-          0.548042109832463,
-          1.24313399877507,
-          1
-         ]);
+      var p1, p2;
+      p1 = pade22(
+         -1.0017419282349508699871138440, // n1
+          1.7364839209922879823280541733, // n2
+          1.2433006018858751556055436011, // d1
+          5.0456274100274010152489597514, // d2
+          2.0816265188662692474880210318, // c
+         new Polynomial([
+             0.03141928755021455,
+            -0.02594027398725020,
+             0.01931961413960498,
+            -0.01192457083645441,
+             0.004785324257581753
+         ])
+      );
+      p2 = pade22(
+         1.000895834786669227164446568, // n1
+         4.209376735287755081642901277, // n2
+         2.618851904903217274682578255, // d1
+         10.85766559900983515322922936, // d2
+         2.85337998765781918463568869,  // c
+         new Polynomial([
+          0.0000407220927867950,
+         -0.0000693271800931282,
+          0.0001067287169183665,
+         -0.0001365435269792533,
+          0.0001139406357036744
+         ])
+      );
+
       return function(x) {
-         if (x <= 1.6) { return (1 - x) * R1.evalAt(x - 1); }
-         return (x - 2) * R2.evalAt(x - 2);
+         return x <= 1.6 ? p1(x - 1) : p2 (x - 2);
       };
 
    }());
