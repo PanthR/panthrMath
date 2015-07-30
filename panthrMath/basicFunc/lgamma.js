@@ -101,7 +101,14 @@ define(function(require) {
       return lgammaLanczos(x);
    };
 
-   return { lgamma: lgamma };
+   function gamma(x) {
+      return Math.exp(lgamma(x));
+   }
+
+   return {
+      lgamma: lgamma,
+      gamma: gamma
+   };
 
 });
 
