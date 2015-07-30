@@ -64,7 +64,6 @@ describe('lgamma function', function() {
        [2.000001,4.22784657616089e-07],
        [2.0000001,4.22784367459758e-08]
       ].forEach(function(pair) {
-      console.log(pair, lgamma(pair[0]));
       expect(lgamma(pair[0]))
          .to.be.relativelyCloseTo(pair[1], precision);
       });
