@@ -12,7 +12,8 @@ define(function(require) {
    mixin(basicFunc,
       require('./basicFunc/log1p'),
       require('./basicFunc/expm1'),
-      require('./basicFunc/erf')
+      require('./basicFunc/erf'),
+      require('./basicFunc/gratio')
    );
 
    return basicFunc;
