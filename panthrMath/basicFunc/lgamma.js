@@ -6,9 +6,8 @@ define(function(require) {
     * Only works for positive x values.
     */
 
-   var C, lgamma, lgammaLanczos, lgammaNear1or2, Rational, Polynomial;
+   var C, lgamma, lgammaLanczos, lgammaNear1or2, Polynomial;
 
-   Rational = require('../rational');
    Polynomial = require('../polynomial');
 
    C = require('../constants');
@@ -43,6 +42,7 @@ define(function(require) {
 
    // Performs (2,2)-pade approximation. (See lgamma.c in gsl)
    // Corr is a Polynomial
+   /* eslint-disable max-params */
    function pade22(n1, n2, d1, d2, c, corr) {
       return function(eps) {
          var eps5, pade;
@@ -51,6 +51,7 @@ define(function(require) {
          return eps * (pade + eps5 * corr.evalAt(eps));
       };
    }
+   /* eslint-enable max-params */
 
    /**
     * lgamma(x) for 0.8 <= x <= 2.25
@@ -88,7 +89,7 @@ define(function(require) {
       );
 
       return function(x) {
-         return x <= 1.6 ? p1(x - 1) : p2 (x - 2);
+         return x <= 1.6 ? p1(x - 1) : p2(x - 2);
       };
 
    }());
