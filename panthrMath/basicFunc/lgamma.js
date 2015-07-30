@@ -1,6 +1,11 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   /**
+    * Implementation of the logarithm of the gamma function.
+    * Only works for positive x values.
+    */
+
    var C, lgamma, lgammaLanczos, lgammaNear1or2, Rational, Polynomial;
 
    Rational = require('../rational');
@@ -89,9 +94,9 @@ define(function(require) {
    }());
 
    lgamma = function(x) {
+      if (x <= 0) { return NaN; }
       if (x === 1 || x === 2) { return 0; }
       if (x >= 0.8 && x <= 2.25) { return lgammaNear1or2(x); }
-      // todo handle negative case
       return lgammaLanczos(x);
    };
 
