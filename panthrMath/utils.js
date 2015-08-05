@@ -43,6 +43,42 @@ define(function(require) {
       }, stop);
    }
 
+   /* contFrac
+    * A continued fraction has the form
+    * a0 + (b1 / (a1 + (b2 / (a2 + ...)))
+    * where a is indexed from 0 and b is indexed from 1.    *
+    * - `a` and `b` are functions with parameters `i` and `v` for generating
+    * the ai and bi sequences; each time, the function returns the ith term
+    * of the sequence based on the previous value, `v`.
+    * - `stop` is the same as in `repeat`.
+    *
+    * Return a value for the indicated continued fraction, to a precision
+    * as determined by `stop`.
+    */
+   function contFrac(a, b, stop) {
+      var A, A1, A2; // A2 is "two previous" to A, A1 is "one previous"
+      var B, B1, B2, an, bn, i;
+      an = a(0);
+      A = an;
+      A1 = 1;
+      bn = 1;
+      B = bn;
+      B1 = 0;
+      i = 0;
+      return repeat(A / B, function() {
+         A2 = A1;
+         A1 = A;
+         B2 = B1;
+         B1 = B;
+         i += 1;
+         an = a(i, an);
+         bn = b(i, bn);
+         A = A1 * bn + A2 * an;
+         B = B1 * bn + B2 * an;
+         return A / B;
+      }, stop);
+   }
+
    /* mixin */
    return {
       mixin: function mixin(target) {
@@ -55,7 +91,8 @@ define(function(require) {
          return target;
       },
       repeat: repeat,
-      series: series
+      series: series,
+      contFrac: contFrac
    };
 
 });
