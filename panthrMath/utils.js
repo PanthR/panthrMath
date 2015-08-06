@@ -73,8 +73,8 @@ define(function(require) {
          i += 1;
          an = a(i, an);
          bn = b(i, bn);
-         A = A1 * bn + A2 * an;
-         B = B1 * bn + B2 * an;
+         A = A1 * an + A2 * bn;
+         B = B1 * an + B2 * bn;
          return A / B;
       }, stop);
    }

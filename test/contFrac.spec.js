@@ -40,6 +40,9 @@ describe('contFrac function', function() {
       function f() { return 1; }
       expect(contFrac(f, f)).to.be
          .relativelyCloseTo((1 + Math.sqrt(5))/2, precision);
+      // Square root of 2
+      expect(contFrac(function(i) { return i === 0 ? 1 : 2; }, f)).to.be
+         .relativelyCloseTo(Math.sqrt(2), precision);
    });
    it('works when given a function for stopping condition', function() {
       var count;
