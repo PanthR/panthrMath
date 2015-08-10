@@ -133,7 +133,7 @@ define(function(require) {
              0.764916091608111008463742149809e-5,
             -0.180985503344899778370285914868e-4,
             -0.401877572016460905349794238683e-6,
-             0.205761316872427983539094650296e-3,
+             0.205761316872427983539094650206e-3,
             -0.990226337448559670781893004115e-3,
              0.264550264550264550264550264550e-2,
             -0.347222222222222222222222222222e-2,
@@ -279,11 +279,6 @@ define(function(require) {
          if ((a > x || x >= x0 || a !== Math.round(2 * a)) &&
              x <= Math.max(a, Math.LN10) ) {
             // Formula 15, for P
-         console.log("sum", r(a,x), a, series(function(n, v) {
-               return n === 0 ? 1 : v * x / (a + n);
-            }), r(a, x) / a * series(function(n, v) {
-               return n === 0 ? 1 : v * x / (a + n);
-            }));
             return r(a, x) / a * series(function(n, v) {
                return n === 0 ? 1 : v * x / (a + n);
             });
@@ -330,14 +325,15 @@ define(function(require) {
 
          lambda = x / a;
          sigma = Math.abs(1 - lambda);
-         y = a * expm1(lambda);
+         y = a * phi(lambda);
 
          if (sigma <= e0 / Math.sqrt(a)) {
             // Formula 19, for P
             if (lambda > 1) { return 1 - bigQ(a)(x); }
             return e(y) - (1 - y) / Math.sqrt(2 * Math.PI * a) * t(a, lambda);
          }
-         if (sigma > 0.4) {
+         if (sigma <= 0.4) {
+            // console.log("In 17!!", a, lambda, 0.5 * erfc(Math.sqrt(y)), Math.exp(-y) / Math.sqrt(2 * Math.PI * a) * t(a, lambda), t(a, lambda))
             // Formula 17, for P
             if (lambda > 1) { return 1 - bigQ(a)(x); }
             return 0.5 * erfc(Math.sqrt(y)) -
@@ -359,14 +355,14 @@ define(function(require) {
 
          lambda = x / a;
          sigma = Math.abs(1 - lambda);
-         y = a * expm1(lambda);
+         y = a * phi(lambda);
 
          if (sigma <= e0 / Math.sqrt(a)) {
             // Formula 19, for Q
             if (lambda <= 1) { return 1 - bigP(a)(x); }
             return e(y) + (1 - y) / Math.sqrt(2 * Math.PI * a) * t(a, lambda);
          }
-         if (sigma > 0.4) {
+         if (sigma <= 0.4) {
             // Formula 17, for Q
             if (lambda <= 1) {
                return 1 - bigP(a)(x);

@@ -1,6 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
-var precision = 1e-4;
+var precision = 1e-10;
 var gratio = require('../panthrMath/basicFunc/gratio').gratio;
 var gratioc = require('../panthrMath/basicFunc/gratio').gratioc;
 
@@ -4026,7 +4026,6 @@ describe('gratio and gratioc functions', function() {
          rq = tuple[3];
          p = gratio(a)(x);
          q = gratioc(a)(x);
-         console.log(a, x, rp, p, rq, q);
          expect(p).to.be.relativelyCloseTo(rp, precision);
          expect(q).to.be.relativelyCloseTo(rq, precision);
       });
