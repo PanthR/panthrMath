@@ -97,7 +97,8 @@ define(function(require) {
    lgamma = function(x) {
       if (x <= 0) { return NaN; }
       if (x === 1 || x === 2) { return 0; }
-      if (x >= 0.8 && x <= 2.25) { return lgammaNear1or2(x); }
+      if (Math.abs(x - 1) <= 0.01 ||
+          Math.abs(x - 2) <= 0.01) { return lgammaNear1or2(x); }
       return lgammaLanczos(x);
    };
 
