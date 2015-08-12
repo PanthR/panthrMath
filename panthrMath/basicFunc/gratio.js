@@ -13,7 +13,8 @@ define(function(require) {
 
    var phi, h, series, contFrac, cf, BIG, x0, e0, t, logroot,
        Rational, Polynomial, gamma, erf, erfc, expm1,
-       smallP, smallQ, mediumP, mediumQ, bigP, bigQ;
+       smallP, smallQ, mediumP, mediumQ, bigP, bigQ,
+       eulerGamma, funS;
 
    Rational = require('../rational');
    Polynomial = require('../polynomial');
@@ -23,6 +24,7 @@ define(function(require) {
    series = require('../utils').series;
    contFrac = require('../utils').contFrac;
    expm1 = require('./expm1').expm1;
+   eulerGamma = require('../constants').eulerGamma;
 
    logroot = Math.log(Math.sqrt(0.765));
 
@@ -398,6 +400,175 @@ define(function(require) {
       if (a < 1) { return smallQ(a); }
       if (a < BIG) { return mediumQ(a); }
       return bigQ(a);
+   }
+
+
+   // INVERSE GAMMA
+
+   // funS implements formula 32
+   // a function of p and q for calculating s
+   funS = (function() {
+      var ratFun = new Rational([
+         0.213623493715853, 4.28342155967104,
+         11.6616720288968, 3.31125922108741
+      ], [
+         0.0361170810188420, 1.27364489782223,
+         6.40691597760039, 6.61053765625462, 1
+      ]);
+      return function(p, q) {
+         var t;
+         t = Math.sqrt(-2 * Math.log(p < 0.5 ? p : q));
+         return (p < 0.5 ? -1 : 1) * (t - ratFun.evalAt(t));
+      };
+   }());
+
+   // Use formulas 21 through 25 from DiDonato to get initial
+   // estimate for x when a < 1.
+   function findx0SmallA(a, p, q) {
+      var B, u, t;
+      B = q * gamma(a);
+      if (B > 0.6 || B >= 0.45 && a >= 0.3) {
+         // use 21
+         u = B * q > 1e-8 ? Math.pow(p * gamma(a + 1), 1 / a)
+                          : Math.exp(-q / a - eulerGamma);
+         return u / (1 - u / (a + 1));
+      }
+      if (a < 0.3 && 0.35 <= B && B <= 0.6) {
+         // use 22
+         t = Math.exp(-eulerGamma - B);
+         u = t * Math.exp(t);
+         return t * Math.exp(u);
+      }
+      t = -Math.log(B);
+      u = t - (1 - a) * Math.log(t);
+      if (B >= 0.15) {
+         // use 23, with t for y and u for v
+         return t - (1 - a) * Math.log(u) -
+                  Math.log(1 + (1 - a) / (1 + u));
+      }
+      if (B > 0.01) {
+         // use 24, with t for y and u for v
+         return t - (1 - a) * Math.log(u) - Math.log(
+            (u * u + 2 * (3 - a) * u + (2 - a) * (3 - a)) /
+            (u * u + (5 - a) * u + 2));
+      }
+      // use 25, where c1 + ... + c5/y^4 is treated as a polynomial in y^-1
+      // using u for c1, t for y
+      return findx0TinyB(a, t);
+   }
+
+   // implements equation #25
+   function findx0TinyB(a, y) {
+      var c1;
+      c1 = (a - 1) * Math.log(y);
+      return y + Polynomial.new([
+         // c5
+         (a - 1) * Polynomial.new([
+            -0.25, (11 * a - 17) / 6, -3 * a * a + 13 * a - 13,
+            (2 * a * a * a - 25 * a * a + 72 * a - 61) / 2,
+            (25 * a * a * a - 195 * a * a + 477 * a - 379) / 12
+         ]).evalAt(c1),
+         // c4
+         (a - 1) * Polynomial.new([
+            1 / 3, (3 * a - 5) / 2, (a * a - 6 * a + 7),
+            (11 * a * a - 46 * a + 47) / 6
+         ]).evalAt(c1),
+         // c3
+         (a - 1) * (-0.5 * c1 * c1 + (a - 2) * c1 + (3 * a - 5) / 2),
+         // c2
+         (a - 1) * (1 + c1),
+         // c1
+         c1
+      ]).evalAt(1 / y);
+   }
+
+   // Use formulas 25 and 31 through 36 from DiDonato to get initial
+   // estimate for x when a > 1.
+   function findx0BigA(a, p, q) {
+      var w, s, D, B, u, z, zbar, logpg;
+      // snTerm -- see formula 34
+      logpg = Math.log(p * gamma(a + 1));
+      function snTerm(x) {
+         return function(n, v) {
+            return n === 0 ? 1 : v * x / (a + n);
+         };
+      }
+      // See formula 34, where `n` is off by 1
+      function f(x, n) {
+         return Math.exp(logpg + x - Math.log(series(snTerm(x), n)) / a);
+      }
+      B = q * gamma(a);
+      D = Math.max(2, a * (a - 1));
+      s = funS(p, q);
+      w = a + s * Math.sqrt(a) + (s * s - 1) / 3 +
+         (s * s * s - 7 * s) / (36 * Math.sqrt(a)) -
+         (3 * s * s * s * s + 7 * s * s - 16) / (810 * a) +
+         (9 * s * s * s * s * s + 256 * s * s * s - 433 * s) /
+            (38880 * a * Math.sqrt(a));
+      if (a >= 500 && Math.abs(1 - w / a) < 1e-6) { return w; }
+      if (p > 0.5) {
+         if (w < 3 * a) { return w; }
+         if (B < Math.pow(10,-D)) { return findx0TinyB(a, -Math.log(B)); }
+         u = -Math.log(B) + (a - 1) * Math.log(w) -
+               Math.log(1 + (1 - a) / (1 + w));
+         // formula 33
+         return -Math.log(B) + (a - 1) * Math.log(u) -
+               Math.log(1 + (1 - a) / (1 + u));
+      }
+      // handle p <= 0.5
+      z = w > 0.15 * (a + 1) ? w : f(f(f(f(w, 1), 2), 3), 4);
+      if (z <= .01 * (a + 1) || z > 0.7 * (a + 1)) { return z; }
+      return (function() {
+         // find N for formula 36
+         var N, term;
+         N = 0;
+         term = 1;
+         do {
+            N += 1;
+            term = snTerm(N, term);
+         } while (term > 1e-4);
+         zbar = f(z, N + 1);
+         return zbar * (1 - (a * Math.log(zbar) - zbar - logpg +
+                  Math.log(series(snTerm(x), N + 1))) / (a - zbar));
+      }());
+   }
+
+   // Use Schroeder or Newton-Raphson to do one step of the iteration,
+   // formulas 37 and 38.
+   function step(x0, a, p, q) {
+      var t, w;
+      t = p <= 0.5 ? gratio(a, x) - p : q - gratioc(a, x);
+      t = t / r(a, x);
+      w = (a - 1 - x) / 2;
+      if (Math.max(Math.abs(t), Math.abs(w * t)) <= 0.1) {
+         return x * (1 - (t + w * t * t));
+      }
+      return x * (1 - t);
+   }
+
+   /* gaminv
+    * `a` is the shape parameter
+    * Return a function for calculating inverse gamma values; this function
+    * will take two parameters, `p` (a probability) and `lower` (defaults to
+    * true; set to false if p is a q-value).
+    */
+   function gaminv(a) {
+      return function(p, lower) {
+         // TODO consider special cases such as p === 0, etc.
+         var q, x;
+         if (lower === false) {
+            q = p;
+            p = 1 - q;
+         } else {
+            q = 1 - p;
+         }
+         if (a === 1) { return -Math.log(q); }
+         x = a < 1 ? findx0SmallA(a, p, q) : findx0BigA(a, p, q);
+         return repeat(x, function() {
+            x = step(x, a, p, q);
+            return x;
+         });
+      };
    }
 
    return {
