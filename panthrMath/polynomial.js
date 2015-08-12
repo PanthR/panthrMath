@@ -10,6 +10,10 @@ define(function(require) {
       this.coefs = coefs;
    }
 
+   Polynomial.new = function(coefs) {
+      return new Polynomial(coefs);
+   };
+
    Polynomial.prototype.evalAt = function evalAt(x) {
       return this.coefs.reduce(function(acc, coef) {
          return acc * x + coef;
