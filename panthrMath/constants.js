@@ -6,7 +6,8 @@ define(function(require) {
    C = {
       twopi: 2 * Math.PI,
       sqrt2pi: Math.sqrt(2 * Math.PI),
-      epsilon: 1e-15       // used for precision
+      epsilon: 1e-15,      // used for precision
+      eulerGamma: 0.577215664901532860606512090082
    };
 
    return Object.freeze(C);
