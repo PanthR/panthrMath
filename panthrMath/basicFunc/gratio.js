@@ -11,7 +11,7 @@ define(function(require) {
     * Domain: a >= 0, x >= 0, a + x != 0.
     */
 
-   var phi, h, series, contFrac, cf, BIG, x0, e0, t, logroot,
+   var phi, h, repeat, series, contFrac, cf, BIG, x0, e0, t, logroot,
        Rational, Polynomial, gamma, erf, erfc, expm1,
        smallP, smallQ, mediumP, mediumQ, bigP, bigQ,
        eulerGamma, funS;
@@ -21,6 +21,7 @@ define(function(require) {
    gamma = require('./lgamma').gamma;
    erf = require('./erf').erf;
    erfc = require('./erf').erfc;
+   repeat = require('../utils').repeat;
    series = require('../utils').series;
    contFrac = require('../utils').contFrac;
    expm1 = require('./expm1').expm1;
@@ -335,7 +336,6 @@ define(function(require) {
             return e(y) - (1 - y) / Math.sqrt(2 * Math.PI * a) * t(a, lambda);
          }
          if (sigma <= 0.4) {
-            // console.log("In 17!!", a, lambda, 0.5 * erfc(Math.sqrt(y)), Math.exp(-y) / Math.sqrt(2 * Math.PI * a) * t(a, lambda), t(a, lambda))
             // Formula 17, for P
             if (lambda > 1) { return 1 - bigQ(a)(x); }
             return 0.5 * erfc(Math.sqrt(y)) -
@@ -416,16 +416,16 @@ define(function(require) {
          6.40691597760039, 6.61053765625462, 1
       ]);
       return function(p, q) {
-         var t;
-         t = Math.sqrt(-2 * Math.log(p < 0.5 ? p : q));
-         return (p < 0.5 ? -1 : 1) * (t - ratFun.evalAt(t));
+         var temp;
+         temp = Math.sqrt(-2 * Math.log(p < 0.5 ? p : q));
+         return (p < 0.5 ? -1 : 1) * (temp - ratFun.evalAt(temp));
       };
    }());
 
    // Use formulas 21 through 25 from DiDonato to get initial
    // estimate for x when a < 1.
    function findx0SmallA(a, p, q) {
-      var B, u, t;
+      var B, u, temp;
       B = q * gamma(a);
       if (B > 0.6 || B >= 0.45 && a >= 0.3) {
          // use 21
@@ -433,28 +433,28 @@ define(function(require) {
                           : Math.exp(-q / a - eulerGamma);
          return u / (1 - u / (a + 1));
       }
-      if (a < 0.3 && 0.35 <= B && B <= 0.6) {
+      if (a < 0.3 && B >= 0.35 && B <= 0.6) {
          // use 22
-         t = Math.exp(-eulerGamma - B);
-         u = t * Math.exp(t);
-         return t * Math.exp(u);
+         temp = Math.exp(-eulerGamma - B);
+         u = temp * Math.exp(temp);
+         return temp * Math.exp(u);
       }
-      t = -Math.log(B);
-      u = t - (1 - a) * Math.log(t);
+      temp = -Math.log(B);
+      u = temp - (1 - a) * Math.log(temp);
       if (B >= 0.15) {
-         // use 23, with t for y and u for v
-         return t - (1 - a) * Math.log(u) -
+         // use 23, with temp for y and u for v
+         return temp - (1 - a) * Math.log(u) -
                   Math.log(1 + (1 - a) / (1 + u));
       }
       if (B > 0.01) {
-         // use 24, with t for y and u for v
-         return t - (1 - a) * Math.log(u) - Math.log(
+         // use 24, with temp for y and u for v
+         return temp - (1 - a) * Math.log(u) - Math.log(
             (u * u + 2 * (3 - a) * u + (2 - a) * (3 - a)) /
             (u * u + (5 - a) * u + 2));
       }
       // use 25, where c1 + ... + c5/y^4 is treated as a polynomial in y^-1
-      // using u for c1, t for y
-      return findx0TinyB(a, t);
+      // using u for c1, temp for y
+      return findx0TinyB(a, temp);
    }
 
    // implements equation #25
@@ -470,7 +470,7 @@ define(function(require) {
          ]).evalAt(c1),
          // c4
          (a - 1) * Polynomial.new([
-            1 / 3, (3 * a - 5) / 2, (a * a - 6 * a + 7),
+            1 / 3, (3 * a - 5) / 2, a * a - 6 * a + 7,
             (11 * a * a - 46 * a + 47) / 6
          ]).evalAt(c1),
          // c3
@@ -508,7 +508,7 @@ define(function(require) {
       if (a >= 500 && Math.abs(1 - w / a) < 1e-6) { return w; }
       if (p > 0.5) {
          if (w < 3 * a) { return w; }
-         if (B < Math.pow(10,-D)) { return findx0TinyB(a, -Math.log(B)); }
+         if (B < Math.pow(10, -D)) { return findx0TinyB(a, -Math.log(B)); }
          u = -Math.log(B) + (a - 1) * Math.log(w) -
                Math.log(1 + (1 - a) / (1 + w));
          // formula 33
@@ -529,21 +529,21 @@ define(function(require) {
          } while (term > 1e-4);
          zbar = f(z, N + 1);
          return zbar * (1 - (a * Math.log(zbar) - zbar - logpg +
-                  Math.log(series(snTerm(x), N + 1))) / (a - zbar));
+                  Math.log(series(snTerm(z), N + 1))) / (a - zbar));
       }());
    }
 
    // Use Schroeder or Newton-Raphson to do one step of the iteration,
    // formulas 37 and 38.
-   function step(x0, a, p, q) {
-      var t, w;
-      t = p <= 0.5 ? gratio(a, x) - p : q - gratioc(a, x);
-      t = t / r(a, x);
+   function step(x, a, p, q) {
+      var temp, w;
+      temp = p <= 0.5 ? gratio(a, x) - p : q - gratioc(a, x);
+      temp = temp / r(a, x);
       w = (a - 1 - x) / 2;
-      if (Math.max(Math.abs(t), Math.abs(w * t)) <= 0.1) {
-         return x * (1 - (t + w * t * t));
+      if (Math.max(Math.abs(temp), Math.abs(w * temp)) <= 0.1) {
+         return x * (1 - (temp + w * temp * temp));
       }
-      return x * (1 - t);
+      return x * (1 - temp);
    }
 
    /* gaminv
