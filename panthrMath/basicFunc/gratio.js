@@ -495,7 +495,7 @@ define(function(require) {
       }
       // See formula 34, where `n` is off by 1
       function f(x, n) {
-         return Math.exp(logpg + x - Math.log(series(snTerm(x), n)) / a);
+         return Math.exp(logpg + x - Math.log(series(snTerm(x), n + 1)) / a);
       }
       B = q * gamma(a);
       D = Math.max(2, a * (a - 1));
@@ -516,7 +516,7 @@ define(function(require) {
                Math.log(1 + (1 - a) / (1 + u));
       }
       // handle p <= 0.5
-      z = w > 0.15 * (a + 1) ? w : f(f(f(f(w, 1), 2), 3), 4);
+      z = w > 0.15 * (a + 1) ? w : f(f(f(f(w, 1), 3), 3), 4);
       if (z <= .01 * (a + 1) || z > 0.7 * (a + 1)) { return z; }
       return (function() {
          // find N for formula 36
@@ -537,7 +537,7 @@ define(function(require) {
    // formulas 37 and 38.
    function step(x, a, p, q) {
       var temp, w;
-      temp = p <= 0.5 ? gratio(a, x) - p : q - gratioc(a, x);
+      temp = p <= 0.5 ? gratio(a)(x) - p : q - gratioc(a)(x);
       temp = temp / r(a, x);
       w = (a - 1 - x) / 2;
       if (Math.max(Math.abs(temp), Math.abs(w * temp)) <= 0.1) {
