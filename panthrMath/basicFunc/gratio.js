@@ -11,14 +11,15 @@ define(function(require) {
     * Domain: a >= 0, x >= 0, a + x != 0.
     */
 
-   var phi, h, repeat, series, contFrac, cf, BIG, x0, e0, t, logroot,
-       Rational, Polynomial, gamma, erf, erfc, expm1,
+   var phi, h, repeat, series, contFrac, cf, BIG, x0, e0, t, logroot, r,
+       Rational, Polynomial, gamma, lgamma, erf, erfc, expm1,
        smallP, smallQ, mediumP, mediumQ, bigP, bigQ,
        eulerGamma, funS;
 
    Rational = require('../rational');
    Polynomial = require('../polynomial');
    gamma = require('./lgamma').gamma;
+   lgamma = require('./lgamma').lgamma;
    erf = require('./erf').erf;
    erfc = require('./erf').erfc;
    repeat = require('../utils').repeat;
@@ -52,7 +53,6 @@ define(function(require) {
          var rat;
          if (x < 0) { return NaN; }
          if (x === 0) { return Infinity; }
-         // TODO: Rethink this range based on paper's equation 6
          if (x < 0.82 || x > 1.18) { return x - 1 - Math.log(x); }
 
          rat = (x - 1) / (x + 1);
@@ -219,11 +219,18 @@ define(function(require) {
       });
    }
 
-   // TODO: Paper computes R specially when a > 20. See equation 4.
-   // We have not implemented this here.
-   function r(a, x) {
-      return Math.exp(-x) * Math.pow(x, a) / gamma(a);
-   }
+   r = (function(){
+      // From equation 3
+      function delta(a) {
+         return lgamma(a) - (a - 0.5) * Math.log(a) + a - 0.5 * Math.log(2 * Math.PI);
+      }
+
+      return function r(a, x) {
+         return a <= 20 ?
+            Math.exp(-x) * Math.pow(x, a) / gamma(a) :
+            Math.sqrt(a / (2 * Math.PI)) * Math.exp(-a * phi(x / a) - delta(a));
+      };
+   }());
 
    // cf(a, x) computes the continued fraction in equation 11
    cf = function(a, x) {
@@ -388,14 +395,19 @@ define(function(require) {
    };
 
 
-   // Curried form of gamma ratio  (P(a, x))
+   // Curried form of gamma ratio  (P(a, x)).
+   // Meant for internal use.
+   // Expects 0 < x < Infinity.
+   // Callers should ensure this is the case.
    function gratio(a) {
+      if (a <= 0) { return function(x) { return NaN; }; }
       if (a === 0.5) { return function(x) { return erf(Math.sqrt(x)); }; }
       if (a < 1) { return smallP(a); }
       if (a < BIG) { return mediumP(a); }
       return bigP(a);
    }
    function gratioc(a) {
+      if (a <= 0) { return function(x) { return NaN; }; }
       if (a === 0.5) { return function(x) { return erfc(Math.sqrt(x)); }; }
       if (a < 1) { return smallQ(a); }
       if (a < BIG) { return mediumQ(a); }
@@ -484,6 +496,7 @@ define(function(require) {
 
    // Use formulas 25 and 31 through 36 from DiDonato to get initial
    // estimate for x when a > 1.
+   /* eslint-disable complexity */
    function findx0BigA(a, p, q) {
       var w, s, D, B, u, z, zbar, logpg;
       // snTerm -- see formula 34
@@ -495,7 +508,7 @@ define(function(require) {
       }
       // See formula 34, where `n` is off by 1
       function f(x, n) {
-         return Math.exp(logpg + x - Math.log(series(snTerm(x), n + 1)) / a);
+         return Math.exp((logpg + x - Math.log(series(snTerm(x), n + 1))) / a);
       }
       B = q * gamma(a);
       D = Math.max(2, a * (a - 1));
@@ -518,6 +531,7 @@ define(function(require) {
       // handle p <= 0.5
       z = w > 0.15 * (a + 1) ? w : f(f(f(f(w, 1), 3), 3), 4);
       if (z <= .01 * (a + 1) || z > 0.7 * (a + 1)) { return z; }
+      /* eslint-disable no-extra-parens */
       return (function() {
          // find N for formula 36
          var N, term;
@@ -525,13 +539,15 @@ define(function(require) {
          term = 1;
          do {
             N += 1;
-            term = snTerm(N, term);
+            term = snTerm(z)(N, term);
          } while (term > 1e-4);
          zbar = f(z, N + 1);
          return zbar * (1 - (a * Math.log(zbar) - zbar - logpg +
                   Math.log(series(snTerm(z), N + 1))) / (a - zbar));
       }());
+      /* eslint-enable no-extra-parens */
    }
+   /* eslint-enable complexity */
 
    // Use Schroeder or Newton-Raphson to do one step of the iteration,
    // formulas 37 and 38.
@@ -553,8 +569,9 @@ define(function(require) {
     * true; set to false if p is a q-value).
     */
    function gaminv(a) {
+      if (a <= 0) { return function(p) { return NaN; }; }
+      /* eslint-disable complexity */
       return function(p, lower) {
-         // TODO consider special cases such as p === 0, etc.
          var q, x;
          if (lower === false) {
             q = p;
@@ -562,6 +579,10 @@ define(function(require) {
          } else {
             q = 1 - p;
          }
+         if (p === 0) { return 0; }
+         if (p === 1) { return Infinity; }
+         if (p < 0 || p > 1) { return NaN; }
+
          if (a === 1) { return -Math.log(q); }
          x = a < 1 ? findx0SmallA(a, p, q) : findx0BigA(a, p, q);
          return repeat(x, function() {
@@ -569,11 +590,13 @@ define(function(require) {
             return x;
          });
       };
+      /* eslint-enable complexity */
    }
 
    return {
       gratio: gratio,
-      gratioc: gratioc
+      gratioc: gratioc,
+      gaminv: gaminv
    };
 
 });
