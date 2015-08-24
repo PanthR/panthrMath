@@ -36,13 +36,14 @@ define(function(require) {
          done = typeof stop === 'function' ? stop :
                 stop > 0 ? function() { stop -= 1; return stop === 0; } :
                         function() { return utils.relativelyCloseTo(curr, prev); };
-         while (reps > 0 && !done()) {
+         while (reps > 0 && !done() && !isNaN(curr)) {
             reps -= 1;
             prev = curr;
             curr = step();
          }
+         if (isNaN(curr)) { console.log('repeat returned NaN'); }
          if (reps === 0) {
-            console.log("repeat terminated after too many repetitions");
+            console.log('repeat terminated after too many repetitions');
          }
          return curr;
       },

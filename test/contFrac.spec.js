@@ -47,7 +47,7 @@ describe('contFrac function', function() {
    it('works when given a function for stopping condition', function() {
       var count;
       count = 0;
-      contFrac(function() { count += 1; },
+      contFrac(function() { count += 1; return count; },
          function() { return 0; },
          function() { return count === 5; });
       expect(count).to.equal(5);

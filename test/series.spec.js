@@ -44,7 +44,7 @@ describe('series function', function() {
       var count;
       count = 0;
       function stop() { return count === 5; }
-      series(function() { count += 1; }, function() { return count === 5; });
+      series(function() { count += 1; return count; }, function() { return count === 5; });
       expect(count).to.equal(5);
    });
 });
