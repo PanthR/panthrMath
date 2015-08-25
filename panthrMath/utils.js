@@ -71,11 +71,16 @@ define(function(require) {
       /* relativelyCloseTo returns a boolean indicating whether x, x0 are
        * relatively close to each other as specified by the precision `delta`.
        * If `delta` is not provided, `utils.precision` is used instead.
+       *
+       * Special cases for NaN, Infinity, -Infinity
        */
       relativelyCloseTo: function(x, x0, delta) {
          delta = delta || utils.precision;
-         var denom = Math.max(Math.abs(x0), Math.abs(x));
-         return denom === 0 || Math.abs(x - x0) / denom < delta;
+         var absMax = Math.max(Math.abs(x0), Math.abs(x));
+         if (isNaN(absMax)) { return isNaN(x) && isNaN(x0); } /* both NaN */
+         if (absMax === Infinity) { return x0 === x; }
+         if (absMax === 0) { return true; }
+         return Math.abs(x - x0) / absMax < delta;
       },
       /* contFrac
        * A continued fraction has the form
