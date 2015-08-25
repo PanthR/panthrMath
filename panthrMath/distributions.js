@@ -9,6 +9,7 @@ define(function(require) {
 
    distributions = mixin({},
       require('./distributions/normal'),
+      require('./distributions/gamma'),
       require('./distributions/poisson'),
       require('./distributions/t')
    );
