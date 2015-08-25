@@ -5,6 +5,7 @@ define(function(require) {
 
    C = require('./constants');
    lgamma = require('./basicFunc/lgamma').lgamma;
+   stirlerr = require('./basicFunc/stirlerr').stirlerr;
 
    // Expects x >= 0;
    lfactorial = function lfactorial(x) {
@@ -14,23 +15,6 @@ define(function(require) {
    lchoose = function lchoose(n, k) {
       return lfactorial(n) - lfactorial(k) - lfactorial(n - k);
    };
-
-   // error term in Stirling's approximation
-   // log(n!) - log( sqrt(2*pi*n) * (n/e)^n )
-   stirlerr = (function() {
-      var cs, precomputed, N;
-      // coefficients in Stirling's expansion for log(Gamma)
-      cs = [1 / 12, 1 / 360, 1 / 1260, 1 / 1680, 1 / 1188];
-      precomputed = [NaN];
-      function compute(n) {
-         var nsq = n * n;
-         return (cs[0] - (cs[1] - (cs[2] - (cs[3] - cs[4] / nsq) / nsq) / nsq ) / nsq) / n;
-      }
-      for (N = 1; N < 16; N += 1) {
-         precomputed[N] = compute(N);
-      }
-      return function(n) { return precomputed[n] || compute(n); };
-   }());
 
    function bd0(x, np) {
       var ej, j, s, sTemp, v;
@@ -71,7 +55,6 @@ define(function(require) {
       lfactorial: lfactorial,
       lchoose: lchoose,
       lbinomProb: lbinomProb,
-      stirlerr: stirlerr,
       bd0: bd0
    };
 

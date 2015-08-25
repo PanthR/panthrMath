@@ -6,7 +6,7 @@ define(function(require) {
    C = require('../constants');
    specialfunc = require('../specialfunc');
    bd0 = specialfunc.bd0;
-   stirlerr = specialfunc.stirlerr;
+   stirlerr = require('../basicFunc/stirlerr').stirlerr;
    twopi = C.twopi;
    sqrt2pi = C.sqrt2pi;
    Rational = require('../rational');
