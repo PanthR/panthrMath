@@ -13,6 +13,7 @@ define(function(require) {
       require('./basicFunc/log1p'),
       require('./basicFunc/expm1'),
       require('./basicFunc/erf'),
+      require('./basicFunc/lbeta'),
       require('./basicFunc/gratio')
    );
 
