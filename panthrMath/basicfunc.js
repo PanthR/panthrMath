@@ -14,7 +14,9 @@ define(function(require) {
       require('./basicFunc/expm1'),
       require('./basicFunc/erf'),
       require('./basicFunc/lbeta'),
+      require('./basicFunc/lgamma'),
       require('./basicFunc/bd0'),
+      require('./basicFunc/stirlerr'),
       require('./basicFunc/gratio')
    );
 
