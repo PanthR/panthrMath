@@ -7,7 +7,7 @@ define(function(require) {
    var C, bd0, stirlerr;
 
    C = require('../constants');
-   bd0 = require('../specialfunc').bd0;
+   bd0 = require('../basicFunc/bd0').bd0;
    stirlerr = require('../basicFunc/stirlerr').stirlerr;
 
    // returns the log of the poisson distribution

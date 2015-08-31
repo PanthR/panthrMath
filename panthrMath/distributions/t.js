@@ -1,11 +1,10 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, specialfunc, bd0, stirlerr, twopi, sqrt2pi, Rational, pt, qt;
+   var C, bd0, stirlerr, twopi, sqrt2pi, Rational, pt, qt;
 
    C = require('../constants');
-   specialfunc = require('../specialfunc');
-   bd0 = specialfunc.bd0;
+   bd0 = require('../basicFunc/bd0').bd0;
    stirlerr = require('../basicFunc/stirlerr').stirlerr;
    twopi = C.twopi;
    sqrt2pi = C.sqrt2pi;
