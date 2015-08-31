@@ -133,25 +133,20 @@ define(function(require) {
       return basym(a, b, x); // (21c)
    }
 
-   /*  */
-   function bpser(a, b, x) {
-
+   /*
+    * bratio
+    *
+    * Return the tails of the incomplete beta function
+    * of x, a, b.
+    */
+   function bratio(a, b, x) {
+     var resLog;
+     resLog = bratioLog(a, b, x);
+     return {
+        lower: Math.exp(resLog.lower),
+        upper: Math.exp(resLog.upper)
+     };
    }
-
-    /*
-     * bratio
-     *
-     * Return the tails of the incomplete beta function
-     * of x, a, b.
-     */
-    function bratio(a, b, x) {
-      var resLog;
-      resLog = bratioLog(a, b, x);
-      return {
-         lower: Math.exp(resLog.lower),
-         upper: Math.exp(resLog.upper)
-      };
-    }
 
     bratio.log = bratioLog;
 
