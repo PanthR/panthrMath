@@ -22,7 +22,6 @@ define(function(require) {
 
    mixin(panthrMath,
       require('./panthrMath/basicfunc'),
-      require('./panthrMath/specialfunc'),
       require('./panthrMath/distributions')
    );
 
