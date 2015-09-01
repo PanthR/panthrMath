@@ -1,7 +1,9 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var utils;
+   var utils, log1p;
+
+   log1p = require('../basicFunc/log1p').log1p;
 
    utils = {
       /* mixin */
@@ -116,6 +118,12 @@ define(function(require) {
             B = B1 * an + B2 * bn;
             return A / B;
          }, stop);
+      },
+      /*
+       * If lx = log(x), ly = log(y), calculates log(x + y)
+       */
+      logspaceAdd: function(lx, ly) {
+          return Math.max(lx, ly) + log1p(Math.exp(-Math.abs(lx - ly)));
       }
    };
 
