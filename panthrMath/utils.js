@@ -3,7 +3,7 @@ define(function(require) {
 
    var utils, log1p;
 
-   log1p = require('../basicFunc/log1p').log1p;
+   log1p = require('./basicFunc/log1p').log1p;
 
    utils = {
       /* mixin */
