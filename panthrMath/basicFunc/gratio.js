@@ -11,7 +11,7 @@ define(function(require) {
     * Domain: a >= 0, x >= 0, a + x != 0.
     */
 
-   var phi, h, repeat, series, contFrac, cf, BIG, x0, e0, t, logroot, r,
+   var phi, gam1, repeat, series, contFrac, cf, BIG, x0, e0, t, logroot, r,
        Rational, Polynomial, gamma, lgamma, erf, erfc, expm1,
        smallP, smallQ, mediumP, mediumQ, bigP, bigQ,
        eulerGamma, funS;
@@ -27,6 +27,7 @@ define(function(require) {
    contFrac = require('../utils').contFrac;
    expm1 = require('./expm1').expm1;
    eulerGamma = require('../constants').eulerGamma;
+   gam1 = require('./gam1').gam1;
 
    logroot = Math.log(Math.sqrt(0.765));
 
@@ -60,51 +61,6 @@ define(function(require) {
       };
    }());
 
-   // Appendix C of DiDonato/Morris.
-   // Computes 1/Gamma(x+1) - 1
-   h = (function() {
-      var w, w1;
-
-      w = new Rational([
-        -0.132674909766242e-3,
-         0.266505979058923e-3,
-         0.00223047661158249,
-        -0.0118290993445146,
-         0.930357293360349e-3,
-         0.118378989872749,
-        -0.244757765222226,
-        -0.771330383816272,
-        -0.422784335098468
-      ], [
-         0.0559398236957378,
-         0.273076135303597,
-         1
-      ]);
-      w1 = new Rational([
-         0.589597428611429e-3,
-        -0.00514889771323592,
-         0.00766968181649490,
-         0.0597275330452234,
-        -0.230975380857675,
-        -0.409078193005776,
-         0.577215664901533
-      ], [
-         0.00423244297896961,
-         0.0261132021441447,
-         0.158451672430138,
-         0.427569613095214,
-         1
-      ]);
-
-      return function(x) {
-         if (x <= -1) { return NaN; }
-         if (x < -0.5 || x > 1.5) { return 1 / gamma(x + 1) - 1; }
-         if (x <= 0) { return x * (1 + w.evalAt(x)); }
-         if (x <= 0.5) { return x * w1.evalAt(x); }
-         if (x <= 1) { return (x - 1) / x * w.evalAt(x - 1); }
-         return (x - 1) / x * (w1.evalAt(x - 1) - 1);
-      };
-   }());
 
    // Function T(a, lambda) (Formula 18)
    t = (function() {
@@ -269,7 +225,7 @@ define(function(require) {
    smallQ = function(a) {
       var gamm, ha;
       gamm = gamma(a + 1);
-      ha = h(a);
+      ha = gam1(a);
 
       return function(x) {
          var alpha;
