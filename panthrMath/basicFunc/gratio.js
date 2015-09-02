@@ -28,6 +28,7 @@ define(function(require) {
    expm1 = require('./expm1').expm1;
    eulerGamma = require('../constants').eulerGamma;
    gam1 = require('./gam1').gam1;
+   phi = require('./phi').phi;
 
    logroot = Math.log(Math.sqrt(0.765));
 
@@ -35,32 +36,6 @@ define(function(require) {
    BIG = 20;
    x0 = 31;
    e0 = 0.25e-3;
-
-   /*
-    * Computes x - 1 - ln(x)
-    */
-   phi = (function() {
-      var phi1 = new Rational([
-         0.00620886815375787,
-        -0.224696413112536,
-         0.333333333333333
-      ], [
-         0.354508718369557,
-        -1.27408923933623,
-         1
-      ]);
-
-      return function(x) {
-         var rat;
-         if (x < 0) { return NaN; }
-         if (x === 0) { return Infinity; }
-         if (x < 0.82 || x > 1.18) { return x - 1 - Math.log(x); }
-
-         rat = (x - 1) / (x + 1);
-         return 2 * rat * rat * ( 1 / (1 - rat) - rat * phi1.evalAt(rat * rat));
-      };
-   }());
-
 
    // Function T(a, lambda) (Formula 18)
    t = (function() {
