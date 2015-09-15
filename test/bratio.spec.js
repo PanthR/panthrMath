@@ -8849,7 +8849,7 @@ describe('bratio function', function() {
          bratioCall = bratio.log(a, b, x);
          p = bratioCall.lower;
          q = bratioCall.upper;
-         console.log(tuple, p, q);
+         // console.log(tuple, p, q);
          if (utils.isEssentiallyZero(rp)) {
             expect(utils.isEssentiallyZero(p)).to.be.ok;
          } else {
