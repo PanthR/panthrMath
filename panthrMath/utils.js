@@ -84,6 +84,13 @@ define(function(require) {
          if (absMax === 0) { return true; }
          return Math.abs(x - x0) / absMax < delta;
       },
+      /* precision used by relativelyCloseTo */
+      /* isEssentiallyZero returns a boolean indicating whether x is very
+       * close to zero (less than e-100 in absolute value).
+       */
+      isEssentiallyZero: function(x) {
+         return Math.abs(x) < 1e-100;
+      },
       /* contFrac
        * A continued fraction has the form
        * a0 + (b1 / (a1 + (b2 / (a2 + ...)))
@@ -123,7 +130,7 @@ define(function(require) {
        * If lx = log(x), ly = log(y), calculates log(x + y)
        */
       logspaceAdd: function(lx, ly) {
-          return Math.max(lx, ly) + log1p(Math.exp(-Math.abs(lx - ly)));
+         return Math.max(lx, ly) + log1p(Math.exp(-Math.abs(lx - ly)));
       }
    };
 
