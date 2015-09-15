@@ -1,14 +1,13 @@
 (function(define) {'use strict';
 define(function(require) {
-
    /*
-    * bratioLog -- see A)lgorithm 708
+    * bratioLog -- see Algorithm 708
     *
     * Return the logs of the tails of the incomplete beta function
     * of x, a, b.
     *
-    * Based on "Significant Digit Computation of the Incomplete Beta Function Ratios",
-    * DiDonato, Morris
+    * Based on "Significant Digit Computation of the Incomplete Beta Function
+    * Ratios", by DiDonato and Morris
     */
    var C, stirlerr, log1p, gam1, algdiv, series, contFrac, logspaceAdd,
        phi, lbeta, gratioc, erfc;
@@ -120,11 +119,10 @@ define(function(require) {
    }
    /* eslint-enable max-params */
 
-
    // bgrat (9)
    // log space
    // Assumes a > b
-   // Not using the "grat_r" version as in r-code.
+   // Note: Not using the "grat_r" version as in r-code.
    function bgrat(a, b, x) {
       var T, fTs, u, logH, logM, lnx2s, lnx2sn, ps, cs, j, ser;
 
@@ -246,6 +244,7 @@ define(function(require) {
                return es[n] * Ls[n] * bgn;
              }));
    }
+
    /* eslint-disable complexity */
    function bratioLog(a, b, x) {
       var p, q, y, bint, bbar;
@@ -282,7 +281,6 @@ define(function(require) {
             if (b > 15) {
                return fromUpper(bgrat(b, a, y)); } // (14a, 14b)
             // b <= 15
-            // TODO: bgrat here is supposed to take a w=bup(b, a, 1 - x, x, 20??)
             return fromUpper(logspaceAdd(bup(b, a, y, x, 20),
                                          bgrat(b + 20, a, y))); // (15a, 15b)
          }
@@ -306,13 +304,11 @@ define(function(require) {
                                          bpser(a, bbar, x)));
          } // (17a)
          // x > 0.7
-         // TODO need w0=bup(bbar, a, y, bint)
          if (a > 15) {
             return fromLower(logspaceAdd(bup(bbar, a, y, x, bint),
                                          bgrat(a, bbar, x)));
          } // (18a)
          // a <= 15
-         // TODO: w0 =
          return fromLower(logspaceAdd(
                               logspaceAdd(bup(bbar, a, y, x, bint),
                                           bup(a, bbar, x, y, 20)),
