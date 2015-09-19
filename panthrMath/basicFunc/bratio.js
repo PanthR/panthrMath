@@ -10,7 +10,7 @@ define(function(require) {
     * Ratios", by DiDonato and Morris
     */
    var C, stirlerr, log1p, gam1, algdiv, series, contFrac, logspaceAdd,
-       phi, lbeta, gratioc, erfc;
+       phi, lbeta, gratioc, erfc, grat_r;
 
    C = require('../constants');
    stirlerr = require('./stirlerr').stirlerr;
@@ -23,6 +23,7 @@ define(function(require) {
    contFrac = require('../utils').contFrac;
    logspaceAdd = require('../utils').logspaceAdd;
    gratioc = require('./gratio').gratioc;
+   grat_r = require('./gratio').grat_r;
 
    // Page 371 of DiDonato/Morris
    // algdiv(a, b) = lgamma(b) - lgamma(a + b)
@@ -136,7 +137,7 @@ define(function(require) {
       lnx2s = Math.log(x) * 0.5;   // (ln(x) / 2) ^ 2
       lnx2s = lnx2s * lnx2s;
       lnx2sn = 1;   // lnx2s ^ n
-      j = gratioc(b)(u) / Math.exp(logH);
+      j = grat_r(b, u, logH);
       ser =
       Math.log(
          series(function(n) {
