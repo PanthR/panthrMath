@@ -97,11 +97,13 @@ define(function(require) {
 
    // bpser (7) Returns the log of the lower probability
    function bpser(a, b, x) {
+      var c = 1;
+
       return -lbeta(a, b) + a * Math.log(x) - Math.log(a) +
-         log1p(a * series(function(i, v) {
+         log1p(a * series(function(i) {
             if (i === 0) { return 0; }
-            if (i === 1) { return (1 - b) * x / (a + 1); }
-            return v * (i - b) * x * (1 - 1 / (a + i)) / i;
+            c = c * (1 - b / i) * x;
+            return c / (a + i);
          }));
    }
 
