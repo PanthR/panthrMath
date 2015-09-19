@@ -248,13 +248,15 @@ define(function(require) {
 
    /* eslint-disable complexity */
    function bratioLog(a, b, x) {
-      var p, q, y, bint, bbar;
+      var p, q, y, bint, bbar, lambda;
 
       p = a / (a + b);
       q = b / (a + b);
       y = 1 - x;
       bint = Math.floor(b);
       bbar = b - bint;
+      lambda = a > b ? (a + b) * y - b :
+                       a - (a + b) * x;
 
       // By convention, if 0 < x < 1 then a == 0 -> result = 1
       // and b == 0 -> result = 0. Can't have a == b == 0.
@@ -279,8 +281,7 @@ define(function(require) {
             if (x < 0.1 && Math.pow(x * b, a) <= 0.7) { return fromLower(bpser(a, b, x)); } // (12d)
             // x >= 0.1 or (bx)^a > 0.7
             // for now, assume bgrat will start with w0 = 0
-            if (b > 15) {
-               return fromUpper(bgrat(b, a, y)); } // (14a, 14b)
+            if (b > 15) { return fromUpper(bgrat(b, a, y)); } // (14a, 14b)
             // b <= 15
             return fromUpper(logspaceAdd(bup(b, a, y, x, 20),
                                          bgrat(b + 20, a, y))); // (15a, 15b)
@@ -298,7 +299,7 @@ define(function(require) {
       // min(a, b) > 1
       if (x > p) { return tailFlip(bratioLog(b, a, y)); }
       if (b < 40) {
-         if (b * x <= 0.7) { return fromLower(bpser(a, b, x)); } // (16a)1
+         if (b * x <= 0.7 || lambda > 650) { return fromLower(bpser(a, b, x)); } // (16a)
          // b * x > 0.7
          if (x <= 0.7) {
             return fromLower(logspaceAdd(bup(bbar, a, y, x, bint),
