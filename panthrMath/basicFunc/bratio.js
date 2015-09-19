@@ -192,7 +192,7 @@ define(function(require) {
    // calculating in log space
    function basym(a, b, x, y) {
       var z, p, q, bg, bgn, Ls, as, bs, cs, es, r, ab, sgn, abnp1,
-         root2z, root2znm1;
+         root2z, root2znm1, ser;
       p = a / (a + b);
       q = b / (a + b);
       bg = a < b ? Math.sqrt(q / a) : Math.sqrt(p / b); // betaGamma (11.3)
@@ -203,14 +203,12 @@ define(function(require) {
       cs = [];
       es = [];
       ab = a <= b ? a / b : b / a;
-      abnp1 = -1;  // (-1)^n * (a/b)^(n+1) or (b/a)^(n+1) for (11.4 - 11.5)
-      root2z = Math.sqrt(2 * z);
+      abnp1 = 1;  // (-1)^n * (a/b)^(n+1) or (b/a)^(n+1) for (11.4 - 11.5)
+      root2z = Math.sqrt(2) * z;
       root2znm1 = 1; // (sqrt(2) * z) ^ (n - 1) for (11.21)
       sgn = -1; // (-1)^n
-      return Math.log(2 / Math.sqrt(Math.PI)) -
-             bcorr(a, b) -   // (11.20)
-             z * z +
-             Math.log(series(function(n) {
+      ser = series(function(n) {
+               utils.DEBUG = false;
                var i, seriesTerms;
                bgn = bgn * bg;
                abnp1 = -abnp1 * ab;
@@ -228,24 +226,27 @@ define(function(require) {
                   root2znm1 = root2znm1 * root2z;
                   Ls[n] = Math.pow(2, -1.5) * root2znm1 +
                            (n - 1) * Ls[n - 2];     // (11.21)
-                  as[n] = 2 / 3 * (1 - abnp1) * (a <= b ? q : sgn * p);
-                  r = -n / 2;
+                  as[n] = 2 / (n + 2) * (1 - abnp1) * (a <= b ? q : sgn * p);
+                  r = (-n - 1) / 2;
                   seriesTerms = function(j) {
                         if (j === 0) { return 0; }
                         return ((i - j) * r - j) * bs[j] * as[i - j];
                      };
                   bs = [1, r * as[1]]; // first two bs for current r
-                  for (i = 2; i <= n - 1; i += 1) {
+                  for (i = 2; i <= n; i += 1) {
                      // add the series for b_n^r
                      bs[i] = r * as[i] + 1 / i * series(seriesTerms, i);
                   }
-                  cs[n] = bs[n - 1] / n; // (11.6)
+                  cs[n] = bs[n] / (n + 1); // (11.6)
                   es[n] = -series(function(k) {
-                     return es[k] * cs[n - k + 1];
+                     return es[k] * cs[n - k];
                   }, n);
                }
-               return es[n] * Ls[n] * bgn;
-             }));
+               return es[n] * (Ls[n] * bgn);
+             }, 100);
+      return Math.log(2 / Math.sqrt(Math.PI)) -
+             bcorr(a, b) -   // (11.20)
+             z * z + Math.log(ser);
    }
 
    /* eslint-disable complexity */
@@ -324,14 +325,14 @@ define(function(require) {
          // a > 100
          if (x < 0.97 * p) { return fromLower(bfrac(a, b, x, y)); } // (20b)
          // x >= 0.97 * p
-         return fromLower(basym(a, b, x)); // (21a)
+         return fromLower(basym(a, b, x, y)); // (21a)
       }
       // a > b
       if (b <= 100) { return fromLower(bfrac(a, b, x, y)); } // (20c)
       // b > 100
       if (y > 1.03 * q) { return fromLower(bfrac(a, b, x, y)); } // (20d)
       // y <= 1.03 * q
-      return fromLower(basym(a, b, x)); // (21c)
+      return fromLower(basym(a, b, x, y)); // (21c)
    }
    /* eslint-enable complexity */
 
