@@ -17,7 +17,7 @@ define(function(require) {
          return target;
       },
       /* Maximum number of steps for `repeat` iterations. */
-      maxSteps: 1000,
+      maxSteps: 10000,
       /* repeat, for carrying out repeated improvement until stopping
        * condition is satisfied, or until `utils.maxSteps` have been
        * performed.
@@ -37,7 +37,7 @@ define(function(require) {
          if (stop === 0) { return curr; }
          done = typeof stop === 'function' ? stop :
                 stop > 0 ? function() { stop -= 1; return stop === 0; } :
-                        function() { return utils.relativelyCloseTo(curr, prev); };
+                        function() { return utils.relativelyCloseTo(curr, prev, 1e-13); };
          while (reps > 0 && !done() && !isNaN(curr)) {
             reps -= 1;
             prev = curr;
