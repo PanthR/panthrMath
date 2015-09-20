@@ -208,7 +208,6 @@ define(function(require) {
       root2znm1 = 1; // (sqrt(2) * z) ^ (n - 1) for (11.21)
       sgn = -1; // (-1)^n
       ser = series(function(n) {
-               utils.DEBUG = false;
                var i, seriesTerms;
                bgn = bgn * bg;
                abnp1 = -abnp1 * ab;
