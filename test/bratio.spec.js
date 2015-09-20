@@ -1,6 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
-var precision = 1e-8; /* TODO increase to 1e-10 precision if possible */
+var precision = 1e-10;
 var bratio = require('../panthrMath/basicFunc/bratio').bratio;
 var utils = require('../panthrMath/utils');
 
