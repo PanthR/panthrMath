@@ -9,7 +9,7 @@ define(function(require) {
    gamma = require('./lgamma').gamma;
    Rational = require('../rational');
 
-   w = new Rational([
+   w = Rational.new([
      -0.132674909766242e-3,
       0.266505979058923e-3,
       0.00223047661158249,
@@ -24,7 +24,7 @@ define(function(require) {
       0.273076135303597,
       1
    ]);
-   w1 = new Rational([
+   w1 = Rational.new([
       0.589597428611429e-3,
      -0.00514889771323592,
       0.00766968181649490,

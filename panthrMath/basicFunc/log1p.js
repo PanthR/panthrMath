@@ -11,7 +11,7 @@ define(function(require) {
    Rational = require('../rational');
 
    log1p = (function() {
-      var R = new Rational([
+      var R = Rational.new([
          -0.0178874546012214,
           0.405303492862024,
          -1.29418923021993,

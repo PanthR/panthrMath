@@ -351,7 +351,7 @@ define(function(require) {
    // funS implements formula 32
    // a function of p and q for calculating s
    funS = (function() {
-      var ratFun = new Rational([
+      var ratFun = Rational.new([
          0.213623493715853, 4.28342155967104,
          11.6616720288968, 3.31125922108741
       ], [

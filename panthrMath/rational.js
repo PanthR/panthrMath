@@ -11,6 +11,10 @@ define(function(require) {
       this.denom = new Polynomial(denom);
    }
 
+   Rational.new = function(num, denom) {
+      return new Rational(num, denom);
+   };
+
    Rational.prototype.evalAt = function evalAt(x) {
       return this.num.evalAt(x) / this.denom.evalAt(x);
    };

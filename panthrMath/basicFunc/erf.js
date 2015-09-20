@@ -13,7 +13,7 @@ define(function(require) {
    Rational = require('../rational');
 
    /* R4small is Cody's function R_lm with l = m = 4 for |x| <= 0.5*/
-   R4small = new Rational([
+   R4small = Rational.new([
          0.1857777061846031526730,
          3.161123743870565596947,
          113.8641541510501556495,
@@ -30,7 +30,7 @@ define(function(require) {
    /* R8med is Cody's function R_lm with l = m = 8 for
       0.5 <= x <= 4.0
    */
-   R8med = new Rational([
+   R8med = Rational.new([
          2.15311535474403846343e-8,
          0.564188496988670089180,
          8.88314979438837594118,
@@ -53,7 +53,7 @@ define(function(require) {
       ]);
 
    /* R5large is Cody's function R_lm with l = m = 5 for x >= 4 */
-   R5large = new Rational([
+   R5large = Rational.new([
          -0.0163153871373020978498,
          -0.305326634961232344035,
          -0.360344899949804439429,

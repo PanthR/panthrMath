@@ -5,9 +5,9 @@ var expect = chai.expect;
 
 describe('Rational class', function() {
    it('has an evalAt', function() {
-      var P = new Polynomial([1, 2, 3]);
-      var Q = new Polynomial([2, -1, 2, 4]);
-      var R = new Rational(P, Q);
+      var P = Polynomial.new([1, 2, 3]);
+      var Q = Polynomial.new([2, -1, 2, 4]);
+      var R = Rational.new(P, Q);
       function f(x) {
          return P.evalAt(x) / Q.evalAt(x);
       }

@@ -33,7 +33,7 @@ define(function(require) {
       }
 
       // Computations taken from GSL (gauss.c)
-      small = new Rational([
+      small = Rational.new([
          0.065682337918207449113,
          2.2352520354606839287,
          161.02823106855587881,
@@ -47,7 +47,7 @@ define(function(require) {
          45507.789335026729956
       ]);
 
-      medium = new Rational([
+      medium = Rational.new([
          1.0765576773720192317e-8,
          0.39894151208813466764,
          8.8831497943883759412,
@@ -69,7 +69,7 @@ define(function(require) {
          19685.429676859990727
       ]);
 
-      large = new Rational([
+      large = Rational.new([
          0.02307344176494017303,
          0.21589853405795699,
          0.1274011611602473639,
@@ -115,7 +115,7 @@ define(function(require) {
    // segmented rational approximations
       var small, medium, large;
 
-      small = new Rational([
+      small = Rational.new([
          2509.0809287301226727,
          33430.575583588128105,
          67265.770927008700853,
@@ -135,7 +135,7 @@ define(function(require) {
          1.0
       ]);
 
-      medium = new Rational([
+      medium = Rational.new([
          7.7454501427834140764e-4,
          0.0227238449892691845833,
          0.24178072517745061177,
@@ -155,7 +155,7 @@ define(function(require) {
          1.0
       ]);
 
-      large = new Rational([
+      large = Rational.new([
          2.01033439929228813265e-7,
          2.71155556874348757815e-5,
          0.0012426609473880784386,

@@ -11,7 +11,7 @@ define(function(require) {
    Rational = require('../rational');
 
    expm1 = (function() {
-      var R = new Rational([
+      var R = Rational.new([
           0.0238082361044469,
           0.914041914819518e-9,
           1
