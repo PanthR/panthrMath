@@ -533,7 +533,8 @@ define(function(require) {
    *
    *     It is assumed that a <= 1.  eps is the tolerance to be used.
    */
-   function grat_r(a, x, logr) {
+   /* eslint-disable complexity */
+   function gratR(a, x, logr) {
       var ser, z, l, h, rinv;
 
       rinv = Math.exp(-logr);
@@ -551,12 +552,12 @@ define(function(require) {
          ser = a * x * series( (function(c, v){
                return function(i) {
                   c += 1;
-                  if (i > 0) { v = v * (-x) / (i + 1); }
+                  if (i > 0) { v = v * -x / (i + 1); }
                   return v / c;
                };
             }(a, 1))
          );
-         if ((x >= 0.25 && a < x / 2.59) || z > -0.13394) {
+         if (x >= 0.25 && a < x / 2.59 || z > -0.13394) {
             return Math.max(0, ((Math.exp(z) * ser - l) * (1 + h) - h) * rinv);
          }
          return (1 - Math.exp(z) * (1 + h) * (1 - ser)) * rinv;
@@ -568,8 +569,9 @@ define(function(require) {
       gratio: gratio,
       gratioc: gratioc,
       gaminv: gaminv,
-      grat_r: grat_r
+      gratR: gratR
    };
+   /* eslint-enable complexity */
 
 });
 

@@ -10,7 +10,7 @@ define(function(require) {
     * Ratios", by DiDonato and Morris
     */
    var C, stirlerr, log1p, gam1, algdiv, series, contFrac, logspaceAdd,
-       phi, lbeta, gratioc, erfc, grat_r;
+       phi, lbeta, erfc, gratR;
 
    C = require('../constants');
    stirlerr = require('./stirlerr').stirlerr;
@@ -22,8 +22,7 @@ define(function(require) {
    series = require('../utils').series;
    contFrac = require('../utils').contFrac;
    logspaceAdd = require('../utils').logspaceAdd;
-   gratioc = require('./gratio').gratioc;
-   grat_r = require('./gratio').grat_r;
+   gratR = require('./gratio').gratR;
 
    // Page 371 of DiDonato/Morris
    // algdiv(a, b) = lgamma(b) - lgamma(a + b)
@@ -126,7 +125,6 @@ define(function(require) {
    // bgrat (9)
    // log space
    // Assumes a > b
-   // Note: Not using the "grat_r" version as in r-code.
    function bgrat(a, b, x) {
       var T, fTs, u, logH, logM, lnx2s, lnx2sn, ps, cs, j, ser;
 
@@ -140,7 +138,7 @@ define(function(require) {
       lnx2s = Math.log(x) * 0.5;   // (ln(x) / 2) ^ 2
       lnx2s = lnx2s * lnx2s;
       lnx2sn = 1;   // lnx2s ^ n
-      j = grat_r(b, u, logH);
+      j = gratR(b, u, logH);
       ser =
       Math.log(
          series(function(n) {
