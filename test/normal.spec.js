@@ -2886,11 +2886,11 @@ describe('Normal Distribution', function() {
        [9.992, -50.8389705332047],
        [9.999, -50.9089390332047]
       ].forEach(function(pair) {
-      expect(normal.dnormLog(0, 1)(pair[0]))
+      expect(normal.dnorm(0, 1, true, true)(pair[0]))
          .to.be.relativelyCloseTo(pair[1], precision);
       });
       var mu = 2.3, sigma = 0.0012;
-      expect(normal.dnormLog(mu,sigma)(2.2912))
+      expect(normal.dnorm(mu, sigma, true, true)(2.2912))
          .to.be.relativelyCloseTo(-21.08239, precision);
    });
    it('dnorm', function() {
@@ -2931,6 +2931,8 @@ describe('Normal Distribution', function() {
       ].forEach(function(pair) {
       expect(normal.pnorm(0, 1)(pair[0]))
          .to.be.relativelyCloseTo(pair[1], precision * 1e-9);
+      expect(normal.pnorm(0, 1, false)(-pair[0]))
+         .to.be.relativelyCloseTo(pair[1], precision * 1e-9);
       });
    });
    it('qnorm', function() {
@@ -2967,6 +2969,8 @@ describe('Normal Distribution', function() {
        [0.99999, 4.26489079392384]
       ].forEach(function(pair) {
       expect(normal.qnorm(0, 1)(pair[0]))
+         .to.be.relativelyCloseTo(pair[1], precision * 1e-7);
+      expect(normal.qnorm(0, 1, false)(1 - pair[0]))
          .to.be.relativelyCloseTo(pair[1], precision * 1e-7);
       });
    });

@@ -8,19 +8,17 @@ define(function(require) {
    sqrt2pi = C.sqrt2pi;
    Rational = require('../rational');
 
-   // log density
-   function dnormLog(mu, sigma) {
-      var c = Math.log(sigma * sigma * twopi);
+   // density
+   function dnorm(mu, sigma, logp) {
+      var c;
+      logp = logp === true;
+      c = Math.log(sigma * sigma * twopi);
       return function(x) {
-         var z = (x - mu) / sigma;
-         return -0.5 * (c + z * z);
+         var z, p;
+         z = (x - mu) / sigma;
+         p = -0.5 * (c + z * z);
+         return logp ? p : Math.exp(p);
       };
-   }
-
-   // density / pdf
-   function dnorm(mu, sigma) {
-      var f = dnormLog(mu, sigma);
-      return function(x) { return Math.exp(f(x)); };
    }
 
    // cdf
@@ -85,28 +83,41 @@ define(function(require) {
          7.29751555083966205e-5
       ]);
 
-      return function pnorm(mu, sigma) {
+      return function pnorm(mu, sigma, lowerTail, logp) {
+         lowerTail = lowerTail !== false;
+         logp = logp === true;
+         /* eslint-disable complexity */
          return function(x) {
-            var z, absz, oneOverzsq, r;
+            var z, absz, oneOverzsq, r, ret, lower;
 
+            lower = lowerTail;
             z = (x - mu) / sigma;
+            if (z > 5 && !lower) { /* danger zone for upper */
+               z = -z;
+               lower = true;
+            }
             absz = Math.abs(z);
 
             if (absz < 0.66291) {
-               return 0.5 + z * small.evalAt(z * z);
-            }
-            if (absz < 5.656854) {
+               ret = 0.5 + z * small.evalAt(z * z);
+            } else if (absz < 5.656854) {
                r = addExpTerm(z, medium.evalAt(absz));
-               return z > 0 ? 1 - r : r;
+               ret = z > 0 ? 1 - r : r;
+            } else if (z > 8.572) {
+               ret = 1;
+            } else if (z < -37.519) {
+               ret = 0;
+            } else {
+               oneOverzsq = 1 / (z * z);
+               r = oneOverzsq * large.evalAt(oneOverzsq);
+               r = addExpTerm(z, (1 / sqrt2pi - r) / absz);
+               ret = z > 0 ? 1 - r : r;
             }
-            if (z > 8.572) { return 1; }
-            if (z < -37.519) { return 0; }
-
-            oneOverzsq = 1 / (z * z);
-            r = oneOverzsq * large.evalAt(oneOverzsq);
-            r = addExpTerm(z, (1 / sqrt2pi - r) / absz);
-            return z > 0 ? 1 - r : r;
+            if (!lower) { ret = 1 - ret; }
+            if (logp) { ret = Math.log(ret); }
+            return ret;
          };
+         /* eslint-enable complexity */
       };
    }());
 
@@ -175,29 +186,34 @@ define(function(require) {
          1.0
       ]);
 
-      return function qnorm(mu, sigma) {
+      return function qnorm(mu, sigma, lowerTail, logp) {
+         lowerTail = lowerTail !== false;
+         logp = logp === true;
+         /* eslint-disable complexity */
          return function(p) {
             var dp, minp, r;
 
-            dp = p - 0.5;
+            if (logp) { p = Math.exp(p); }
+            dp = lowerTail ? p - 0.5 : 0.5 - p;
+            p = lowerTail ? p : 1 - p;
+            minp = p < 0.5 ? p : 1 - p;
 
             if (p === 1) { return Infinity; }
             if (p === 0) { return -Infinity; }
             if (Math.abs(dp) <= 0.425) {
                r = dp * small.evalAt(0.180625 - dp * dp);
             } else {
-               minp = p < 0.5 ? p : 1 - p;
                r = Math.sqrt(-Math.log(minp));
                r = r <= 5 ? medium.evalAt(r - 1.6) : large.evalAt(r - 5);
                r = p < 0.5 ? -r : r;
             }
             return mu + sigma * r;
          };
+         /* eslint-enable complexity */
       };
    }());
 
    return {
-      dnormLog: dnormLog,
       dnorm: dnorm,
       pnorm: pnorm,
       qnorm: qnorm
