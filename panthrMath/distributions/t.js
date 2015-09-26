@@ -1,7 +1,7 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, bd0, stirlerr, twopi, sqrt2pi, Rational, pt, qt;
+   var C, bd0, stirlerr, twopi, sqrt2pi, Rational, pt, qt, bratio;
 
    C = require('../constants');
    bd0 = require('../basicFunc/bd0').bd0;
@@ -9,6 +9,7 @@ define(function(require) {
    twopi = C.twopi;
    sqrt2pi = C.sqrt2pi;
    Rational = require('../rational');
+   bratio = require('../basicFunc/bratio').bratio;
 
    /*
     * Return the log-of-density function for student's t distribution.
@@ -29,6 +30,7 @@ define(function(require) {
    }
 
    // density function
+   // dt(n) returns a function for calculating cumulative distribution
    function dt(n) {
       var dtl;
       dtl = dtlog(n);
@@ -37,7 +39,25 @@ define(function(require) {
       };
    }
 
+   // cumulative distribution function, log version
+   // based on pt.c from R implementation
+   function ptlog(df) {
+      return function(x) {
+         return Math.log(0.5) +
+            df > x * x ?
+               bratio.log(0.5, df / 2, x * x / (df + x * x)).upper :
+               bratio.log(df / 2, 0.5, 1 / (1 + (x / df) * x)).lower;
+      };
+   }
 
+   // cumulative distribution function
+   function pt(df) {
+      return function(x) {
+         return Math.exp(ptlog(df)(x));
+      };
+   }
+
+   pt.log = ptlog;
 
    return {
       dt: dt,
@@ -45,7 +65,6 @@ define(function(require) {
       pt: pt,
       qt: qt
    };
-
 });
 
 }(typeof define === 'function' && define.amd ? define : function(factory) {
