@@ -24450,7 +24450,7 @@ describe('Binomial Distribution', function() {
          p = tuple[1];
          x = tuple[2];
          rval = tuple[3];
-         val = binom.dbinom.log(n, p)(x);
+         val = binom.dbinom(n, p, true)(x);
       expect(val).to.be.relativelyCloseTo(rval, precision);
       });
    });

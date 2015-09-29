@@ -1,10 +1,9 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, twopi, Rational, pbinom, qbinom, stirlerr, bd0;
+   var C, pbinom, qbinom, stirlerr, bd0;
 
    C = require('../constants');
-   twopi = C.twopi;
    stirlerr = require('../basicFunc/stirlerr').stirlerr;
    bd0 = require('../basicFunc/bd0').bd0;
 
@@ -27,14 +26,16 @@ define(function(require) {
       };
    }
 
-   function dbinom(n, p) {
-      var lbinom = dbinomLog(n, p);
+   function dbinom(n, p, logp) {
+      var lbinom;
+
+      logp = logp === true;
+      lbinom = dbinomLog(n, p);
+
       return function(x) {
-         return Math.exp(lbinom(x));
+         return logp ? lbinom(x) : Math.exp(lbinom(x));
       };
    }
-
-   dbinom.log = dbinomLog;
 
    return {
       dbinom: dbinom,

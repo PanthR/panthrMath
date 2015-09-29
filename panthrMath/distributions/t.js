@@ -1,14 +1,12 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, bd0, stirlerr, twopi, sqrt2pi, Rational, pt, qt, bratio;
+   var C, bd0, stirlerr, sqrt2pi, qt, bratio;
 
    C = require('../constants');
    bd0 = require('../basicFunc/bd0').bd0;
    stirlerr = require('../basicFunc/stirlerr').stirlerr;
-   twopi = C.twopi;
    sqrt2pi = C.sqrt2pi;
-   Rational = require('../rational');
    bratio = require('../basicFunc/bratio').bratio;
 
    /*
@@ -47,7 +45,7 @@ define(function(require) {
          return Math.log(0.5) +
             df > x * x ?
                bratio(0.5, df / 2, x * x / (df + x * x), !lowerTail, true) :
-               bratio(df / 2, 0.5, 1 / (1 + (x / df) * x), lowerTail, true);
+               bratio(df / 2, 0.5, 1 / (1 + x / df * x), lowerTail, true);
       };
    }
 
