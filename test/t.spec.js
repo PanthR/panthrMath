@@ -29,7 +29,7 @@ describe('T Distribution', function() {
        [ 4, -5.00442403409698],
        [ 5, -5.93333292517818]
       ].forEach(function(pair) {
-      expect(t.dtlog(4)(pair[0]))
+      expect(t.dt(4, true)(pair[0])) // dt.log
          .to.be.relativelyCloseTo(pair[1], precision);
       });
    });

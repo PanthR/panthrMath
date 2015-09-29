@@ -340,16 +340,15 @@ define(function(require) {
     * Return the tails of the incomplete beta function
     * of x, a, b.
     */
-   function bratio(a, b, x) {
+   function bratio(a, b, x, lowerTail, logp) {
      var resLog;
-     resLog = bratioLog(a, b, x);
-     return {
-        lower: Math.exp(resLog.lower),
-        upper: Math.exp(resLog.upper)
-     };
-   }
 
-   bratio.log = bratioLog;
+     resLog = bratioLog(a, b, x);
+     lowerTail = lowerTail !== false;
+     logp = logp === true;
+     resLog = lowerTail ? resLog.lower : resLog.upper;
+     return logp ? resLog : Math.exp(resLog);
+   }
 
    return {
       bratio: bratio

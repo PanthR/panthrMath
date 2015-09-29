@@ -9304,15 +9304,14 @@ describe('bratio function', function() {
  [0.9999773, 22026.47, 8103.084,               -0, -69112.0138648749],
  [0.9999773, 22026.47, 22026.47,               -0, -205003.845824032]
       ].forEach(function(tuple) {
-         var x, a, b, rp, rq, p, q, bratioCall;
+         var x, a, b, rp, rq, p, q, bratioCall ;
          x = tuple[0];
          a = tuple[1];
          b = tuple[2];
          rp = tuple[3];
          rq = tuple[4];
-         bratioCall = bratio.log(a, b, x);
-         p = bratioCall.lower;
-         q = bratioCall.upper;
+         p = bratio(a, b, x, true, true);
+         q = bratio(a, b, x, false, true);
          // console.log(tuple, p, q);
          /* When the logs are extremely small, we do not expect
           * almost any precision

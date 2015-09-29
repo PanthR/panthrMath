@@ -31,37 +31,40 @@ define(function(require) {
 
    // density function
    // dt(n) returns a function for calculating cumulative distribution
-   function dt(n) {
+   function dt(n, logp) {
+      logp = logp === true;
       var dtl;
       dtl = dtlog(n);
       return function(x) {
-         return Math.exp(dtl(x));
+         return logp ? dtl(x) : Math.exp(dtl(x));
       };
    }
 
    // cumulative distribution function, log version
    // based on pt.c from R implementation
-   function ptlog(df) {
+   function ptlog(df, lowerTail) {
       return function(x) {
          return Math.log(0.5) +
             df > x * x ?
-               bratio.log(0.5, df / 2, x * x / (df + x * x)).upper :
-               bratio.log(df / 2, 0.5, 1 / (1 + (x / df) * x)).lower;
+               bratio(0.5, df / 2, x * x / (df + x * x), !lowerTail, true) :
+               bratio(df / 2, 0.5, 1 / (1 + (x / df) * x), lowerTail, true);
       };
    }
 
    // cumulative distribution function
-   function pt(df) {
+   function pt(df, lowerTail, logp) {
+      var ptl;
+
+      lowerTail = lowerTail !== false;
+      logp = logp === true;
+      ptl = ptlog(df, lowerTail);
       return function(x) {
-         return Math.exp(ptlog(df)(x));
+         return logp ? ptl(x) : Math.exp(ptl(x));
       };
    }
 
-   pt.log = ptlog;
-
    return {
       dt: dt,
-      dtlog: dtlog,
       pt: pt,
       qt: qt
    };
