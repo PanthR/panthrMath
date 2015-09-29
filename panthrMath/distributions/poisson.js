@@ -25,13 +25,12 @@ define(function(require) {
    }
 
    // density / pdf
-   function dpois(lambda) {
+   function dpois(lambda, logp) {
+      logp = logp === true;
       return function(x) {
-         return Math.exp(lpoisson(lambda)(x));
+         return logp ? lpoisson(lambda)(x) : Math.exp(lpoisson(lambda)(x));
       };
    }
-
-   dpois.log = lpoisson;
 
    return {
       dpois: dpois

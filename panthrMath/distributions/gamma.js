@@ -3,19 +3,16 @@ define(function(require) {
 
    // Gamma distribution
 
-   var C, twopi, sqrt2pi, dpoisLog;
+   var dpois;
 
-   C = require('../constants');
-   twopi = C.twopi;
-   sqrt2pi = C.sqrt2pi;
-   dpoisLog = require('./poisson').dpois.log;
+   dpois = require('./poisson').dpois;
 
    // helper function
    function dgammaLog(a, s) {
       if (a < 1) {
          return function(x) {
             if (x === 0) { return Infinity; }
-            return Math.log(a / x) + dpoisLog(x / s)(a);
+            return Math.log(a / x) + dpois(x / s, true)(a);
          };
       }
       if (a === 1) {
@@ -26,19 +23,18 @@ define(function(require) {
       // a > 1
       return function(x) {
          if (x === 0) { return -Infinity; }
-         return -Math.log(s) + dpoisLog(x / s)(a - 1);
+         return -Math.log(s) + dpois(x / s, true)(a - 1);
       };
    }
 
    // density function
    // 1 / (s^a * gamma(a)) * x ^ (a - 1) * exp(-x / s)
-   function dgamma(a, s) {
+   function dgamma(a, s, logp) {
+      logp = logp === true;
       return function(x) {
-         return dgammaLog(a, s)(x);
+         return logp ? dgammaLog(a, s)(x) : Math.exp(dgammaLog(a, s)(x));
       };
    }
-
-   dgamma.log = dgammaLog;
 
    return {
       dgamma: dgamma

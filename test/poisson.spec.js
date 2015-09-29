@@ -23422,7 +23422,7 @@ describe('lpoisson', function() {
          x = tuple[0];
          lambda = tuple[1];
          rp = tuple[2];
-         p = dpois.log(lambda)(x);
+         p = dpois(lambda, true)(x);
          expect(p).to.be.relativelyCloseTo(rp, precision);
       });
    });

@@ -1,7 +1,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-8;
-var lgamma = require('..').dgamma.log;
+var dgamma = require('..').dgamma;
 var utils = require('../panthrMath/utils');
 
 chai.use(function(_chai, utils) {
@@ -44377,7 +44377,7 @@ describe('dgamma log function', function() {
          a = tuple[1];
          s = tuple[2];
          rp = tuple[3];
-         p = lgamma(a, s)(x);
+         p = dgamma(a, s, true)(x);
          // console.log(x, a, s, rp, p);
          expect(utils.relativelyCloseTo(p, rp, precision)).to.be.ok;
       });
