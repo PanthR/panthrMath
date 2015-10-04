@@ -1,13 +1,14 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, bd0, stirlerr, sqrt2pi, qt, bratio;
+   var C, bd0, stirlerr, sqrt2pi, qt, bratio, log1p;
 
    C = require('../constants');
    bd0 = require('../basicFunc/bd0').bd0;
    stirlerr = require('../basicFunc/stirlerr').stirlerr;
    sqrt2pi = C.sqrt2pi;
    bratio = require('../basicFunc/bratio').bratio;
+   log1p = require('../basicFunc/log1p').log1p;
 
    /*
     * Return the log-of-density function for student's t distribution.
@@ -42,10 +43,16 @@ define(function(require) {
    // based on pt.c from R implementation
    function ptlog(df, lowerTail) {
       return function(x) {
-         return Math.log(0.5) +
-            df > x * x ?
-               bratio(0.5, df / 2, x * x / (df + x * x), !lowerTail, true) :
-               bratio(df / 2, 0.5, 1 / (1 + x / df * x), lowerTail, true);
+         var val;
+
+         val = df > x * x ?
+               bratio(0.5, df / 2, x * x / (df + x * x), false, true) :
+               bratio(df / 2, 0.5, 1 / (1 + x / df * x), true, true);
+
+         if (x <= 0) { lowerTail = !lowerTail; }
+
+         return lowerTail ? log1p(-0.5 * Math.exp(val))
+                          : val - Math.log(2);
       };
    }
 
