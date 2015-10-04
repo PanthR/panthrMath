@@ -3,9 +3,10 @@ define(function(require) {
 
    // Gamma distribution
 
-   var dpois;
+   var dpois, gratio;
 
    dpois = require('./poisson').dpois;
+   gratio = require('../basicFunc/gratio');
 
    // helper function
    function dgammaLog(a, s) {
@@ -36,8 +37,45 @@ define(function(require) {
       };
    }
 
+   // cumulative distribution function
+   // a = shape, s = scale (rate = 1 / s)
+   function pgamma(a, s, lowerTail, logp) {
+      var f;
+
+      if (s <= 0 || a <= 0) { return function(x) { return NaN; }; }
+      logp = logp === true;
+      lowerTail = lowerTail !== false;
+      f = lowerTail ? gratio.gratio(a) : gratio.gratioc(a);
+
+      return function(x) {
+         var p;
+
+         p = x > 0 ? f(x / s) : lowerTail ? 0 : 1;
+         return logp ? Math.log(p) : p;
+      };
+   }
+
+   // inverse cdf
+   // a = shape, s = scale (rate = 1 / s)
+   function qgamma(a, s, lowerTail, logp) {
+      var gaminv;
+
+      if (s <= 0 || a <= 0) { return function(x) { return NaN; }; }
+      logp = logp === true;
+      lowerTail = lowerTail !== false;
+      gaminv = gratio.gaminv(a); // function of p, lowerTail
+
+      return function(p) {
+         p = logp ? Math.exp(p) : p;
+         if (p < 0 || p > 1) { return NaN; }
+         return s * gaminv(p, lowerTail);
+      };
+   }
+
    return {
-      dgamma: dgamma
+      dgamma: dgamma,
+      pgamma: pgamma,
+      qgamma: qgamma
    };
 
 });

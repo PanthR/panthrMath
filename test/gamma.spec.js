@@ -1,7 +1,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-8;
-var dgamma = require('..').dgamma;
+var main = require('..');
 var utils = require('../panthrMath/utils');
 
 chai.use(function(_chai, utils) {
@@ -44377,9 +44377,69 @@ describe('dgamma log function', function() {
          a = tuple[1];
          s = tuple[2];
          rp = tuple[3];
-         p = dgamma(a, s, true)(x);
+         p = main.dgamma(a, s, true)(x);
          // console.log(x, a, s, rp, p);
          expect(utils.relativelyCloseTo(p, rp, precision)).to.be.ok;
       });
+   });
+}); // end describe for dgamma
+
+/* test pgamma and qgamma against R for correct scaling, etc.
+ * R code used:
+ *   a = runif(20, 0, 10)
+ *   s = runif(20, 0, 10)
+ *   x = runif(20, 0, 10)
+ *   p = runif(20, 0, 1)
+ *   str = paste(x, a, s, pgamma(x, a, scale = s), sep = ', ',
+ *      collapse = '],\n[')
+ */
+
+describe('pgamma function', function() {
+   it('calls gratio appropriately', function() {
+      [[3.95174133824185, 3.12140153488144, 1.03318337583914, 0.711693625626534],
+      [3.83890277938917, 8.94211090169847, 4.80831087334082, 2.04969494387107e-07],
+      [9.61475838208571, 6.96525223786011, 4.28366497159004, 0.00863479747416383],
+      [5.31194515991956, 3.95652051316574, 9.13132731802762, 0.00329329227251864],
+      [7.08061357261613, 7.47735662851483, 1.16302756825462, 0.337532626007828],
+      [7.88240560796112, 0.810357218142599, 5.93105470994487, 0.801232303506196],
+      [5.28524542925879, 6.14442358026281, 2.00376248219982, 0.0450008551587542],
+      [0.98661697935313, 0.569405022542924, 8.99684211937711, 0.306729483408033],
+      [6.86175174545497, 2.12580191669986, 0.871346653439105, 0.995806893923815],
+      [4.14816222852096, 2.47788543812931, 4.63890847284347, 0.125971255049319],
+      [5.7325340132229, 4.27128976210952, 4.17037247680128, 0.0359906978388896],
+      [5.25821663904935, 1.21854573721066, 6.04371686000377, 0.484170798451357],
+      [9.46785075822845, 5.94249159097672, 8.6280765151605, 0.00106028124947322],
+      [4.76998099824414, 4.42329822573811, 4.28661090089008, 0.01420219476869],
+      [7.12764929514378, 5.61223204480484, 5.02250343561172, 0.00618014573302888],
+      [4.60589020745829, 0.0204817275516689, 2.50643707346171, 0.998704679837053],
+      [9.08161014085636, 8.17786975763738, 2.17377561377361, 0.0542156386217256],
+      [7.51416556537151, 2.22394333453849, 2.59385604644194, 0.736601380873033],
+      [0.286509215366095, 9.59720932645723, 1.27215914661065, 3.51944015452433e-13],
+      [5.7956217136234, 1.17489751661196, 8.23845925042406, 0.424324724827483]]
+      .forEach(function(tuple) {
+         var x, a, s, p, rp;
+         x = tuple[0];
+         a = tuple[1];
+         s = tuple[2];
+         rp = tuple[3];
+         p = main.pgamma(a, s)(x);
+
+         expect(utils.relativelyCloseTo(p, rp, .001)).to.be.ok;
+         expect(utils.relativelyCloseTo(Math.log(p),
+            main.pgamma(a, s, true, true)(x), .001)).to.be.ok;
+         expect(utils.relativelyCloseTo(Math.log(1 - p),
+            main.pgamma(a, s, false, true)(x), .001)).to.be.ok;
+         expect(utils.relativelyCloseTo(1 - p,
+            main.pgamma(a, s, false, false)(x), .001)).to.be.ok;
+
+         expect(utils.relativelyCloseTo(x,
+            main.qgamma(a, s, true)(p), .001)).to.be.ok;
+         expect(utils.relativelyCloseTo(x,
+            main.qgamma(a, s, true, true)(Math.log(p)), .001)).to.be.ok;
+         expect(utils.relativelyCloseTo(x,
+            main.qgamma(a, s, false)(1 - p), .001)).to.be.ok;
+         expect(utils.relativelyCloseTo(x,
+            main.qgamma(a, s, false, true)(Math.log(1 - p)), .001)).to.be.ok;
+})
    });
 });
