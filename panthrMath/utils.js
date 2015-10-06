@@ -117,6 +117,8 @@ define(function(require) {
          if (isNaN(absMax)) { return isNaN(x) && isNaN(x0); } /* both NaN */
          if (absMax === Infinity) { return x0 === x; }
          if (absMax === 0) { return true; }
+         if (x === 0) { return utils.isEssentiallyZero(x0); }
+         if (x0 === 0) { return utils.isEssentiallyZero(x); }
          return Math.abs(x - x0) / absMax < delta;
       },
       /* precision used by relativelyCloseTo */
