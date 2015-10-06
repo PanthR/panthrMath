@@ -68,29 +68,6 @@ define(function(require) {
             return sum;
          }, stop);
       },
-      /* precision used by relativelyCloseTo */
-      precision: 1e-10,
-      /* relativelyCloseTo returns a boolean indicating whether x, x0 are
-       * relatively close to each other as specified by the precision `delta`.
-       * If `delta` is not provided, `utils.precision` is used instead.
-       *
-       * Special cases for NaN, Infinity, -Infinity
-       */
-      relativelyCloseTo: function(x, x0, delta) {
-         delta = delta || utils.precision;
-         var absMax = Math.max(Math.abs(x0), Math.abs(x));
-         if (isNaN(absMax)) { return isNaN(x) && isNaN(x0); } /* both NaN */
-         if (absMax === Infinity) { return x0 === x; }
-         if (absMax === 0) { return true; }
-         return Math.abs(x - x0) / absMax < delta;
-      },
-      /* precision used by relativelyCloseTo */
-      /* isEssentiallyZero returns a boolean indicating whether x is very
-       * close to zero (less than e-100 in absolute value).
-       */
-      isEssentiallyZero: function(x) {
-         return Math.abs(x) < 1e-100;
-      },
       /* contFrac
        * A continued fraction has the form
        * a0 + (b1 / (a1 + (b2 / (a2 + ...)))
@@ -125,6 +102,29 @@ define(function(require) {
             B = B1 * an + B2 * bn;
             return A / B;
          }, stop);
+      },
+      /* precision used by relativelyCloseTo */
+      precision: 1e-10,
+      /* relativelyCloseTo returns a boolean indicating whether x, x0 are
+       * relatively close to each other as specified by the precision `delta`.
+       * If `delta` is not provided, `utils.precision` is used instead.
+       *
+       * Special cases for NaN, Infinity, -Infinity
+       */
+      relativelyCloseTo: function(x, x0, delta) {
+         delta = delta || utils.precision;
+         var absMax = Math.max(Math.abs(x0), Math.abs(x));
+         if (isNaN(absMax)) { return isNaN(x) && isNaN(x0); } /* both NaN */
+         if (absMax === Infinity) { return x0 === x; }
+         if (absMax === 0) { return true; }
+         return Math.abs(x - x0) / absMax < delta;
+      },
+      /* precision used by relativelyCloseTo */
+      /* isEssentiallyZero returns a boolean indicating whether x is very
+       * close to zero (less than e-100 in absolute value).
+       */
+      isEssentiallyZero: function(x) {
+         return Math.abs(x) < 1e-100;
       },
       /*
        * If lx = log(x), ly = log(y), calculates log(x + y)
