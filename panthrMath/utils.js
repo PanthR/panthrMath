@@ -17,7 +17,7 @@ define(function(require) {
          return target;
       },
       /* Maximum number of steps for `repeat` iterations. */
-      maxSteps: 10000,
+      maxSteps: 1000,
       /* repeat, for carrying out repeated improvement until stopping
        * condition is satisfied, or until `utils.maxSteps` have been
        * performed.
