@@ -103,6 +103,49 @@ define(function(require) {
             return A / B;
          }, stop);
       },
+      /* Binary search for solution to f(x) = y (provided f is monotone)
+       *
+       * a, b are optional bounds. If not provided,
+       * the function will search for them using x = +/- 2^n
+       *
+       * Search will terminate when:
+       * - Provided a, b values do not satisfy f(a) <= y <= f(b) (error)
+       * - The search for a, b produces unreasonably large endpoints (error)
+       * - The relative size of the search interval becomes sufficiently small
+       *      relative to its midpoint.
+       * - utils.maxSteps is reached (error)
+       * - utils.relativelyCloseTo (f(x), y) < utils.precision
+       */
+      binSearchInv: function binSearchInv(f, y, a, b) {
+         var mid, vmid, niters;
+         if (a == null) {
+            a = -1;
+            while (f(a) > y) {
+               a = 2 * a;
+               if (-a > 1e200) { throw new Error('Binary search: Cannot find lower endpoint.'); }
+            }
+         }
+         if (b == null) {
+            b = 1;
+            while (f(b) < y) {
+               b = 2 * b;
+               if (b > 1e200) { throw new Error('Binary search: Cannot find upper endpoint.'); }
+            }
+         }
+         if (utils.relativelyCloseTo(f(a), y)) { return a; }
+         if (utils.relativelyCloseTo(f(b), y)) { return b; }
+         if (f(a) > y || f(b) < y) { throw new Error('Binary search: Desired value not between endpoint values.'); }
+         niters = 0;
+         mid = (a + b) / 2;
+         while ((b - a) / mid > 0.01 * utils.precision &&
+                !(utils.relativelyCloseTo(f(mid), y))) {
+            niters += 1;
+            mid = (a + b) / 2;
+            if (niters > utils.maxSteps) { throw new Error('Binary search: Too many steps.'); }
+         }
+         return (a + b) / 2;
+      },
+
       /* precision used by relativelyCloseTo */
       precision: 1e-10,
       /* relativelyCloseTo returns a boolean indicating whether x, x0 are
