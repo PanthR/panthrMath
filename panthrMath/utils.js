@@ -103,7 +103,7 @@ define(function(require) {
             return A / B;
          }, stop);
       },
-      /* Binary search for solution to f(x) = y (provided f is monotone)
+      /* Binary search for solution to f(x) = y (provided f is strictly monotone)
        *
        * a, b are optional bounds. If not provided,
        * the function will search for them using x = +/- 2^n
@@ -116,35 +116,42 @@ define(function(require) {
        * - utils.maxSteps is reached (error)
        * - utils.relativelyCloseTo (f(x), y) < utils.precision
        */
-      binSearchSolve: function binSearchInv(f, y, a, b) {
+       /* eslint-disable complexity */
+      binSearchSolve: function binSearchSolve(f, y, a, b) {
          var mid, vmid, niters;
-         if (a == null) {
-            a = -1;
-            while (f(a) > y) {
-               a = 2 * a;
-               if (-a > 1e200) { throw new Error('Binary search: Cannot find lower endpoint.'); }
-            }
+
+         a = inferEndpoint(f, y, true, a);
+         b = inferEndpoint(f, y, false, b);
+
+         if (f(a) > f(b)) {
+            return binSearchSolve(function(x) { return -f(x); }, -y, a, b);
          }
-         if (b == null) {
-            b = 1;
-            while (f(b) < y) {
-               b = 2 * b;
-               if (b > 1e200) { throw new Error('Binary search: Cannot find upper endpoint.'); }
-            }
-         }
+
          if (utils.relativelyCloseTo(f(a), y)) { return a; }
          if (utils.relativelyCloseTo(f(b), y)) { return b; }
-         if (f(a) > y || f(b) < y) { throw new Error('Binary search: Desired value not between endpoint values.'); }
-         niters = 0;
-         mid = (a + b) / 2;
-         while ((b - a) / mid > 0.01 * utils.precision &&
-                !(utils.relativelyCloseTo(f(mid), y))) {
-            niters += 1;
-            mid = (a + b) / 2;
-            if (niters > utils.maxSteps) { throw new Error('Binary search: Too many steps.'); }
+
+         if (f(a) > y || f(b) < y) {
+            throw new Error('Binary search: Desired value not between endpoint values.');
          }
-         return (a + b) / 2;
+         niters = 0;
+         while (niters < utils.maxSteps) {
+            mid = (a + b) / 2;
+            niters += 1;
+            vmid = f(mid);
+            if (utils.relativelyCloseTo(vmid, y)) { return mid; }
+
+            if ((b - a) / Math.abs(mid) <= 0.01 * utils.precision) {
+               throw new Error('Binary search: Interval too small without solution.');
+            }
+            if (vmid < y) {
+               a = mid;
+            } else {
+               b = mid;
+            }
+         }
+         throw new Error('Binary search: Too many iterations');
       },
+       /* eslint-enable complexity */
 
       /* precision used by relativelyCloseTo */
       precision: 1e-10,
@@ -178,6 +185,25 @@ define(function(require) {
          return Math.max(lx, ly) + log1p(Math.exp(-Math.abs(lx - ly)));
       }
    };
+
+   // lower = true means looking for lower endpoint
+   //       = false means looking for upper endpoint
+   // if "e" is provided it is just returned
+   function inferEndpoint(f, y, lower, e) {
+      var comp; // comparison of f(e) and f(2*e)
+      if (e != null) { return e; }
+
+      e = lower ? -1 : 1;
+      comp = f(e) < f(2 * e);
+
+      while (f(e) > y !== comp) {
+         e = 2 * e;
+         if (-e > 1e200) {
+            throw new Error('Binary search: Cannot find ' + lower ? 'lower' : 'upper' + ' endpoint.');
+         }
+      }
+      return e;
+   }
 
    return utils;
 
