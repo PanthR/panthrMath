@@ -1,8 +1,9 @@
+var utils = require('../panthrMath/utils');
 var normal = require('../panthrMath/distributions/normal');
 var chai = require('chai');
 var expect = chai.expect;
 
-var precision = 1e-5;
+var precision = 1e-10;
 
 chai.use(function(_chai, utils) {
    var Assertion = _chai.Assertion;
@@ -16,18 +17,8 @@ chai.use(function(_chai, utils) {
 });
 
 describe('Normal Distribution', function() {
-   it('dnormlog', function() {
-      [[0, -0.918938],
-       [1, -1.418939],
-       [2, -2.918939],
-       [3, -5.418939],
-       [4, -8.918939],
-       [-1, -1.418939],
-       [-2, -2.918939],
-       [-3, -5.418939],
-       [-4, -8.918939],
-       [-5, -13.418939],
-       [-10, -50.9189385332047],
+   it('dnorm', function() {
+      [[-10, -50.9189385332047],
        [-9.993, -50.8489630332047],
        [-9.986, -50.7790365332047],
        [-9.979, -50.7091590332047],
@@ -2886,31 +2877,13 @@ describe('Normal Distribution', function() {
        [9.992, -50.8389705332047],
        [9.999, -50.9089390332047]
       ].forEach(function(pair) {
-      expect(normal.dnorm(0, 1, true, true)(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision);
+         expect(utils.relativelyCloseTo(
+            normal.dnorm(0, 1, true, true)(pair[0]), pair[1], precision)).to.be.ok;
+         var mu = Math.random() * 50 - 50, sigma = Math.random() * 10 + 0.00001;
+         expect(utils.relativelyCloseTo(
+            normal.dnorm(mu, sigma, true, true)(mu + sigma * pair[0]),
+            pair[1], precision)).to.be.ok;
       });
-      var mu = 2.3, sigma = 0.0012;
-      expect(normal.dnorm(mu, sigma, true, true)(2.2912))
-         .to.be.relativelyCloseTo(-21.08239, precision);
-   });
-   it('dnorm', function() {
-      [[0, 3.989423e-01],
-       [1, 2.419707e-01],
-       [2, 5.399097e-02],
-       [3, 4.431848e-03],
-       [4, 1.338302e-04],
-       [-1, 2.419707e-01],
-       [-2, 5.399097e-02],
-       [-3, 4.431848e-03],
-       [-4, 1.338302e-04],
-       [-5, 1.486720e-06]
-      ].forEach(function(pair) {
-      expect(normal.dnorm(0, 1)(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision);
-      });
-      var mu = 2.3, sigma = 0.0012;
-      expect(normal.dnorm(mu,sigma)(2.2912))
-         .to.be.relativelyCloseTo(6.982851e-10, precision);
    });
    it('pnorm', function() {
       [[0, 0.5],
@@ -2929,10 +2902,14 @@ describe('Normal Distribution', function() {
        [-6.5, 4.01600058385912e-11],
        [-9.2, 1.78974881201405e-20]
       ].forEach(function(pair) {
-      expect(normal.pnorm(0, 1)(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision * 1e-9);
-      expect(normal.pnorm(0, 1, false)(-pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision * 1e-9);
+         var mu = Math.random() * 50 - 50;
+         var sigma = Math.random() * 10 + 0.0001;
+         expect(utils.relativelyCloseTo(
+            normal.pnorm(0, 1)(pair[0]), pair[1], precision)).to.be.ok;
+         expect(utils.relativelyCloseTo(
+            normal.pnorm(0, 1, false)(-pair[0]), pair[1], precision)).to.be.ok;
+         expect(utils.relativelyCloseTo(
+            normal.pnorm(mu, sigma)(mu + sigma * pair[0]), pair[1], precision)).to.be.ok;
       });
    });
    it('qnorm', function() {
@@ -2968,10 +2945,14 @@ describe('Normal Distribution', function() {
        [0.965507931034483, 1.81852363327252],
        [0.99999, 4.26489079392384]
       ].forEach(function(pair) {
-      expect(normal.qnorm(0, 1)(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision * 1e-7);
-      expect(normal.qnorm(0, 1, false)(1 - pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision * 1e-7);
+       var mu = Math.random() * 50 - 50;
+       var sigma = Math.random() * 10 + 0.0001;
+      expect(utils.relativelyCloseTo(
+         normal.qnorm(0, 1)(pair[0]), pair[1], precision)).to.be.ok;
+      expect(utils.relativelyCloseTo(
+         normal.qnorm(0, 1, false)(1 - pair[0]), pair[1], precision)).to.be.ok;
+      expect(utils.relativelyCloseTo(
+         normal.qnorm(mu, sigma)(pair[0]), mu + sigma * pair[1], precision)).to.be.ok;
       });
    });
 });

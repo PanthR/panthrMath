@@ -12,7 +12,7 @@ define(function(require) {
    function dnorm(mu, sigma, logp) {
       var c;
       logp = logp === true;
-      c = Math.log(sigma * sigma * twopi);
+      c = Math.log(twopi);
       return function(x) {
          var z, p;
          z = (x - mu) / sigma;
