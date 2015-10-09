@@ -2,18 +2,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-10;
 var expm1 = require('../panthrMath/basicFunc/expm1').expm1;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
+var utils = require('../panthrMath/utils');
 
 describe('expm1 function', function() {
    it('works', function() {
@@ -37,8 +26,7 @@ describe('expm1 function', function() {
        [4,53.5981500331442],
        [5,147.413159102577]
       ].forEach(function(pair) {
-      expect(expm1(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision);
+      expect(utils.relativelyCloseTo(expm1(pair[0]), pair[1], precision)).to.be.ok;
       });
    });
 });

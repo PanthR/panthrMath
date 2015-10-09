@@ -5,17 +5,6 @@ var expect = chai.expect;
 
 var precision = 1e-10;
 
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      var res = Math.abs(x - x0) / denom;
-      new Assertion(res).to.be.below(delta);
-   });
-});
-
 describe('Normal Distribution', function() {
    it('dnorm', function() {
       [[-10, -50.9189385332047],

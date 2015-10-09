@@ -1,19 +1,8 @@
 var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-10;
-var series = require('../panthrMath/utils').series;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
+var utils = require('../panthrMath/utils');
+var series = utils.series;
 
 describe('series function', function() {
    it('passes correct arguments to callback', function() { // n is an integer
@@ -36,9 +25,9 @@ describe('series function', function() {
    });
    it('doesn\'t stop too early', function() { // n is missing
       // calculate exp(1) as sum of 1 / n!
-      expect(series(function(i, v) {
-         return i === 0 ? 1 : v / i;
-      })).to.be.relativelyCloseTo(Math.exp(1), precision);
+      expect(utils.relativelyCloseTo(
+         series(function(i, v) { return i === 0 ? 1 : v / i; }),
+         Math.exp(1), precision)).to.be.ok;
    });
    it('works when given a function for stopping condition', function() {
       var count;

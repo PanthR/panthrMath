@@ -1,20 +1,9 @@
 var chai = require('chai');
 var expect = chai.expect;
-var precision = 1e-8;
+var precision = 1e-10;
 var erf = require('../panthrMath/basicFunc/erf').erf;
 var erfc = require('../panthrMath/basicFunc/erf').erfc;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
+var utils = require('../panthrMath/utils');
 
 describe('erf function', function() {
    it('erf', function() {
@@ -30,8 +19,7 @@ describe('erf function', function() {
        [5,0.999999999998463],
        [1e-05,1.1283791670591e-05]
       ].forEach(function(pair) {
-      expect(erf(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision);
+      expect(utils.relativelyCloseTo(erf(pair[0]), pair[1], precision)).to.be.ok;
       });
    });
    it('erfc', function() {
@@ -47,8 +35,7 @@ describe('erf function', function() {
        [5,1.537459794428e-12],
        [1e-05,0.999988716208329]
       ].forEach(function(pair) {
-      expect(erfc(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision);
+      expect(utils.relativelyCloseTo(erfc(pair[0]), pair[1], precision)).to.be.ok;
       });
    });
 });

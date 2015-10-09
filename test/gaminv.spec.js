@@ -2,18 +2,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-10;
 var gaminv = require('../panthrMath/basicFunc/gratio').gaminv;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
+var utils = require('../panthrMath/utils');
 
 describe('gaminv function', function() {
    it('works', function() {
@@ -26824,7 +26813,7 @@ describe('gaminv function', function() {
          p = tuple[1];
          rx = tuple[2];
          x = gaminv(a)(p);
-         expect(x).to.be.relativelyCloseTo(rx, precision);
+         expect(utils.relativelyCloseTo(x, rx, precision)).to.be.ok;
       });
    });
 });

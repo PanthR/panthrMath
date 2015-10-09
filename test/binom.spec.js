@@ -1,19 +1,8 @@
 var binom = require('../panthrMath/distributions/binom');
 var chai = require('chai');
 var expect = chai.expect;
-
-var precision = 1e-5;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      var res = Math.abs(x - x0) / denom;
-      new Assertion(res).to.be.below(delta);
-   });
-});
+var utils = require('../panthrMath/utils');
+var precision = 1e-10;
 
 describe('Binomial Distribution', function() {
    it('dbinom log', function() {
@@ -24451,7 +24440,7 @@ describe('Binomial Distribution', function() {
          x = tuple[2];
          rval = tuple[3];
          val = binom.dbinom(n, p, true)(x);
-      expect(val).to.be.relativelyCloseTo(rval, precision);
+      expect(utils.relativelyCloseTo(val, rval, precision)).to.be.ok;
       });
    });
 });

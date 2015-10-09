@@ -4,18 +4,6 @@ var precision = 1e-8;
 var main = require('..');
 var utils = require('../panthrMath/utils');
 
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
-
 describe('dgamma log function', function() {
    it('works', function() {
       [

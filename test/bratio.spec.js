@@ -4,18 +4,6 @@ var precision = 1e-10;
 var bratio = require('../panthrMath/basicFunc/bratio').bratio;
 var utils = require('../panthrMath/utils');
 
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
-
 /* Rcode generating the tests:
    options(digits = 20)
    x = c(0.5 * exp(-10:0), 1- 0.5 * exp(-1:-10))

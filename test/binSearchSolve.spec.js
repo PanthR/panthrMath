@@ -4,18 +4,6 @@ var precision = 1e-10;
 var utils = require('../panthrMath/utils');
 var solve = utils.binSearchSolve;
 
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
-
 describe('binSearchSolve function', function() {
    var f = function(x) { return Math.exp(x); };
    it('works when interval is given', function() {

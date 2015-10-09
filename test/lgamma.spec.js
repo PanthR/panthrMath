@@ -2,18 +2,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-8;
 var lgamma = require('../panthrMath/basicFunc/lgamma').lgamma;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
+var utils = require('../panthrMath/utils');
 
 describe('lgamma function', function() {
    it('works', function() {
@@ -66,8 +55,7 @@ describe('lgamma function', function() {
        [2.000001,4.22784657616089e-07],
        [2.0000001,4.22784367459758e-08]
       ].forEach(function(pair) {
-      expect(lgamma(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision);
+      expect(utils.relativelyCloseTo(lgamma(pair[0]), pair[1], precision)).to.be.ok;
       });
    });
 });

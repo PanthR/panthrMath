@@ -5,17 +5,6 @@ var utils = require('../panthrMath/utils');
 
 var precision = 1e-8;
 
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      var res = Math.abs(x - x0) / denom;
-      new Assertion(res).to.be.below(delta);
-   });
-});
-
    /* R code generating tests
       x = seq(-10,10, 0.28)
       dfs = exp(seq(-4, 3, 0.08))

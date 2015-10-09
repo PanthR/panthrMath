@@ -2,18 +2,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-10;
 var log1p = require('../panthrMath/basicFunc/log1p').log1p;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
+var utils = require('../panthrMath/utils');
 
 describe('log1p function', function() {
    it('works', function() {
@@ -37,8 +26,7 @@ describe('log1p function', function() {
        [4,1.6094379124341],
        [5,1.79175946922805]
       ].forEach(function(pair) {
-      expect(log1p(pair[0]))
-         .to.be.relativelyCloseTo(pair[1], precision);
+      expect(utils.relativelyCloseTo(log1p(pair[0]),pair[1], precision)).to.be.ok;
       });
    });
 });

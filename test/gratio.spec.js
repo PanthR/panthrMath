@@ -3,18 +3,7 @@ var expect = chai.expect;
 var precision = 1e-10;
 var gratio = require('../panthrMath/basicFunc/gratio').gratio;
 var gratioc = require('../panthrMath/basicFunc/gratio').gratioc;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
+var utils = require('../panthrMath/utils');
 
 describe('gratio and gratioc functions', function() {
    it('work', function() {
@@ -4346,8 +4335,8 @@ describe('gratio and gratioc functions', function() {
          rq = tuple[3];
          p = gratio(a)(x);
          q = gratioc(a)(x);
-         expect(p).to.be.relativelyCloseTo(rp, precision);
-         expect(q).to.be.relativelyCloseTo(rq, precision);
+         expect(utils.relativelyCloseTo(p,rp, precision)).to.be.ok;
+         expect(utils.relativelyCloseTo(q,rq, precision)).to.be.ok;
       });
    });
 });

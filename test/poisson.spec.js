@@ -2,18 +2,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-10;
 var dpois = require('..').dpois;
-
-chai.use(function(_chai, utils) {
-   var Assertion = _chai.Assertion;
-   Assertion.addMethod('relativelyCloseTo', function(x0, delta) {
-      var x = utils.flag(this, 'object');
-      var denom = Math.max(Math.abs(x0), Math.abs(x));
-      if (denom !== 0) {
-         var res = Math.abs(x - x0) / denom;
-         new Assertion(res).to.be.below(delta);
-      }
-   });
-});
+var utils = require('../panthrMath/utils');
 
 describe('lpoisson', function() {
    it('works', function() {
@@ -23423,7 +23412,7 @@ describe('lpoisson', function() {
          lambda = tuple[1];
          rp = tuple[2];
          p = dpois(lambda, true)(x);
-         expect(p).to.be.relativelyCloseTo(rp, precision);
+         expect(utils.relativelyCloseTo(p, rp, precision)).to.be.ok;
       });
    });
 });
