@@ -6375,7 +6375,7 @@ describe('T Distribution', function() {
       });
    });
 
-   it('pt', function() {
+   it('pt and qt', function() {
       [
 [-10, 0.0183156388887342, -0.78451192177394, -0.609435601987791],
 [-9.72, 0.0198410947443703, -0.790752330558806, -0.604227343536023],
@@ -12714,7 +12714,7 @@ describe('T Distribution', function() {
 [9.6, 17.8142731796122, -9.16989338339223e-09, -18.5073401820054],
 [9.88, 19.2979717555028, -2.74714070870728e-09, -19.7127052098367]
       ].forEach(function(tuple) {
-         var x, df, logp, rlogp, rlogq;
+         var x, df, logp, rlogp, rlogq, xfromqt;
          x = tuple[0];
          df = tuple[1];
          rlogp = tuple[2];
@@ -12724,6 +12724,10 @@ describe('T Distribution', function() {
          expect(utils.relativelyCloseTo(Math.exp(rlogp), main.pt(df)(x), precision)).to.be.ok;
          expect(utils.relativelyCloseTo(rlogq, main.pt(df, false, true)(x), precision)).to.be.ok;
          expect(utils.relativelyCloseTo(Math.exp(rlogq), main.pt(df, false)(x), precision)).to.be.ok;
+         // if (df < 1) {
+            xfromqt = main.qt(df, true, true)(logp);
+            expect(utils.relativelyCloseTo(xfromqt, x, precision)).to.be.ok;
+         // }
       });
    });
 });

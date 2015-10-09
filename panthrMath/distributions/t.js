@@ -1,7 +1,8 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, bd0, stirlerr, sqrt2pi, qt, bratio, log1p;
+   var C, bd0, stirlerr, sqrt2pi, bratio, log1p, solve;
+   // var expm1,  qnorm;
 
    C = require('../constants');
    bd0 = require('../basicFunc/bd0').bd0;
@@ -9,6 +10,9 @@ define(function(require) {
    sqrt2pi = C.sqrt2pi;
    bratio = require('../basicFunc/bratio').bratio;
    log1p = require('../basicFunc/log1p').log1p;
+   // expm1 = require('../basicFunc/expm1').expm1;
+   solve = require('../utils').binSearchSolve;
+   // qnorm = require('./normal').qnorm;
 
    /*
     * Return the log-of-density function for student's t distribution.
@@ -65,6 +69,35 @@ define(function(require) {
       ptl = ptlog(df, lowerTail);
       return function(x) {
          return logp ? ptl(x) : Math.exp(ptl(x));
+      };
+   }
+
+   // inverse cdf
+   // From qt.c in R
+   function qt(df, lowerTail, logp) {
+      lowerTail = lowerTail !== false;
+      logp = logp === true;
+
+      return function(p) {
+         // var pp;
+
+         // two-tailed prob, pp = 2 * min(p, 1-p)
+         // pp = 2 * (logp ? Math.min(Math.exp(p), -expm1(p))
+                        // : Math.min(p, 1 - p));
+
+         // Using the solver on whole range (possibly inefficient but works)
+         // if (df < 1) {
+            return solve(function(x) {
+               return pt(df, lowerTail, logp)(x);
+            }, p);
+         // }
+
+         // if (df > 1e20) {
+         //    return qnorm(0, 1, lowerTail, logp)(p);
+         // }
+
+         // TODO: Could consider optimizing for df close to 1 or 2
+
       };
    }
 
