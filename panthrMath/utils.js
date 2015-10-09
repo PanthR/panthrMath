@@ -116,7 +116,7 @@ define(function(require) {
        * - utils.maxSteps is reached (error)
        * - utils.relativelyCloseTo (f(x), y) < utils.precision
        */
-      binSearchInv: function binSearchInv(f, y, a, b) {
+      binSearchSolve: function binSearchInv(f, y, a, b) {
          var mid, vmid, niters;
          if (a == null) {
             a = -1;
