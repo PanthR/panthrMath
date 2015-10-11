@@ -138,10 +138,9 @@ define(function(require) {
             mid = (a + b) / 2;
             niters += 1;
             vmid = f(mid);
-            if (utils.relativelyCloseTo(vmid, y)) { return mid; }
-
-            if ((b - a) / Math.abs(mid) <= 0.01 * utils.precision) {
-               throw new Error('Binary search: Interval too small without solution.');
+            if (utils.relativelyCloseTo(a, b) &&
+                utils.relativelyCloseTo(vmid, y)) {
+              return mid;
             }
             if (vmid < y) {
                a = mid;
