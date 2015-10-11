@@ -11,7 +11,8 @@ define(function(require) {
       require('./distributions/normal'),
       require('./distributions/gamma'),
       require('./distributions/poisson'),
-      require('./distributions/t')
+      require('./distributions/t'),
+      require('./distributions/beta')
    );
 
    return distributions;
