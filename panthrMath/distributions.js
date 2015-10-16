@@ -12,6 +12,7 @@ define(function(require) {
       require('./distributions/gamma'),
       require('./distributions/poisson'),
       require('./distributions/t'),
+      require('./distributions/uniform'),
       require('./distributions/beta')
    );
 
