@@ -1,10 +1,37 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var bratio, dbeta, solve;
+   var bratio, lbeta, solve, stirlerr, bd0, log1p, C;
 
+   C = require('../constants');
+   bd0 = require('../basicFunc/bd0').bd0;
+   stirlerr = require('../basicFunc/stirlerr').stirlerr;
+   log1p = require('../basicFunc/log1p').log1p;
+   lbeta = require('../basicFunc/lbeta').lbeta;
    bratio = require('../basicFunc/bratio').bratio;
    solve = require('../utils').binSearchSolve;
+
+   function dbeta(a, b, logp) {
+      logp = logp === true;
+
+      return function(x) {
+         var lb, p, n;
+         if (x < 0 || x > 1) {
+            lb = -Infinity;
+         } else if (a <= 2 || b <= 2) {
+            lb = (a - 1) * Math.log(x) + (b - 1) * log1p(-x) - lbeta(a, b);
+         } else {
+            p = x;
+            x = a - 1;
+            n = a + b - 2;
+            lb = Math.log(a + b - 1) +
+               stirlerr(n) - stirlerr(x) - stirlerr(n - x) -
+               bd0(x, n * p) - bd0(n - x, n * (1 - p)) +
+               0.5 * Math.log(n / (C.twopi * x * (n - x)));
+         }
+         return logp ? lb : Math.exp(lb);
+      };
+   }
 
    function pbeta(a, b, lowerTail, logp) {
       logp = logp === true;
