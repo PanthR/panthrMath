@@ -1,11 +1,12 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, pbinom, qbinom, stirlerr, bd0;
+   var C, qbinom, stirlerr, bd0, pbeta;
 
    C = require('../constants');
    stirlerr = require('../basicFunc/stirlerr').stirlerr;
    bd0 = require('../basicFunc/bd0').bd0;
+   pbeta = require('./beta').pbeta;
 
    // returns the log of the binomial probability
    // Note: the arguments are re-arranged:  lbinomProb(n, p, x)
@@ -34,6 +35,29 @@ define(function(require) {
 
       return function(x) {
          return logp ? lbinom(x) : Math.exp(lbinom(x));
+      };
+   }
+
+   function pbinom(n, p, lowerTail, logp) {
+      var goodParams;
+
+      logp = logp === true;
+      lowerTail = lowerTail !== false;
+
+      goodParams = n >= 0 && n < Infinity && n === Math.floor(n)
+            && p >= 0 && p <= 1;
+      if (!goodParams) { return function(x) { return NaN; }; }
+      return function(x) {
+         var res;
+
+         if (isNaN(x)) { return NaN; }
+         res = lowerTail === x < 0 ? -Infinity : 0;
+         x = Math.floor(x);
+         if (x >= 0 && x < n) {
+            res = pbeta(x + 1, n - x, !lowerTail, true)(p);
+         }
+
+         return logp ? res : Math.exp(res);
       };
    }
 

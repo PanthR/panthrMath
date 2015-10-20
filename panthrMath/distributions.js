@@ -13,7 +13,8 @@ define(function(require) {
       require('./distributions/poisson'),
       require('./distributions/t'),
       require('./distributions/uniform'),
-      require('./distributions/beta')
+      require('./distributions/beta'),
+      require('./distributions/binom')
    );
 
    return distributions;
