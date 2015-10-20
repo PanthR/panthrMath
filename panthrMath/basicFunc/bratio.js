@@ -256,6 +256,10 @@ define(function(require) {
       y = 1 - x;
       bint = Math.floor(b);
       bbar = b - bint;
+      if (bbar === 0) {
+         bbar += 1;
+         bint -= 1;
+      }
       lambda = a > b ? (a + b) * y - b :
                        a - (a + b) * x;
 
