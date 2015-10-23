@@ -67,7 +67,7 @@ define(function(require) {
 
       return function(p) {
          p = logp ? Math.exp(p) : p;
-         if (p < 0 || p > 1) { return NaN; }
+         if (!(p >= 0 && p <= 1)) { return NaN; }
          return s * gaminv(p, lowerTail);
       };
    }
