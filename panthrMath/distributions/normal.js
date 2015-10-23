@@ -1,12 +1,13 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, twopi, sqrt2pi, Rational, pnorm, qnorm;
+   var C, twopi, sqrt2pi, Rational, pnorm, qnorm, pWrap;
 
    C = require('../constants');
    twopi = C.twopi;
    sqrt2pi = C.sqrt2pi;
    Rational = require('../rational');
+   pWrap = require('../utils').pWrap;
 
    // density
    function dnorm(mu, sigma, logp) {
@@ -189,13 +190,10 @@ define(function(require) {
       return function qnorm(mu, sigma, lowerTail, logp) {
          lowerTail = lowerTail !== false;
          logp = logp === true;
-         /* eslint-disable complexity */
-         return function(p) {
+         return pWrap(lowerTail, logp, function(p) {
             var dp, minp, r;
 
-            if (logp) { p = Math.exp(p); }
-            dp = lowerTail ? p - 0.5 : 0.5 - p;
-            p = lowerTail ? p : 1 - p;
+            dp = p - 0.5;
             minp = p < 0.5 ? p : 1 - p;
 
             if (p === 1) { return Infinity; }
@@ -208,8 +206,7 @@ define(function(require) {
                r = p < 0.5 ? -r : r;
             }
             return mu + sigma * r;
-         };
-         /* eslint-enable complexity */
+         });
       };
    }());
 
