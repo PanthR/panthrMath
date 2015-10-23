@@ -1,9 +1,10 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var utils, log1p;
+   var utils, log1p, expm1;
 
    log1p = require('./basicFunc/log1p').log1p;
+   expm1 = require('./basicFunc/expm1').expm1;
 
    utils = {
       /* mixin */
@@ -182,6 +183,22 @@ define(function(require) {
        */
       logspaceAdd: function(lx, ly) {
          return Math.max(lx, ly) + log1p(Math.exp(-Math.abs(lx - ly)));
+      },
+      /*
+       * Given a function 'f(prob)', returns a function of the probability
+       * which has been adjusted in the space specified by 'lowerTail' and
+       * 'logp'.  The new function wraps f, ensuring that f is called on
+       * an actual left-tail probability (unlogged, complemented if
+       * necessary).
+       */
+      pWrap: function pWrap(lowerTail, logp, f) {
+         return function(prob) {
+            prob = logp ? lowerTail ? Math.exp(prob)
+                                    : -expm1(prob)
+                        : lowerTail ? prob
+                                    : 1 - prob;
+            return prob >= 0 && prob <= 1 ? f(prob) : NaN;
+         };
       }
    };
 
