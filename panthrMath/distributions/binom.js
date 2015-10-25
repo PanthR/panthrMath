@@ -1,12 +1,15 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, qbinom, stirlerr, bd0, pbeta;
+   var C, stirlerr, bd0, pbeta, qnorm, pWrap, discInvCdf;
 
    C = require('../constants');
    stirlerr = require('../basicFunc/stirlerr').stirlerr;
    bd0 = require('../basicFunc/bd0').bd0;
    pbeta = require('./beta').pbeta;
+   qnorm = require('./normal').qnorm;
+   pWrap = require('../utils').pWrap;
+   discInvCdf = require('../utils').discInvCdf;
 
    // returns the log of the binomial probability
    // Note: the arguments are re-arranged:  lbinomProb(n, p, x)
@@ -59,6 +62,41 @@ define(function(require) {
 
          return logp ? res : Math.exp(res);
       };
+   }
+
+   function qbinom(n, p, lowerTail, logp) {
+      var goodParams, mu, sigma, gamma;
+
+      logp = logp === true;
+      lowerTail = lowerTail !== false;
+      goodParams = n >= 0 && n < Infinity && n === Math.floor(n)
+            && p >= 0 && p <= 1;
+
+      if (!goodParams) { return function(prob) { return NaN; }; }
+      if (p === 0) {
+         return pWrap(lowerTail, logp,
+            function(prob) { return prob === 1 ? n : 0; }
+         );
+      }
+      if (p === 1) {
+         return pWrap(lowerTail, logp,
+            function(prob) { return prob === 0 ? 0 : n; }
+         );
+      }
+      // 0 < p < 1
+      mu = n * p;
+      sigma = Math.sqrt(mu * (1 - p));
+      gamma = (1 - 2 * p) / sigma;
+
+      return pWrap(lowerTail, logp, function(prob) {
+         var z, ret;
+         if (prob === 0) { return 0; }
+         if (prob === 1) { return n; }
+         z = qnorm(0, 1)(prob); // initial value
+         ret = Math.floor(mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
+         if (ret > n) { ret = n; }
+         return discInvCdf(0, n, ret, prob, pbinom(n, p));
+      });
    }
 
    return {

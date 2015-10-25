@@ -24764,27 +24764,33 @@ describe('Binomial Distribution', function() {
 [6.1,6,0.680757698602974,0,-Infinity],
 [6.1,6,0.485439028125256,0,-Infinity]
 ].forEach(function(tuple) {
-   var x, n, p, logp, rlogp, rlogq;
-   x = tuple[0];
-   n = tuple[1];
-   p = tuple[2];
-   rlogp = tuple[3];
-   rlogq = tuple[4];
-   logp = main.pbinom(n, p, true, true)(x);
-   // if (!utils.isEssentiallyZero(rlogp) && !utils.isEssentiallyZero(rlogq))
-   // console.log(tuple, logp);
-   expect(utils.relativelyCloseTo(rlogp, logp, precision)).to.be.ok;
-   expect(utils.relativelyCloseTo(Math.exp(rlogp),
-      main.pbinom(n, p)(x), precision)).to.be.ok;
-   expect(utils.relativelyCloseTo(rlogq,
-      main.pbinom(n, p, false, true)(x), precision)).to.be.ok;
-   expect(utils.relativelyCloseTo(Math.exp(rlogq),
-      main.pbinom(n, p, false)(x), precision)).to.be.ok;
-   // xfromqbeta = main.qbeta(a, b, true, true)(logp);
-   // expect(utils.relativelyCloseTo(xfromqbeta, x, precision)).to.be.ok;
-   // xfromqbeta = main.qbeta(a, b, false, true)(rlogq);
-   // expect(utils.relativelyCloseTo(xfromqbeta, x, precision)).to.be.ok;
-   });
-});
-});
+      var x, n, p, logp, rlogp, rlogq, xfromqbinom;
+      x = tuple[0];
+      n = tuple[1];
+      p = tuple[2];
+      rlogp = tuple[3];
+      rlogq = tuple[4];
+      logp = main.pbinom(n, p, true, true)(x);
+      // if (!utils.isEssentiallyZero(rlogp) && !utils.isEssentiallyZero(rlogq))
+      // console.log(tuple, logp);
+      expect(utils.relativelyCloseTo(rlogp, logp, precision)).to.be.ok;
+      expect(utils.relativelyCloseTo(Math.exp(rlogp),
+         main.pbinom(n, p)(x), precision)).to.be.ok;
+      expect(utils.relativelyCloseTo(rlogq,
+         main.pbinom(n, p, false, true)(x), precision)).to.be.ok;
+      expect(utils.relativelyCloseTo(Math.exp(rlogq),
+         main.pbinom(n, p, false)(x), precision)).to.be.ok;
+      xfromqbinom = main.qbinom(n, p, true, true)(logp);
+      // console.log('test', tuple, logp, xfromqbinom);
+      if (logp === -Infinity) {
+         expect(xfromqbinom).to.equal(0);
+      } else if (logp === 0) {
+         expect(xfromqbinom).to.equal(n);
+      } else {
+         expect(utils.relativelyCloseTo(xfromqbinom,
+            Math.floor(x), precision)).to.be.ok;
+      }
+   }); // forEach
+}); // it
+}); // describe
 
