@@ -150,6 +150,45 @@ define(function(require) {
             }
          }
          throw new Error('Binary search: Too many iterations');
+      }, /* eslint-enable complexity */
+      /* eslint-disable complexity */
+      /*
+       *  Helper for inverting a discrete CDF for integer values.
+       *  Searches for a quantile x in the range [`min`, `max`] such
+       *  that x is the smallest quantile for the provided CDF `f`
+       *  with left-tail probability >= `p`.
+       *  `x` is an initial estimate for the desired quantile.
+       *  When `p` is 0, return min.
+       *  When `p` is 1, return max.
+       *  Precondition:  `0 <= p <= 1`.
+       *  Precondition:  `f(x)` is 0 when `x < min` and 1 when `x > max`.
+       */
+      discInvCdf: function discInvCdf(min, max, x, p, f) {
+         var incr;
+         if (p === 0) { return min; }
+         if (p === 1) { return max; }
+
+         incr = Math.max(Math.floor(.001 * (max - min)), 1);
+         while (incr > 1)  {
+            // console.log('incr=', incr);
+            if (f(x) < p) { // x is too small
+               x += incr;
+               if (f(x) >= p) {
+                  incr = Math.floor(incr / 2);
+               }
+            } else {
+               // x is probably too large
+               x -= incr;
+               if (f(x) < p) {
+                  incr = Math.floor(incr / 2);
+               }
+            }
+         }
+         // incr is 1
+         while (!(f(x) >= p && f(x - 1) < p)) {
+            x = x + (f(x) < p ? 1 : -1);
+         }
+         return x;
       },
        /* eslint-enable complexity */
 
