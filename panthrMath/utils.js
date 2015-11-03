@@ -169,7 +169,7 @@ define(function(require) {
          if (p === 1) { return max; }
 
          incr = Math.max(Math.floor(.001 * (max - min)), 1);
-         while (incr > 1)  {
+         while (incr > 1) {
             // console.log('incr=', incr);
             if (f(x) < p) { // x is too small
                x += incr;
