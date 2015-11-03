@@ -8,6 +8,7 @@ define(function(require) {
    mixin = require('./utils.js').mixin;
 
    distributions = mixin({},
+      require('./distributions/finite'),
       require('./distributions/normal'),
       require('./distributions/gamma'),
       require('./distributions/poisson'),
