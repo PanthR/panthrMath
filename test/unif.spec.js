@@ -53,4 +53,14 @@ describe('Uniform Distribution', function() {
          }
       });
    });
+   it('is also exported as an object', function() {
+      var o;
+      o = main.unif(0, 37);
+      ['d', 'p', 'q', 'r'].forEach(function(s) {
+         expect(o).to.respondTo(s);
+         if (s !== 'r') {
+            expect(o[s](.2)).to.equal(main[s + 'unif'](0, 37)(.2));
+         }
+      });
+   });
 });

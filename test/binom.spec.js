@@ -1,5 +1,4 @@
 var main = require('..');
-
 var binom = require('../panthrMath/distributions/binom');
 var chai = require('chai');
 var expect = chai.expect;
@@ -24792,5 +24791,13 @@ describe('Binomial Distribution', function() {
       }
    }); // forEach
 }); // it
+it('is also exported as an object', function() {
+   var o;
+   o = main.binom(33, .283);
+   ['d', 'p', 'q', 'r'].forEach(function(s) {
+      expect(o).to.respondTo(s);
+   });
+});
+
 }); // describe
 

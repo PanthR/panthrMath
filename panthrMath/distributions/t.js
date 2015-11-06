@@ -102,6 +102,18 @@ define(function(require) {
    }
 
    return {
+      tdistr: function(df) {
+         return {
+            d: function(x, logp) { return dt(df, logp)(x); },
+            p: function(q, lowerTail, logp) {
+               return pt(df, lowerTail, logp)(q);
+            },
+            q: function(p, lowerTail, logp) {
+               return qt(df, lowerTail, logp)(p);
+            },
+            r: function(n) { return rt(df)(n); }
+         };
+      },
       dt: dt,
       pt: pt,
       qt: qt

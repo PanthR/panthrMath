@@ -95,6 +95,18 @@ define(function(require) {
    }
 
    return {
+      betadistr: function(a, b) {
+         return {
+            d: function(x, logp) { return dbeta(a, b, logp)(x); },
+            p: function(q, lowerTail, logp) {
+               return pbeta(a, b, lowerTail, logp)(q);
+            },
+            q: function(p, lowerTail, logp) {
+               return qbeta(a, b, lowerTail, logp)(p);
+            },
+            r: function(n) { return rbeta(a, b)(n); }
+         };
+      },
       dbeta: dbeta,
       pbeta: pbeta,
       qbeta: qbeta

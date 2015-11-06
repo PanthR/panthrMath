@@ -211,6 +211,18 @@ define(function(require) {
    }());
 
    return {
+      normal: function(mu, sigma) {
+         return {
+            d: function(x, logp) { return dnorm(mu, sigma, logp)(x); },
+            p: function(q, lowerTail, logp) {
+               return pnorm(mu, sigma, lowerTail, logp)(q);
+            },
+            q: function(p, lowerTail, logp) {
+               return qnorm(mu, sigma, lowerTail, logp)(p);
+            },
+            r: function(n) { return rnorm(mu, sigma)(n); }
+         };
+      },
       dnorm: dnorm,
       pnorm: pnorm,
       qnorm: qnorm

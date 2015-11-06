@@ -1,7 +1,8 @@
+var main = require('..');
 var chai = require('chai');
 var expect = chai.expect;
 var precision = 1e-10;
-var dpois = require('..').dpois;
+var dpois = main.dpois;
 var utils = require('../panthrMath/utils');
 
 describe('lpoisson', function() {
@@ -23413,6 +23414,13 @@ describe('lpoisson', function() {
          rp = tuple[2];
          p = dpois(lambda, true)(x);
          expect(utils.relativelyCloseTo(p, rp, precision)).to.be.ok;
+      });
+   });
+   it('poisson also exported as an object', function() {
+      var o;
+      o = main.pois(.1);
+      ['d', 'p', 'q', 'r'].forEach(function(s) {
+         expect(o).to.respondTo(s);
       });
    });
 });

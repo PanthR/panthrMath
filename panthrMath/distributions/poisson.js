@@ -33,6 +33,18 @@ define(function(require) {
    }
 
    return {
+      pois: function(lambda) {
+         return {
+            d: function(x, logp) { return dpois(lambda, logp)(x); },
+            p: function(q, lowerTail, logp) {
+               return ppois(lambda, lowerTail, logp)(q);
+            },
+            q: function(p, lowerTail, logp) {
+               return qpois(lambda, lowerTail, logp)(p);
+            },
+            r: function(n) { return rpois(lambda)(n); }
+         };
+      },
       dpois: dpois
    };
 

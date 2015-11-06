@@ -100,6 +100,18 @@ define(function(require) {
    }
 
    return {
+      binom: function(n, p) {
+         return {
+            d: function(x, logp) { return dbinom(n, p, logp)(x); },
+            p: function(q, lowerTail, logp) {
+               return pbinom(n, p, lowerTail, logp)(q);
+            },
+            q: function(p, lowerTail, logp) {
+               return qbinom(n, p, lowerTail, logp)(p);
+            },
+            r: function(n) { return rbinom(n, p)(n); }
+         };
+      },
       dbinom: dbinom,
       pbinom: pbinom,
       qbinom: qbinom

@@ -73,6 +73,18 @@ define(function(require) {
    }
 
    return {
+      gammadistr: function(a, s) {
+         return {
+            d: function(x, logp) { return dgamma(a, s, logp)(x); },
+            p: function(q, lowerTail, logp) {
+               return pgamma(a, s, lowerTail, logp)(q);
+            },
+            q: function(p, lowerTail, logp) {
+               return qgamma(a, s, lowerTail, logp)(p);
+            },
+            r: function(n) { return rgamma(a, s)(n); }
+         };
+      },
       dgamma: dgamma,
       pgamma: pgamma,
       qgamma: qgamma

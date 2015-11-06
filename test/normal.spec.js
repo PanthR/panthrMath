@@ -1,3 +1,4 @@
+var main = require('..');
 var utils = require('../panthrMath/utils');
 var normal = require('../panthrMath/distributions/normal');
 var chai = require('chai');
@@ -2942,6 +2943,16 @@ describe('Normal Distribution', function() {
          normal.qnorm(0, 1, false)(1 - pair[0]), pair[1], precision)).to.be.ok;
       expect(utils.relativelyCloseTo(
          normal.qnorm(mu, sigma)(pair[0]), mu + sigma * pair[1], precision)).to.be.ok;
+      });
+   });
+   it('normal also exported as an object', function() {
+      var o;
+      o = main.normal(.1, .3);
+      ['d', 'p', 'q', 'r'].forEach(function(s) {
+         expect(o).to.respondTo(s);
+         if (s !== 'r') {
+            expect(o[s](.2)).to.equal(main[s + 'norm'](.1, .3)(.2));
+         }
       });
    });
 });

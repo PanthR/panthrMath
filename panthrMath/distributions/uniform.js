@@ -47,6 +47,18 @@ define(function(require) {
    }
 
    return {
+      unif: function(min, max) {
+         return {
+            d: function(x, logp) { return dunif(min, max, logp)(x); },
+            p: function(q, lowerTail, logp) {
+               return punif(min, max, lowerTail, logp)(q);
+            },
+            q: function(p, lowerTail, logp) {
+               return qunif(min, max, lowerTail, logp)(p);
+            },
+            r: function(n) { return runif(min, max)(n); }
+         };
+      },
       dunif: dunif,
       punif: punif,
       qunif: qunif

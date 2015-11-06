@@ -44431,3 +44431,16 @@ describe('pgamma function', function() {
 })
    });
 });
+
+describe('gamma', function() {
+   it('is also exported as an object', function() {
+      var o;
+      o = main.gammadistr(.1, .3);
+      ['d', 'p', 'q', 'r'].forEach(function(s) {
+         expect(o).to.respondTo(s);
+         if (s !== 'r') {
+            expect(o[s](.2)).to.equal(main[s + 'gamma'](.1, .3)(.2));
+         }
+      });
+   });
+});

@@ -12719,4 +12719,14 @@ describe('T Distribution', function() {
          // }
       });
    });
+   it('is also exported as an object', function() {
+      var o;
+      o = main.tdistr(12);
+      ['d', 'p', 'q', 'r'].forEach(function(s) {
+         expect(o).to.respondTo(s);
+         if (s !== 'r') {
+            expect(o[s](.2)).to.equal(main[s + 't'](12)(.2));
+         }
+      });
+   });
 });
