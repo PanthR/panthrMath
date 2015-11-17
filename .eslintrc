@@ -4,6 +4,7 @@
     "node": true
   },
   "rules": {
+     "no-constant-condition": 0,
      "quotes": [2, "single"],
      "space-in-brackets": [2. "always"],
      "space-after-keywords": [2, "always"],
