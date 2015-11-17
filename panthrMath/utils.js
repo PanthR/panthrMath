@@ -166,11 +166,10 @@ define(function(require) {
       discInvCdf: function discInvCdf(min, max, x, p, f) {
          var incr;
          if (p === 0) { return min; }
-         if (p === 1) { return max; }
+         if (p === 1) { x = max; }
 
          incr = Math.max(Math.floor(.001 * (max - min)), 1);
          while (incr > 1) {
-            // console.log('incr=', incr);
             if (f(x) < p) { // x is too small
                x += incr;
                if (f(x) >= p) {
@@ -184,11 +183,27 @@ define(function(require) {
                }
             }
          }
+         if (x < min) { x = min; }
+         if (x > max) { x = max; }
          // incr is 1
-         while (!(f(x) >= p && f(x - 1) < p)) {
-            x = x + (f(x) < p ? 1 : -1);
+         while (true) {
+            if (x === min) {
+               if (f(x) >= p || utils.relativelyCloseTo(f(x), p, 1e-14)) { return x; }
+               x += 1;  // go right
+            } else if (f(x - 1) >= p ||
+               utils.relativelyCloseTo(f(x - 1), p, 1e-14)) {
+               if (Math.abs(f(x) - p) < Math.abs(f(x - 1) - p)) {
+                  return x;  // don't go left, x is better!
+               }
+               x -= 1; // go left
+            } else {
+               // return x, or go right?
+               if (x === max || f(x) >= p || utils.relativelyCloseTo(f(x), p, 1e-14)) {
+                  return x;
+               }
+               x += 1;  // go right
+            }
          }
-         return x;
       },
        /* eslint-enable complexity */
 

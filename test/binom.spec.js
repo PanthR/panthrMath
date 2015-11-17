@@ -24798,6 +24798,22 @@ it('is also exported as an object', function() {
       expect(o).to.respondTo(s);
    });
 });
+it('qbinom is inverse to pbinom', function() {
+   var o, n, p, i, reps;
+   for (reps = 0; reps < 100; reps += 1)
+   {
+      n = Math.floor(Math.random() * 10 + 20);
+      p = Math.random();
+      o = main.binom(n, p);
+      for (i = 0; i <= n; i += 1) {
+         expect(o.q(o.p(i))).to.equal(o.p(i) === 1 ? n : i);
+         // testing with upperTail
+         expect(o.q(o.p(i, false), false)).to.equal(
+            o.p(i, false) === 1 ? 0 : i
+         );
+      }
+   }
+});
 
 }); // describe
 
