@@ -15,11 +15,18 @@ define(function(require) {
     *
     * The xs are assumed to be distinct and in increasing order.
     *
-    * The ws are treated as "weights": They need to be nonnegative, and
+    * The ws are treated as "weights": They need to be _positive_, and
     * if they do not add up to 1 they will be rescaled.
+    *
+    * q tries to invert p but cannot be an exact inverse.  In particular,
+    * if asked for the quantile <=  which the left area is 0, q will return
+    * min and if asked for the quantile <= which the left area is 1,
+    * q returns max.  The edge cases for !lowerTail are symmetrical to these:
+    * q will return 0 or max for right-tail area of 1 or 0, respectively.
+    *
     */
    function finite(o) {
-      var sum, xs, ws, cums;
+      var sum, xs, ws, cumsLeft, cumsRight, i;
       if (typeof o.f === 'function') {
          o = populateObjectFromFunction(o);
       }
@@ -34,46 +41,65 @@ define(function(require) {
          ws = ws.map(function(v) { return v / sum; });
       }
       sum = 0;  // Reusing sum for the cumulative probabilities (cdf)
-      cums = ws.map(function(v) { sum += v; return sum; });
-
+      cumsLeft = ws.map(function(v) { sum += v; return sum; });
+      cumsRight = [];
+      cumsRight[ws.length - 1] = 0;
+      for (i = ws.length - 2; i >= 0; i -= 1) {
+         cumsRight[i] = cumsRight[i + 1] + ws[i + 1];
+      }
       return {
          d: function(x, logp) {
-            var i, ret;
+            var ind, ret;
 
             logp = logp === true;
             if (x < xs[0] || x > xs[xs.length - 1]) {
                ret = 0;
             } else {
-               i = binSearch(xs, function(y) { return y <= x; });
-               ret = xs[i] === x ? ws[i] : 0;
+               ind = binSearch(xs, function(y) { return y <= x; });
+               ret = xs[ind] === x ? ws[ind] : 0;
             }
             return logp ? Math.log(ret) : ret;
          },
+         /* eslint-disable complexity */
          p: function(q, lowerTail, logp) {
-            var i, ret;
+            var ind, ret;
             logp = logp === true;
             lowerTail = lowerTail !== false;
             if (isNaN(q)) { return NaN; }
             if (q < xs[0]) {
-               ret = 0;
+               ret = lowerTail ? 0 : 1;
             } else if (q >= xs[xs.length - 1]) {
-               ret = 1;
+               ret = lowerTail ? 1 : 0;
             } else {
-               i = binSearch(xs, function(y) { return y <= q; });
-               ret = cums[i];
+               ind = binSearch(xs, function(y) { return y <= q; });
+               ret = lowerTail ? cumsLeft[ind] : cumsRight[ind];
             }
-            ret = lowerTail ? ret : 1 - ret;
+            ret = Math.min(ret, 1);
             return logp ? Math.log(ret) : ret;
          },
          q: function(p, lowerTail, logp) {
             logp = logp === true;
             lowerTail = lowerTail !== false;
-            return utils.pWrap(lowerTail, logp, function(prob) {
-               if (isNaN(prob)) { return NaN; }
-               if (prob < 0 || prob > 1) { return NaN; }
-               return xs[binSearch2(cums, function(y) { return y >= prob; })];
-            })(p);
+            if (logp) { p = Math.exp(p); }
+            if (isNaN(p)) { return NaN; }
+            if (p < 0 || p > 1) { return NaN; }
+            if (p === 1) { return lowerTail ? xs[xs.length - 1] : xs[0]; }
+            if (p === 0) { return lowerTail ? xs[0] : xs[xs.length - 1]; }
+            if (lowerTail) {
+               // we need the smallest x such that the area left and equal
+               // to x is >= p
+               return xs[binSearch2(cumsLeft, function(y) {
+                  return utils.relativelyCloseTo(y, p, 1e-14) || y > p;
+               })];
+            }
+            // !lowerTail
+            // we need the smallest x such that the area strictly above
+            // x is <= p
+            return xs[binSearch2(cumsRight, function(y) {
+               return utils.relativelyCloseTo(y, p, 1e-14) || y <= p;
+            })];
          },
+         /* eslint-enable complexity */
          r: function(n) {
             // TODO: When we bring rgen in
          }
@@ -81,10 +107,11 @@ define(function(require) {
    }
 
    /*
-    * Given a strictly increasing array of xs, and a function pred that is a predicate
-    * and assuming that there is an x in the set of xs such that:
-    * pred(y) is true iff y <= x
-    * this function then finds and returns the index in the array of x
+    * Given an array of xs, and a predicate on those values,
+    * supposing the predicate is true on some initial portion of the
+    * array and false elsewhere, the function returns the largest index
+    * where the predicate is true.  If the predicate is always false,
+    * returns 0.
     */
    function binSearch(xs, pred) {
       var a, b, mid;
@@ -101,10 +128,11 @@ define(function(require) {
       return a;
    }
    /*
-    * Given a strictly increasing array of xs, and a function pred that is a predicate
-    * and assuming that there is an x in the set of xs such that:
-    * pred(y) is true iff y >= x
-    * this function then finds and returns the index in the array of x
+    * Given an array of xs, and a predicate on those values,
+    * supposing the predicate is false on some initial portion of the
+    * array and true elsewhere, the function returns the smallest index
+    * where the predicate is true.  If the predicate is always false,
+    * returns the last index.
     */
    function binSearch2(xs, pred) {
       var a, b, mid;
