@@ -17,6 +17,25 @@ define(function(require) {
       };
    }
 
+   function ppois(lambda, lowerTail, logp) {
+      lowerTail = lowerTail !== false;
+      logp = logp === true;
+
+      if (!(lambda >= 0)) { return function(x) { return NaN; }; }
+
+      return function(x) {
+         var ret;
+
+         if (x >= 0 && lambda > 0) {
+            return pgamma(Math.floor(x + 1e-10) + 1, 1, !lowerTail, logp)(lambda);
+         }
+
+         ret = lowerTail ? 1 : 0;
+         if (x < 0) { ret = lowerTail ? 0 : 1; }
+         return logp ? Math.log(ret) : ret;
+      };
+   }
+
    return {
       pois: function(lambda) {
          return {
