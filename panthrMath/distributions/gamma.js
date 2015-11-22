@@ -3,9 +3,9 @@ define(function(require) {
 
    // Gamma distribution
 
-   var dpois, gratio;
+   var lpoisson, gratio;
 
-   dpois = require('./poisson').dpois;
+   lpoisson = require('../basicFunc/lpoisson').lpoisson;
    gratio = require('../basicFunc/gratio');
 
    // helper function
@@ -13,7 +13,7 @@ define(function(require) {
       if (a < 1) {
          return function(x) {
             if (x === 0) { return Infinity; }
-            return Math.log(a / x) + dpois(x / s, true)(a);
+            return Math.log(a / x) + lpoisson(x / s)(a);
          };
       }
       if (a === 1) {
@@ -24,7 +24,7 @@ define(function(require) {
       // a > 1
       return function(x) {
          if (x === 0) { return -Infinity; }
-         return -Math.log(s) + dpois(x / s, true)(a - 1);
+         return -Math.log(s) + lpoisson(x / s)(a - 1);
       };
    }
 

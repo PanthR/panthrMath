@@ -4,25 +4,10 @@ define(function(require) {
    // Poisson distribution
    // No input validation provided.
 
-   var C, bd0, stirlerr;
+   var lpoisson, pgamma;
 
-   C = require('../constants');
-   bd0 = require('../basicFunc/bd0').bd0;
-   stirlerr = require('../basicFunc/stirlerr').stirlerr;
-
-   // returns the log of the poisson distribution
-   // Based on dpois from Loader (2000).
-   function lpoisson(lambda) {
-      if (lambda === 0) {
-         return function(x) {
-            return x === 0 ? 0 : -Infinity;
-         };
-      }
-      return function(x) {
-         if (x === 0) { return -lambda; }
-         return -stirlerr(x) - bd0(x, lambda) - 0.5 * Math.log(C.twopi * x);
-      };
-   }
+   lpoisson = require('../basicFunc/lpoisson').lpoisson;
+   pgamma = require('./gamma').pgamma;
 
    // density / pdf
    function dpois(lambda, logp) {
@@ -45,7 +30,8 @@ define(function(require) {
             r: function(n) { return rpois(lambda)(n); }
          };
       },
-      dpois: dpois
+      dpois: dpois,
+      ppois: ppois
    };
 
 });
