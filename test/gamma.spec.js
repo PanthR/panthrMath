@@ -1,6 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
-var precision = 1e-8;
+var precision = 1e-12;
 var main = require('..');
 var utils = require('../panthrMath/utils');
 
@@ -44412,22 +44412,24 @@ describe('pgamma function', function() {
          rp = tuple[3];
          p = main.pgamma(a, s)(x);
 
-         expect(utils.relativelyCloseTo(p, rp, .001)).to.be.ok;
+         expect(utils.relativelyCloseTo(p, rp)).to.be.ok;
          expect(utils.relativelyCloseTo(Math.log(p),
-            main.pgamma(a, s, true, true)(x), .001)).to.be.ok;
+            main.pgamma(a, s, true, true)(x))).to.be.ok;
          expect(utils.relativelyCloseTo(Math.log(1 - p),
-            main.pgamma(a, s, false, true)(x), .001)).to.be.ok;
+            main.pgamma(a, s, false, true)(x))).to.be.ok;
          expect(utils.relativelyCloseTo(1 - p,
-            main.pgamma(a, s, false, false)(x), .001)).to.be.ok;
+            main.pgamma(a, s, false, false)(x))).to.be.ok;
 
          expect(utils.relativelyCloseTo(x,
-            main.qgamma(a, s, true)(p), .001)).to.be.ok;
+            main.qgamma(a, s, true)(p), 1e-8)).to.be.ok;
          expect(utils.relativelyCloseTo(x,
-            main.qgamma(a, s, true, true)(Math.log(p)), .001)).to.be.ok;
-         expect(utils.relativelyCloseTo(x,
-            main.qgamma(a, s, false)(1 - p), .001)).to.be.ok;
-         expect(utils.relativelyCloseTo(x,
-            main.qgamma(a, s, false, true)(Math.log(1 - p)), .001)).to.be.ok;
+            main.qgamma(a, s, true, true)(Math.log(p)), 1e-8)).to.be.ok;
+         if (p > 1e-12) {
+            expect(utils.relativelyCloseTo(x,
+               main.qgamma(a, s, false)(1-p), 1e-8)).to.be.ok;
+            expect(utils.relativelyCloseTo(x,
+               main.qgamma(a, s, false, true)(Math.log(1 - p)), 1e-8)).to.be.ok;
+         }
 })
    });
 });
