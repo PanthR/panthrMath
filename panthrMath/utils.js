@@ -168,7 +168,8 @@ define(function(require) {
          if (p === 0) { return min; }
          if (p === 1) { x = max; }
 
-         incr = Math.max(Math.floor(.001 * (max - min)), 1);
+         incr = Math.min(x - min, max - x);
+         incr = Math.max(Math.floor(.001 * incr), 1);
          while (incr > 1) {
             if (f(x) < p) { // x is too small
                x += incr;
