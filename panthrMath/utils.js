@@ -167,6 +167,8 @@ define(function(require) {
          var incr;
          if (p === 0) { return min; }
          if (p === 1) { x = max; }
+         if (x > max) { x = max; }
+         if (x < min) { x = min; }
 
          incr = Math.min(x - min, max - x);
          incr = Math.max(Math.floor(.001 * incr), 1);

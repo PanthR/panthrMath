@@ -1,7 +1,7 @@
 var main = require('..');
 var chai = require('chai');
 var expect = chai.expect;
-var precision = 1e-7;
+var precision = 1e-12;
 var dpois = main.dpois;
 var utils = require('../panthrMath/utils');
 
@@ -23818,11 +23818,19 @@ describe('lpoisson', function() {
          rq = tuple[3];
          p = main.ppois(lambda, true, true)(x);
          q = main.ppois(lambda, false, true)(x);
-         if (rp > 1e-12) {
-            expect(utils.relativelyCloseTo(p, rp, precision)).to.be.ok;
+         if (rq > -30 && rp < -1e-10) {
+            if (rp < -1e-3) {
+               expect(utils.relativelyCloseTo(p, rp, precision)).to.be.ok;
+            }
+            expect(utils.relativelyCloseTo(Math.exp(p), Math.exp(rp), precision)).to.be.ok;
+            expect(x).to.equal(main.qpois(lambda, true, true)(p));
          }
-         if (rq > 1e-12) {
-            expect(utils.relativelyCloseTo(q, rq, precision)).to.be.ok;
+         if (rq > -30 && rq < -1e-10) {
+            if (rq < -1e-3) {
+               expect(utils.relativelyCloseTo(q, rq, precision)).to.be.ok;
+            }
+            expect(utils.relativelyCloseTo(Math.exp(q), Math.exp(rq), precision)).to.be.ok;
+            expect(x).to.equal(main.qpois(lambda, false, true)(q));
          }
       });
    });

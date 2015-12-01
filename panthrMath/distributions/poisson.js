@@ -4,10 +4,13 @@ define(function(require) {
    // Poisson distribution
    // No input validation provided.
 
-   var lpoisson, pgamma;
+   var lpoisson, pgamma, pWrap, qnorm, discInvCdf;
 
    lpoisson = require('../basicFunc/lpoisson').lpoisson;
    pgamma = require('./gamma').pgamma;
+   pWrap = require('../utils').pWrap;
+   discInvCdf = require('../utils').discInvCdf;
+   qnorm = require('./normal').qnorm;
 
    // density / pdf
    function dpois(lambda, logp) {
@@ -36,6 +39,42 @@ define(function(require) {
       };
    }
 
+   function qpois(lambda, lowerTail, logp) {
+
+      // TODO:  make a separate calculation for !lowerTail
+
+      var goodParams, mu, sigma, gamma;
+
+      logp = logp === true;
+      lowerTail = lowerTail !== false;
+      goodParams = lambda >= 0 && lambda < Infinity;
+
+      if (!goodParams) { return function(prob) { return NaN; }; }
+      if (lambda === 0) {
+         return pWrap(lowerTail, logp, function(prob) { return 0; });
+      }
+
+      mu = lambda;
+      sigma = Math.sqrt(lambda);
+      gamma = 1 / sigma;
+
+      return pWrap(true, logp, function(prob) {
+         var z, ret;
+         z = qnorm(0, 1, lowerTail)(prob); // initial value
+         if (z < -10) { z = -10; }
+         if (z > 10) { z = 10; }
+         ret = Math.floor(mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
+         if (prob === 1) { return lowerTail ? Infinity : 0; }
+         if (lowerTail) {
+            return discInvCdf(0, 1e10, ret, prob, ppois(lambda));
+         }
+         return -discInvCdf(-1e10, 0, -ret, prob, function(x) {
+            return ppois(lambda, lowerTail)(-x);
+         });
+      });
+   }
+
+
    return {
       pois: function(lambda) {
          return {
@@ -50,7 +89,8 @@ define(function(require) {
          };
       },
       dpois: dpois,
-      ppois: ppois
+      ppois: ppois,
+      qpois: qpois
    };
 
 });
