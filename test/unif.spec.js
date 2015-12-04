@@ -63,4 +63,16 @@ describe('Uniform Distribution', function() {
          }
       });
    });
+   describe('runif', function() {
+      it('returns values in [a, b]', function() {
+         var i, f, a, b;
+         a = Math.random();
+         b = a + 5 * Math.random();
+         f = main.runif(a, b);
+         for(i = 0; i < 100; i += 1) {
+            expect(f()).to.be.within(a, b);
+         }
+      });
+   });
 });
+

@@ -1,7 +1,7 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, bd0, stirlerr, sqrt2pi, bratio, log1p, solve;
+   var C, bd0, stirlerr, sqrt2pi, bratio, log1p, solve, rgen;
    // var expm1,  qnorm;
 
    C = require('../constants');
@@ -13,6 +13,7 @@ define(function(require) {
    // expm1 = require('../basicFunc/expm1').expm1;
    solve = require('../utils').binSearchSolve;
    // qnorm = require('./normal').qnorm;
+   rgen = require('../rgen/rgen');
 
    /*
     * Return the log-of-density function for student's t distribution.
@@ -101,6 +102,18 @@ define(function(require) {
       };
    }
 
+   function rt(df) {
+         return function() {
+            var u1, u2, rsq;
+            do {
+               u1 = rgen.random() * 2 - 1;
+               u2 = rgen.random() * 2 - 1;
+               rsq = u1 * u1 + u2 * u2;
+            } while (rsq >= 1);
+            return u1 * Math.sqrt(df * ( Math.pow(rsq, -2 / df) - 1) / rsq);
+         };
+      }
+
    return {
       tdistr: function(df) {
          return {
@@ -116,7 +129,8 @@ define(function(require) {
       },
       dt: dt,
       pt: pt,
-      qt: qt
+      qt: qt,
+      rt: rt
    };
 });
 

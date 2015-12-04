@@ -1,13 +1,14 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, twopi, sqrt2pi, Rational, pnorm, qnorm, pWrap;
+   var C, twopi, sqrt2pi, Rational, pnorm, qnorm, pWrap, rgen;
 
    C = require('../constants');
    twopi = C.twopi;
    sqrt2pi = C.sqrt2pi;
    Rational = require('../rational');
    pWrap = require('../utils').pWrap;
+   rgen = require('../rgen/rgen');
 
    // density
    function dnorm(mu, sigma, logp) {
@@ -210,6 +211,19 @@ define(function(require) {
       };
    }());
 
+   // Uses rejection polar method for normal variates
+   function rnorm(mu, sigma) {
+      return function() {
+         var v1, v2, rsq;
+         do {
+            v1 = 2 * rgen.random() - 1;
+            v2 = 2 * rgen.random() - 1;
+            rsq = v1 * v1 + v2 * v2;
+         } while (rsq >= 1);
+         return mu + sigma * v1 * Math.sqrt(-2 * Math.log(rsq) / rsq);
+      };
+   }
+
    return {
       normal: function(mu, sigma) {
          return {
@@ -225,7 +239,8 @@ define(function(require) {
       },
       dnorm: dnorm,
       pnorm: pnorm,
-      qnorm: qnorm
+      qnorm: qnorm,
+      rnorm: rnorm
    };
 
 });

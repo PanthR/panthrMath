@@ -1,6 +1,10 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   var rgen;
+
+   rgen = require('../rgen/rgen');
+
    function dunif(min, max, logp) {
       logp = logp === true;
 
@@ -46,6 +50,12 @@ define(function(require) {
       };
    }
 
+   function runif(min, max) {
+      return function() {
+         return min + (max - min) * rgen.random();
+      };
+   }
+
    return {
       unif: function(min, max) {
          return {
@@ -61,7 +71,8 @@ define(function(require) {
       },
       dunif: dunif,
       punif: punif,
-      qunif: qunif
+      qunif: qunif,
+      runif: runif
    };
 });
 

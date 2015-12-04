@@ -1,7 +1,7 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var C, stirlerr, bd0, pbeta, qnorm, pWrap, discInvCdf;
+   var C, stirlerr, bd0, pbeta, qnorm, pWrap, discInvCdf, inverseCDF;
 
    C = require('../constants');
    stirlerr = require('../basicFunc/stirlerr').stirlerr;
@@ -10,6 +10,7 @@ define(function(require) {
    qnorm = require('./normal').qnorm;
    pWrap = require('../utils').pWrap;
    discInvCdf = require('../utils').discInvCdf;
+   inverseCDF = require('../rgen/inverseCDF');
 
    // returns the log of the binomial probability
    // Note: the arguments are re-arranged:  lbinomProb(size, p, x)
@@ -108,6 +109,31 @@ define(function(require) {
       });
    }
 
+   // rbinom, using inverseCDF
+   function rbinom(n, p) {
+      var mode;
+
+      mode = { val: Math.floor(n * p) };
+      mode.prob = dbinom(n, p)(mode.val);
+
+      return inverseCDF(
+         function getMode() { return mode; },
+         function updateLeft() {
+            if (this.val === 0) { return false; }
+            this.prob *= this.val / (n - this.val + 1) * ((1 - p) / p);
+            this.val -= 1;
+            return true;
+         },
+         function updateRight() {
+            if (this.val === n) { return false; }
+            this.prob *= (n - this.val) / (this.val + 1) * (p / (1 - p));
+            this.val += 1;
+            return true;
+         }
+      );
+   }
+
+
    return {
       binom: function(size, p) {
          return {
@@ -123,7 +149,8 @@ define(function(require) {
       },
       dbinom: dbinom,
       pbinom: pbinom,
-      qbinom: qbinom
+      qbinom: qbinom,
+      rbinom: rbinom
    };
 
 });

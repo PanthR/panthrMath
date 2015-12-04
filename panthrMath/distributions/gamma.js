@@ -3,10 +3,12 @@ define(function(require) {
 
    // Gamma distribution
 
-   var lpoisson, gratio;
+   var lpoisson, gratio, exponential, rgen;
 
    lpoisson = require('../basicFunc/lpoisson').lpoisson;
    gratio = require('../basicFunc/gratio');
+   exponential = require('../rgen/exponential');
+   rgen = require('../rgen/rgen');
 
    // helper function
    function dgammaLog(a, s) {
@@ -72,6 +74,77 @@ define(function(require) {
       };
    }
 
+   // rgamma stuff...
+   // Client calls one of three methods depending on a
+   // a for 'shape', s for 'scale'
+   function rgamma(a, s) {
+      if (a < 1) {
+         return gammaBest(a, s);
+      }
+      if (a > 1) {
+         return gammaCheng(a, s);
+      }
+      return exponential(1 / s);
+   }
+
+   // a < 1:  Best/Ahrens/Dieter Algorithm
+   function gammaBest(a, s) {
+      var t, b;
+      t = .07 + .75 * Math.sqrt(1 - a);
+      b = 1 + Math.exp(-t) * a / t;
+
+      return function() {
+         var x, y, u1, u2, v;
+         /* eslint-disable no-constant-condition */
+         while (true) {
+         /* eslint-enable */
+            u1 = rgen.random();
+            u2 = rgen.random();
+            v = b * u1;
+            if (v <= 1) {
+               x = t * Math.pow(v, 1 / a);
+               if (u2 <= (2 - x) / (2 + x) || u2 <= Math.exp(-x)) {
+                  return x * s;
+               }
+            } else {
+               x = -Math.log(t * (b - v) / a);
+               y = x / t;
+               if (u2 * (a + y * (1 - a)) <= 1 ||
+                   u2 <= Math.pow(y, a - 1))
+               {
+                  return x * s;
+               }
+            }
+         }
+      };
+   }
+
+   // a > 1:  Cheng/Feast Algorithm
+   function gammaCheng(a, s) {
+      var c1, c2, c3, c4;
+      c1 = a - 1;
+      c2 = (a - 1 / (6 * a)) / c1;
+      c3 = 2 / c1;
+      c4 = c3 + 2;
+
+      return function() {
+         var u1, u2, w;
+         /* eslint-disable no-constant-condition */
+         while (true) {
+         /* eslint-enable */
+            u1 = rgen.random();
+            u2 = rgen.random();
+            w = c2 * u2 / u1;
+            if (c3 * u1 + w + 1 / w <= c4) {
+               return c1 * w * s;
+            }
+            if (c3 * Math.log(u1) - Math.log(w) + w < 1) {
+               return c1 * w * s;
+            }
+         }
+      };
+   }
+
    return {
       gammadistr: function(a, s) {
          return {
@@ -87,7 +160,8 @@ define(function(require) {
       },
       dgamma: dgamma,
       pgamma: pgamma,
-      qgamma: qgamma
+      qgamma: qgamma,
+      rgamma: rgamma
    };
 
 });

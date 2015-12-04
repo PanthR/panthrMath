@@ -4,13 +4,15 @@ define(function(require) {
    // Poisson distribution
    // No input validation provided.
 
-   var lpoisson, pgamma, pWrap, qnorm, discInvCdf;
+   var lpoisson, lgamma, pgamma, pWrap, qnorm, discInvCdf, inverseCDF;
 
    lpoisson = require('../basicFunc/lpoisson').lpoisson;
+   lgamma = require('../basicFunc/lgamma').lgamma;
    pgamma = require('./gamma').pgamma;
    pWrap = require('../utils').pWrap;
    discInvCdf = require('../utils').discInvCdf;
    qnorm = require('./normal').qnorm;
+   inverseCDF = require('../rgen/inverseCDF');
 
    // density / pdf
    function dpois(lambda, logp) {
@@ -74,6 +76,30 @@ define(function(require) {
       });
    }
 
+   // Using inverseCDF
+   function rpois(lambda) {
+      var mode;
+
+      mode = { val: Math.floor(lambda) };
+      mode.prob = Math.exp(-lambda + mode.val * Math.log(lambda) -
+         lgamma(mode.val + 1));
+
+      return inverseCDF(
+         function getMode() { return mode; },
+         function updateLeft() {
+            if (this.val === 0) { return false; }
+            this.prob *= this.val / lambda;
+            this.val -= 1;
+            return true;
+         },
+         function updateRight() {
+            this.val += 1;
+            this.prob *= lambda / this.val;
+            return true;
+         }
+      );
+   }
+
 
    return {
       pois: function(lambda) {
@@ -90,7 +116,8 @@ define(function(require) {
       },
       dpois: dpois,
       ppois: ppois,
-      qpois: qpois
+      qpois: qpois,
+      rpois: rpois
    };
 
 });
