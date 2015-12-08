@@ -1,2 +1,4 @@
 node_modules/*
 test/*
+*.min.js
+bundlePre.js
