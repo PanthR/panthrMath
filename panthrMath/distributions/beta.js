@@ -1,7 +1,7 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var bratio, lbeta, solve, stirlerr, bd0, log1p, C;
+   var bratio, lbeta, solve, stirlerr, bd0, log1p, C, rgen;
 
    C = require('../constants');
    bd0 = require('../basicFunc/bd0').bd0;
@@ -10,6 +10,7 @@ define(function(require) {
    lbeta = require('../basicFunc/lbeta').lbeta;
    bratio = require('../basicFunc/bratio').bratio;
    solve = require('../utils').binSearchSolve;
+   rgen = require('../rgen/rgen');
 
    function dbeta(a, b, logp) {
       logp = logp === true;
@@ -94,6 +95,78 @@ define(function(require) {
       };
    }
 
+   // Following R's code, which follows:
+   // Cheng 1978 "Generating beta variates with nonintegral shape parameters"
+   function rbeta(a, b) {
+      var a0, b0, alpha, beta, gamma, delta, k1, k2;
+
+      if (a <= 0 || b <= 0) { return function() { return NaN; }; }
+
+      a0 = Math.min(a, b);
+      b0 = Math.max(a, b);
+      alpha = a0 + b0;
+
+      if (a0 <= 1) {
+         // Algorithm BC
+         beta = 1 / a0;
+         delta = 1 + b0 - a0;
+         k1 = delta * (0.0138889 + 0.0416667 * a0) / (b0 * beta - 0.777778);
+         k2 = 0.25 + (0.5 + 0.25 / delta) * a0;
+
+         /* eslint-disable complexity */
+         return function() {
+            var u1, u2, v, w, y, z;
+
+            while (true) {
+               u1 = rgen.random();
+               u2 = rgen.random();
+               y = u1 * u2;
+               z = u1 * y;
+               v = beta * Math.log(u1 / (1 - u1));
+               w = b0 * Math.exp(v);
+               if (w === Infinity) { w = Number.MAX_VALUE; }
+               if (u1 < 0.5) {
+                  if (0.25 * u2 + z - y < k1 &&
+                     alpha * (Math.log(alpha / (a0 + w)) + v) - 1.3862944 >= Math.log(z)) {
+                     break;
+                  }
+               } else if (z <= 0.25 ||
+                  z < k2 && alpha * (Math.log(alpha / (a0 + w)) + v) - 1.3862944 >= Math.log(z)) {
+                  break;
+               }
+            }
+            return a === a0 ? a0 / (a0 + w) : w / (a0 + w);
+         };
+         /* eslint-enable complexity */
+      }
+
+      // Algorithm BB
+      beta = Math.sqrt((alpha - 2) / (2 * a0 * b0 - alpha));
+      gamma = a0 + 1 / beta;
+
+      return function() {
+         var u1, u2, v, w, z, r, s;
+
+         while (true) {
+            u1 = rgen.random();
+            u2 = rgen.random();
+
+            v = beta * Math.log(u1 / (1 - u1));
+            w = a0 * Math.exp(v);
+            if (w === Infinity) { w = Number.MAX_VALUE; }
+
+            z = u1 * u1 * u2;
+            r = gamma * v - 1.3862944;
+            s = a + r - w;
+            if (s + 2.609438 >= 5 * z || s > Math.log(z) ||
+               r + alpha * Math.log(alpha / (b0 + w)) >= Math.log(z)) {
+               break;
+            }
+         }
+         return a === a0 ? b0 / (b0 + w) : w / (b0 + w);
+      };
+   }
+
    return {
       betadistr: function(a, b) {
          return {
@@ -109,7 +182,8 @@ define(function(require) {
       },
       dbeta: dbeta,
       pbeta: pbeta,
-      qbeta: qbeta
+      qbeta: qbeta,
+      rbeta: rbeta
    };
 
 });
