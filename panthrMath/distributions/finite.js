@@ -1,9 +1,10 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   var utils;
+   var utils, rgen;
 
    utils = require('../utils');
+   rgen = require('../rgen/rgen');
 
    /**
     * Finite distribution
@@ -26,7 +27,7 @@ define(function(require) {
     *
     */
    function finite(o) {
-      var sum, xs, ws, cumsLeft, cumsRight, i;
+      var sum, xs, ws, cumsLeft, cumsRight, i, finObj;
       if (typeof o.f === 'function') {
          o = populateObjectFromFunction(o);
       }
@@ -47,7 +48,7 @@ define(function(require) {
       for (i = ws.length - 2; i >= 0; i -= 1) {
          cumsRight[i] = cumsRight[i + 1] + ws[i + 1];
       }
-      return {
+      finObj = {
          d: function(x, logp) {
             var ind, ret;
 
@@ -100,11 +101,14 @@ define(function(require) {
             })];
          },
          /* eslint-enable complexity */
-         r: function(n) {
-            // TODO: When we bring rgen in
+         r: function() {
+            return finObj.q(rgen.random());
          }
       };
+
+      return finObj;
    }
+
 
    /*
     * Given an array of xs, and a predicate on those values,
