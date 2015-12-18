@@ -15,6 +15,12 @@ define(function(require) {
    // qnorm = require('./normal').qnorm;
    rgen = require('../rgen/rgen');
 
+   /**
+    * T Module
+    * @module distributions.t
+    * @memberof distributions
+    */
+
    /*
     * Return the log-of-density function for student's t distribution.
     * `n` is the degrees of freedom.

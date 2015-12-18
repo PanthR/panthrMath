@@ -5,6 +5,12 @@ define(function(require) {
 
    rgen = require('../rgen/rgen');
 
+   /**
+    * Uniform Module
+    * @module distributions.uniform
+    * @memberof distributions
+    */
+
    function dunif(min, max, logp) {
       logp = logp === true;
 

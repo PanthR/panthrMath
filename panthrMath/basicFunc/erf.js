@@ -1,7 +1,7 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /**
+   /*
     * Implementation for erf and erfc, the real error function and its
     * complement, using Rational Chebyshev Approximations for the Error
     * Function by W. J. Cody.
@@ -69,12 +69,22 @@ define(function(require) {
          0.00233520497626869185443
       ]);
 
+   /**
+    * TODO
+    * Taken from:  Loader 2000
+    * @memberof basicFunc
+    */
    erf = function erf(x) {
       if (x < -0.5) { return -erf(-x); }
       if (x < 0.5) { return x * R4small.evalAt(x * x); }
       return 1 - erfc(x);
    };
 
+   /**
+    * TODO
+    * Taken from:  Loader 2000
+    * @memberof basicFunc
+    */
    erfc = function erfc(x) {
       var x2inv;
       if (x < -0.5) { return 2 - erfc(-x); }

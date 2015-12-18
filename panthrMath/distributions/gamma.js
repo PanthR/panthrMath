@@ -10,6 +10,12 @@ define(function(require) {
    exponential = require('../rgen/exponential');
    rgen = require('../rgen/rgen');
 
+   /**
+    * Gamma Module
+    * @module distributions.gamma
+    * @memberof distributions
+    */
+
    // helper function
    function dgammaLog(a, s) {
       if (a < 1) {

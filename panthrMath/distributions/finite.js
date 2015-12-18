@@ -7,6 +7,12 @@ define(function(require) {
    rgen = require('../rgen/rgen');
 
    /**
+    * Finite Module
+    * @module distributions.finite
+    * @memberof distributions
+    */
+
+   /*
     * Finite distribution
     * The object o must have either
     * - properties `xs`, `ws`, which are arrays of equal length, or

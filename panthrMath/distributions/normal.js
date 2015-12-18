@@ -10,6 +10,12 @@ define(function(require) {
    pWrap = require('../utils').pWrap;
    rgen = require('../rgen/rgen');
 
+   /**
+    * Normal Module
+    * @module distributions.normal
+    * @memberof distributions
+    */
+
    // density
    function dnorm(mu, sigma, logp) {
       var c;

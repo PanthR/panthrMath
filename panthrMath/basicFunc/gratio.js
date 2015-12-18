@@ -1,7 +1,7 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /**
+   /*
     * Implementation of the incomplete gamma function and its
     * complement.
     * See: "Computation of the Incomplete Gamma Function Ratios and their
@@ -330,6 +330,10 @@ define(function(require) {
    // Meant for internal use.
    // Expects 0 < x < Infinity.
    // Callers should ensure this is the case.
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function gratio(a) {
       if (a <= 0) { return function(x) { return NaN; }; }
       if (a === 0.5) { return function(x) { return erf(Math.sqrt(x)); }; }
@@ -337,6 +341,11 @@ define(function(require) {
       if (a < BIG) { return mediumP(a); }
       return bigP(a);
    }
+
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function gratioc(a) {
       if (a <= 0) { return function(x) { return NaN; }; }
       if (a === 0.5) { return function(x) { return erfc(Math.sqrt(x)); }; }
@@ -499,6 +508,10 @@ define(function(require) {
     * will take two parameters, `p` (a probability) and `lower` (defaults to
     * true; set to false if p is a q-value).
     */
+    /**
+     * TODO
+     * @memberof basicFunc
+     */
    function gaminv(a) {
       if (a <= 0) { return function(p) { return NaN; }; }
       /* eslint-disable complexity */
@@ -534,6 +547,11 @@ define(function(require) {
    *     It is assumed that a <= 1.  eps is the tolerance to be used.
    */
    /* eslint-disable complexity */
+
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function gratR(a, x, logr) {
       var ser, z, l, h, rinv;
 

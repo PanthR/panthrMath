@@ -12,6 +12,16 @@ define(function(require) {
    solve = require('../utils').binSearchSolve;
    rgen = require('../rgen/rgen');
 
+   /**
+    * Beta Module
+    * @module distributions.beta
+    * @memberof distributions
+    */
+
+    /**
+     * TODO
+     * @memberof beta
+     */
    function dbeta(a, b, logp) {
       logp = logp === true;
 
@@ -34,6 +44,10 @@ define(function(require) {
       };
    }
 
+   /**
+    * TODO
+    * @memberof beta
+    */
    function pbeta(a, b, lowerTail, logp) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
@@ -51,7 +65,11 @@ define(function(require) {
    }
 
    // inverse cdf
-   // preliminary implementation uses binSearchSolve, similar to our qt
+   // preliminary implementation uses binSearchSolve, similar to our
+   /**
+    * TODO
+    * @memberof beta
+    */
    function qbeta(a, b, lowerTail, logp) {
       var f;
 
@@ -97,6 +115,10 @@ define(function(require) {
 
    // Following R's code, which follows:
    // Cheng 1978 "Generating beta variates with nonintegral shape parameters"
+   /**
+    * TODO
+    * @memberof beta
+    */
    function rbeta(a, b) {
       var a0, b0, alpha, beta, gamma, delta, k1, k2;
 

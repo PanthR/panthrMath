@@ -1,10 +1,14 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /**
+   /*
     * log beta computation
     * Based on R's code
     */
+    /**
+     * TODO
+     * @memberof basicFunc
+     */
    var stirlerr, sqrt2pi, log1p, lgamma;
 
    stirlerr = require('./stirlerr').stirlerr;
@@ -12,6 +16,10 @@ define(function(require) {
    lgamma = require('./lgamma').lgamma;
    sqrt2pi = require('../constants').sqrt2pi;
 
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function lbeta(a, b) {
       if (a > b) { return lbeta(b, a); }
       // a <= b

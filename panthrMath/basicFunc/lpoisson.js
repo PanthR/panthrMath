@@ -9,6 +9,11 @@ define(function(require) {
 
    // returns the log of the poisson distribution
    // Based on dpois from Loader (2000).
+
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function lpoisson(lambda) {
       if (lambda === 0) {
          return function(x) {

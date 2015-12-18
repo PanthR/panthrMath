@@ -12,6 +12,12 @@ define(function(require) {
    discInvCdf = require('../utils').discInvCdf;
    inverseCDF = require('../rgen/inverseCDF');
 
+   /**
+    * Binomial Module
+    * @module distributions.binomial
+    * @memberof distributions
+    */
+
    // returns the log of the binomial probability
    // Note: the arguments are re-arranged:  lbinomProb(size, p, x)
    // calculates log(binom_prob(x; size, p)) where size > 0 and
@@ -132,7 +138,6 @@ define(function(require) {
          }
       );
    }
-
 
    return {
       binom: function(size, p) {

@@ -20,6 +20,10 @@ define(function(require) {
       1
    ]);
 
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function phi(x) {
       var rat;
       if (x < 0) { return NaN; }

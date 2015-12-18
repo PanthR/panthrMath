@@ -2,8 +2,9 @@
 define(function(require) {
 
    /**
-    * bd0
+    * TODO
     * Taken from:  Loader 2000
+    * @memberof basicFunc
     */
    function bd0(x, np) {
       var ej, j, s, sTemp, v;

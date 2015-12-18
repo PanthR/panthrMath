@@ -1,12 +1,15 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /*
+   /**
     * Math computation library for PanthR
+    *
+    * Provides special functions, probability distributions,
+    * and random number generators; inspired by the R code.
     * @module panthrMath
     * @version 0.0.1
-    * @author Haris Skiadas <skiadas@hanover.edu>
-    * Barb Wahl <wahl@hanover.edu>
+    * @noPrefix
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
 
    var panthrMath, mixin;
@@ -14,10 +17,13 @@ define(function(require) {
    mixin = require('./panthrMath/utils').mixin;
 
    // Functions
-
    panthrMath = {};
+   /** Frequently used constants.  See `module:C`
+    */
    panthrMath.C = require('./panthrMath/constants');
+   /* Abstraction for polynomial functions. */
    panthrMath.Polynomial = require('./panthrMath/polynomial');
+   /* Abstraction for rational functions. */
    panthrMath.Rational = require('./panthrMath/rational');
 
    mixin(panthrMath,

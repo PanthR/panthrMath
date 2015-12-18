@@ -40,6 +40,10 @@ define(function(require) {
       1
    ]);
 
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function gam1(x) {
       if (x <= -1) { return NaN; }
       if (x < -0.5 || x > 1.5) { return 1 / gamma(x + 1) - 1; }

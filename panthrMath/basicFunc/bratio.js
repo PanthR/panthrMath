@@ -338,11 +338,12 @@ define(function(require) {
    }
    /* eslint-enable complexity */
 
-   /*
-    * bratio
+   /**
+    * TODO bratio
     *
     * Return the tails of the incomplete beta function
     * of x, a, b.
+    * @memberof basicFunc
     */
    function bratio(a, b, x, lowerTail, logp) {
      var resLog;

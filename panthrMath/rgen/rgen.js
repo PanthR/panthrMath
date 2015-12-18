@@ -33,26 +33,51 @@ define(function(require) {
    */
 
    var rgen, slcg;
+
+   /**
+    * Rgen Module
+    * @module rgen
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    rgen = {
+
+    /**
+     * algorithms
+     */
       algorithms: {},
+      /**
+       * setSeed
+       */
       setSeed: function(i) {
          throw new Error('need to select an algorithm first');
          // return rgen;
       },
-      random: function() {
+      /**
+       * random
+       */
+       random: function() {
          throw new Error('need to select an algorithm first');
       },
+      /**
+       * setAlgorithm
+       */
       setAlgorithm: function(name) {
          // "name" encapsulates some simple options like precision
          rgen.random = rgen.algorithms[name].random;
          rgen.setSeed = rgen.algorithms[name].setSeed;
          return rgen.setRandomSeed();
       },
+      /**
+       * getAlgorithms
+       */
       getAlgorithms: function() {
          return Object.keys(rgen.algorithms);
       }
    };
 
+   /**
+    * setRandomSeed
+    */
    rgen.setRandomSeed = function() {
       return rgen.setSeed(new Date());
    };

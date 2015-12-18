@@ -51,6 +51,11 @@ define(function(require) {
    // For n > 15, uses series
    // For n <= 15 which are integers or half-integers, uses stored values
    // For other n < 15, uses lgamma.
+
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function stirlerr(n) {
       var nsq = n * n;
       if (n <= 15) {

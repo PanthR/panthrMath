@@ -14,6 +14,12 @@ define(function(require) {
    qnorm = require('./normal').qnorm;
    inverseCDF = require('../rgen/inverseCDF');
 
+   /**
+    * Poisson Module
+    * @module distributions.poisson
+    * @memberof distributions
+    */
+
    // density / pdf
    function dpois(lambda, logp) {
       logp = logp === true;

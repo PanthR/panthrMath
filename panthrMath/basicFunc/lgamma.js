@@ -1,7 +1,7 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /**
+   /*
     * Implementation of the logarithm of the gamma function.
     * Only works for positive x values.
     */
@@ -53,7 +53,7 @@ define(function(require) {
    }
    /* eslint-enable max-params */
 
-   /**
+   /*
     * lgamma(x) for 0.8 <= x <= 2.25
     * Taken from:  lgamma.c (GSL)
     */
@@ -94,6 +94,10 @@ define(function(require) {
 
    }());
 
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    lgamma = function(x) {
       if (x <= 0) { return NaN; }
       if (x === 1 || x === 2) { return 0; }
@@ -102,6 +106,10 @@ define(function(require) {
       return lgammaLanczos(x);
    };
 
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    function gamma(x) {
       return Math.exp(lgamma(x));
    }

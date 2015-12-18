@@ -3,6 +3,9 @@ define(function(require) {
 
    /**
     * Basic math functions.
+    * @module basicFunc
+    * @memberof panthrMath
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
 
    var basicFunc, mixin;

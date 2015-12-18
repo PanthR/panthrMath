@@ -1,7 +1,7 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /**
+   /*
     * log(1 + x)
     * Taken from:  Computation of the Incomplete Gamma Function Ratios
     * and their Inverse, by DiDonato and Morris.
@@ -10,6 +10,10 @@ define(function(require) {
 
    Rational = require('../rational');
 
+   /**
+    * TODO
+    * @memberof basicFunc
+    */
    log1p = (function() {
       var R = Rational.new([
          -0.0178874546012214,
