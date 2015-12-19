@@ -325,13 +325,17 @@ define(function(require) {
       };
    };
 
-
-   // Curried form of gamma ratio  (P(a, x)).
-   // Meant for internal use.
-   // Expects 0 < x < Infinity.
-   // Callers should ensure this is the case.
    /**
-    * TODO
+    * Returns the incomplete gamma ratio:
+    * $$P(a,x) = \frac{1}{\Gamma(a)} \int_0^x e^{-t} t^{a-1} dt$$
+    *
+    * `a` is the shape parameter and $0 < x < \infty$.
+    *
+    * See also: `pgamma`
+    *
+    * Based on:  *Computation of the Incomplete Gamma Function Ratios
+    * and their Inverse*, by DiDonato and Morris, 1986
+    * @fullName gratio(a)(x)
     * @memberof basicFunc
     */
    function gratio(a) {
@@ -343,7 +347,16 @@ define(function(require) {
    }
 
    /**
-    * TODO
+    * Returns the complement of the incomplete gamma ratio:
+    * $$Q(a,x) = \frac{1}{\Gamma(a)} \int_x^\infty e^{-t} t^{a-1} dt$$
+    *
+    * `a` is the shape parameter and $0 < x < \infty$.
+    *
+    * See also: `pgamma`
+    *
+    * Based on:  *Computation of the Incomplete Gamma Function Ratios
+    * and their Inverse*, by DiDonato and Morris, 1986
+    * @fullName gratioc(a)(x)
     * @memberof basicFunc
     */
    function gratioc(a) {
@@ -502,14 +515,19 @@ define(function(require) {
       return x * (1 - temp);
    }
 
-   /* gaminv
-    * `a` is the shape parameter
-    * Return a function for calculating inverse gamma values; this function
-    * will take two parameters, `p` (a probability) and `lower` (defaults to
-    * true; set to false if p is a q-value).
-    */
     /**
-     * TODO
+     * Returns the inverse function
+     * of the incomplete gamma ratio (see: `gratio`).
+     *
+     * `a` is the shape parameter and `p` is the desired tail probability.
+     * `lower` is a boolean which determines whether `p` is a left-tail
+     * probability or not (defaults to `true`).
+     *
+     * See also: `qgamma`
+     *
+     * Based on:  *Computation of the Incomplete Gamma Function Ratios
+     * and their Inverse*, by DiDonato and Morris, 1986
+     * @fullName gaminv(a)(p, lower)
      * @memberof basicFunc
      */
    function gaminv(a) {
@@ -537,21 +555,21 @@ define(function(require) {
       /* eslint-enable complexity */
    }
 
-  /*
-   *   Scaled complement of incomplete gamma ratio function
-   *                   grat_r(a,x,r) :=  Q(a,x) / r
-   * where
-   *               Q(a,x) = pgamma(x,a, lower.tail=FALSE)
-   * and         r = e^(-x)* x^a / Gamma(a) ==  exp(log_r)
-   *
-   *     It is assumed that a <= 1.  eps is the tolerance to be used.
-   */
    /* eslint-disable complexity */
 
-   /**
-    * TODO
-    * @memberof basicFunc
-    */
+  /**
+   * Computes the scaled complement of the incomplete gamma ratio function
+   * (see: `gratio`): $$\textrm{grat}_r(a,x,r) =  \frac{Q(a,x)}{r}$$
+   * where
+   *               $Q(a,x)$ is the upper-tail incomplete gamma function
+   * (see: `gratioc`) and  $r = \frac{e^{-x} x^a}{\Gamma(a)}$
+   *
+   * Meant to be used internally.
+   *
+   * Based on:   *Computation of the Incomplete Gamma Function Ratios
+   * and their Inverse*, by DiDonato and Morris, 1986
+   * @memberof basicFunc
+   */
    function gratR(a, x, logr) {
       var ser, z, l, h, rinv;
 

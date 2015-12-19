@@ -2,15 +2,17 @@
 define(function(require) {
 
    /**
-    * TODO
-    * Taken from:  Loader 2000
+    * Computes the expression $$bd0(x, y) = x \log(x/y) + y - x$$
+    *
+    * Based on:  *Fast and Accurate Computation of Binomial Probabilities*,
+    * by Catherine Loader, 2000
     * @memberof basicFunc
     */
-   function bd0(x, np) {
+   function bd0(x, y) {
       var ej, j, s, sTemp, v;
-      if (Math.abs(x - np) < 0.1 * (x + np)) {
-         v = (x - np) / (x + np);
-         s = (x - np) * v;
+      if (Math.abs(x - y) < 0.1 * (x + y)) {
+         v = (x - y) / (x + y);
+         s = (x - y) * v;
          ej = 2 * x * v;
          for (j = 1; j < 10000; j += 1) {
             ej *= v * v;
@@ -20,9 +22,9 @@ define(function(require) {
             }
             s = sTemp;
          }
-         throw new Error('bd0(x, np) made it to 10000 ...');
+         throw new Error('bd0(x, y) made it to 10000 ...');
       }
-      return x * Math.log(x / np) + np - x;
+      return x * Math.log(x / y) + y - x;
    }
 
    return { bd0: bd0 };

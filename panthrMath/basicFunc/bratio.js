@@ -3,11 +3,6 @@ define(function(require) {
    /*
     * bratioLog -- see Algorithm 708
     *
-    * Return the logs of the tails of the incomplete beta function
-    * of x, a, b.
-    *
-    * Based on "Significant Digit Computation of the Incomplete Beta Function
-    * Ratios", by DiDonato and Morris
     */
    var C, stirlerr, log1p, gam1, algdiv, series, contFrac, logspaceAdd,
        phi, lbeta, erfc, gratR;
@@ -339,10 +334,17 @@ define(function(require) {
    /* eslint-enable complexity */
 
    /**
-    * TODO bratio
+    * Returns the lower tail of the incomplete beta function
+    * $$I_x(a, b)=G(a,b)\int_0^xt^{a-1}(1-t)^{b-1}dt$$
+    * where $B(a,b)=1/G(a,b) = \Gamma(a)\Gamma(b)/\Gamma(a+b)$ is the
+    * usual beta function.
     *
-    * Return the tails of the incomplete beta function
-    * of x, a, b.
+    * If `lowerTail` is `false`, returns the upper tail instead.
+    * If `logp` is `true`, returns the logarithm of the tail.
+    * Expects $a>0$, $b>0$, and $0 \leq x \leq 1$.
+    *
+    * Based on: *Significant Digit Computation of the Incomplete Beta Function
+    * Ratios*, by DiDonato and Morris, 1992
     * @memberof basicFunc
     */
    function bratio(a, b, x, lowerTail, logp) {

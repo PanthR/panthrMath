@@ -1,9 +1,6 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   // Appendix C of DiDonato/Morris.
-   // Computes 1/Gamma(x+1) - 1
-
    var w, w1, gamma, Rational;
 
    gamma = require('./lgamma').gamma;
@@ -40,8 +37,13 @@ define(function(require) {
       1
    ]);
 
+
    /**
-    * TODO
+    * Computes $$H(x)=\frac{1}{\Gamma(x+1)} - 1$$ with reasonable precision even near
+    * the zeroes ($x = 0, 1$).
+    *
+    * Based on:  *Computation of the Incomplete Gamma Function Ratios
+    * and their Inverse*, by DiDonato and Morris, 1986
     * @memberof basicFunc
     */
    function gam1(x) {

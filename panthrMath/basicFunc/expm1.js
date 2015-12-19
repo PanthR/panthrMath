@@ -1,17 +1,16 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /*
-    * exp(x) - 1
-    * Taken from:  Computation of the Incomplete Gamma Function Ratios
-    * and their Inverse, by DiDonato and Morris.
-    */
    var Rational, expm1;
 
    Rational = require('../rational');
 
    /**
-    * TODO
+    * Computes $$\textrm{expm1}(x) = e^x - 1$$ with reasonable precision near $x = 0$.
+    *
+    * Based on:  *Computation of the Incomplete Gamma Function Ratios
+    * and their Inverse*, by DiDonato and Morris, 1986
+    * @fullName expm1(x)
     * @memberof basicFunc
     */
    expm1 = (function() {

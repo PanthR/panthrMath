@@ -2,9 +2,7 @@
 define(function(require) {
 
    /*
-    * Implementation for erf and erfc, the real error function and its
-    * complement, using Rational Chebyshev Approximations for the Error
-    * Function by W. J. Cody.
+
     */
 
    var erf, erfc, R4small, R8med, R5large, Rational, piSqrtInv;
@@ -70,8 +68,10 @@ define(function(require) {
       ]);
 
    /**
-    * TODO
-    * Taken from:  Loader 2000
+    * Implementation for erf, the real error function:
+    * $$\textrm{erf}(x) = \frac{2}{\sqrt{\pi}}\int_0^x e^{-t^2} dt$$
+    * Based on: *Rational Chebyshev Approximations for the Error
+    * Function*, by W. J. Cody, 1969
     * @memberof basicFunc
     */
    erf = function erf(x) {
@@ -81,8 +81,10 @@ define(function(require) {
    };
 
    /**
-    * TODO
-    * Taken from:  Loader 2000
+    * Implementation for erfc, the complement of the real error function:
+    * $$\textrm{erfc}(x) = \frac{2}{\sqrt{\pi}}\int_x^\infty e^{-t^2} dt$$
+    * Based on: *Rational Chebyshev Approximations for the Error
+    * Function*, by W. J. Cody, 1969
     * @memberof basicFunc
     */
    erfc = function erfc(x) {

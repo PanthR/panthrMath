@@ -40,7 +40,7 @@ define(function(require) {
       };
    }());
 
-   // Performs (2,2)-pade approximation. (See lgamma.c in gsl)
+   // Performs (2,2)-pade approximation. (See gamma.c in gsl)
    // Corr is a Polynomial
    /* eslint-disable max-params */
    function pade22(n1, n2, d1, d2, c, corr) {
@@ -107,7 +107,12 @@ define(function(require) {
    };
 
    /**
-    * TODO
+    * Computes $$\Gamma(x) = \int_0^\infty u^{x-1} e^{-u} du$$
+    *
+    * Inspired by code in the Gnu Scientific Library
+    *
+    * Also see: *A Precision Approximation of the Gamma Function*, by
+    * Lanczos, 1964
     * @memberof basicFunc
     */
    function gamma(x) {
