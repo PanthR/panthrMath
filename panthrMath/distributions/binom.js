@@ -177,23 +177,23 @@ define(function(require) {
     *
     * @memberof binomial
     */
-   function rbinom(n, p) {
+   function rbinom(size, p) {
       var mode;
 
-      mode = { val: Math.floor(n * p) };
-      mode.prob = dbinom(n, p)(mode.val);
+      mode = { val: Math.floor(size * p) };
+      mode.prob = dbinom(size, p)(mode.val);
 
       return inverseCDF(
          function getMode() { return mode; },
          function updateLeft() {
             if (this.val === 0) { return false; }
-            this.prob *= this.val / (n - this.val + 1) * ((1 - p) / p);
+            this.prob *= this.val / (size - this.val + 1) * ((1 - p) / p);
             this.val -= 1;
             return true;
          },
          function updateRight() {
-            if (this.val === n) { return false; }
-            this.prob *= (n - this.val) / (this.val + 1) * (p / (1 - p));
+            if (this.val === size) { return false; }
+            this.prob *= (size - this.val) / (this.val + 1) * (p / (1 - p));
             this.val += 1;
             return true;
          }
