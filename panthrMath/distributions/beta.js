@@ -23,7 +23,7 @@ define(function(require) {
 
    /**
     * Evaluates the Beta density function at `x`:
-    * $$f(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$
+    * $$\textrm{dbeta}(a,b)(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$
     *
     * Expects $a > 0$, $b > 0$, and $0 \leq x \leq 1$.
     *
@@ -56,7 +56,23 @@ define(function(require) {
    }
 
    /**
-    * TODO
+    * Evaluates the Beta cumulative distribution
+    * function at `x` (lower tail probability):
+    * $$\textrm{pbeta}(a, b)(x) = I_x(a, b)=G(a,b)\int_0^xt^{a-1}(1-t)^{b-1}dt$$
+    * where $B(a,b)=1/G(a,b) = \Gamma(a)\Gamma(b)/\Gamma(a+b)$ is the
+    * usual beta function.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
+    * the upper tail probability instead.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
+    * of the result.
+    *
+    * Expects $a>0$, $b>0$, and $0 \leq x \leq 1$.
+    *
+    * Based on: *Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+    * Ratios*, by DiDonato and Morris, 1992
+    * @fullName pbeta(a, b, lowerTail, logp)(x)
     * @memberof beta
     */
    function pbeta(a, b, lowerTail, logp) {
@@ -78,7 +94,19 @@ define(function(require) {
    // inverse cdf
    // preliminary implementation uses binSearchSolve, similar to our
    /**
-    * TODO
+    * Evaluates the Beta quantile function (inverse cdf) at `p`:
+    * $$\textrm{qbeta}(a, b)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+    * where $X$ is a random variable with the $Beta(a,b)$ distribution.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
+    * interpreted as an upper tail probability (returns
+    * $x$ such that $\textrm{prob}(X \geq x) = p)$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+    * the logarithm of the desired probability.
+    *
+    * Expects $a>0$, $b>0$, and $0 \leq p \leq 1$.
+    * @fullName qbeta(a, b, lowerTail, logp)(p)
     * @memberof beta
     */
    function qbeta(a, b, lowerTail, logp) {
@@ -127,7 +155,12 @@ define(function(require) {
    // Following R's code, which follows:
    // Cheng 1978 "Generating beta variates with nonintegral shape parameters"
    /**
-    * TODO
+    * Returns a random variate from the $\textrm{Beta}(a, b)$ distribution.
+    *
+    * Expects $a>0$ and $b>0$.
+    *
+    * Based on R's code; see: *Generating beta variates with nonintegral shape parameters*, by
+    * RCH Cheng, 1978
     * @memberof beta
     */
    function rbeta(a, b) {
