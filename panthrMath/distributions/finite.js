@@ -2,8 +2,9 @@
 define(function(require) {
 
    /**
-    * Provides density function, constructor, cdf, inverse cdf, and random
-    * number generator for finite discrete probability distributions.
+    * Provides density function, constructor, cumulative distribution function,
+    * quantile function, and random number generator
+    * for finite discrete probability distributions.
     *
     * @module distributions.finite
     * @memberof distributions

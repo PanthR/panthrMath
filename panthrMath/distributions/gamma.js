@@ -2,8 +2,9 @@
 define(function(require) {
 
    /**
-    * Provides density function, cdf, inverse cdf, and random
-    * number generator for the Gamma distribution.
+    * Provides density function, cumulative distribution function,
+    * quantile function, and random number generator
+    * for the Gamma distribution.
     *
     * @module distributions.gamma
     * @memberof distributions

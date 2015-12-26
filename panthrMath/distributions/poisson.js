@@ -4,8 +4,9 @@ define(function(require) {
    // No input validation provided.
 
    /**
-    * Provides density function, cdf, inverse cdf, and random
-    * number generator for the Poisson distribution.
+    * Provides density function, cumulative distribution function,
+    * quantile function, and random number generator
+    * for the Poisson distribution.
     *
     * @module distributions.poisson
     * @memberof distributions

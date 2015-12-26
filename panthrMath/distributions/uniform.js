@@ -2,8 +2,9 @@
 define(function(require) {
 
    /**
-    * Provides density function, cdf, inverse cdf, and random
-    * number generation for the continuous uniform distribution.
+    * Provides density function, cumulative distribution function,
+    * quantile function, and random number generator
+    * for the continuous uniform distribution.
     *
     * @module distributions.uniform
     * @memberof distributions
