@@ -117,7 +117,7 @@ define(function(require) {
     * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `prob` is
     * interpreted as an upper tail probability.
     *
-    * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+    * `logp` defaults to `false`; if `logp` is `true`, interprets `prob` as
     * the logarithm of the desired probability.
     *
     * @fullName qbinom(size, p, lowerTail, logp)(prob)
