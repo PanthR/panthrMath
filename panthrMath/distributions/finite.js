@@ -6,6 +6,18 @@ define(function(require) {
     * quantile function, and random number generator
     * for finite discrete probability distributions.
     *
+    * For all members of the `finite` module, the object `o` (used to specify
+    * a particular finite distribution) must have either
+    * - properties `xs`, `ws`, which are arrays of equal length, or
+    * - properties `f`, `min`, `max`, where the distribution's domain values
+    * are the sequential numbers (arithmetic sequence) from `min` to `max` with
+    * a step of 1, and `f(i)` gives the probability of the value `i`.
+    *
+    * If arrays are provided, the following assumptions are made:
+    * - the `xs` are assumed to be distinct and in increasing order
+    * - the `ws` are treated as *weights* (they need to be *positive*)
+    * - if the weights do not add up to 1 they will be rescaled
+    *
     * @module distributions.finite
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
@@ -15,27 +27,13 @@ define(function(require) {
    utils = require('../utils');
    rgen = require('../rgen/rgen');
 
-   /*
-    * Finite distribution
-    * The object o must have either
-    * - properties `xs`, `ws`, which are arrays of equal length, or
-    * - properties `f`, `min`, `max`, where the available values are the
-    * sequential numbers from min to max with a step of 1, and f(i) gives
-    * the probability of the value i.
-    *
-    * The xs are assumed to be distinct and in increasing order.
-    *
-    * The ws are treated as "weights": They need to be _positive_, and
-    * if they do not add up to 1 they will be rescaled.
-    *
-    * q tries to invert p but cannot be an exact inverse.  In particular,
-    * if asked for the quantile <=  which the left area is 0, q will return
-    * min and if asked for the quantile <= which the left area is 1,
-    * q returns max.  The edge cases for !lowerTail are symmetrical to these:
-    * q will return 0 or max for right-tail area of 1 or 0, respectively.
-    */
     /**
-     * TODO
+     * Constructor. Returns a Finite distribution object with properties `d`,
+     * `p`, `q`, and `r`.
+     *
+     * `finite(o).[dpqr]` is synonymous with
+     * `[dpqr]finite(o)`
+     *
      * @memberof finite
      */
    function finite(o) {
@@ -121,7 +119,6 @@ define(function(require) {
       return finObj;
    }
 
-
    /*
     * Given an array of xs, and a predicate on those values,
     * supposing the predicate is true on some initial portion of the
@@ -185,7 +182,13 @@ define(function(require) {
       finite: finite,
       dfinite:
       /**
-       * TODO
+       * Returns the probability at `x` for the finite distribution
+       * represented by object `o`.
+       *
+       * `logp` defaults to `false`; if `logp` is `true`, returns the
+       * logarithm of the result.
+       *
+       * @fullName dfinite(o, logp)(x)
        * @memberof finite
        */
        function dfinite(o, logp) {
@@ -194,7 +197,17 @@ define(function(require) {
       },
       pfinite:
       /**
-       * TODO
+       * Evaluates the cumulative distribution function at `x`
+       * for the finite distribution represented by object `o`:
+       * $$\textrm{pfinite}(o)(x) = \sum_{k \leq x} dfinite(k)$$
+       *
+       * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
+       * the upper tail probability instead:
+       * $$\textrm{pfinite}(o)(x) = \sum_{k > x} dfinite(k)$$
+       *
+       * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
+       * of the result.
+       *
        * @memberof finite
        */
        function pfinite(o, lowerTail, logp) {
@@ -203,7 +216,32 @@ define(function(require) {
       },
       qfinite:
       /**
-       * TODO
+       * Evaluates the quantile function for the finite distribution
+       * specified by object `o`.
+       * In general, for a discrete probability
+       * distribution, the *quantile* is defined as the smallest domain value
+       * `x` such that $F(x) \geq p$, where $F$ is the cumulative
+       * distribution function.
+       *
+       * `p` is the desired probability ($0 \leq p \leq 1$).
+       *
+       * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
+       * interpreted as an upper tail probability.
+       *
+       * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+       * the logarithm of the desired probability.
+       *
+       * `qfinite` tries to invert `pfinite` but cannot be an exact inverse.
+       * In particular, for `lowerTail = true`:
+       *  - if asked for the smallest quantile for which the left area (<=) is 0, `qfinite` returns
+       * `min`
+       *  - if asked for the smallest quantile for which the left area (<=) is 1,
+       * `qfinite` returns `max`.
+       *
+       * The edge cases for `lowerTail = false` are symmetrical to the preceding:
+       * `qfinite` returns `min` or `max` for a right-tail area (>) of 1 or 0, respectively.
+       *
+       * @fullName qfinite(o, lowerTail, logp)(p)
        * @memberof finite
        */
        function qfinite(o, lowerTail, logp) {
@@ -212,7 +250,9 @@ define(function(require) {
       },
       rfinite:
       /**
-       * TODO
+       * Returns a random variate from the finite distribution
+       * specified by object `o`.
+       *
        * @memberof finite
        */
        function rfinite(o) {
