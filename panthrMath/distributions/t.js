@@ -23,18 +23,18 @@ define(function(require) {
 
    /*
     * Return the log-of-density function for student's t distribution.
-    * `n` is the degrees of freedom.
+    * `df` is the degrees of freedom.
     * See: R source code.
     */
-   function dtlog(n) {
+   function dtlog(df) {
       var t;
-      t = -bd0(n / 2, (n + 1) / 2) + stirlerr((n + 1) / 2) - stirlerr(n / 2);
+      t = -bd0(df / 2, (df + 1) / 2) + stirlerr((df + 1) / 2) - stirlerr(df / 2);
       return function(x) {
          var x2n, logx2n, u;
-         x2n = x * x / n;
+         x2n = x * x / df;
          logx2n = Math.log(1 + x2n) / 2;
-         u = x2n > 0.2 ? n * logx2n
-                       : x * x / 2 - bd0(n / 2, (n + x * x) / 2);
+         u = x2n > 0.2 ? df * logx2n
+                       : x * x / 2 - bd0(df / 2, (df + x * x) / 2);
          return t - u - (logx2n + Math.log(sqrt2pi));
       };
    }
