@@ -40,11 +40,16 @@ define(function(require) {
    }
 
    // density function
-   // dt(n) returns a function for calculating cumulative distribution
-   function dt(n, logp) {
+   // dt(df) returns a function for calculating cumulative distribution
+   /**
+    * TODO
+    * @fullName dt(df, logp)(x)
+    * @memberof t
+    */
+   function dt(df, logp) {
       logp = logp === true;
       var dtl;
-      dtl = dtlog(n);
+      dtl = dtlog(df);
       return function(x) {
          return logp ? dtl(x) : Math.exp(dtl(x));
       };
