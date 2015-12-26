@@ -2,7 +2,7 @@
 define(function(require) {
 
    /**
-    * Computes the expression $$bd0(x, y) = x \log(x/y) + y - x$$
+    * Computes the expression $$bd0(x, y) = x \ln(x/y) + y - x$$
     *
     * Based on:  *Fast and Accurate Computation of Binomial Probabilities*,
     * by Catherine Loader, 2000
