@@ -95,7 +95,12 @@ define(function(require) {
    }());
 
    /**
-    * TODO
+    * Computes the logarithm of the gamma function.  See: `gamma`
+    *
+    * Inspired by code in the Gnu Scientific Library
+    *
+    * Also see: *A Precision Approximation of the Gamma Function*, by
+    * Lanczos, 1964
     * @memberof basicFunc
     */
    lgamma = function(x) {

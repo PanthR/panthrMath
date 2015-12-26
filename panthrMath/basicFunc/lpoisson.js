@@ -11,7 +11,14 @@ define(function(require) {
    // Based on dpois from Loader (2000).
 
    /**
-    * TODO
+    * Computes the logarithm of the Poisson pdf
+    * $$\log\left(\frac{\lambda^x}{\Gamma(x+1)}e^{-\lambda}\right)
+    * = -\lambda + x \ln(\lambda) - \ln(\Gamma(x+1))$$
+    * where $x>0$ and $\lambda>0$.
+    *
+    * Based on:  *Fast and Accurate Computation of Binomial Probabilities*,
+    * by Catherine Loader, 2000
+    * @fullName lpoisson(lambda)(x)
     * @memberof basicFunc
     */
    function lpoisson(lambda) {

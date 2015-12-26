@@ -2,7 +2,7 @@
 define(function(require) {
 
    /*
-    * Appendix C of DiDonato/Morris.
+    * Appendix E of DiDonato/Morris.
     * Computes x - 1 - ln(x)
     */
 
@@ -21,7 +21,11 @@ define(function(require) {
    ]);
 
    /**
-    * TODO
+    * Computes $$\phi(x) = x - 1 - \ln(x)$$ with reasonable precision
+    * near $x = 1$.
+    *
+    * Based on:  *Computation of the Incomplete Gamma Function Ratios
+    * and their Inverse*, by DiDonato and Morris, 1986
     * @memberof basicFunc
     */
    function phi(x) {

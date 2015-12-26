@@ -1,17 +1,16 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /*
-    * log(1 + x)
-    * Taken from:  Computation of the Incomplete Gamma Function Ratios
-    * and their Inverse, by DiDonato and Morris.
-    */
    var Rational, log1p;
 
    Rational = require('../rational');
 
    /**
-    * TODO
+    * Computes $$\textrm{log1p}(x) = \ln(1+x)$$ with reasonable precision near $x = 0$.
+    *
+    * Based on:  *Computation of the Incomplete Gamma Function Ratios
+    * and their Inverse*, by DiDonato and Morris, 1986
+    * @fullName log1p(x)
     * @memberof basicFunc
     */
    log1p = (function() {

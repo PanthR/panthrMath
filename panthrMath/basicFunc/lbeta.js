@@ -5,10 +5,7 @@ define(function(require) {
     * log beta computation
     * Based on R's code
     */
-    /**
-     * TODO
-     * @memberof basicFunc
-     */
+
    var stirlerr, sqrt2pi, log1p, lgamma;
 
    stirlerr = require('./stirlerr').stirlerr;
@@ -17,7 +14,11 @@ define(function(require) {
    sqrt2pi = require('../constants').sqrt2pi;
 
    /**
-    * TODO
+    * Computes the logarithm of the beta function.
+    * See: `beta`
+    *
+    * Based on: *Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+    * Ratios*, by DiDonato and Morris, 1992
     * @memberof basicFunc
     */
    function lbeta(a, b) {
@@ -40,6 +41,16 @@ define(function(require) {
       return lgamma(a) + (lgamma(b) - lgamma(a + b));
    }
 
+   /**
+    * Computes the beta function
+    * $$B(a,b) = \int_0^1 x^{a-1} (1-x)^{b-1} dx$$ where $a>0$ and $b>0$.
+    *
+    * See also: `lbeta`
+    *
+    * Based on: *Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+    * Ratios*, by DiDonato and Morris, 1992
+    * @memberof basicFunc
+    */
    function beta(a, b) {
       return Math.exp(lbeta(a, b));
    }

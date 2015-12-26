@@ -343,7 +343,7 @@ define(function(require) {
     * If `logp` is `true`, returns the logarithm of the tail.
     * Expects $a>0$, $b>0$, and $0 \leq x \leq 1$.
     *
-    * Based on: *Significant Digit Computation of the Incomplete Beta Function
+    * Based on: *Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
     * Ratios*, by DiDonato and Morris, 1992
     * @memberof basicFunc
     */

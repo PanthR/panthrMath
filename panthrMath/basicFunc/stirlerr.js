@@ -1,9 +1,6 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   // error term in Stirling's approximation
-   // log(n!) - log( sqrt(2*pi*n) * (n/e)^n )
-
    var cs, precomputed, lgamma, C;
 
    lgamma = require('./lgamma').lgamma;
@@ -45,15 +42,17 @@ define(function(require) {
       0.005554733551962801371038690  /* 15.0 */
    ];
 
-   // error term in Stirling's approximation
-   // log(n!) - log( sqrt(2*pi*n) * (n/e)^n )
-   // Code adapted from R source, based off Loader (2000)
    // For n > 15, uses series
    // For n <= 15 which are integers or half-integers, uses stored values
    // For other n < 15, uses lgamma.
 
    /**
-    * TODO
+    * Computes the error term in Stirling's approximation
+    * $$\textrm{stirlerr}(n) = \ln(\Gamma(n+1)) - n \ln(n) + n - \frac{1}{2} \ln\left(2\pi n\right)$$
+    * where $n>0$ (`n` does not need to be an integer).
+    *
+    * Based on:  *Fast and Accurate Computation of Binomial Probabilities*,
+    * by Catherine Loader, 2000
     * @memberof basicFunc
     */
    function stirlerr(n) {
