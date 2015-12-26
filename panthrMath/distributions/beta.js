@@ -21,7 +21,15 @@ define(function(require) {
    rgen = require('../rgen/rgen');
 
    /**
-    * TODO
+    * Evaluates the Beta density function at `x`:
+    * $$f(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$
+    *
+    * Expects $a > 0$, $b > 0$, and $0 \leq x \leq 1$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the
+    * logarithm of the result.
+    *
+    * @fullName dbeta(a, b, logp)(x)
     * @memberof beta
     */
    function dbeta(a, b, logp) {
