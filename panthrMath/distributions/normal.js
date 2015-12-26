@@ -249,6 +249,16 @@ define(function(require) {
    }
 
    return {
+      /**
+       * Returns an object representing a normal distribution, with properties `d`, `p`, `q`, `r`.
+       * ```
+       * normal(a, b).d(x, logp)            // same as dnorm(a, b, logp)(x)
+       * normal(a, b).q(x, lowerTail, logp) // same as qnorm(a, b, lowerTail, logp)(x)
+       * normal(a, b).p(x, lowerTail, logp) // same as pnorm(a, b, lowerTail, logp)(x)
+       * normal(a, b).r(n)                  // same as rnorm(a, b)(n)
+       * ```
+       * @memberof normal
+       */
       normal: function(mu, sigma) {
          return {
             d: function(x, logp) { return dnorm(mu, sigma, logp)(x); },

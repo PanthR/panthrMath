@@ -170,6 +170,16 @@ define(function(require) {
    }
 
    return {
+      /**
+       * Returns an object representing a gamma distribution, with properties `d`, `p`, `q`, `r`.
+       * ```
+       * gammadistr(a, b).d(x, logp)            // same as dgamma(a, b, logp)(x)
+       * gammadistr(a, b).q(x, lowerTail, logp) // same as qgamma(a, b, lowerTail, logp)(x)
+       * gammadistr(a, b).p(x, lowerTail, logp) // same as pgamma(a, b, lowerTail, logp)(x)
+       * gammadistr(a, b).r(n)                  // same as rgamma(a, b)(n)
+       * ```
+       * @memberof gamma
+       */
       gammadistr: function(a, s) {
          return {
             d: function(x, logp) { return dgamma(a, s, logp)(x); },

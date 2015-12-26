@@ -126,6 +126,16 @@ define(function(require) {
 
 
    return {
+      /**
+       * Returns an object representing a Poisson distribution, with properties `d`, `p`, `q`, `r`.
+       * ```
+       * pois(a, b).d(x, logp)            // same as dpois(a, b, logp)(x)
+       * pois(a, b).q(x, lowerTail, logp) // same as qpois(a, b, lowerTail, logp)(x)
+       * pois(a, b).p(x, lowerTail, logp) // same as ppois(a, b, lowerTail, logp)(x)
+       * pois(a, b).r(n)                  // same as rpois(a, b)(n)
+       * ```
+       * @memberof poisson
+       */
       pois: function(lambda) {
          return {
             d: function(x, logp) { return dpois(lambda, logp)(x); },

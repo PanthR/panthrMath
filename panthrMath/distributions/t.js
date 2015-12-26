@@ -143,6 +143,16 @@ define(function(require) {
       }
 
    return {
+      /**
+       * Returns an object representing a binomial distribution, with properties `d`, `p`, `q`, `r`.
+       * ```
+       * tdistr(a, b).d(x, logp)            // same as dt(a, b, logp)(x)
+       * tdistr(a, b).q(x, lowerTail, logp) // same as qt(a, b, lowerTail, logp)(x)
+       * tdistr(a, b).p(x, lowerTail, logp) // same as pt(a, b, lowerTail, logp)(x)
+       * tdistr(a, b).r(n)                  // same as rt(a, b)(n)
+       * ```
+       * @memberof t
+       */
       tdistr: function(df) {
          return {
             d: function(x, logp) { return dt(df, logp)(x); },

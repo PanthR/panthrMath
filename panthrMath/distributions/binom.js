@@ -201,9 +201,17 @@ define(function(require) {
    }
 
    return {
-      binom:
-      // how to document binom object?
-       function(size, p) {
+      /**
+       * Returns an object representing a binomial distribution, with properties `d`, `p`, `q`, `r`.
+       * ```
+       * binom(a, b).d(x, logp)            // same as dbinom(a, b, logp)(x)
+       * binom(a, b).q(x, lowerTail, logp) // same as qbinom(a, b, lowerTail, logp)(x)
+       * binom(a, b).p(x, lowerTail, logp) // same as pbinom(a, b, lowerTail, logp)(x)
+       * binom(a, b).r(n)                  // same as rbinom(a, b)(n)
+       * ```
+       * @memberof binomial
+       */
+      binom: function(size, p) {
          return {
             d: function(x, logp) { return dbinom(size, p, logp)(x); },
             p: function(q, lowerTail, logp) {

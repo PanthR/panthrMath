@@ -27,15 +27,16 @@ define(function(require) {
    utils = require('../utils');
    rgen = require('../rgen/rgen');
 
-    /**
-     * Constructor. Returns a Finite distribution object with properties `d`,
-     * `p`, `q`, and `r`.
-     *
-     * `finite(o).[dpqr]` is synonymous with
-     * `[dpqr]finite(o)`
-     *
-     * @memberof finite
-     */
+   /**
+    * Returns an object representing a finite distribution, with properties `d`, `p`, `q`, `r`.
+    * ```
+    * finite(a, b).d(x, logp)            // same as dfinite(a, b, logp)(x)
+    * finite(a, b).q(x, lowerTail, logp) // same as qfinite(a, b, lowerTail, logp)(x)
+    * finite(a, b).p(x, lowerTail, logp) // same as pfinite(a, b, lowerTail, logp)(x)
+    * finite(a, b).r(n)                  // same as rfinite(a, b)(n)
+    * ```
+    * @memberof finite
+   */
    function finite(o) {
       var sum, xs, ws, cumsLeft, cumsRight, i, finObj;
       if (typeof o.f === 'function') {

@@ -234,6 +234,16 @@ define(function(require) {
    }
 
    return {
+      /**
+       * Returns an object representing a beta distribution, with properties `d`, `p`, `q`, `r`.
+       * ```
+       * betadistr(a, b).d(x, logp)            // same as dbeta(a, b, logp)(x)
+       * betadistr(a, b).q(x, lowerTail, logp) // same as qbeta(a, b, lowerTail, logp)(x)
+       * betadistr(a, b).p(x, lowerTail, logp) // same as pbeta(a, b, lowerTail, logp)(x)
+       * betadistr(a, b).r(n)                  // same as rbeta(a, b)(n)
+       * ```
+       * @memberof beta
+       */
       betadistr: function(a, b) {
          return {
             d: function(x, logp) { return dbeta(a, b, logp)(x); },
