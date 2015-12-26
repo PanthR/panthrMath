@@ -100,7 +100,7 @@ define(function(require) {
     *
     * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
     * interpreted as an upper tail probability (returns
-    * $x$ such that $\textrm{prob}(X \geq x) = p)$.
+    * $x$ such that $\textrm{prob}(X > x) = p)$.
     *
     * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
     * the logarithm of the desired probability.
