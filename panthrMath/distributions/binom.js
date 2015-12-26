@@ -21,14 +21,12 @@ define(function(require) {
    discInvCdf = require('../utils').discInvCdf;
    inverseCDF = require('../rgen/inverseCDF');
 
-
    // returns the log of the binomial probability
    // Note: the arguments are re-arranged:  lbinomProb(size, p, x)
    // calculates log(binom_prob(x; size, p)) where size > 0 and
    // 0 <= p <= 1.
    // Based on:  "Fast and Accurate Computation of Binomial Probabilities",
    // Loader (2000)
-
    function dbinomLog(size, p) {
       if (p === 0) { return function(x) { return x === 0 ? 0 : -Infinity; }; }
       if (p === 1) { return function(x) { return x === size ? 0 : -Infinity; }; }
@@ -42,7 +40,18 @@ define(function(require) {
       };
    }
    /**
-    * TODO
+    * Returns the Binomial probability at `x`:
+    * $$\textrm{dbinom}(\textrm{size}, p, x) = \binom{\textrm{size}}{p}p^{x}(1-p)^{(\textrm{size}-x)}$$
+    * where `x` is an integer, $0 \leq x \leq \textrm{size}$.
+    *
+    * `size` is a positive integer (number of trials) and $0 \leq p \leq 1$
+    * (the probability of success on a single trial).
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the
+    * logarithm of the result.
+    *
+    * Based on: *Fast and Accurate Computation of Binomial Probabilities*,
+    * by Catherine Loader, 2000
     * @memberof binomial
     */
    function dbinom(size, p, logp) {
@@ -56,7 +65,21 @@ define(function(require) {
       };
    }
    /**
-    * TODO
+    * Evaluates the Binomial cumulative distribution
+    * function at `x` (lower tail probability):
+    * $$\textrm{pbinom}(\textrm{size}, p)(x) = \sum_{k \leq x} \binom{\textrm{size}}{p}p^{k}(1-p)^{(\textrm{size}-k)}$$
+    *
+    * `size` is a positive integer (number of trials) and $0 \leq p \leq 1$
+    * (the probability of success on a single trial).
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
+    * the upper tail probability instead:
+    * $$\textrm{pbinom}(\textrm{size}, p, \textrm{false})(x) = \sum_{k>x} \binom{\textrm{size}}{p}p^{k}(1-p)^{(\textrm{size}-k)}$$
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
+    * of the result.
+    *
+    * @fullName pbinom(size, p, lowerTail, logp)(x)
     * @memberof binomial
     */
    function pbinom(size, p, lowerTail, logp) {
@@ -82,7 +105,22 @@ define(function(require) {
       };
    }
    /**
-    * TODO
+    * Returns the quantile for the $\textrm{Binomial}(size, p)$ distribution
+    * corresponding to `prob`.  In general, for a discrete probability
+    * distribution, the *quantile* is defined as the smallest domain value
+    * `x` such that $F(x) \geq prob$, where $F$ is the cumulative
+    * distribution function.
+    *
+    * `size` is a positive integer (number of trials) and $0 \leq p \leq 1$
+    * (the probability of success on a single trial).
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `prob` is
+    * interpreted as an upper tail probability.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+    * the logarithm of the desired probability.
+    *
+    * @fullName qbinom(size, p, lowerTail, logp)(prob)
     * @memberof binomial
     */
    function qbinom(size, p, lowerTail, logp) {
@@ -132,7 +170,11 @@ define(function(require) {
    // rbinom, using inverseCDF
 
    /**
-    * TODO
+    * Returns a random variate from the $\textrm{Binomial}(size, p)$ distribution.
+    *
+    * `size` is a positive integer (number of trials) and $0 \leq p \leq 1$
+    * (the probability of success on a single trial).
+    *
     * @memberof binomial
     */
    function rbinom(n, p) {
@@ -159,7 +201,9 @@ define(function(require) {
    }
 
    return {
-      binom: function(size, p) {
+      binom:
+      // how to document binom object?
+       function(size, p) {
          return {
             d: function(x, logp) { return dbinom(size, p, logp)(x); },
             p: function(q, lowerTail, logp) {
