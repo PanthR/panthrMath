@@ -1,9 +1,16 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   // Poisson distribution
    // No input validation provided.
 
+   /**
+    * Provides density function, cdf, inverse cdf, and random
+    * number generator for the Poisson distribution.
+    *
+    * @module distributions.poisson
+    * @memberof distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var lpoisson, lgamma, pgamma, pWrap, qnorm, discInvCdf, inverseCDF;
 
    lpoisson = require('../basicFunc/lpoisson').lpoisson;
@@ -14,13 +21,11 @@ define(function(require) {
    qnorm = require('./normal').qnorm;
    inverseCDF = require('../rgen/inverseCDF');
 
-   /**
-    * Poisson Module
-    * @module distributions.poisson
-    * @memberof distributions
-    */
-
    // density / pdf
+   /**
+    * TODO
+    * @memberof poisson
+    */
    function dpois(lambda, logp) {
       logp = logp === true;
       return function(x) {
@@ -28,6 +33,10 @@ define(function(require) {
       };
    }
 
+   /**
+    * TODO
+    * @memberof poisson
+    */
    function ppois(lambda, lowerTail, logp) {
       lowerTail = lowerTail !== false;
       logp = logp === true;
@@ -47,6 +56,10 @@ define(function(require) {
       };
    }
 
+   /**
+    * TODO
+    * @memberof poisson
+    */
    function qpois(lambda, lowerTail, logp) {
 
       // TODO:  make a separate calculation for !lowerTail
@@ -83,6 +96,10 @@ define(function(require) {
    }
 
    // Using inverseCDF
+   /**
+    * TODO
+    * @memberof poisson
+    */
    function rpois(lambda) {
       var mode;
 

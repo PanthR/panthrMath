@@ -1,16 +1,22 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   /**
+    * Provides density function, cdf, inverse cdf, and random
+    * number generation for the continuous uniform distribution.
+    *
+    * @module distributions.uniform
+    * @memberof distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var rgen;
 
    rgen = require('../rgen/rgen');
 
    /**
-    * Uniform Module
-    * @module distributions.uniform
-    * @memberof distributions
+    * TODO
+    * @memberof uniform
     */
-
    function dunif(min, max, logp) {
       logp = logp === true;
 
@@ -24,6 +30,11 @@ define(function(require) {
       };
    }
 
+   /**
+    * TODO
+    * @fullName punif(min, max, lowerTail, logp)(x)
+    * @memberof uniform
+    */
    function punif(min, max, lowerTail, logp) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
@@ -42,6 +53,11 @@ define(function(require) {
       };
    }
 
+   /**
+    * TODO
+    * @fullName qunif(min, max, lowerTail, logp)(p)
+    * @memberof uniform
+    */
    function qunif(min, max, lowerTail, logp) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
@@ -56,6 +72,10 @@ define(function(require) {
       };
    }
 
+   /**
+    * TODO
+    * @memberof uniform
+    */
    function runif(min, max) {
       return function() {
          return min + (max - min) * rgen.random();

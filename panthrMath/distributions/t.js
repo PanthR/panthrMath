@@ -1,6 +1,14 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   /**
+    * Provides density function, cdf, inverse cdf, and random
+    * number generator for the student's t distribution.
+    *
+    * @module distributions.t
+    * @memberof distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var C, bd0, stirlerr, sqrt2pi, bratio, log1p, solve, rgen;
    // var expm1,  qnorm;
 
@@ -14,12 +22,6 @@ define(function(require) {
    solve = require('../utils').binSearchSolve;
    // qnorm = require('./normal').qnorm;
    rgen = require('../rgen/rgen');
-
-   /**
-    * T Module
-    * @module distributions.t
-    * @memberof distributions
-    */
 
    /*
     * Return the log-of-density function for student's t distribution.
@@ -73,6 +75,11 @@ define(function(require) {
    }
 
    // cumulative distribution function
+   /**
+    * TODO
+    * @fullName pt(df, lowerTail, logp)(x)
+    * @memberof t
+    */
    function pt(df, lowerTail, logp) {
       var ptl;
 
@@ -86,6 +93,11 @@ define(function(require) {
 
    // inverse cdf
    // From qt.c in R
+   /**
+    * TODO
+    * @fullName qt(df, lowerTail, logp)(p)
+    * @memberof t
+    */
    function qt(df, lowerTail, logp) {
       lowerTail = lowerTail !== false;
       logp = logp === true;
@@ -113,6 +125,10 @@ define(function(require) {
       };
    }
 
+   /**
+    * TODO
+    * @memberof t
+    */
    function rt(df) {
          return function() {
             var u1, u2, rsq;

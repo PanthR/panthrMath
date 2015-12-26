@@ -1,16 +1,18 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   /**
+    * Provides density function, constructor, cdf, inverse cdf, and random
+    * number generator for finite discrete probability distributions.
+    *
+    * @module distributions.finite
+    * @memberof distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var utils, rgen;
 
    utils = require('../utils');
    rgen = require('../rgen/rgen');
-
-   /**
-    * Finite Module
-    * @module distributions.finite
-    * @memberof distributions
-    */
 
    /*
     * Finite distribution
@@ -30,8 +32,11 @@ define(function(require) {
     * min and if asked for the quantile <= which the left area is 1,
     * q returns max.  The edge cases for !lowerTail are symmetrical to these:
     * q will return 0 or max for right-tail area of 1 or 0, respectively.
-    *
     */
+    /**
+     * TODO
+     * @memberof finite
+     */
    function finite(o) {
       var sum, xs, ws, cumsLeft, cumsRight, i, finObj;
       if (typeof o.f === 'function') {
@@ -177,19 +182,39 @@ define(function(require) {
 
    return {
       finite: finite,
-      dfinite: function dfinite(o, logp) {
+      dfinite:
+      /**
+       * TODO
+       * @memberof finite
+       */
+       function dfinite(o, logp) {
          var distr = finite(o);
          return function(x) { return distr.d(x, logp); };
       },
-      pfinite: function pfinite(o, lowerTail, logp) {
+      pfinite:
+      /**
+       * TODO
+       * @memberof finite
+       */
+       function pfinite(o, lowerTail, logp) {
          var distr = finite(o);
          return function(q) { return distr.p(q, lowerTail, logp); };
       },
-      qfinite: function qfinite(o, lowerTail, logp) {
+      qfinite:
+      /**
+       * TODO
+       * @memberof finite
+       */
+       function qfinite(o, lowerTail, logp) {
          var distr = finite(o);
          return function(p) { return distr.q(p, lowerTail, logp); };
       },
-      rfinite: function rfinite(o) {
+      rfinite:
+      /**
+       * TODO
+       * @memberof finite
+       */
+       function rfinite(o) {
          return finite(o).r;
       }
    };

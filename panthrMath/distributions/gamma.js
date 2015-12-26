@@ -1,8 +1,14 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   // Gamma distribution
-
+   /**
+    * Provides density function, cdf, inverse cdf, and random
+    * number generator for the Gamma distribution.
+    *
+    * @module distributions.gamma
+    * @memberof distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var lpoisson, gratio, exponential, rgen;
 
    lpoisson = require('../basicFunc/lpoisson').lpoisson;
@@ -10,11 +16,6 @@ define(function(require) {
    exponential = require('../rgen/exponential');
    rgen = require('../rgen/rgen');
 
-   /**
-    * Gamma Module
-    * @module distributions.gamma
-    * @memberof distributions
-    */
 
    // helper function
    function dgammaLog(a, s) {
@@ -38,6 +39,10 @@ define(function(require) {
 
    // density function
    // 1 / (s^a * gamma(a)) * x ^ (a - 1) * exp(-x / s)
+   /**
+    * TODO
+    * @memberof gamma
+    */
    function dgamma(a, s, logp) {
       logp = logp === true;
       return function(x) {
@@ -47,6 +52,10 @@ define(function(require) {
 
    // cumulative distribution function
    // a = shape, s = scale (rate = 1 / s)
+   /**
+    * TODO
+    * @memberof gamma
+    */
    function pgamma(a, s, lowerTail, logp) {
       var f;
 
@@ -65,6 +74,10 @@ define(function(require) {
 
    // inverse cdf
    // a = shape, s = scale (rate = 1 / s)
+   /**
+    * TODO
+    * @memberof gamma
+    */
    function qgamma(a, s, lowerTail, logp) {
       var gaminv;
 
@@ -81,8 +94,12 @@ define(function(require) {
    }
 
    // rgamma stuff...
-   // Client calls one of three methods depending on a
+   // Client calls one of three methods depending on the value of a.
    // a for 'shape', s for 'scale'
+   /**
+    * TODO
+    * @memberof gamma
+    */
    function rgamma(a, s) {
       if (a < 1) {
          return gammaBest(a, s);

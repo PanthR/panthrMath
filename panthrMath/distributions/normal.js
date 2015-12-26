@@ -1,6 +1,14 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   /**
+    * Provides density function, cdf, inverse cdf, and random
+    * number generator for the Normal distribution.
+    *
+    * @module distributions.normal
+    * @memberof distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var C, twopi, sqrt2pi, Rational, pnorm, qnorm, pWrap, rgen;
 
    C = require('../constants');
@@ -11,12 +19,9 @@ define(function(require) {
    rgen = require('../rgen/rgen');
 
    /**
-    * Normal Module
-    * @module distributions.normal
-    * @memberof distributions
+    * TODO
+    * @memberof normal
     */
-
-   // density
    function dnorm(mu, sigma, logp) {
       var c;
       logp = logp === true;
@@ -29,7 +34,11 @@ define(function(require) {
       };
    }
 
-   // cdf
+   /**
+    * TODO
+    * @fullName pnorm(mu, sigma, lowerTail, logp)
+    * @memberof normal
+    */
    pnorm = (function() {
       // segmented rational approximations
       var small, medium, large;
@@ -129,7 +138,11 @@ define(function(require) {
       };
    }());
 
-   // inverse cdf
+   /**
+    * TODO
+    * @fullName qnorm(mu, sigma, lowerTail, logp)
+    * @memberof normal
+    */
    qnorm = (function() {
    // segmented rational approximations
       var small, medium, large;
@@ -218,6 +231,10 @@ define(function(require) {
    }());
 
    // Uses rejection polar method for normal variates
+   /**
+    * TODO
+    * @memberof normal
+    */
    function rnorm(mu, sigma) {
       return function() {
          var v1, v2, rsq;

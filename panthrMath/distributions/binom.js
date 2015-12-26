@@ -1,6 +1,14 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   /**
+    * Provides density function, cdf, inverse cdf, and random
+    * number generator for the Binomial distribution.
+    *
+    * @module distributions.binomial
+    * @memberof distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var C, stirlerr, bd0, pbeta, qnorm, pWrap, discInvCdf, inverseCDF;
 
    C = require('../constants');
@@ -12,11 +20,6 @@ define(function(require) {
    discInvCdf = require('../utils').discInvCdf;
    inverseCDF = require('../rgen/inverseCDF');
 
-   /**
-    * Binomial Module
-    * @module distributions.binomial
-    * @memberof distributions
-    */
 
    // returns the log of the binomial probability
    // Note: the arguments are re-arranged:  lbinomProb(size, p, x)
@@ -24,6 +27,7 @@ define(function(require) {
    // 0 <= p <= 1.
    // Based on:  "Fast and Accurate Computation of Binomial Probabilities",
    // Loader (2000)
+
    function dbinomLog(size, p) {
       if (p === 0) { return function(x) { return x === 0 ? 0 : -Infinity; }; }
       if (p === 1) { return function(x) { return x === size ? 0 : -Infinity; }; }
@@ -36,7 +40,10 @@ define(function(require) {
             0.5 * Math.log(size / (C.twopi * x * (size - x)));
       };
    }
-
+   /**
+    * TODO
+    * @memberof binomial
+    */
    function dbinom(size, p, logp) {
       var lbinom;
 
@@ -47,7 +54,10 @@ define(function(require) {
          return logp ? lbinom(x) : Math.exp(lbinom(x));
       };
    }
-
+   /**
+    * TODO
+    * @memberof binomial
+    */
    function pbinom(size, p, lowerTail, logp) {
       var goodParams;
 
@@ -70,7 +80,10 @@ define(function(require) {
          return logp ? res : Math.exp(res);
       };
    }
-
+   /**
+    * TODO
+    * @memberof binomial
+    */
    function qbinom(size, p, lowerTail, logp) {
 
       // TODO:  make a separate calculation for !lowerTail
@@ -116,6 +129,11 @@ define(function(require) {
    }
 
    // rbinom, using inverseCDF
+
+   /**
+    * TODO
+    * @memberof binomial
+    */
    function rbinom(n, p) {
       var mode;
 

@@ -1,6 +1,14 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   /**
+    * Provides density function, cdf, inverse cdf, and random
+    * number generator for the Beta distribution.
+    *
+    * @module distributions.beta
+    * @memberof distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var bratio, lbeta, solve, stirlerr, bd0, log1p, C, rgen;
 
    C = require('../constants');
@@ -13,15 +21,9 @@ define(function(require) {
    rgen = require('../rgen/rgen');
 
    /**
-    * Beta Module
-    * @module distributions.beta
-    * @memberof distributions
+    * TODO
+    * @memberof beta
     */
-
-    /**
-     * TODO
-     * @memberof beta
-     */
    function dbeta(a, b, logp) {
       logp = logp === true;
 
