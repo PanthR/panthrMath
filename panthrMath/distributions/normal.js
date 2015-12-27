@@ -37,7 +37,7 @@ define(function(require) {
     *
     * `logp` defaults to `false`; if `logp` is `true`, returns the
     * logarithm of the result.
-    *
+    * @fullName dnorm(mu, sigma, logp)(x)
     * @memberof normal
     */
    function dnorm(mu, sigma, logp) {
@@ -64,7 +64,7 @@ define(function(require) {
     *
     * Expects $\sigma > 0$.
     *
-    * @fullName pnorm(mu, sigma, lowerTail, logp)
+    * @fullName pnorm(mu, sigma, lowerTail, logp)(x)
     * @memberof normal
     */
    pnorm = (function() {
@@ -179,7 +179,7 @@ define(function(require) {
     * the logarithm of the desired probability.
     *
     * Expects $\sigma > 0$.
-    * @fullName qnorm(mu, sigma, lowerTail, logp)
+    * @fullName qnorm(mu, sigma, lowerTail, logp)(p)
     * @memberof normal
     */
    qnorm = (function() {
@@ -294,10 +294,10 @@ define(function(require) {
       /**
        * Returns an object representing a normal distribution, with properties `d`, `p`, `q`, `r`.
        * ```
-       * normal(a, b).d(x, logp)            // same as dnorm(a, b, logp)(x)
-       * normal(a, b).p(x, lowerTail, logp) // same as pnorm(a, b, lowerTail, logp)(x)
-       * normal(a, b).q(x, lowerTail, logp) // same as qnorm(a, b, lowerTail, logp)(x)
-       * normal(a, b).r(n)                  // same as rnorm(a, b)(n)
+       * normal(mu, sigma).d(x, logp)            // same as dnorm(mu, sigma, logp)(x)
+       * normal(mu, sigma).p(x, lowerTail, logp) // same as pnorm(mu, sigma, lowerTail, logp)(x)
+       * normal(mu, sigma).q(x, lowerTail, logp) // same as qnorm(mu, sigma, lowerTail, logp)(x)
+       * normal(mu, sigma).r(n)                  // same as rnorm(mu, sigma)(n)
        * ```
        * @memberof normal
        */
