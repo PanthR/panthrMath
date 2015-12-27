@@ -1,47 +1,34 @@
 (function(define) {'use strict';
 define(function(require) {
 
+   /**
+    * Probability Distributions
+    *
+    * TODO
+    *
+    * @module distributions
+    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
+    */
    var distributions, mixin;
 
    mixin = require('./utils.js').mixin;
 
-   /**
-    * Probability Distributions
-    * @module distributions
-    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
-    */
    distributions = mixin({},
-      /**
-       * TODO
-       */
+      /** Constructor for finite distributions. See `module:finite`. */
       require('./distributions/finite'),
-      /**
-       * TODO
-       */
+      /** The normal distribution. See `module:normal`. */
       require('./distributions/normal'),
-      /**
-       * TODO
-       */
+      /** The gamma distribution. See `module:gamma`. */
       require('./distributions/gamma'),
-      /**
-       * TODO
-       */
+      /** The Poisson distribution. See `module:poisson`. */
       require('./distributions/poisson'),
-      /**
-       * TODO
-       */
+      /** The t distribution. See `module:t`. */
       require('./distributions/t'),
-      /**
-       * TODO
-       */
+      /** The uniform distribution. See `module:uniform`. */
       require('./distributions/uniform'),
-      /**
-       * TODO
-       */
+      /** The beta distribution. See `module:beta`. */
       require('./distributions/beta'),
-      /**
-       * TODO
-       */
+      /** The binomial distribution. See `module:binomial`. */
       require('./distributions/binom')
    );
 

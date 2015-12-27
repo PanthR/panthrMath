@@ -27,7 +27,9 @@ define(function(require) {
    panthrMath.Rational = require('./panthrMath/rational');
 
    mixin(panthrMath,
+      /** A collection of basic and special functions. See `module:basicFunc`. */
       require('./panthrMath/basicfunc'),
+      /** Various probability distributions. See `module:distributions`. */
       require('./panthrMath/distributions')
    );
 
