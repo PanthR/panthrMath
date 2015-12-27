@@ -175,7 +175,7 @@ define(function(require) {
        * pois(a, b).d(x, logp)            // same as dpois(a, b, logp)(x)
        * pois(a, b).p(x, lowerTail, logp) // same as ppois(a, b, lowerTail, logp)(x)
        * pois(a, b).q(x, lowerTail, logp) // same as qpois(a, b, lowerTail, logp)(x)
-       * pois(a, b).r(n)                  // same as rpois(a, b)(n)
+       * pois(a, b).r()                   // same as rpois(a, b)()
        * ```
        * @memberof poisson
        */
@@ -188,7 +188,7 @@ define(function(require) {
             q: function(p, lowerTail, logp) {
                return qpois(lambda, lowerTail, logp)(p);
             },
-            r: function(n) { return rpois(lambda)(n); }
+            r: function() { return rpois(lambda)(); }
          };
       },
       dpois: dpois,

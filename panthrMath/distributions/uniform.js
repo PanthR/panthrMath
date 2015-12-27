@@ -90,7 +90,7 @@ define(function(require) {
        * unif(a, b).d(x, logp)            // same as dunif(a, b, logp)(x)
        * unif(a, b).p(x, lowerTail, logp) // same as punif(a, b, lowerTail, logp)(x)
        * unif(a, b).q(x, lowerTail, logp) // same as qunif(a, b, lowerTail, logp)(x)
-       * unif(a, b).r(n)                  // same as runif(a, b)(n)
+       * unif(a, b).r()                   // same as runif(a, b)()
        * ```
        * @memberof uniform
        */
@@ -103,7 +103,7 @@ define(function(require) {
             q: function(p, lowerTail, logp) {
                return qunif(min, max, lowerTail, logp)(p);
             },
-            r: function(n) { return runif(min, max)(n); }
+            r: function() { return runif(min, max)(); }
          };
       },
       dunif: dunif,

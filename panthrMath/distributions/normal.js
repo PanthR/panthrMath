@@ -297,7 +297,7 @@ define(function(require) {
        * normal(mu, sigma).d(x, logp)            // same as dnorm(mu, sigma, logp)(x)
        * normal(mu, sigma).p(x, lowerTail, logp) // same as pnorm(mu, sigma, lowerTail, logp)(x)
        * normal(mu, sigma).q(x, lowerTail, logp) // same as qnorm(mu, sigma, lowerTail, logp)(x)
-       * normal(mu, sigma).r(n)                  // same as rnorm(mu, sigma)(n)
+       * normal(mu, sigma).r()                   // same as rnorm(mu, sigma)()
        * ```
        * @memberof normal
        */
@@ -310,7 +310,7 @@ define(function(require) {
             q: function(p, lowerTail, logp) {
                return qnorm(mu, sigma, lowerTail, logp)(p);
             },
-            r: function(n) { return rnorm(mu, sigma)(n); }
+            r: function() { return rnorm(mu, sigma)(); }
          };
       },
       dnorm: dnorm,

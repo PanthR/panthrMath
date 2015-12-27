@@ -194,7 +194,7 @@ define(function(require) {
        * tdistr(a, b).d(x, logp)            // same as dt(a, b, logp)(x)
        * tdistr(a, b).p(x, lowerTail, logp) // same as pt(a, b, lowerTail, logp)(x)
        * tdistr(a, b).q(x, lowerTail, logp) // same as qt(a, b, lowerTail, logp)(x)
-       * tdistr(a, b).r(n)                  // same as rt(a, b)(n)
+       * tdistr(a, b).r()                   // same as rt(a, b)()
        * ```
        * @memberof t
        */
@@ -207,7 +207,7 @@ define(function(require) {
             q: function(p, lowerTail, logp) {
                return qt(df, lowerTail, logp)(p);
             },
-            r: function(n) { return rt(df)(n); }
+            r: function() { return rt(df)(); }
          };
       },
       dt: dt,
