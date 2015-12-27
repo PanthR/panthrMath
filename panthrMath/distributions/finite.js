@@ -41,10 +41,10 @@ define(function(require) {
    /**
     * Returns an object representing a finite distribution, with properties `d`, `p`, `q`, `r`.
     * ```
-    * finite(a, b).d(x, logp)            // same as dfinite(a, b, logp)(x)
-    * finite(a, b).q(x, lowerTail, logp) // same as qfinite(a, b, lowerTail, logp)(x)
-    * finite(a, b).p(x, lowerTail, logp) // same as pfinite(a, b, lowerTail, logp)(x)
-    * finite(a, b).r(n)                  // same as rfinite(a, b)(n)
+    * finite(o).d(x, logp)            // same as dfinite(o, logp)(x)
+    * finite(o).p(x, lowerTail, logp) // same as pfinite(o, lowerTail, logp)(x)
+    * finite(o).q(x, lowerTail, logp) // same as qfinite(o, lowerTail, logp)(x)
+    * finite(o).r(n)                  // same as rfinite(o)(n)
     * ```
     * @memberof finite
    */
