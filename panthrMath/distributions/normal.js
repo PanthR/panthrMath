@@ -10,7 +10,8 @@ define(function(require) {
     * is the standard deviation.
     *
     * `dnorm` provides access to this probability density function,
-    * `pnorm` to the cumulative density, `qnorm` to the quantile (inverse cdf)
+    * `pnorm` to the cumulative distribution function, `qnorm` to the
+    * quantile function (inverse cdf)
     * and `rnorm` to random deviates.
     *
     * Finally, you can use `normal` to obtain an object

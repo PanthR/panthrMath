@@ -9,7 +9,8 @@ define(function(require) {
     * where $x=0,\ldots,n$, $n$ is the *size* and $p$ is the probability of success.
     *
     * `dbinom` provides access to this probability density function,
-    * `pbinom` to the cumulative density, `qbinom` to the quantile (inverse cdf)
+    * `pbinom` to the cumulative distribution function, `qbinom` to the
+    * quantile function (inverse cdf)
     * and `rbinom` to random deviates.
     *
     * Finally, you can use `binom` to obtain an object

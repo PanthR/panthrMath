@@ -10,7 +10,8 @@ define(function(require) {
     * and the parameter $s>0$ the *scale*.
     *
     * `dgamma` provides access to this probability density function,
-    * `pgamma` to the cumulative density, `qgamma` to the quantile (inverse cdf)
+    * `pgamma` to the cumulative distribution function, `qgamma` to the
+    * quantile function (inverse cdf)
     * and `rgamma` to random deviates.
     *
     * Finally, you can use `gammadistr` to obtain an object

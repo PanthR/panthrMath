@@ -11,7 +11,8 @@ define(function(require) {
     * where $x=0,1,\ldots$ and $\lambda > 0$ is the mean.
     *
     * `dpois` provides access to this probability density function,
-    * `ppois` to the cumulative density, `qpois` to the quantile (inverse cdf)
+    * `ppois` to the cumulative distribution function, `qpois` to the
+    * quantile function (inverse cdf)
     * and `rpois` to random deviates.
     *
     * Finally, you can use `pois` to obtain an object

@@ -9,7 +9,8 @@ define(function(require) {
     * where $x\in[0,1]$ and the parameters $a,b > 0$.
     *
     * `dbeta` provides access to this probability density function,
-    * `pbeta` to the cumulative density, `qbeta` to the quantile (inverse cdf)
+    * `pbeta` to the cumulative distribution function, `qbeta` to the
+    * quantile function (inverse cdf)
     * and `rbeta` to random deviates.
     *
     * Finally, you can use `betadistr` to obtain an object
