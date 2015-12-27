@@ -217,8 +217,8 @@ define(function(require) {
        * Returns an object representing a binomial distribution, with properties `d`, `p`, `q`, `r`.
        * ```
        * binom(size, p).d(x, logp)            // same as dbinom(size, p, logp)(x)
-       * binom(size, p).q(x, lowerTail, logp) // same as qbinom(size, p, lowerTail, logp)(x)
        * binom(size, p).p(x, lowerTail, logp) // same as pbinom(size, p, lowerTail, logp)(x)
+       * binom(size, p).q(x, lowerTail, logp) // same as qbinom(size, p, lowerTail, logp)(x)
        * binom(size, p).r(n)                  // same as rbinom(size, p)(n)
        * ```
        * @memberof binomial

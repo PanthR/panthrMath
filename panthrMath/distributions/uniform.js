@@ -88,8 +88,8 @@ define(function(require) {
        * Returns an object representing a uniform distribution, with properties `d`, `p`, `q`, `r`.
        * ```
        * unif(a, b).d(x, logp)            // same as dunif(a, b, logp)(x)
-       * unif(a, b).q(x, lowerTail, logp) // same as qunif(a, b, lowerTail, logp)(x)
        * unif(a, b).p(x, lowerTail, logp) // same as punif(a, b, lowerTail, logp)(x)
+       * unif(a, b).q(x, lowerTail, logp) // same as qunif(a, b, lowerTail, logp)(x)
        * unif(a, b).r(n)                  // same as runif(a, b)(n)
        * ```
        * @memberof uniform
