@@ -4,8 +4,17 @@ define(function(require) {
    /**
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the Normal distribution.
+    * for the normal distribution, which is defined by the pdf
+    * $$p(x;\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$
+    * where $x\in(-\infty,\infty)$ and as usual $\mu$ is the mean and $\sigma>0$
+    * is the standard deviation.
     *
+    * `dnorm` provides access to this probability density function,
+    * `pnorm` to the cumulative density, `qnorm` to the quantile (inverse cdf)
+    * and `rnorm` to random deviates.
+    *
+    * Finally, you can use `normal` to obtain an object
+    * representing the distribution for some values of the parameters.
     * @module distributions.normal
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
