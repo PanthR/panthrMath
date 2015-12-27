@@ -18,7 +18,7 @@ define(function(require) {
     *
     * Finally, you can use `unif` to obtain an object
     * representing the Uniform distribution for given values of
-    * `min` and `max`.
+    * `a` and `b`.
     *
     * @module distributions.uniform
     * @memberof distributions
@@ -29,39 +29,61 @@ define(function(require) {
    rgen = require('../rgen/rgen');
 
    /**
-    * TODO
+    * Evaluates the Uniform density function at `x`:
+    * $$\textrm{dunif}(a, b)(x) = \begin{cases}
+    *   \frac{1}{b-a},  & \text{if $a \leq x \leq b$} \\\\
+    *   0, & \text{if $x < a$ or $x > b$} \end{cases} $$
+    *
+    * Expects $a < b$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the
+    * logarithm of the result.
+    *
+    * @fullName dunif(a, b, logp)(x)
     * @memberof uniform
     */
-   function dunif(min, max, logp) {
+   function dunif(a, b, logp) {
       logp = logp === true;
 
-      if (!(min < max)) { return function(x) { return NaN; }; }
+      if (!(a < b)) { return function(x) { return NaN; }; }
 
       return function(x) {
          var p;
-         p = x < min || x > max ? 0 : 1 / (max - min);
+         p = x < a || x > b ? 0 : 1 / (b - a);
 
          return logp ? Math.log(p) : p;
       };
    }
 
    /**
-    * TODO
-    * @fullName punif(min, max, lowerTail, logp)(x)
+    * Evaluates the lower-tail cdf at `x` for the Uniform distribution:
+    * $$\textrm{punif}(a, b)(x) = \begin{cases}
+    *   \frac{x-a}{b-a},  & \text{if $a \leq x \leq b$} \\\\
+    *   0,                & \text{if $x < a$} \\\\
+    *   1,                & \text{if $x > b$} \end{cases} $$
+    *
+    * Expects $a < b$.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
+    * the upper tail probability instead.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
+    * of the result.
+    * @fullName punif(a, b, lowerTail, logp)(x)
     * @memberof uniform
     */
-   function punif(min, max, lowerTail, logp) {
+   function punif(a, b, lowerTail, logp) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      if (!(min < max)) { return function(x) { return NaN; }; }
+      if (!(a < b)) { return function(x) { return NaN; }; }
 
       return function(x) {
          var p;
 
-         p = x <= min ? 0 :
-             x >= max ? 1 :
-                        (x - min) / (max - min);
+         p = x <= a ? 0 :
+             x >= b ? 1 :
+                        (x - a) / (b - a);
          p = lowerTail ? p : 1 - p;
 
          return logp ? Math.log(p) : p;
@@ -69,37 +91,51 @@ define(function(require) {
    }
 
    /**
-    * TODO
-    * @fullName qunif(min, max, lowerTail, logp)(p)
+    * Evaluates the Uniform distribution's quantile function
+    * (inverse cdf) at `p`:
+    * $$\textrm{qunif}(a, b)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+    * where $X$ is a random variable with the $\textrm{Uniform}(a, b)$ distribution.
+    *
+    * Expects $a < b$ and $0 \leq p \leq 1$.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
+    * interpreted as an upper tail probability (returns
+    * $x$ such that $\textrm{prob}(X > x) = p)$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+    * the logarithm of the desired probability.
+    * @fullName qunif(a, b, lowerTail, logp)(p)
     * @memberof uniform
     */
-   function qunif(min, max, lowerTail, logp) {
+   function qunif(a, b, lowerTail, logp) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      if (!(min < max)) { return function(x) { return NaN; }; }
+      if (!(a < b)) { return function(x) { return NaN; }; }
 
       return function(p) {
          p = logp ? Math.exp(p) : p;
 
          if (p < 0 || p > 1) { return NaN; }
-         return lowerTail ? min + p * (max - min) : max - p * (max - min);
+         return lowerTail ? a + p * (b - a) : b - p * (b - a);
       };
    }
 
    /**
-    * TODO
+    * Returns a random variate from the $\textrm{Uniform}(a,b)$ distribution.
+    *
+    * Expects $a<b$.
     * @memberof uniform
     */
-   function runif(min, max) {
+   function runif(a, b) {
       return function() {
-         return min + (max - min) * rgen.random();
+         return a + (b - a) * rgen.random();
       };
    }
 
    return {
       /**
-       * Returns an object representing a uniform distribution on $[min, max]$,
+       * Returns an object representing a Uniform distribution on $[a, b]$,
        * with properties `d`, `p`, `q`, `r`.
        * ```
        * unif(a, b).d(x, logp)            // same as dunif(a, b, logp)(x)
@@ -109,16 +145,16 @@ define(function(require) {
        * ```
        * @memberof uniform
        */
-      unif: function(min, max) {
+      unif: function(a, b) {
          return {
-            d: function(x, logp) { return dunif(min, max, logp)(x); },
+            d: function(x, logp) { return dunif(a, b, logp)(x); },
             p: function(q, lowerTail, logp) {
-               return punif(min, max, lowerTail, logp)(q);
+               return punif(a, b, lowerTail, logp)(q);
             },
             q: function(p, lowerTail, logp) {
-               return qunif(min, max, lowerTail, logp)(p);
+               return qunif(a, b, lowerTail, logp)(p);
             },
-            r: function() { return runif(min, max)(); }
+            r: function() { return runif(a, b)(); }
          };
       },
       dunif: dunif,
