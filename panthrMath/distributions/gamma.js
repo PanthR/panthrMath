@@ -41,7 +41,15 @@ define(function(require) {
    // density function
    // 1 / (s^a * gamma(a)) * x ^ (a - 1) * exp(-x / s)
    /**
-    * TODO
+    * Evaluates the Gamma density function at `x`:
+    * $$\textrm{dgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$
+    *
+    * Expects $a \geq 0$, $s \geq 0$, and $0 \leq x$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the
+    * logarithm of the result.
+    *
+    * @fullName dgamma(a, b, logp)(x)
     * @memberof gamma
     */
    function dgamma(a, s, logp) {
@@ -54,7 +62,21 @@ define(function(require) {
    // cumulative distribution function
    // a = shape, s = scale (rate = 1 / s)
    /**
-    * TODO
+    * Evaluates the Gamma cumulative distribution
+    * function at `x` (lower tail probability):
+    * $$\textrm{pgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}\int_0^x t^{a-1}e^{-t/s}dt$$
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
+    * the upper tail probability instead.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
+    * of the result.
+    *
+    * Expects $a \geq 0$, $s \geq 0$, and $0 \leq x$.
+    *
+    * Based on: *Computation of the Incomplete Gamma Function Ratios and their
+    * Inverse*, by DiDonato and Morris, 1992
+    * @fullName pgamma(a, s, lowerTail, logp)(x)
     * @memberof gamma
     */
    function pgamma(a, s, lowerTail, logp) {
@@ -76,7 +98,19 @@ define(function(require) {
    // inverse cdf
    // a = shape, s = scale (rate = 1 / s)
    /**
-    * TODO
+    * Evaluates the Gamma distribution's quantile function (inverse cdf) at `p`:
+    * $$\textrm{qgamma}(a, s)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+    * where $X$ is a random variable with the $Beta(a,b)$ distribution.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
+    * interpreted as an upper tail probability (returns
+    * $x$ such that $\textrm{prob}(X > x) = p)$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+    * the logarithm of the desired probability.
+    *
+    * Expects $a>0$, $s>0$, and $0 \leq p \leq 1$.
+    * @fullName qgamma(a, b, lowerTail, logp)(p)
     * @memberof gamma
     */
    function qgamma(a, s, lowerTail, logp) {
@@ -98,7 +132,11 @@ define(function(require) {
    // Client calls one of three methods depending on the value of a.
    // a for 'shape', s for 'scale'
    /**
-    * TODO
+    * Returns a random variate from the $\textrm{Gamma}(a, s)$ distribution.
+    *
+    * Expects $a\geq 0$ and $s\geq 0$.
+    *
+    * TODO: Add links to algorithms
     * @memberof gamma
     */
    function rgamma(a, s) {
