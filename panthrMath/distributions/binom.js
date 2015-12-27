@@ -4,8 +4,16 @@ define(function(require) {
    /**
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the Binomial distribution.
+    * for the Binomial distribution, which is defined by the pdf
+    * $$p(x;n,p) = {n \choose x}p^x(1-p)^{n-x}$$
+    * where $x=0,\ldots,n$, $n$ is the *size* and $p$ is the probability of success.
     *
+    * `dbinom` provides access to this probability density function,
+    * `pbinom` to the cumulative density, `qbinom` to the quantile (inverse cdf)
+    * and `rbinom` to random deviates.
+    *
+    * Finally, you can use `binom` to obtain an object
+    * representing the distribution for some values of the parameters.
     * @module distributions.binomial
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
