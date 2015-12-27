@@ -8,7 +8,7 @@ define(function(require) {
     * quantile function, and random number generator
     * for the Poisson distribution, which is defined by the pdf
     * $$p(x;\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}$$
-    * where $x=0,1,\ldots$ and $\lambda > 0$ is the mean.
+    * where $x=0,1,2,\ldots$ and $\lambda > 0$ is the mean.
     *
     * `dpois` provides access to this probability density function,
     * `ppois` to the cumulative distribution function, `qpois` to the
@@ -16,7 +16,7 @@ define(function(require) {
     * and `rpois` to random deviates.
     *
     * Finally, you can use `pois` to obtain an object
-    * representing the distribution for some values of the parameters.
+    * representing the Poisson distribution for a given value of $\lambda$.
     * @module distributions.poisson
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
@@ -31,9 +31,15 @@ define(function(require) {
    qnorm = require('./normal').qnorm;
    inverseCDF = require('../rgen/inverseCDF');
 
-   // density / pdf
    /**
-    * TODO
+    * Evaluates the Poisson density function at `x`:
+    * $$\textrm{dpois}(\lambda)(x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
+    *
+    * Expects $\lambda > 0$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the
+    * logarithm of the result.
+    * @fullName dpois(lambda, logp)(x)
     * @memberof poisson
     */
    function dpois(lambda, logp) {
@@ -44,7 +50,18 @@ define(function(require) {
    }
 
    /**
-    * TODO
+    * Evaluates the lower-tail cdf at `x` for the Poisson distribution:
+    * $$\textrm{ppois}(\lambda)(x) = e^{-\lambda} \sum_{i=0}^{\left \lfloor{x}\right \rfloor}\frac{\lambda^i}{i!}$$
+    *
+    * Expects $\lambda > 0$.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
+    * the upper tail probability ($P(X > x)$) instead.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
+    * of the result.
+    *
+    * @fullName ppois(lambda, lowerTail, logp)(x)
     * @memberof poisson
     */
    function ppois(lambda, lowerTail, logp) {
@@ -67,7 +84,21 @@ define(function(require) {
    }
 
    /**
-    * TODO
+    * Evaluates the Poisson distribution's quantile function
+    * (inverse cdf) at `p`:
+    * $$\textrm{qpois}(\lambda)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+    * where $X$ is a random variable with the $\textrm{Poisson}(\lambda)$ distribution.
+    *
+    * Expects $\lambda > 0$ and $0 \leq p \leq 1$.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
+    * interpreted as an upper tail probability (returns
+    * $x$ such that $\textrm{prob}(X > x) = p)$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+    * the logarithm of the desired probability.
+    *
+    * @fullName qpois(lambda, lowerTail, logp)(p)
     * @memberof poisson
     */
    function qpois(lambda, lowerTail, logp) {
@@ -107,7 +138,9 @@ define(function(require) {
 
    // Using inverseCDF
    /**
-    * TODO
+    * Returns a random variate from the $\textrm{Poisson}(\lambda)$ distribution.
+    *
+    * Expects $\lambda > 0$.
     * @memberof poisson
     */
    function rpois(lambda) {
@@ -136,7 +169,8 @@ define(function(require) {
 
    return {
       /**
-       * Returns an object representing a Poisson distribution, with properties `d`, `p`, `q`, `r`.
+       * Returns an object representing a Poisson distribution
+       * for a given value of $\lambda > 0$, with properties `d`, `p`, `q`, `r`.
        * ```
        * pois(a, b).d(x, logp)            // same as dpois(a, b, logp)(x)
        * pois(a, b).p(x, lowerTail, logp) // same as ppois(a, b, lowerTail, logp)(x)
