@@ -224,7 +224,7 @@ define(function(require) {
        * gammadistr(a, s).d(x, logp)            // same as dgamma(a, s, logp)(x)
        * gammadistr(a, s).p(x, lowerTail, logp) // same as pgamma(a, s, lowerTail, logp)(x)
        * gammadistr(a, s).q(x, lowerTail, logp) // same as qgamma(a, s, lowerTail, logp)(x)
-       * gammadistr(a, s).r(n)                  // same as rgamma(a, s)(n)
+       * gammadistr(a, s).r()                   // same as rgamma(a, s)()
        * ```
        * @memberof gamma
        */
@@ -237,7 +237,7 @@ define(function(require) {
             q: function(p, lowerTail, logp) {
                return qgamma(a, s, lowerTail, logp)(p);
             },
-            r: function(n) { return rgamma(a, s)(n); }
+            r: function() { return rgamma(a, s)(); }
          };
       },
       dgamma: dgamma,

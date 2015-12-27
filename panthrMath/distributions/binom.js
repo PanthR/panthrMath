@@ -219,7 +219,7 @@ define(function(require) {
        * binom(size, p).d(x, logp)            // same as dbinom(size, p, logp)(x)
        * binom(size, p).p(x, lowerTail, logp) // same as pbinom(size, p, lowerTail, logp)(x)
        * binom(size, p).q(x, lowerTail, logp) // same as qbinom(size, p, lowerTail, logp)(x)
-       * binom(size, p).r(n)                  // same as rbinom(size, p)(n)
+       * binom(size, p).r()                   // same as rbinom(size, p)()
        * ```
        * @memberof binomial
        */
@@ -232,7 +232,7 @@ define(function(require) {
             q: function(prob, lowerTail, logp) {
                return qbinom(size, p, lowerTail, logp)(prob);
             },
-            r: function(n) { return rbinom(size, p)(n); }
+            r: function() { return rbinom(size, p)(); }
          };
       },
       dbinom: dbinom,
