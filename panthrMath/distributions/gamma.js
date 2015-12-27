@@ -59,7 +59,7 @@ define(function(require) {
     * `logp` defaults to `false`; if `logp` is `true`, returns the
     * logarithm of the result.
     *
-    * @fullName dgamma(a, b, logp)(x)
+    * @fullName dgamma(a, s, logp)(x)
     * @memberof gamma
     */
    function dgamma(a, s, logp) {
@@ -120,7 +120,7 @@ define(function(require) {
     * the logarithm of the desired probability.
     *
     * Expects $a>0$, $s>0$, and $0 \leq p \leq 1$.
-    * @fullName qgamma(a, b, lowerTail, logp)(p)
+    * @fullName qgamma(a, s, lowerTail, logp)(p)
     * @memberof gamma
     */
    function qgamma(a, s, lowerTail, logp) {
@@ -221,10 +221,10 @@ define(function(require) {
       /**
        * Returns an object representing a gamma distribution, with properties `d`, `p`, `q`, `r`.
        * ```
-       * gammadistr(a, b).d(x, logp)            // same as dgamma(a, b, logp)(x)
-       * gammadistr(a, b).p(x, lowerTail, logp) // same as pgamma(a, b, lowerTail, logp)(x)
-       * gammadistr(a, b).q(x, lowerTail, logp) // same as qgamma(a, b, lowerTail, logp)(x)
-       * gammadistr(a, b).r(n)                  // same as rgamma(a, b)(n)
+       * gammadistr(a, s).d(x, logp)            // same as dgamma(a, s, logp)(x)
+       * gammadistr(a, s).p(x, lowerTail, logp) // same as pgamma(a, s, lowerTail, logp)(x)
+       * gammadistr(a, s).q(x, lowerTail, logp) // same as qgamma(a, s, lowerTail, logp)(x)
+       * gammadistr(a, s).r(n)                  // same as rgamma(a, s)(n)
        * ```
        * @memberof gamma
        */
