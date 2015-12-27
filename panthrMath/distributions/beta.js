@@ -4,8 +4,16 @@ define(function(require) {
    /**
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the Beta distribution.
+    * for the Beta distribution, which is defined by the pdf
+    * $$p(x;a,b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$
+    * where $x\in[0,1]$ and the parameters $a,b > 0$.
     *
+    * `dbeta` provides access to this probability density function,
+    * `pbeta` to the cumulative density, `qbeta` to the quantile (inverse cdf)
+    * and `rbeta` to random deviates.
+    *
+    * Finally, you can use `betadistr` to obtain an object
+    * representing the distribution for some values of the parameters.
     * @module distributions.beta
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
