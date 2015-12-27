@@ -6,8 +6,16 @@ define(function(require) {
    /**
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the Poisson distribution.
+    * for the Poisson distribution, which is defined by the pdf
+    * $$p(x;\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}$$
+    * where $x=0,1,\ldots$ and $\lambda > 0$ is the mean.
     *
+    * `dpois` provides access to this probability density function,
+    * `ppois` to the cumulative density, `qpois` to the quantile (inverse cdf)
+    * and `rpois` to random deviates.
+    *
+    * Finally, you can use `pois` to obtain an object
+    * representing the distribution for some values of the parameters.
     * @module distributions.poisson
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
