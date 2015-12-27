@@ -61,6 +61,8 @@ define(function(require) {
     *
     * Based on: *Fast and Accurate Computation of Binomial Probabilities*,
     * by Catherine Loader, 2000
+    *
+    * @fullName dbinom(size, p, logp)(x)
     * @memberof binomial
     */
    function dbinom(size, p, logp) {
