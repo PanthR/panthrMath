@@ -54,7 +54,7 @@ define(function(require) {
     * Evaluates the Gamma density function at `x`:
     * $$\textrm{dgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$
     *
-    * Expects $a \geq 0$, $s \geq 0$, and $0 \leq x$.
+    * Expects $a > 0$, $s > 0$, and $x > 0$.
     *
     * `logp` defaults to `false`; if `logp` is `true`, returns the
     * logarithm of the result.
@@ -82,7 +82,7 @@ define(function(require) {
     * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
     * of the result.
     *
-    * Expects $a \geq 0$, $s \geq 0$, and $0 \leq x$.
+    * Expects $a > 0$, $s > 0$, and $x > 0$.
     *
     * Based on: *Computation of the Incomplete Gamma Function Ratios and their
     * Inverse*, by DiDonato and Morris, 1992
@@ -144,7 +144,7 @@ define(function(require) {
    /**
     * Returns a random variate from the $\textrm{Gamma}(a, s)$ distribution.
     *
-    * Expects $a\geq 0$ and $s\geq 0$.
+    * Expects $a > 0$ and $s > 0$.
     *
     * TODO: Add links to algorithms
     * @memberof gamma
