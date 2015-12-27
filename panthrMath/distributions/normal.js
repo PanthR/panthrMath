@@ -29,7 +29,14 @@ define(function(require) {
    rgen = require('../rgen/rgen');
 
    /**
-    * TODO
+    * Evaluates the Normal density function at `x`:
+    * $$\textrm{dnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$
+    *
+    * Expects $\sigma > 0$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the
+    * logarithm of the result.
+    *
     * @memberof normal
     */
    function dnorm(mu, sigma, logp) {
@@ -45,7 +52,17 @@ define(function(require) {
    }
 
    /**
-    * TODO
+    * Evaluates the lower-tail cdf at `x` for the Normal distribution:
+    * $$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}}\int_{-\infty}^x e^{\displaystyle -\frac{(t-\mu)^2}{2\sigma^2}}dt$$
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
+    * the upper tail probability instead.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
+    * of the result.
+    *
+    * Expects $\sigma > 0$.
+    *
     * @fullName pnorm(mu, sigma, lowerTail, logp)
     * @memberof normal
     */
@@ -149,7 +166,18 @@ define(function(require) {
    }());
 
    /**
-    * TODO
+    * Evaluates the Normal distribution's quantile function (inverse cdf) at `p`:
+    * $$\textrm{qnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+    * where $X$ is a random variable with the $N(\mu,\sigma)$ distribution.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
+    * interpreted as an upper tail probability (returns
+    * $x$ such that $\textrm{prob}(X > x) = p)$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+    * the logarithm of the desired probability.
+    *
+    * Expects $\sigma > 0$.
     * @fullName qnorm(mu, sigma, lowerTail, logp)
     * @memberof normal
     */
@@ -242,7 +270,11 @@ define(function(require) {
 
    // Uses rejection polar method for normal variates
    /**
-    * TODO
+    * Returns a random variate from the $N(\mu, \sigma)$ distribution.
+    *
+    * Expects $\sigma > 0$.
+    *
+    * Uses a rejection polar method.
     * @memberof normal
     */
    function rnorm(mu, sigma) {
