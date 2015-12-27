@@ -104,7 +104,7 @@ define(function(require) {
    /**
     * Evaluates the Beta quantile function (inverse cdf) at `p`:
     * $$\textrm{qbeta}(a, b)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
-    * where $X$ is a random variable with the $Beta(a,b)$ distribution.
+    * where $X$ is a random variable with the $\textrm{Beta}(a,b)$ distribution.
     *
     * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
     * interpreted as an upper tail probability (returns

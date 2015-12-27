@@ -109,7 +109,7 @@ define(function(require) {
    /**
     * Evaluates the Gamma distribution's quantile function (inverse cdf) at `p`:
     * $$\textrm{qgamma}(a, s)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
-    * where $X$ is a random variable with the $Beta(a,b)$ distribution.
+    * where $X$ is a random variable with the $\textrm{Gamma}(a, s)$ distribution.
     *
     * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
     * interpreted as an upper tail probability (returns
