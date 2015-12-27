@@ -55,7 +55,15 @@ define(function(require) {
    // density function
    // dt(df) returns a function for calculating cumulative distribution
    /**
-    * TODO
+    * Evaluates the t density function at `x`:
+    * $$\textrm{dt}(\textrm{df})(x) = \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$
+    *
+    * Expects $\textrm{df} > 0$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the
+    * logarithm of the result.
+    *
+    * @fullName dpois(lambda, logp)(x)
     * @fullName dt(df, logp)(x)
     * @memberof t
     */
@@ -87,7 +95,16 @@ define(function(require) {
 
    // cumulative distribution function
    /**
-    * TODO
+    * Evaluates the lower-tail cdf at `x` for the t distribution:
+    * $$\textrm{pt}(\textrm{df})(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$
+    *
+    * Expects $\textrm{df} > 0$.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
+    * the upper tail probability instead.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
+    * of the result.
     * @fullName pt(df, lowerTail, logp)(x)
     * @memberof t
     */
@@ -105,7 +122,22 @@ define(function(require) {
    // inverse cdf
    // From qt.c in R
    /**
-    * TODO
+    * Evaluates the t distribution's quantile function
+    * (inverse cdf) at `p`:
+    * $$\textrm{qt}(\textrm{df})(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+    * where $X$ is a random variable with the $t(\textrm{df})$ distribution.
+    *
+    * Expects $\textrm{df} > 0$ and $0 \leq p \leq 1$.
+    *
+    * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
+    * interpreted as an upper tail probability (returns
+    * $x$ such that $\textrm{prob}(X > x) = p)$.
+    *
+    * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
+    * the logarithm of the desired probability.
+    *
+    * Based on: R code
+    *
     * @fullName qt(df, lowerTail, logp)(p)
     * @memberof t
     */
@@ -137,7 +169,9 @@ define(function(require) {
    }
 
    /**
-    * TODO
+    * Returns a random variate from the $t(\textrm{df})$ distribution.
+    *
+    * Expects $\textrm{df} > 0$.
     * @memberof t
     */
    function rt(df) {
@@ -154,7 +188,8 @@ define(function(require) {
 
    return {
       /**
-       * Returns an object representing a binomial distribution, with properties `d`, `p`, `q`, `r`.
+       * Returns an object representing a t distribution with $\textrm{df} > 0$
+       * degrees of freedom, with properties `d`, `p`, `q`, `r`.
        * ```
        * tdistr(a, b).d(x, logp)            // same as dt(a, b, logp)(x)
        * tdistr(a, b).p(x, lowerTail, logp) // same as pt(a, b, lowerTail, logp)(x)
