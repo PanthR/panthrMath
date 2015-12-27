@@ -37,6 +37,7 @@ define(function(require) {
    /**
     * Rgen Module
     * @module rgen
+    * @memberof panthrMath
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
    rgen = {

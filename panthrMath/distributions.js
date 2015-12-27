@@ -7,6 +7,7 @@ define(function(require) {
     * TODO
     *
     * @module distributions
+    * @memberof panthrMath
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
    var distributions, mixin;

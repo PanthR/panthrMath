@@ -5,6 +5,7 @@ define(function(require) {
    /**
     * Constants module, provides frozen values for some frequently-used constants.
     * @module C
+    * @memberof panthrMath
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
    C = {
