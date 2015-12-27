@@ -4,7 +4,17 @@ define(function(require) {
    /**
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the student's t distribution.
+    * for the Student's t distribution, which is defined by the pdf
+    * $$p(x;\nu) = \frac{1}{\sqrt{\nu}\,\textrm{B}(1/2, \nu/2)} \left(1+\frac{x^2}{\nu} \right)^{-\frac{\nu + 1}{2}}$$
+    * where B is the Beta function, $x \in (-\infty, \infty)$ and $\nu >0$ is the *degrees of freedom*.
+    *
+    * `dt` provides access to this probability density function,
+    * `pt` to the cumulative distribution function, `qt` to the
+    * quantile function (inverse cdf)
+    * and `rt` to random deviates.
+    *
+    * Finally, you can use `tdistr` to obtain an object
+    * representing the t distribution for a given value of $\nu$.
     *
     * @module distributions.t
     * @memberof distributions
