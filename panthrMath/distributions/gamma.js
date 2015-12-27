@@ -4,8 +4,17 @@ define(function(require) {
    /**
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the Gamma distribution.
+    * for the Gamma distribution, which is defined by the pdf
+    * $$p(x;a,s) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$
+    * where $x\in(0,\infty)$. The parameter $a>0$ is called the *shape*
+    * and the parameter $s>0$ the *scale*.
     *
+    * `dgamma` provides access to this probability density function,
+    * `pgamma` to the cumulative density, `qgamma` to the quantile (inverse cdf)
+    * and `rgamma` to random deviates.
+    *
+    * Finally, you can use `gammadistr` to obtain an object
+    * representing the distribution for some values of the parameters.
     * @module distributions.gamma
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
