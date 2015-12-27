@@ -6,18 +6,29 @@ define(function(require) {
     * quantile function, and random number generator
     * for finite discrete probability distributions.
     *
-    * For all members of the `finite` module, the object `o` (used to specify
-    * a particular finite distribution) must have either
-    * - properties `xs`, `ws`, which are arrays of equal length, or
-    * - properties `f`, `min`, `max`, where the distribution's domain values
-    * are the sequential numbers (arithmetic sequence) from `min` to `max` with
-    * a step of 1, and `f(i)` gives the probability of the value `i`.
+    * For all members of the `module:finite` module, distributions are provided via
+    * appropriate properties of the object `o`. There are two possible options
+    * for that object:
+    * - It can have properties `xs`, `ws`, which are arrays of equal length,
+    * corresponding to the values the distribution can take and their
+    * respective probabilities. In this case the `xs` are assumed to be distinct and
+    * in increasing order, and the `ws` are treated as weights, so if they do not add
+    * up to 1 then they will be scaled appropriately. The `ws` need to be positive.
+    * - It can have properties `f`, `min`, `max`, where `min` and `max` are numbers
+    * and `f(i)` is a function. Then the distribution's values are meant to be the
+    * sequential numbers (arithmetic sequence) from `min` to `max` with
+    * an increment of 1, and `f(i)` gives the probability of the value `i`
+    * (similar to the `ws`).
     *
-    * If arrays are provided, the following assumptions are made:
-    * - the `xs` are assumed to be distinct and in increasing order
-    * - the `ws` are treated as *weights* (they need to be *positive*)
-    * - if the weights do not add up to 1 they will be rescaled
+    * `finite` returns an object representing the distribution, `dfinite` returns
+    * the pdf, `pfinite` the cdf, `qfinite` the inverse cdf, and `rfinite` generates
+    * random variates.
     *
+    * Examples:
+    * ```
+    * finite({ min: 1, max: 10, f: function() { return 1; } })  // 10-sided fair die
+    * finite({ xs: [0, 1], ws: [2, 1] }) // Bernoulli trial P(0) = 2/3
+    * ```
     * @module distributions.finite
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
