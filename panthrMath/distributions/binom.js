@@ -50,7 +50,7 @@ define(function(require) {
    }
    /**
     * Returns the Binomial probability at `x`:
-    * $$\textrm{dbinom}(\textrm{size}, p, x) = \binom{\textrm{size}}{p}p^{x}(1-p)^{(\textrm{size}-x)}$$
+    * $$\textrm{dbinom}(\textrm{size}, p)(x) = \binom{\textrm{size}}{p}p^{x}(1-p)^{(\textrm{size}-x)}$$
     * where `x` is an integer, $0 \leq x \leq \textrm{size}$.
     *
     * `size` is a positive integer (number of trials) and $0 \leq p \leq 1$
@@ -116,8 +116,9 @@ define(function(require) {
       };
    }
    /**
-    * Returns the quantile for the $\textrm{Binomial}(size, p)$ distribution
-    * corresponding to `prob`.  In general, for a discrete probability
+    * Returns the quantile corresponding to `prob`
+    * for the $\textrm{Binomial}(size, p)$ distribution.
+    * In general, for a discrete probability
     * distribution, the *quantile* is defined as the smallest domain value
     * `x` such that $F(x) \geq prob$, where $F$ is the cumulative
     * distribution function.
@@ -215,10 +216,10 @@ define(function(require) {
       /**
        * Returns an object representing a binomial distribution, with properties `d`, `p`, `q`, `r`.
        * ```
-       * binom(a, b).d(x, logp)            // same as dbinom(a, b, logp)(x)
-       * binom(a, b).q(x, lowerTail, logp) // same as qbinom(a, b, lowerTail, logp)(x)
-       * binom(a, b).p(x, lowerTail, logp) // same as pbinom(a, b, lowerTail, logp)(x)
-       * binom(a, b).r(n)                  // same as rbinom(a, b)(n)
+       * binom(size, p).d(x, logp)            // same as dbinom(size, p, logp)(x)
+       * binom(size, p).q(x, lowerTail, logp) // same as qbinom(size, p, lowerTail, logp)(x)
+       * binom(size, p).p(x, lowerTail, logp) // same as pbinom(size, p, lowerTail, logp)(x)
+       * binom(size, p).r(n)                  // same as rbinom(size, p)(n)
        * ```
        * @memberof binomial
        */
