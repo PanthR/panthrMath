@@ -220,6 +220,7 @@ define(function(require) {
        * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
        * of the result.
        *
+       * @fullName pfinite(o, lowerTail, logp)(x)
        * @memberof finite
        */
        function pfinite(o, lowerTail, logp) {
