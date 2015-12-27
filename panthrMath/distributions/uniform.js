@@ -4,7 +4,21 @@ define(function(require) {
    /**
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the continuous uniform distribution.
+    * for the continuous uniform distribution on $[a, b]$, which
+    * is defined by the pdf
+    * $$ p(x; a, b) = \begin{cases}
+    *   \frac{1}{b-a},  & \text{if $a \leq x \leq b$} \\\\
+    *   0, & \text{if $x < a$ or $x > b$} \end{cases} $$
+    * where $a < b$ and $x \in (-\infty, \infty)$.
+    *
+    * `dunif` provides access to this probability density function,
+    * `punif` to the cumulative distribution function, `qunif` to the
+    * quantile function (inverse cdf)
+    * and `runif` to random deviates.
+    *
+    * Finally, you can use `unif` to obtain an object
+    * representing the Uniform distribution for given values of
+    * `min` and `max`.
     *
     * @module distributions.uniform
     * @memberof distributions
@@ -85,12 +99,13 @@ define(function(require) {
 
    return {
       /**
-       * Returns an object representing a uniform distribution, with properties `d`, `p`, `q`, `r`.
+       * Returns an object representing a uniform distribution on $[min, max]$,
+       * with properties `d`, `p`, `q`, `r`.
        * ```
-       * unif(a, b).d(x, logp)            // same as dunif(a, b, logp)(x)
-       * unif(a, b).p(x, lowerTail, logp) // same as punif(a, b, lowerTail, logp)(x)
-       * unif(a, b).q(x, lowerTail, logp) // same as qunif(a, b, lowerTail, logp)(x)
-       * unif(a, b).r(n)                  // same as runif(a, b)(n)
+       * unif(min, max).d(x, logp)            // same as dunif(min, max, logp)(x)
+       * unif(min, max).p(x, lowerTail, logp) // same as punif(min, max, lowerTail, logp)(x)
+       * unif(min, max).q(x, lowerTail, logp) // same as qunif(min, max, lowerTail, logp)(x)
+       * unif(min, max).r(n)                  // same as runif(min, max)(n)
        * ```
        * @memberof uniform
        */
