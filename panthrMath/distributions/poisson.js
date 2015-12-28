@@ -4,13 +4,13 @@ define(function(require) {
    // No input validation provided.
 
    /**
-    * Provides density function, cumulative distribution function,
+    * Provides probability mass function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the Poisson distribution, which is defined by the pdf
+    * for the Poisson distribution, which is defined by the pmf
     * $$p(x;\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}$$
     * where $x=0,1,2,\ldots$ and $\lambda > 0$ is the mean.
     *
-    * `dpois` provides access to this probability density function,
+    * `dpois` provides access to this probability mass function,
     * `ppois` to the cumulative distribution function, `qpois` to the
     * quantile function (inverse cdf)
     * and `rpois` to random deviates.
@@ -32,7 +32,7 @@ define(function(require) {
    inverseCDF = require('../rgen/inverseCDF');
 
    /**
-    * Evaluates the Poisson density function at `x`:
+    * Evaluates the Poisson pmf at `x`:
     * $$\textrm{dpois}(\lambda)(x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
     *
     * Expects $\lambda > 0$.
