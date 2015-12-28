@@ -2,12 +2,12 @@
 define(function(require) {
 
    /**
-    * Provides density function, constructor, cumulative distribution function,
-    * quantile function, and random number generator
-    * for finite discrete probability distributions.
+    * Provides probability mass function, constructor, cumulative distribution
+    * function, quantile function, and random number generator for finite
+    * discrete probability distributions.
     *
-    * For all members of the `module:finite` module, distributions are provided via
-    * appropriate properties of the object `o`. There are two possible options
+    * For all members of the `module:finite` module, distributions are provided
+    * via appropriate properties of the object `o`. There are two possible options
     * for that object:
     * - It can have properties `xs`, `ws`, which are arrays of equal length,
     * corresponding to the values the distribution can take and their
@@ -21,7 +21,7 @@ define(function(require) {
     * (similar to the `ws`).
     *
     * `finite` returns an object representing the distribution, `dfinite` returns
-    * the pdf, `pfinite` the cdf, `qfinite` the inverse cdf, and `rfinite` generates
+    * the pmf, `pfinite` the cdf, `qfinite` the inverse cdf, and `rfinite` generates
     * random variates.
     *
     * Examples:
@@ -39,7 +39,8 @@ define(function(require) {
    rgen = require('../rgen/rgen');
 
    /**
-    * Returns an object representing a finite distribution, with properties `d`, `p`, `q`, `r`.
+    * Returns an object representing a finite distribution, with properties
+    * `d`, `p`, `q`, `r`.
     * ```
     * finite(o).d(x, logp)            // same as dfinite(o, logp)(x)
     * finite(o).p(x, lowerTail, logp) // same as pfinite(o, lowerTail, logp)(x)

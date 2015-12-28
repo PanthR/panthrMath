@@ -2,13 +2,13 @@
 define(function(require) {
 
    /**
-    * Provides density function, cumulative distribution function,
+    * Provides probability mass function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the Binomial distribution, which is defined by the pdf
+    * for the Binomial distribution, which is defined by the pmf
     * $$p(x;n,p) = {n \choose x}p^x(1-p)^{n-x}$$
     * where $x=0,\ldots,n$, $n$ is the *size* and $p$ is the probability of success.
     *
-    * `dbinom` provides access to this probability density function,
+    * `dbinom` provides access to this probability mass function,
     * `pbinom` to the cumulative distribution function, `qbinom` to the
     * quantile function (inverse cdf)
     * and `rbinom` to random deviates.
