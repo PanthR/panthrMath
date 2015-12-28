@@ -7,7 +7,7 @@ define(function(require) {
     * Provides probability mass function, cumulative distribution function,
     * quantile function, and random number generator
     * for the Poisson distribution, which is defined by the pmf
-    * $$p(x;\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}$$
+    * $$f(x;\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}$$
     * where $x=0,1,2,\ldots$ and $\lambda > 0$ is the mean.
     *
     * `dpois` provides access to this probability mass function,

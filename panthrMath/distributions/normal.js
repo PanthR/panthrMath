@@ -5,7 +5,7 @@ define(function(require) {
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
     * for the normal distribution, which is defined by the pdf
-    * $$p(x;\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$
+    * $$f(x;\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$
     * where $x\in(-\infty,\infty)$ and as usual $\mu$ is the mean and $\sigma>0$
     * is the standard deviation.
     *

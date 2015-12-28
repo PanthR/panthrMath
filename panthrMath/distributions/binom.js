@@ -5,7 +5,7 @@ define(function(require) {
     * Provides probability mass function, cumulative distribution function,
     * quantile function, and random number generator
     * for the Binomial distribution, which is defined by the pmf
-    * $$p(x;n,p) = {n \choose x}p^x(1-p)^{n-x}$$
+    * $$f(x;n,p) = {n \choose x}p^x(1-p)^{n-x}$$
     * where $x=0,\ldots,n$, $n$ is the *size* and $p$ is the probability of success.
     *
     * `dbinom` provides access to this probability mass function,

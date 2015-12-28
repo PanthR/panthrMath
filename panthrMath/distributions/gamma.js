@@ -5,7 +5,7 @@ define(function(require) {
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
     * for the Gamma distribution, which is defined by the pdf
-    * $$p(x;a,s) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$
+    * $$f(x;a,s) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$
     * where $x\in(0,\infty)$. The parameter $a>0$ is called the *shape*
     * and the parameter $s>0$ the *scale*.
     *

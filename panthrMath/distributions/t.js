@@ -5,7 +5,7 @@ define(function(require) {
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
     * for the Student's t distribution, which is defined by the pdf
-    * $$p(x;\nu) = \frac{1}{\sqrt{\nu}\,\textrm{B}(1/2, \nu/2)} \left(1+\frac{x^2}{\nu} \right)^{-\frac{\nu + 1}{2}}$$
+    * $$f(x;\nu) = \frac{1}{\sqrt{\nu}\,\textrm{B}(1/2, \nu/2)} \left(1+\frac{x^2}{\nu} \right)^{-\frac{\nu + 1}{2}}$$
     * where B is the Beta function, $x \in (-\infty, \infty)$ and $\nu >0$ is the *degrees of freedom*.
     *
     * `dt` provides access to this probability density function,

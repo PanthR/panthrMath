@@ -5,7 +5,7 @@ define(function(require) {
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
     * for the Beta distribution, which is defined by the pdf
-    * $$p(x;a,b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$
+    * $$f(x;a,b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$
     * where $x\in[0,1]$ and the parameters $a,b > 0$.
     *
     * `dbeta` provides access to this probability density function,

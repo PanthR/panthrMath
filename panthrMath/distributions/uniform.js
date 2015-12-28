@@ -6,7 +6,7 @@ define(function(require) {
     * quantile function, and random number generator
     * for the continuous uniform distribution on $[a, b]$, which
     * is defined by the pdf
-    * $$ p(x; a, b) = \begin{cases}
+    * $$ f(x; a, b) = \begin{cases}
     *   \frac{1}{b-a},  & \text{if $a \leq x \leq b$} \\\\
     *   0, & \text{if $x < a$ or $x > b$} \end{cases} $$
     * where $a < b$ and $x \in (-\infty, \infty)$.
