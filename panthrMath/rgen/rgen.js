@@ -1,8 +1,19 @@
 (function(define) {'use strict';
 define(function(require) {
 
-   /*
-    * Random number generators for PanthR
+   /**
+    * Random number generation
+    *
+    * panthrMath implements its own random number generation, to provide
+    * consistency across platforms.  Currently, only one algorithm is provided.
+    * See: *Random Number Generation and Monte Carlo Methods*, 2nd edition,
+    * by J. Gentle (Springer).
+    *
+    * Available algorithms:
+    * - `slcg`: simple linear congruential generator, using the
+    *     congruence $x\_i \equiv a x _ {i-1} + c \bmod m$ where
+    *     $a = 16807$, $c = 0$, and $m = 2^{31} - 1$.
+    *
     * @module rgen
     * @version 0.0.1
     * @author Haris Skiadas <skiadas@hanover.edu>
@@ -34,33 +45,25 @@ define(function(require) {
 
    var rgen, slcg;
 
-   /**
-    * Rgen Module
-    * @module rgen
-    * @memberof panthrMath
-    * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
-    */
    rgen = {
-
-    /**
-     * algorithms
-     */
       algorithms: {},
       /**
-       * setSeed
+       * Sets a seed for the random number generator.  Expects `seed` to
+       * be an integer.
        */
-      setSeed: function(i) {
+      setSeed: function(seed) {
          throw new Error('need to select an algorithm first');
          // return rgen;
       },
       /**
-       * random
+       * Generates a random number uniformly on the interval $(0, 1)$.
        */
        random: function() {
          throw new Error('need to select an algorithm first');
       },
       /**
-       * setAlgorithm
+       * Sets the algorithm to be used for random number generation.
+       * Expects `name` to be one of the strings returned by `getAlgorithms`.
        */
       setAlgorithm: function(name) {
          // "name" encapsulates some simple options like precision
@@ -69,7 +72,8 @@ define(function(require) {
          return rgen.setRandomSeed();
       },
       /**
-       * getAlgorithms
+       * Returns a list of the available algorithms for random number
+       * generation.
        */
       getAlgorithms: function() {
          return Object.keys(rgen.algorithms);
@@ -77,7 +81,8 @@ define(function(require) {
    };
 
    /**
-    * setRandomSeed
+    * Sets a seed for random number generation, based on the system date.
+    * @fullName setRandomSeed()
     */
    rgen.setRandomSeed = function() {
       return rgen.setSeed(new Date());
