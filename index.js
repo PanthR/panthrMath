@@ -12,7 +12,7 @@ define(function(require) {
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
 
-   var panthrMath, mixin;
+   var panthrMath, mixin, rgen;
 
    mixin = require('./panthrMath/utils').mixin;
 
@@ -25,6 +25,11 @@ define(function(require) {
    panthrMath.Polynomial = require('./panthrMath/polynomial');
    /* Abstraction for rational functions. */
    panthrMath.Rational = require('./panthrMath/rational');
+
+   rgen = require('./panthrMath/rgen/rgen');
+   ['setAlgorithm', 'getAlgorithms',
+    'setSeed', 'setRandomSeed', 'random'
+   ].forEach(function(key) { panthrMath[key] = rgen[key]; });
 
    mixin(panthrMath,
       /** A collection of basic and special functions. See `module:basicFunc`. */
