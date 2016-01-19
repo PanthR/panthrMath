@@ -6,7 +6,9 @@
   "rules": {
      "no-constant-condition": 0,
      "quotes": [2, "single"],
-     "space-in-brackets": [2. "always"],
+     "array-bracket-spacing": [2, "never"],
+     "object-curly-spacing":[2, "always"],
+     "computed-property-spacing": [2, "never"],
      "space-after-keywords": [2, "always"],
      "no-extra-parens": 2,
      "block-scoped-var": 2,
@@ -25,7 +27,7 @@
      "no-mixed-spaces-and-tabs": [2, true],
      "space-unary-ops": 2,
      "max-depth": [2, 4],
-     "max-len": [2, 105],
+     "max-len": [1, 105, 3],
      "max-params": [2, 6],
      "no-plusplus": 2
   }
