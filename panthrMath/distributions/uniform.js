@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -49,6 +50,7 @@ define(function(require) {
 
       return function(x) {
          var p;
+
          p = x < a || x > b ? 0 : 1 / (b - a);
 
          return logp ? Math.log(p) : p;
@@ -81,9 +83,9 @@ define(function(require) {
       return function(x) {
          var p;
 
-         p = x <= a ? 0 :
-             x >= b ? 1 :
-                        (x - a) / (b - a);
+         p = x <= a ? 0
+           : x >= b ? 1
+                    : (x - a) / (b - a);
          p = lowerTail ? p : 1 - p;
 
          return logp ? Math.log(p) : p;

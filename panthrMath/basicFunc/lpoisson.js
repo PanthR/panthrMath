@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    var C, bd0, stirlerr;

@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -26,7 +27,6 @@ define(function(require) {
    gratio = require('../basicFunc/gratio');
    exponential = require('../rgen/exponential');
    rgen = require('../rgen/rgen');
-
 
    // helper function
    function dgammaLog(a, s) {
@@ -150,23 +150,21 @@ define(function(require) {
     * @memberof gamma
     */
    function rgamma(a, s) {
-      if (a < 1) {
-         return gammaBest(a, s);
-      }
-      if (a > 1) {
-         return gammaCheng(a, s);
-      }
+      if (a < 1) { return gammaBest(a, s); }
+      if (a > 1) { return gammaCheng(a, s); }
       return exponential(1 / s);
    }
 
    // a < 1:  Best/Ahrens/Dieter Algorithm
    function gammaBest(a, s) {
       var t, b;
-      t = .07 + .75 * Math.sqrt(1 - a);
+
+      t = 0.07 + 0.75 * Math.sqrt(1 - a);
       b = 1 + Math.exp(-t) * a / t;
 
       return function() {
          var x, y, u1, u2, v;
+
          /* eslint-disable no-constant-condition */
          while (true) {
          /* eslint-enable */
@@ -182,8 +180,7 @@ define(function(require) {
                x = -Math.log(t * (b - v) / a);
                y = x / t;
                if (u2 * (a + y * (1 - a)) <= 1 ||
-                   u2 <= Math.pow(y, a - 1))
-               {
+                   u2 <= Math.pow(y, a - 1)) {
                   return x * s;
                }
             }
@@ -194,6 +191,7 @@ define(function(require) {
    // a > 1:  Cheng/Feast Algorithm
    function gammaCheng(a, s) {
       var c1, c2, c3, c4;
+
       c1 = a - 1;
       c2 = (a - 1 / (6 * a)) / c1;
       c3 = 2 / c1;
@@ -201,6 +199,7 @@ define(function(require) {
 
       return function() {
          var u1, u2, w;
+
          /* eslint-disable no-constant-condition */
          while (true) {
          /* eslint-enable */

@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -99,8 +100,8 @@ define(function(require) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      goodParams = size >= 0 && size < Infinity && size === Math.floor(size)
-            && p >= 0 && p <= 1;
+      goodParams = size >= 0 && size < Infinity && size === Math.floor(size) &&
+                   p >= 0 && p <= 1;
       if (!goodParams) { return function(x) { return NaN; }; }
       return function(x) {
          var res;
@@ -136,15 +137,12 @@ define(function(require) {
     * @memberof binomial
     */
    function qbinom(size, p, lowerTail, logp) {
-
-      // TODO:  make a separate calculation for !lowerTail
-
       var goodParams, mu, sigma, gamma;
 
       logp = logp === true;
       lowerTail = lowerTail !== false;
-      goodParams = size >= 0 && size < Infinity && size === Math.floor(size)
-            && p >= 0 && p <= 1;
+      goodParams = size >= 0 && size < Infinity && size === Math.floor(size) &&
+                   p >= 0 && p <= 1;
 
       if (!goodParams) { return function(prob) { return NaN; }; }
       if (p === 0) {
@@ -164,6 +162,7 @@ define(function(require) {
 
       return pWrap(true, logp, function(prob) {
          var z, ret;
+
          // if (prob === 0) { return 0; }
          // if (prob === 1) { return size; }
          z = qnorm(0, 1, lowerTail)(prob); // initial value

@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /*
@@ -74,7 +75,7 @@ define(function(require) {
     * Function*, by W. J. Cody, 1969
     * @memberof basicFunc
     */
-   erf = function erf(x) {
+   erf = function(x) {
       if (x < -0.5) { return -erf(-x); }
       if (x < 0.5) { return x * R4small.evalAt(x * x); }
       return 1 - erfc(x);
@@ -87,8 +88,9 @@ define(function(require) {
     * Function*, by W. J. Cody, 1969
     * @memberof basicFunc
     */
-   erfc = function erfc(x) {
+   erfc = function(x) {
       var x2inv;
+
       if (x < -0.5) { return 2 - erfc(-x); }
       if (x < 0.5) { return 1 - erf(x); }
       if (x <= 4) { return Math.exp(-x * x) * R8med.evalAt(x); }
@@ -96,6 +98,73 @@ define(function(require) {
       return Math.exp(-x * x) / x *
          (piSqrtInv + x2inv * R5large.evalAt(x2inv));
    };
+
+   // erf__ = (function(){
+   //    var Rat1, Rat2, Rat3, c;
+   //    c = 0.564189583547756;
+
+   //    Rat1 = Rational.new([
+   //       7.7105849500132e-5,
+   //      -.00133733772997339,
+   //       .0323076579225834,
+   //       .0479137145607681,
+   //       .128379167095513 + 1
+   //    ], [
+   //       .00301048631703895,
+   //       .0538971687740286,
+   //       .375795757275549,
+   //       1
+   //    ]);
+
+   //    Rat2 = Rational.new([
+   //       -1.36864857382717e-7,
+   //       .564195517478974,
+   //       7.21175825088309,
+   //       43.1622272220567,
+   //       152.98928504694,
+   //       339.320816734344,
+   //       451.918953711873,
+   //       300.459261020162
+   //    ], [
+   //       1.,
+   //       12.7827273196294,
+   //       77.0001529352295,
+   //       277.585444743988,
+   //       638.980264465631,
+   //       931.35409485061,
+   //       790.950925327898,
+   //       300.459260956983
+   //    ]);
+
+   //    Rat3 = Rational.new([
+   //       2.10144126479064,
+   //       26.2370141675169,
+   //       21.3688200555087,
+   //       4.6580782871847,
+   //       .282094791773523
+   //    ], [
+   //       94.153775055546,
+   //       187.11481179959,
+   //       99.0191814623914,
+   //       18.0124575948747,
+   //       1
+   //    ]);
+
+   //    return function(x) {
+   //       var ax, sgnx;
+
+   //       ax = Math.abs(x);
+   //       sgnx = x < 0 ? -1 : 1;
+   //       if (ax <= 0.5) { return x * Rat1.evalAt(x * x); }
+   //       if (ax <= 4) {
+   //          return (1 - Math.exp(-x * x) * Rat2.evalAt(ax)) * sgnx;
+   //       }
+   //       if (ax >= 5.8) { return sgnx; }
+   //       return (1 - Math.exp(-x * x) *
+   //                   (c - Rat3.evalAt(1 / x / x) / x / x) / ax
+   //              ) * sgnx;
+   //    };
+   // }());
 
    return {
       erf: erf,

@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -41,9 +42,11 @@ define(function(require) {
     */
    function dtlog(df) {
       var t;
+
       t = -bd0(df / 2, (df + 1) / 2) + stirlerr((df + 1) / 2) - stirlerr(df / 2);
       return function(x) {
          var x2n, logx2n, u;
+
          x2n = x * x / df;
          logx2n = Math.log(1 + x2n) / 2;
          u = x2n > 0.2 ? df * logx2n
@@ -68,8 +71,9 @@ define(function(require) {
     * @memberof t
     */
    function dt(df, logp) {
-      logp = logp === true;
       var dtl;
+
+      logp = logp === true;
       dtl = dtlog(df);
       return function(x) {
          return logp ? dtl(x) : Math.exp(dtl(x));
@@ -83,8 +87,8 @@ define(function(require) {
          var val;
 
          val = df > x * x ?
-               bratio(0.5, df / 2, x * x / (df + x * x), false, true) :
-               bratio(df / 2, 0.5, 1 / (1 + x / df * x), true, true);
+               bratio(0.5, df / 2, x * x / (df + x * x), false, true)
+             : bratio(df / 2, 0.5, 1 / (1 + x / df * x), true, true);
 
          if (x <= 0) { lowerTail = !lowerTail; }
 
@@ -177,12 +181,13 @@ define(function(require) {
    function rt(df) {
          return function() {
             var u1, u2, rsq;
+
             do {
                u1 = rgen.random() * 2 - 1;
                u2 = rgen.random() * 2 - 1;
                rsq = u1 * u1 + u2 * u2;
             } while (rsq >= 1);
-            return u1 * Math.sqrt(df * ( Math.pow(rsq, -2 / df) - 1) / rsq);
+            return u1 * Math.sqrt(df * (Math.pow(rsq, -2 / df) - 1) / rsq);
          };
       }
 

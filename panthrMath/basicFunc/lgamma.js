@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /*
@@ -15,7 +16,9 @@ define(function(require) {
    /* The Lanczos version works well for positive inputs not close to 1. */
    lgammaLanczos = (function() {
       // z Must be positive
-      var cs = [
+      var cs;
+
+      cs = [
          0.99999999999980993227684700473478,
          676.520368121885098567009190444019,
          -1259.13921672240287047156078755283,
@@ -46,6 +49,7 @@ define(function(require) {
    function pade22(n1, n2, d1, d2, c, corr) {
       return function(eps) {
          var eps5, pade;
+
          pade = c * (eps + n1) * (eps + n2) / ((eps + d1) * (eps + d2));
          eps5 = eps * eps * eps * eps * eps;
          return eps * (pade + eps5 * corr.evalAt(eps));
@@ -59,6 +63,7 @@ define(function(require) {
     */
    lgammaNear1or2 = (function() {
       var p1, p2;
+
       p1 = pade22(
          -1.0017419282349508699871138440, // n1
           1.7364839209922879823280541733, // n2

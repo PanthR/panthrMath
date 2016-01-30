@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
    /*
     * bratioLog -- see Algorithm 708
@@ -21,8 +22,9 @@ define(function(require) {
 
    // Page 371 of DiDonato/Morris
    // algdiv(a, b) = lgamma(b) - lgamma(a + b)
-   algdiv = (function(){
+   algdiv = (function() {
       var ds;
+
       ds = [
          0.0833333333333333,
         -0.00277777777760991,
@@ -31,8 +33,9 @@ define(function(require) {
          0.837308034031215e-3,
         -0.125322962780713e-2
       ];
-      return function algdiv(a, b) {
+      return function(a, b) {
          var w, p, q, s;
+
          p = a / (a + b);
          q = b / (a + b);
          s = 1;
@@ -92,6 +95,7 @@ define(function(require) {
    // bpser (7) Returns the log of the lower probability
    function bpser(a, b, x) {
       var c, ser;
+
       c = 1;
       ser = a * series(function(i) {
          if (i === 0) { return 0; }
@@ -107,9 +111,9 @@ define(function(require) {
    /* eslint-disable max-params */
    function bup(a, b, x, y, n) {
       var logSeries;
+
       logSeries = Math.log(series(function(i, v) {
-            if (i === 0) {
-               return 1; }
+            if (i === 0) { return 1; }
             return v * x * (1 + (b - 1) / (a + i));
          }, n));
       return a * Math.log(x) + b * Math.log(y) - lbeta(a, b) - Math.log(a) +
@@ -131,24 +135,26 @@ define(function(require) {
       cs = [1];   // cs[n] = 1 / (2n + 1)!
       ps = [1];   // ps[n] = p_n in (9.3)
       lnx2s = Math.log(x) * 0.5;   // (ln(x) / 2) ^ 2
-      lnx2s = lnx2s * lnx2s;
+      lnx2s *= lnx2s;
       lnx2sn = 1;   // lnx2s ^ n
       j = gratR(b, u, logH);
       ser =
       Math.log(
          series(function(n) {
-            var mbmn = -n; // holds m*b - n
+            var mbmn; // holds m*b - n
+
+            mbmn = -n;
             if (n > 0) {
                j = (b + 2 * n - 2) * (b + 2 * n - 2 + 1) * j +
                      (u + b + 2 * n - 2 + 1) * lnx2sn;
-               j = j * fTs;
+               j *= fTs;
                cs[n] = cs[n - 1] / (2 * n) / (2 * n + 1);
                ps[n] = (b - 1) * cs[n] + 1 / n * series(function(m) {
                   if (m === 0) { return 0; }
-                  mbmn = mbmn + b;
+                  mbmn += b;
                   return mbmn * cs[m] * ps[n - m];
                }, n);
-               lnx2sn = lnx2sn * lnx2s;
+               lnx2sn *= lnx2s;
             }
             return ps[n] * j;
          })
@@ -164,20 +170,22 @@ define(function(require) {
       lambda = a - (a + b) * x;
       return brcomp(a, b, x, y) + Math.log(contFrac(
          function(i) { // betas from DiDonato
-            var n = i - 1;
-            return i === 0 ?
-                   0 :
-                   n + n * (b - n) * x / (a + 2 * n - 1) +
-                                         (a + n) / (a + 2 * n + 1) *
-                                                   (lambda + 1 + n * (1 + y));
+            var n;
+
+            n = i - 1;
+            return i === 0 ? 0
+                           : n + n * (b - n) * x / (a + 2 * n - 1) +
+                             (a + n) / (a + 2 * n + 1) *
+                                (lambda + 1 + n * (1 + y));
          },
-         function(i) { //alphas from DiDonato
-            var n = i - 1;
-            return i === 1 ?
-                   1 :
-                   (a + n - 1) * (a + b + n - 1) /
-                   (a + 2 * n - 1) / (a + 2 * n - 1) *
-                   n * (b - n) * x * x;
+         function(i) { // alphas from DiDonato
+            var n;
+
+            n = i - 1;
+            return i === 1 ? 1
+                           : (a + n - 1) * (a + b + n - 1) /
+                             (a + 2 * n - 1) / (a + 2 * n - 1) *
+                             n * (b - n) * x * x;
          }
       ));
    }
@@ -187,6 +195,7 @@ define(function(require) {
    function basym(a, b, x, y) {
       var z, p, q, bg, bgn, Ls, as, bs, cs, es, r, ab, sgn, abnp1,
          root2z, root2znm1, ser;
+
       p = a / (a + b);
       q = b / (a + b);
       bg = a < b ? Math.sqrt(q / a) : Math.sqrt(p / b); // betaGamma (11.3)
@@ -203,7 +212,8 @@ define(function(require) {
       sgn = -1; // (-1)^n
       ser = series(function(n) {
                var i, seriesTerms;
-               bgn = bgn * bg;
+
+               bgn *= bg;
                abnp1 = -abnp1 * ab;
                sgn = -sgn;
                if (n === 0) {
@@ -216,7 +226,7 @@ define(function(require) {
                   es[1] = -cs[1];
                   Ls[1] = Math.pow(2, -1.5);
                } else {
-                  root2znm1 = root2znm1 * root2z;
+                  root2znm1 *= root2z;
                   Ls[n] = Math.pow(2, -1.5) * root2znm1 +
                            (n - 1) * Ls[n - 2];     // (11.21)
                   as[n] = 2 / (n + 2) * (1 - abnp1) * (a <= b ? q : sgn * p);
@@ -242,7 +252,7 @@ define(function(require) {
              z * z + Math.log(ser);
    }
 
-   /* eslint-disable complexity */
+   /* eslint-disable complexity, max-statements */
    function bratioLog(a, b, x) {
       var p, q, y, bint, bbar, lambda;
 
@@ -255,8 +265,8 @@ define(function(require) {
          bbar += 1;
          bint -= 1;
       }
-      lambda = a > b ? (a + b) * y - b :
-                       a - (a + b) * x;
+      lambda = a > b ? (a + b) * y - b
+                     : a - (a + b) * x;
 
       // By convention, if 0 < x < 1 then a == 0 -> result = 1
       // and b == 0 -> result = 0. Can't have a == b == 0.
@@ -269,10 +279,10 @@ define(function(require) {
       // This logic follows pages 368-369 of algorithm 708
       /*  CASE where min(a, b) <= 1 */
       if (Math.min(a, b) <= 1) {
-         if ( x > 0.5) { return tailFlip(bratioLog(b, a, y)); }
+         if (x > 0.5) { return tailFlip(bratioLog(b, a, y)); }
          // we are skipping the case, in R code, for b < min(eps, a*eps)
          // also skipping a < min(eps, b*eps)
-         if ( Math.max(a, b) > 1) {
+         if (Math.max(a, b) > 1) {
             // either a <= 1 < b or b <= 1 < a
             if (b <= 1) { return fromLower(bpser(a, b, x)); } // (12c)
             // a <= 1 < b
@@ -331,7 +341,7 @@ define(function(require) {
       // y <= 1.03 * q
       return fromLower(basym(a, b, x, y)); // (21c)
    }
-   /* eslint-enable complexity */
+   /* eslint-enable complexity, max-statements */
 
    /**
     * Returns the lower tail of the incomplete beta function

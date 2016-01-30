@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -10,6 +11,7 @@ define(function(require) {
     */
    function bd0(x, y) {
       var ej, j, s, sTemp, v;
+
       if (Math.abs(x - y) < 0.1 * (x + y)) {
          v = (x - y) / (x + y);
          s = (x - y) * v;

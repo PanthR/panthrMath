@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /*
@@ -30,12 +31,13 @@ define(function(require) {
     */
    function phi(x) {
       var rat;
+
       if (x < 0) { return NaN; }
       if (x === 0) { return Infinity; }
       if (x < 0.82 || x > 1.18) { return x - 1 - Math.log(x); }
 
       rat = (x - 1) / (x + 1);
-      return 2 * rat * rat * ( 1 / (1 - rat) - rat * phi1.evalAt(rat * rat));
+      return 2 * rat * rat * (1 / (1 - rat) - rat * phi1.evalAt(rat * rat));
    }
 
    return { phi: phi };

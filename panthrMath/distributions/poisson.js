@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    // No input validation provided.
@@ -102,9 +103,6 @@ define(function(require) {
     * @memberof poisson
     */
    function qpois(lambda, lowerTail, logp) {
-
-      // TODO:  make a separate calculation for !lowerTail
-
       var goodParams, mu, sigma, gamma;
 
       logp = logp === true;
@@ -122,6 +120,7 @@ define(function(require) {
 
       return pWrap(true, logp, function(prob) {
          var z, ret;
+
          z = qnorm(0, 1, lowerTail)(prob); // initial value
          if (z < -10) { z = -10; }
          if (z > 10) { z = 10; }
@@ -165,7 +164,6 @@ define(function(require) {
          }
       );
    }
-
 
    return {
       /**

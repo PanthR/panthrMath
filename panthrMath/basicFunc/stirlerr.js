@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    var cs, precomputed, lgamma, C;
@@ -56,7 +57,9 @@ define(function(require) {
     * @memberof basicFunc
     */
    function stirlerr(n) {
-      var nsq = n * n;
+      var nsq;
+
+      nsq = n * n;
       if (n <= 15) {
          if (2 * n === Math.floor(2 * n)) {
             return precomputed[2 * n];
@@ -66,7 +69,7 @@ define(function(require) {
       }
       if (n > 500) { return (cs[0] - cs[1] / nsq) / n; }
       if (n > 80) { return (cs[0] - (cs[1] - cs[2] / nsq) / nsq) / n; }
-      if (n > 35) {return (cs[0] - (cs[1] - (cs[2] - cs[3] / nsq) / nsq) / nsq) / n; }
+      if (n > 35) { return (cs[0] - (cs[1] - (cs[2] - cs[3] / nsq) / nsq) / nsq) / n; }
       return (cs[0] - (cs[1] - (cs[2] - (cs[3] - cs[4] / nsq) / nsq) / nsq) / nsq) / n;
    }
 

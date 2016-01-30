@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    var Rational, log1p;
@@ -14,7 +15,9 @@ define(function(require) {
     * @memberof basicFunc
     */
    log1p = (function() {
-      var R = Rational.new([
+      var R;
+
+      R = Rational.new([
          -0.0178874546012214,
           0.405303492862024,
          -1.29418923021993,
@@ -27,6 +30,7 @@ define(function(require) {
          ]);
       return function(x) {
          var t;
+
          if (Math.abs(x) > 0.375) { return Math.log(1 + x); }
          t = x / (x + 2);
          return 2 * t * R.evalAt(t * t);

@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -51,8 +52,9 @@ define(function(require) {
    */
    function finite(o) {
       var sum, xs, ws, cumsLeft, cumsRight, i, finObj;
+
       if (typeof o.f === 'function') {
-         o = populateObjectFromFunction(o);
+         o = popObjFromFunc(o);
       }
       xs = o.xs;
       ws = o.ws;
@@ -87,6 +89,7 @@ define(function(require) {
          /* eslint-disable complexity */
          p: function(q, lowerTail, logp) {
             var ind, ret;
+
             logp = logp === true;
             lowerTail = lowerTail !== false;
             if (isNaN(q)) { return NaN; }
@@ -141,6 +144,7 @@ define(function(require) {
     */
    function binSearch(xs, pred) {
       var a, b, mid;
+
       a = 0;
       b = xs.length;
       while (b - a > 1) {
@@ -162,6 +166,7 @@ define(function(require) {
     */
    function binSearch2(xs, pred) {
       var a, b, mid;
+
       a = -1;
       b = xs.length - 1;
       while (b - a > 1) {
@@ -176,7 +181,7 @@ define(function(require) {
 
    }
 
-   function populateObjectFromFunction(o) {
+   function popObjFromFunc(o) {
       var i, obj;
 
       obj = { xs: [], ws: [] };
@@ -205,7 +210,9 @@ define(function(require) {
        * @memberof finite
        */
        function dfinite(o, logp) {
-         var distr = finite(o);
+         var distr;
+
+         distr = finite(o);
          return function(x) { return distr.d(x, logp); };
       },
       pfinite:
@@ -225,7 +232,9 @@ define(function(require) {
        * @memberof finite
        */
        function pfinite(o, lowerTail, logp) {
-         var distr = finite(o);
+         var distr;
+
+         distr = finite(o);
          return function(q) { return distr.p(q, lowerTail, logp); };
       },
       qfinite:
@@ -259,7 +268,9 @@ define(function(require) {
        * @memberof finite
        */
        function qfinite(o, lowerTail, logp) {
-         var distr = finite(o);
+         var distr;
+
+         distr = finite(o);
          return function(p) { return distr.q(p, lowerTail, logp); };
       },
       rfinite:

@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -42,10 +43,12 @@ define(function(require) {
     */
    function dnorm(mu, sigma, logp) {
       var c;
+
       logp = logp === true;
       c = Math.log(twopi);
       return function(x) {
          var z, p;
+
          z = (x - mu) / sigma;
          p = -0.5 * (c + z * z);
          return logp ? p : Math.exp(p);
@@ -128,7 +131,7 @@ define(function(require) {
          7.29751555083966205e-5
       ]);
 
-      return function pnorm(mu, sigma, lowerTail, logp) {
+      return function(mu, sigma, lowerTail, logp) {
          lowerTail = lowerTail !== false;
          logp = logp === true;
          /* eslint-disable complexity */
@@ -246,7 +249,7 @@ define(function(require) {
          1.0
       ]);
 
-      return function qnorm(mu, sigma, lowerTail, logp) {
+      return function(mu, sigma, lowerTail, logp) {
          lowerTail = lowerTail !== false;
          logp = logp === true;
          return pWrap(lowerTail, logp, function(p) {
@@ -281,6 +284,7 @@ define(function(require) {
    function rnorm(mu, sigma) {
       return function() {
          var v1, v2, rsq;
+
          do {
             v1 = 2 * rgen.random() - 1;
             v2 = 2 * rgen.random() - 1;

@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    var utils, log1p, expm1;
@@ -33,12 +34,14 @@ define(function(require) {
        */
       repeat: function(init, step, stop) {
          var prev, curr, done, reps;
+
          curr = init;
          reps = utils.maxSteps;
          if (stop === 0) { return curr; }
-         done = typeof stop === 'function' ? stop :
-                stop > 0 ? function() { stop -= 1; return stop === 0; } :
-                        function() { return utils.relativelyCloseTo(curr, prev, 1e-13); };
+         done = typeof stop === 'function' ?
+                stop
+              : stop > 0 ? function() { stop -= 1; return stop === 0; }
+                         : function() { return utils.relativelyCloseTo(curr, prev, 1e-13); };
          while (reps > 0 && !done() && !isNaN(curr)) {
             reps -= 1;
             prev = curr;
@@ -59,6 +62,7 @@ define(function(require) {
        */
       series: function(f, stop) {
          var sum, curr, i;
+
          i = 0;
          curr = f(0);
          sum = curr;
@@ -82,8 +86,9 @@ define(function(require) {
        * as determined by `stop`.
        */
       contFrac: function(a, b, stop) {
-         var A, A1, A2; // A2 is "two previous" to A, A1 is "one previous"
-         var B, B1, B2, an, bn, i;
+         var A, A1, A2, // A2 is "two previous" to A, A1 is "one previous"
+             B, B1, B2, an, bn, i;
+
          an = a(0);
          A = an;
          A1 = 1;
@@ -165,13 +170,14 @@ define(function(require) {
        */
       discInvCdf: function discInvCdf(min, max, x, p, f) {
          var incr;
+
          if (p === 0) { return min; }
          if (p === 1) { x = max; }
          if (x > max) { x = max; }
          if (x < min) { x = min; }
 
          incr = Math.min(x - min, max - x);
-         incr = Math.max(Math.floor(.001 * incr), 1);
+         incr = Math.max(Math.floor(0.001 * incr), 1);
          while (incr > 1) {
             if (f(x) < p) { // x is too small
                x += incr;
@@ -189,6 +195,7 @@ define(function(require) {
          if (x < min) { x = min; }
          if (x > max) { x = max; }
          // incr is 1
+         /* eslint-disable no-constant-condition */
          while (true) {
             if (x === min) {
                if (f(x) >= p || utils.relativelyCloseTo(f(x), p, 1e-14)) { return x; }
@@ -207,6 +214,7 @@ define(function(require) {
                x += 1;  // go right
             }
          }
+         /* eslint-enable no-constant-condition */
       },
        /* eslint-enable complexity */
 
@@ -219,8 +227,10 @@ define(function(require) {
        * Special cases for NaN, Infinity, -Infinity
        */
       relativelyCloseTo: function(x, x0, delta) {
+         var absMax;
+
          delta = delta || utils.precision;
-         var absMax = Math.max(Math.abs(x0), Math.abs(x));
+         absMax = Math.max(Math.abs(x0), Math.abs(x));
          if (isNaN(absMax)) { return isNaN(x) && isNaN(x0); } /* both NaN */
          if (absMax === Infinity) { return x0 === x; }
          if (absMax === 0) { return true; }
@@ -264,15 +274,16 @@ define(function(require) {
    // if "e" is provided it is just returned
    function inferEndpoint(f, y, lower, e) {
       var comp; // comparison of f(e) and f(2*e)
+
       if (e != null) { return e; }
 
       e = lower ? -1 : 1;
       comp = f(e) < f(2 * e);
 
       while (f(e) > y !== comp) {
-         e = 2 * e;
+         e *= 2;
          if (-e > 1e200) {
-            throw new Error('Binary search: Cannot find ' + lower ? 'lower' : 'upper' + ' endpoint.');
+            throw new Error('Binary search: Cannot find ' + (lower ? 'lower' : 'upper') + ' endpoint.');
          }
       }
       return e;

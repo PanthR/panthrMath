@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -47,6 +48,7 @@ define(function(require) {
 
       return function(x) {
          var lb, p, n;
+
          if (x < 0 || x > 1) {
             lb = -Infinity;
          } else if (a <= 2 || b <= 2) {
@@ -90,6 +92,7 @@ define(function(require) {
 
       return function(x) {
          var lp;
+
          if (a <= 0 || b <= 0) { return NaN; }
          if (x > 0 && x < 1) {
             return bratio(a, b, x, lowerTail, logp);
@@ -137,19 +140,19 @@ define(function(require) {
          realLogP = lowerTail ? realLogP : -realLogP;
 
          if (realLogP === -Infinity) { return 0; }
-         if (realLogP === +Infinity) { return 1; }
+         if (realLogP === Infinity) { return 1; }
 
          incr = 1e-1;
          l = 1e-1;
          while (f(l) > p === lowerTail) {
-            l = l * incr;
+            l *= incr;
             if (l < 1e-80) {
                return new Error('qbeta failed to find left endpoint');
             }
          }
          u = 1 - incr;
          while (f(u) < p === lowerTail) {
-            incr *= .1;
+            incr *= 0.1;
             u = 1 - incr;
             if (incr < 1e-80) {
                return new Error('qbeta failed to find right endpoint');
@@ -192,6 +195,7 @@ define(function(require) {
          return function() {
             var u1, u2, v, w, y, z;
 
+         /* eslint-disable no-constant-condition */
             while (true) {
                u1 = rgen.random();
                u2 = rgen.random();
@@ -211,6 +215,7 @@ define(function(require) {
                }
             }
             return a === a0 ? a0 / (a0 + w) : w / (a0 + w);
+         /* eslint-enable no-constant-condition */
          };
          /* eslint-enable complexity */
       }
@@ -222,6 +227,7 @@ define(function(require) {
       return function() {
          var u1, u2, v, w, z, r, s;
 
+         /* eslint-disable no-constant-condition */
          while (true) {
             u1 = rgen.random();
             u2 = rgen.random();
@@ -238,6 +244,7 @@ define(function(require) {
                break;
             }
          }
+         /* eslint-enable no-constant-condition */
          return a === a0 ? b0 / (b0 + w) : w / (b0 + w);
       };
    }

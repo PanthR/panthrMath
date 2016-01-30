@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    var w, w1, gamma, Rational;
@@ -36,7 +37,6 @@ define(function(require) {
       0.427569613095214,
       1
    ]);
-
 
    /**
     * Computes $$H(x)=\frac{1}{\Gamma(x+1)} - 1$$ with reasonable precision even near

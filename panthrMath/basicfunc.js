@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    /**
@@ -9,6 +10,7 @@ define(function(require) {
     */
 
    var basicFunc, mixin;
+
    mixin = require('./utils').mixin;
    basicFunc = {};
 

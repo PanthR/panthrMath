@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    // creates a polynomial function from the array of coefficients
@@ -31,7 +32,6 @@ define(function(require) {
          return acc * x + coef;
       }, 0);
    };
-
 
    return Polynomial;
 

@@ -1,7 +1,10 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
-   var Polynomial = require('./polynomial');
+   var Polynomial;
+
+   Polynomial = require('./polynomial');
 
    // creates a rational function
    // num can be a Polynomial or an array of coefficients for the poly constr.
@@ -30,7 +33,6 @@ define(function(require) {
    Rational.prototype.evalAt = function evalAt(x) {
       return this.num.evalAt(x) / this.denom.evalAt(x);
    };
-
 
    return Rational;
 

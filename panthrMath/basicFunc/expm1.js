@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    var Rational, expm1;
@@ -14,7 +15,9 @@ define(function(require) {
     * @memberof basicFunc
     */
    expm1 = (function() {
-      var R = Rational.new([
+      var R;
+
+      R = Rational.new([
           0.0238082361044469,
           0.914041914819518e-9,
           1

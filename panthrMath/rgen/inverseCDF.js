@@ -1,4 +1,5 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
 define(function(require) {
 
    var rgen;
@@ -31,11 +32,10 @@ define(function(require) {
 
          u = rgen.random();
          do {
-            if ( u <= current.prob ) { return current.val; }
+            if (u <= current.prob) { return current.val; }
             u -= current.prob;
-            current = current === left ?
-               getNext(right, left) :
-               getNext(left, right);
+            current = current === left ? getNext(right, left)
+                                       : getNext(left, right);
          } while (u >= 0);
          throw new Error('total probability exceeds 1');
       };

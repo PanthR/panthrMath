@@ -1,4 +1,6 @@
-(function(define) {'use strict';
+(function(define) {
+'use strict';
+/* eslint-disable max-statements */
 define(function(require) {
 
    /*
@@ -127,12 +129,11 @@ define(function(require) {
          z = (lambda >= 1 ? 1 : -1) * Math.sqrt(2 * phi(lambda));
 
          return cs.reduce(function(sum, poly) {
-            atomk = atomk / a;
+            atomk /= a;
             return sum + poly.evalAt(z) * atomk;
          }, 0);
       };
    }());
-
 
    function e(y) {
       return 0.5 - (1 - y / 3) * Math.sqrt(y / Math.PI);
@@ -140,8 +141,8 @@ define(function(require) {
 
    function j(a, x) {
       var v;
-      v = -x;
 
+      v = -x;
       return -a * series(function(i) {
          if (i === 0) { return 0; }
          if (i === 1) { return -x / (a + 1); }
@@ -150,16 +151,16 @@ define(function(require) {
       });
    }
 
-   r = (function(){
+   r = (function() {
       // From equation 3
       function delta(a) {
          return lgamma(a) - (a - 0.5) * Math.log(a) + a - 0.5 * Math.log(2 * Math.PI);
       }
 
-      return function r(a, x) {
-         return a <= 20 ?
-            Math.exp(-x) * Math.pow(x, a) / gamma(a) :
-            Math.sqrt(a / (2 * Math.PI)) * Math.exp(-a * phi(x / a) - delta(a));
+      return function(a, x) {
+         return a <= 20 ? Math.exp(-x) * Math.pow(x, a) / gamma(a)
+                        : Math.sqrt(a / (2 * Math.PI)) *
+                          Math.exp(-a * phi(x / a) - delta(a));
       };
    }());
 
@@ -179,19 +180,18 @@ define(function(require) {
       return contFrac(as, bs);
    };
 
-
    smallP = function(a) {
       var gamm;
-      gamm = gamma(a + 1);
 
+      gamm = gamma(a + 1);
       return function(x) {
          var alpha;
+
          if (x < 1.1) {
             alpha = x < 0.5 ? logroot / Math.log(x)
                             : x / 2.59;
-            return a >= alpha ? // Formula 9
-                   Math.pow(x, a) * (1 - j(a, x)) / gamm :
-                   1 - smallQ(a)(x);
+            return a >= alpha ? Math.pow(x, a) * (1 - j(a, x)) / gamm // Formula 9
+                              : 1 - smallQ(a)(x);
          }
          return 1 - smallQ(a)(x);
       };
@@ -199,17 +199,18 @@ define(function(require) {
 
    smallQ = function(a) {
       var gamm, ha;
+
       gamm = gamma(a + 1);
       ha = gam1(a);
-
       return function(x) {
          var alpha;
+
          if (x < 1.1) {
             alpha = x < 0.5 ? logroot / Math.log(x)
                             : x / 2.59;
-            return a >= alpha ?
-                   1 - smallP(a)(x) :  // Formula 10
-                   (Math.pow(x, a) * j(a, x) - expm1(a * Math.log(x))) / gamm - ha;
+            return a >= alpha ? 1 - smallP(a)(x)   // Formula 10
+                              : (Math.pow(x, a) * j(a, x) - expm1(a * Math.log(x))
+                                ) / gamm - ha;
          } // Formula 11
          return r(a, x) * cf(a, x);
       };
@@ -218,7 +219,7 @@ define(function(require) {
    mediumP = function(a) {
       return function(x) {
          if ((a > x || x >= x0 || a !== Math.round(2 * a)) &&
-             x <= Math.max(a, Math.LN10) ) {
+             x <= Math.max(a, Math.LN10)) {
             // Formula 15, for P
             return r(a, x) / a * series(function(n, v) {
                return n === 0 ? 1 : v * x / (a + n);
@@ -244,7 +245,7 @@ define(function(require) {
                                        : i === 1 ? x / 0.5
                                                  : v * x / (i - 0.5);
 
-                     }, Math.round(a + .5));
+                     }, Math.round(a + 0.5));
          }
          if (x <= Math.max(a, Math.LN10)) {
             // Formula 15, for P
@@ -367,13 +368,14 @@ define(function(require) {
       return bigQ(a);
    }
 
-
    // INVERSE GAMMA
 
    // funS implements formula 32
    // a function of p and q for calculating s
    funS = (function() {
-      var ratFun = Rational.new([
+      var ratFun;
+
+      ratFun = Rational.new([
          0.213623493715853, 4.28342155967104,
          11.6616720288968, 3.31125922108741
       ], [
@@ -382,6 +384,7 @@ define(function(require) {
       ]);
       return function(p, q) {
          var temp;
+
          temp = Math.sqrt(-2 * Math.log(p < 0.5 ? p : q));
          return (p < 0.5 ? -1 : 1) * (temp - ratFun.evalAt(temp));
       };
@@ -391,6 +394,7 @@ define(function(require) {
    // estimate for x when a < 1.
    function findx0SmallA(a, p, q) {
       var B, u, temp;
+
       B = q * gamma(a);
       if (B > 0.6 || B >= 0.45 && a >= 0.3) {
          // use 21
@@ -425,6 +429,7 @@ define(function(require) {
    // implements equation #25
    function findx0TinyB(a, y) {
       var c1;
+
       c1 = (a - 1) * Math.log(y);
       return y + Polynomial.new([
          // c5
@@ -452,6 +457,7 @@ define(function(require) {
    /* eslint-disable complexity */
    function findx0BigA(a, p, q) {
       var w, s, D, B, u, z, zbar, logpg;
+
       // snTerm -- see formula 34
       logpg = Math.log(p * gamma(a + 1));
       function snTerm(x) {
@@ -483,11 +489,12 @@ define(function(require) {
       }
       // handle p <= 0.5
       z = w > 0.15 * (a + 1) ? w : f(f(f(f(w, 1), 3), 3), 4);
-      if (z <= .01 * (a + 1) || z > 0.7 * (a + 1)) { return z; }
+      if (z <= 0.01 * (a + 1) || z > 0.7 * (a + 1)) { return z; }
       /* eslint-disable no-extra-parens */
       return (function() {
          // find N for formula 36
          var N, term;
+
          N = 0;
          term = 1;
          do {
@@ -506,8 +513,9 @@ define(function(require) {
    // formulas 37 and 38.
    function step(x, a, p, q) {
       var temp, w;
+
       temp = p <= 0.5 ? gratio(a)(x) - p : q - gratioc(a)(x);
-      temp = temp / r(a, x);
+      temp /= r(a, x);
       w = (a - 1 - x) / 2;
       if (Math.max(Math.abs(temp), Math.abs(w * temp)) <= 0.1) {
          return x * (1 - (temp + w * temp * temp));
@@ -535,6 +543,7 @@ define(function(require) {
       /* eslint-disable complexity */
       return function(p, lower) {
          var q, x;
+
          if (lower === false) {
             q = p;
             p = 1 - q;
@@ -585,7 +594,7 @@ define(function(require) {
       l = expm1(z);
       h = gam1(a);
       if (x < 1.1) {
-         ser = a * x * series( (function(c, v){
+         ser = a * x * series((function(c, v) {
                return function(i) {
                   c += 1;
                   if (i > 0) { v = v * -x / (i + 1); }
@@ -610,7 +619,7 @@ define(function(require) {
    /* eslint-enable complexity */
 
 });
-
+/* eslint-enable max-statements */
 }(typeof define === 'function' && define.amd ? define : function(factory) {
    'use strict';
    module.exports = factory(require);
