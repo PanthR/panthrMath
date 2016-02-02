@@ -102,7 +102,7 @@
      "id-length": [1, { "min": 1, "max": 18 }],
      // "indent": [2, 3],
      "key-spacing": 2,
-     "linebreak-style": 2,
+     "linebreak-style": 0,
      "max-depth": [2, 3],
      "max-len": [1, 105, 3, { "ignorePattern": "^\\s*\\*" }],
      "max-nested-callbacks": [2, 4],
