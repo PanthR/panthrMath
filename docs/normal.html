@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title>normal</title>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Documentation for module <code>normal</code>
+      
+      </h1>
+    </div>
+    <div id="sidebar">
+      <div>
+        <h3>Module Index</h3>
+      <ul>
+        <a href="panthrMath.html"><li class="depth0"><code>panthrMath</code></li></a>
+        <a href="basicFunc.html"><li class="depth1"><code>basicFunc</code></li></a>
+        <a href="C.html"><li class="depth1"><code>C</code></li></a>
+        <a href="distributions.html"><li class="depth1"><code>distributions</code></li></a>
+        <a href="beta.html"><li class="depth2"><code>beta</code></li></a>
+        <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
+        <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
+        <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
+        <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
+        <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
+        <a href="t.html"><li class="depth2"><code>t</code></li></a>
+        <a href="uniform.html"><li class="depth2"><code>uniform</code></li></a>
+        <a href="rgen.html"><li class="depth0"><code>rgen</code></li></a>
+      </ul>
+      </div>
+      <div>
+        <h3>Contents</h3>
+      <ul>
+        
+        <a href="#dnorm"><li><code>dnorm</code></li></a>
+        
+        <a href="#normal"><li><code>normal</code></li></a>
+        
+        <a href="#pnorm"><li><code>pnorm</code></li></a>
+        
+        <a href="#qnorm"><li><code>qnorm</code></li></a>
+        
+        <a href="#rnorm"><li><code>rnorm</code></li></a>
+        
+      </ul>
+      </div>
+    </div>
+    <div id="main">
+      <div class="moduleInfo">
+        <h2>Module <code>normal</code></h2>
+        <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
+        <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the normal distribution, which is defined by the pdf
+$$f(x;\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$
+where $x\in(-\infty,\infty)$ and as usual $\mu$ is the mean and $\sigma&gt;0$
+is the standard deviation.</p>
+<p><a href="#dnorm"><code>dnorm</code></a> provides access to this probability density function,
+<a href="#pnorm"><code>pnorm</code></a> to the cumulative distribution function, <a href="#qnorm"><code>qnorm</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rnorm"><code>rnorm</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#normal"><code>normal</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
+      </div>
+      <div>
+        <h4 id="dnorm"><code>dnorm(mu, sigma, logp)(x)</code></h4>
+        <p>Evaluates the Normal density function at <code>x</code>:
+$$\textrm{dnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$</p>
+<p>Expects $\sigma &gt; 0$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+      </div>
+      <div>
+        <h4 id="normal"><code>normal(mu, sigma)</code></h4>
+        <p>Returns an object representing a normal distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>normal(mu, sigma).d(x, logp)            // same as dnorm(mu, sigma, logp)(x)
+normal(mu, sigma).p(x, lowerTail, logp) // same as pnorm(mu, sigma, lowerTail, logp)(x)
+normal(mu, sigma).q(x, lowerTail, logp) // same as qnorm(mu, sigma, lowerTail, logp)(x)
+normal(mu, sigma).r()                   // same as rnorm(mu, sigma)()</code></pre>
+      </div>
+      <div>
+        <h4 id="pnorm"><code>pnorm(mu, sigma, lowerTail, logp)(x)</code></h4>
+        <p>Evaluates the lower-tail cdf at <code>x</code> for the Normal distribution:
+$$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}}\int_{-\infty}^x e^{\displaystyle -\frac{(t-\mu)^2}{2\sigma^2}}dt$$</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+<p>Expects $\sigma &gt; 0$.</p>
+      </div>
+      <div>
+        <h4 id="qnorm"><code>qnorm(mu, sigma, lowerTail, logp)(p)</code></h4>
+        <p>Evaluates the Normal distribution's quantile function (inverse cdf) at <code>p</code>:
+$$\textrm{qnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $N(\mu,\sigma)$ distribution.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p>Expects $\sigma &gt; 0$.</p>
+      </div>
+      <div>
+        <h4 id="rnorm"><code>rnorm(mu, sigma)</code></h4>
+        <p>Returns a random variate from the $N(\mu, \sigma)$ distribution.</p>
+<p>Expects $\sigma &gt; 0$.</p>
+<p>Uses a rejection polar method.</p>
+      </div>
+    </div>
+  </body>
+</html>

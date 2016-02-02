@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title>binomial</title>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Documentation for module <code>binomial</code>
+      
+      </h1>
+    </div>
+    <div id="sidebar">
+      <div>
+        <h3>Module Index</h3>
+      <ul>
+        <a href="panthrMath.html"><li class="depth0"><code>panthrMath</code></li></a>
+        <a href="basicFunc.html"><li class="depth1"><code>basicFunc</code></li></a>
+        <a href="C.html"><li class="depth1"><code>C</code></li></a>
+        <a href="distributions.html"><li class="depth1"><code>distributions</code></li></a>
+        <a href="beta.html"><li class="depth2"><code>beta</code></li></a>
+        <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
+        <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
+        <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
+        <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
+        <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
+        <a href="t.html"><li class="depth2"><code>t</code></li></a>
+        <a href="uniform.html"><li class="depth2"><code>uniform</code></li></a>
+        <a href="rgen.html"><li class="depth0"><code>rgen</code></li></a>
+      </ul>
+      </div>
+      <div>
+        <h3>Contents</h3>
+      <ul>
+        
+        <a href="#binom"><li><code>binom</code></li></a>
+        
+        <a href="#dbinom"><li><code>dbinom</code></li></a>
+        
+        <a href="#pbinom"><li><code>pbinom</code></li></a>
+        
+        <a href="#qbinom"><li><code>qbinom</code></li></a>
+        
+        <a href="#rbinom"><li><code>rbinom</code></li></a>
+        
+      </ul>
+      </div>
+    </div>
+    <div id="main">
+      <div class="moduleInfo">
+        <h2>Module <code>binomial</code></h2>
+        <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
+        <p>Provides probability mass function, cumulative distribution function,
+quantile function, and random number generator
+for the Binomial distribution, which is defined by the pmf
+$$f(x;n,p) = {n \choose x}p^x(1-p)^{n-x}$$
+where $x=0,\ldots,n$, $n$ is the <em>size</em> and $p$ is the probability of success.</p>
+<p><a href="#dbinom"><code>dbinom</code></a> provides access to this probability mass function,
+<a href="#pbinom"><code>pbinom</code></a> to the cumulative distribution function, <a href="#qbinom"><code>qbinom</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rbinom"><code>rbinom</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#binom"><code>binom</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
+      </div>
+      <div>
+        <h4 id="binom"><code>binom(size, p)</code></h4>
+        <p>Returns an object representing a binomial distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>binom(size, p).d(x, logp)            // same as dbinom(size, p, logp)(x)
+binom(size, p).p(x, lowerTail, logp) // same as pbinom(size, p, lowerTail, logp)(x)
+binom(size, p).q(x, lowerTail, logp) // same as qbinom(size, p, lowerTail, logp)(x)
+binom(size, p).r()                   // same as rbinom(size, p)()</code></pre>
+      </div>
+      <div>
+        <h4 id="dbinom"><code>dbinom(size, p, logp)(x)</code></h4>
+        <p>Returns the Binomial probability at <code>x</code>:
+$$\textrm{dbinom}(\textrm{size}, p)(x) = \binom{\textrm{size}}{p}p^{x}(1-p)^{(\textrm{size}-x)}$$
+where <code>x</code> is an integer, $0 \leq x \leq \textrm{size}$.</p>
+<p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+<p>Based on: <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
+      </div>
+      <div>
+        <h4 id="pbinom"><code>pbinom(size, p, lowerTail, logp)(x)</code></h4>
+        <p>Evaluates the Binomial cumulative distribution
+function at <code>x</code> (lower tail probability):
+$$\textrm{pbinom}(\textrm{size}, p)(x) = \sum_{k \leq x} \binom{\textrm{size}}{p}p^{k}(1-p)^{(\textrm{size}-k)}$$</p>
+<p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead:
+$$\textrm{pbinom}(\textrm{size}, p, \textrm{false})(x) = \sum_{k&gt;x} \binom{\textrm{size}}{p}p^{k}(1-p)^{(\textrm{size}-k)}$$</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+      </div>
+      <div>
+        <h4 id="qbinom"><code>qbinom(size, p, lowerTail, logp)(prob)</code></h4>
+        <p>Returns the quantile corresponding to <code>prob</code>
+for the $\textrm{Binomial}(size, p)$ distribution.
+In general, for a discrete probability
+distribution, the <em>quantile</em> is defined as the smallest domain value
+<code>x</code> such that $F(x) \geq prob$, where $F$ is the cumulative
+distribution function.</p>
+<p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>prob</code> is
+interpreted as an upper tail probability.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>prob</code> as
+the logarithm of the desired probability.</p>
+      </div>
+      <div>
+        <h4 id="rbinom"><code>rbinom(size, p)</code></h4>
+        <p>Returns a random variate from the $\textrm{Binomial}(size, p)$ distribution.</p>
+<p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title>basicFunc</title>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Documentation for module <code>basicFunc</code>
+      
+      </h1>
+    </div>
+    <div id="sidebar">
+      <div>
+        <h3>Module Index</h3>
+      <ul>
+        <a href="panthrMath.html"><li class="depth0"><code>panthrMath</code></li></a>
+        <a href="basicFunc.html"><li class="depth1"><code>basicFunc</code></li></a>
+        <a href="C.html"><li class="depth1"><code>C</code></li></a>
+        <a href="distributions.html"><li class="depth1"><code>distributions</code></li></a>
+        <a href="beta.html"><li class="depth2"><code>beta</code></li></a>
+        <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
+        <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
+        <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
+        <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
+        <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
+        <a href="t.html"><li class="depth2"><code>t</code></li></a>
+        <a href="uniform.html"><li class="depth2"><code>uniform</code></li></a>
+        <a href="rgen.html"><li class="depth0"><code>rgen</code></li></a>
+      </ul>
+      </div>
+      <div>
+        <h3>Contents</h3>
+      <ul>
+        
+        <a href="#bd0"><li><code>bd0</code></li></a>
+        
+        <a href="#beta"><li><code>beta</code></li></a>
+        
+        <a href="#bratio"><li><code>bratio</code></li></a>
+        
+        <a href="#erf"><li><code>erf</code></li></a>
+        
+        <a href="#erfc"><li><code>erfc</code></li></a>
+        
+        <a href="#expm1"><li><code>expm1</code></li></a>
+        
+        <a href="#gam1"><li><code>gam1</code></li></a>
+        
+        <a href="#gaminv"><li><code>gaminv</code></li></a>
+        
+        <a href="#gamma"><li><code>gamma</code></li></a>
+        
+        <a href="#gratR"><li><code>gratR</code></li></a>
+        
+        <a href="#gratio"><li><code>gratio</code></li></a>
+        
+        <a href="#gratioc"><li><code>gratioc</code></li></a>
+        
+        <a href="#lbeta"><li><code>lbeta</code></li></a>
+        
+        <a href="#lgamma"><li><code>lgamma</code></li></a>
+        
+        <a href="#log1p"><li><code>log1p</code></li></a>
+        
+        <a href="#lpoisson"><li><code>lpoisson</code></li></a>
+        
+        <a href="#phi"><li><code>phi</code></li></a>
+        
+        <a href="#stirlerr"><li><code>stirlerr</code></li></a>
+        
+      </ul>
+      </div>
+    </div>
+    <div id="main">
+      <div class="moduleInfo">
+        <h2>Module <code>basicFunc</code></h2>
+        <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
+        <p>Basic math functions.</p>
+      </div>
+      <div>
+        <h4 id="bd0"><code>bd0(x, y)</code></h4>
+        <p>Computes the expression $$bd0(x, y) = x \ln(x/y) + y - x$$</p>
+<p>Based on:  <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
+      </div>
+      <div>
+        <h4 id="beta"><code>beta(a, b)</code></h4>
+        <p>Computes the beta function
+$$B(a,b) = \int_0^1 x^{a-1} (1-x)^{b-1} dx$$ where $a&gt;0$ and $b&gt;0$.</p>
+<p>See also: <a href="#lbeta"><code>lbeta</code></a></p>
+<p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios</em>, by DiDonato and Morris, 1992</p>
+      </div>
+      <div>
+        <h4 id="bratio"><code>bratio(a, b, x, lowerTail, logp)</code></h4>
+        <p>Returns the lower tail of the incomplete beta function
+$$I_x(a, b)=G(a,b)\int_0^xt^{a-1}(1-t)^{b-1}dt$$
+where $B(a,b)=1/G(a,b) = \Gamma(a)\Gamma(b)/\Gamma(a+b)$ is the
+usual beta function.</p>
+<p>If <code>lowerTail</code> is <code>false</code>, returns the upper tail instead.
+If <code>logp</code> is <code>true</code>, returns the logarithm of the tail.
+Expects $a&gt;0$, $b&gt;0$, and $0 \leq x \leq 1$.</p>
+<p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios</em>, by DiDonato and Morris, 1992</p>
+      </div>
+      <div>
+        <h4 id="erf"><code>erf(x)</code></h4>
+        <p>Implementation for erf, the real error function:
+$$\textrm{erf}(x) = \frac{2}{\sqrt{\pi}}\int_0^x e^{-t^2} dt$$
+Based on: <em>Rational Chebyshev Approximations for the Error
+Function</em>, by W. J. Cody, 1969</p>
+      </div>
+      <div>
+        <h4 id="erfc"><code>erfc(x)</code></h4>
+        <p>Implementation for erfc, the complement of the real error function:
+$$\textrm{erfc}(x) = \frac{2}{\sqrt{\pi}}\int_x^\infty e^{-t^2} dt$$
+Based on: <em>Rational Chebyshev Approximations for the Error
+Function</em>, by W. J. Cody, 1969</p>
+      </div>
+      <div>
+        <h4 id="expm1"><code>expm1(x)</code></h4>
+        <p>Computes $$\textrm{expm1}(x) = e^x - 1$$ with reasonable precision near $x = 0$.</p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+      </div>
+      <div>
+        <h4 id="gam1"><code>gam1(x)</code></h4>
+        <p>Computes $$H(x)=\frac{1}{\Gamma(x+1)} - 1$$ with reasonable precision even near
+the zeroes ($x = 0, 1$).</p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+      </div>
+      <div>
+        <h4 id="gaminv"><code>gaminv(a)(p, lower)</code></h4>
+        <p>Returns the inverse function
+of the incomplete gamma ratio (see: <a href="#gratio"><code>gratio</code></a>).</p>
+<p><code>a</code> is the shape parameter and <code>p</code> is the desired tail probability.
+<code>lower</code> is a boolean which determines whether <code>p</code> is a left-tail
+probability or not (defaults to <code>true</code>).</p>
+<p>See also: <a href="#qgamma"><code>qgamma</code></a></p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+      </div>
+      <div>
+        <h4 id="gamma"><code>gamma(x)</code></h4>
+        <p>Computes $$\Gamma(x) = \int_0^\infty u^{x-1} e^{-u} du$$</p>
+<p>Inspired by code in the Gnu Scientific Library</p>
+<p>Also see: <em>A Precision Approximation of the Gamma Function</em>, by
+Lanczos, 1964</p>
+      </div>
+      <div>
+        <h4 id="gratR"><code>gratR(a, x, logr)</code></h4>
+        <p>Computes the scaled complement of the incomplete gamma ratio function
+(see: <a href="#gratio"><code>gratio</code></a>): $$\textrm{grat}_r(a,x,r) =  \frac{Q(a,x)}{r}$$
+where
+              $Q(a,x)$ is the upper-tail incomplete gamma function
+(see: <a href="#gratioc"><code>gratioc</code></a>) and  $r = \frac{e^{-x} x^a}{\Gamma(a)}$</p>
+<p>Meant to be used internally.</p>
+<p>Based on:   <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+      </div>
+      <div>
+        <h4 id="gratio"><code>gratio(a)(x)</code></h4>
+        <p>Returns the incomplete gamma ratio:
+$$P(a,x) = \frac{1}{\Gamma(a)} \int_0^x e^{-t} t^{a-1} dt$$</p>
+<p><code>a</code> is the shape parameter and $0 &lt; x &lt; \infty$.</p>
+<p>See also: <a href="#pgamma"><code>pgamma</code></a></p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+      </div>
+      <div>
+        <h4 id="gratioc"><code>gratioc(a)(x)</code></h4>
+        <p>Returns the complement of the incomplete gamma ratio:
+$$Q(a,x) = \frac{1}{\Gamma(a)} \int_x^\infty e^{-t} t^{a-1} dt$$</p>
+<p><code>a</code> is the shape parameter and $0 &lt; x &lt; \infty$.</p>
+<p>See also: <a href="#pgamma"><code>pgamma</code></a></p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+      </div>
+      <div>
+        <h4 id="lbeta"><code>lbeta(a, b)</code></h4>
+        <p>Computes the logarithm of the beta function.
+See: <a href="#beta"><code>beta</code></a></p>
+<p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios</em>, by DiDonato and Morris, 1992</p>
+      </div>
+      <div>
+        <h4 id="lgamma"><code>lgamma(x)</code></h4>
+        <p>Computes the logarithm of the gamma function.  See: <a href="#gamma"><code>gamma</code></a></p>
+<p>Inspired by code in the Gnu Scientific Library</p>
+<p>Also see: <em>A Precision Approximation of the Gamma Function</em>, by
+Lanczos, 1964</p>
+      </div>
+      <div>
+        <h4 id="log1p"><code>log1p(x)</code></h4>
+        <p>Computes $$\textrm{log1p}(x) = \ln(1+x)$$ with reasonable precision near $x = 0$.</p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+      </div>
+      <div>
+        <h4 id="lpoisson"><code>lpoisson(lambda)(x)</code></h4>
+        <p>Computes the logarithm of the Poisson pdf
+$$\log\left(\frac{\lambda^x}{\Gamma(x+1)}e^{-\lambda}\right)
+= -\lambda + x \ln(\lambda) - \ln(\Gamma(x+1))$$
+where $x&gt;0$ and $\lambda&gt;0$.</p>
+<p>Based on:  <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
+      </div>
+      <div>
+        <h4 id="phi"><code>phi(x)</code></h4>
+        <p>Computes $$\phi(x) = x - 1 - \ln(x)$$ with reasonable precision
+near $x = 1$.</p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+      </div>
+      <div>
+        <h4 id="stirlerr"><code>stirlerr(n)</code></h4>
+        <p>Computes the error term in Stirling's approximation
+$$\textrm{stirlerr}(n) = \ln(\Gamma(n+1)) - n \ln(n) + n - \frac{1}{2} \ln\left(2\pi n\right)$$
+where $n&gt;0$ (<code>n</code> does not need to be an integer).</p>
+<p>Based on:  <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
+      </div>
+    </div>
+  </body>
+</html>

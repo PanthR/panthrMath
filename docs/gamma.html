@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title>gamma</title>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Documentation for module <code>gamma</code>
+      
+      </h1>
+    </div>
+    <div id="sidebar">
+      <div>
+        <h3>Module Index</h3>
+      <ul>
+        <a href="panthrMath.html"><li class="depth0"><code>panthrMath</code></li></a>
+        <a href="basicFunc.html"><li class="depth1"><code>basicFunc</code></li></a>
+        <a href="C.html"><li class="depth1"><code>C</code></li></a>
+        <a href="distributions.html"><li class="depth1"><code>distributions</code></li></a>
+        <a href="beta.html"><li class="depth2"><code>beta</code></li></a>
+        <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
+        <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
+        <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
+        <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
+        <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
+        <a href="t.html"><li class="depth2"><code>t</code></li></a>
+        <a href="uniform.html"><li class="depth2"><code>uniform</code></li></a>
+        <a href="rgen.html"><li class="depth0"><code>rgen</code></li></a>
+      </ul>
+      </div>
+      <div>
+        <h3>Contents</h3>
+      <ul>
+        
+        <a href="#dgamma"><li><code>dgamma</code></li></a>
+        
+        <a href="#gammadistr"><li><code>gammadistr</code></li></a>
+        
+        <a href="#pgamma"><li><code>pgamma</code></li></a>
+        
+        <a href="#qgamma"><li><code>qgamma</code></li></a>
+        
+        <a href="#rgamma"><li><code>rgamma</code></li></a>
+        
+      </ul>
+      </div>
+    </div>
+    <div id="main">
+      <div class="moduleInfo">
+        <h2>Module <code>gamma</code></h2>
+        <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
+        <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the Gamma distribution, which is defined by the pdf
+$$f(x;a,s) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$
+where $x\in(0,\infty)$. The parameter $a&gt;0$ is called the <em>shape</em>
+and the parameter $s&gt;0$ the <em>scale</em>.</p>
+<p><a href="#dgamma"><code>dgamma</code></a> provides access to this probability density function,
+<a href="#pgamma"><code>pgamma</code></a> to the cumulative distribution function, <a href="#qgamma"><code>qgamma</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rgamma"><code>rgamma</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#gammadistr"><code>gammadistr</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
+      </div>
+      <div>
+        <h4 id="dgamma"><code>dgamma(a, s, logp)(x)</code></h4>
+        <p>Evaluates the Gamma density function at <code>x</code>:
+$$\textrm{dgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$</p>
+<p>Expects $a &gt; 0$, $s &gt; 0$, and $x &gt; 0$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+      </div>
+      <div>
+        <h4 id="gammadistr"><code>gammadistr(a, s)</code></h4>
+        <p>Returns an object representing a gamma distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>gammadistr(a, s).d(x, logp)            // same as dgamma(a, s, logp)(x)
+gammadistr(a, s).p(x, lowerTail, logp) // same as pgamma(a, s, lowerTail, logp)(x)
+gammadistr(a, s).q(x, lowerTail, logp) // same as qgamma(a, s, lowerTail, logp)(x)
+gammadistr(a, s).r()                   // same as rgamma(a, s)()</code></pre>
+      </div>
+      <div>
+        <h4 id="pgamma"><code>pgamma(a, s, lowerTail, logp)(x)</code></h4>
+        <p>Evaluates the Gamma cumulative distribution
+function at <code>x</code> (lower tail probability):
+$$\textrm{pgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}\int_0^x t^{a-1}e^{-t/s}dt$$</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+<p>Expects $a &gt; 0$, $s &gt; 0$, and $x &gt; 0$.</p>
+<p>Based on: <em>Computation of the Incomplete Gamma Function Ratios and their
+Inverse</em>, by DiDonato and Morris, 1992</p>
+      </div>
+      <div>
+        <h4 id="qgamma"><code>qgamma(a, s, lowerTail, logp)(p)</code></h4>
+        <p>Evaluates the Gamma distribution's quantile function (inverse cdf) at <code>p</code>:
+$$\textrm{qgamma}(a, s)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Gamma}(a, s)$ distribution.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p>Expects $a&gt;0$, $s&gt;0$, and $0 \leq p \leq 1$.</p>
+      </div>
+      <div>
+        <h4 id="rgamma"><code>rgamma(a, s)</code></h4>
+        <p>Returns a random variate from the $\textrm{Gamma}(a, s)$ distribution.</p>
+<p>Expects $a &gt; 0$ and $s &gt; 0$.</p>
+<p>TODO: Add links to algorithms</p>
+      </div>
+    </div>
+  </body>
+</html>

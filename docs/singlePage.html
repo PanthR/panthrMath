@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title></title>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Documentation for <code>panthrMath</code>
+      <span class="version">(v0.0.1)</span>
+      </h1>
+    </div>
+    <div id="sidebar">
+      <div>
+        <h3>Index</h3>
+      <ul>
+        <a href="#panthrMath"><li class="depth0"><code>panthrMath</code></li></a>
+        <ul>
+          
+          <a href="#C"><li><code>C</code></li></a>
+          
+          <a href="#Polynomial"><li><code>Polynomial</code></li></a>
+          
+          <a href="#Polynomial.new"><li><code>Polynomial.new</code></li></a>
+          
+          <a href="#Rational"><li><code>Rational</code></li></a>
+          
+          <a href="#Rational.new"><li><code>Rational.new</code></li></a>
+          
+          <a href="#basicfunc"><li><code>basicfunc</code></li></a>
+          
+          <a href="#distributions"><li><code>distributions</code></li></a>
+          
+          <a href="#Polynomial%25evalAt"><li><code>Polynomial#evalAt</code></li></a>
+          
+          <a href="#Rational%25evalAt"><li><code>Rational#evalAt</code></li></a>
+          
+        </ul>
+        <a href="#basicFunc"><li class="depth1"><code>basicFunc</code></li></a>
+        <ul>
+          
+          <a href="#bd0"><li><code>bd0</code></li></a>
+          
+          <a href="#beta"><li><code>beta</code></li></a>
+          
+          <a href="#bratio"><li><code>bratio</code></li></a>
+          
+          <a href="#erf"><li><code>erf</code></li></a>
+          
+          <a href="#erfc"><li><code>erfc</code></li></a>
+          
+          <a href="#expm1"><li><code>expm1</code></li></a>
+          
+          <a href="#gam1"><li><code>gam1</code></li></a>
+          
+          <a href="#gaminv"><li><code>gaminv</code></li></a>
+          
+          <a href="#gamma"><li><code>gamma</code></li></a>
+          
+          <a href="#gratR"><li><code>gratR</code></li></a>
+          
+          <a href="#gratio"><li><code>gratio</code></li></a>
+          
+          <a href="#gratioc"><li><code>gratioc</code></li></a>
+          
+          <a href="#lbeta"><li><code>lbeta</code></li></a>
+          
+          <a href="#lgamma"><li><code>lgamma</code></li></a>
+          
+          <a href="#log1p"><li><code>log1p</code></li></a>
+          
+          <a href="#lpoisson"><li><code>lpoisson</code></li></a>
+          
+          <a href="#phi"><li><code>phi</code></li></a>
+          
+          <a href="#stirlerr"><li><code>stirlerr</code></li></a>
+          
+        </ul>
+        <a href="#C"><li class="depth1"><code>C</code></li></a>
+        <ul>
+          
+          <a href="#C"><li><code>C</code></li></a>
+          
+          <a href="#eulerGamma"><li><code>eulerGamma</code></li></a>
+          
+          <a href="#log2pi"><li><code>log2pi</code></li></a>
+          
+          <a href="#sqrt2pi"><li><code>sqrt2pi</code></li></a>
+          
+          <a href="#twopi"><li><code>twopi</code></li></a>
+          
+        </ul>
+        <a href="#distributions"><li class="depth1"><code>distributions</code></li></a>
+        <ul>
+          
+          <a href="#beta"><li><code>beta</code></li></a>
+          
+          <a href="#binom"><li><code>binom</code></li></a>
+          
+          <a href="#finite"><li><code>finite</code></li></a>
+          
+          <a href="#gamma"><li><code>gamma</code></li></a>
+          
+          <a href="#normal"><li><code>normal</code></li></a>
+          
+          <a href="#poisson"><li><code>poisson</code></li></a>
+          
+          <a href="#t"><li><code>t</code></li></a>
+          
+          <a href="#uniform"><li><code>uniform</code></li></a>
+          
+        </ul>
+        <a href="#beta"><li class="depth2"><code>beta</code></li></a>
+        <ul>
+          
+          <a href="#betadistr"><li><code>betadistr</code></li></a>
+          
+          <a href="#dbeta"><li><code>dbeta</code></li></a>
+          
+          <a href="#pbeta"><li><code>pbeta</code></li></a>
+          
+          <a href="#qbeta"><li><code>qbeta</code></li></a>
+          
+          <a href="#rbeta"><li><code>rbeta</code></li></a>
+          
+        </ul>
+        <a href="#binomial"><li class="depth2"><code>binomial</code></li></a>
+        <ul>
+          
+          <a href="#binom"><li><code>binom</code></li></a>
+          
+          <a href="#dbinom"><li><code>dbinom</code></li></a>
+          
+          <a href="#pbinom"><li><code>pbinom</code></li></a>
+          
+          <a href="#qbinom"><li><code>qbinom</code></li></a>
+          
+          <a href="#rbinom"><li><code>rbinom</code></li></a>
+          
+        </ul>
+        <a href="#finite"><li class="depth2"><code>finite</code></li></a>
+        <ul>
+          
+          <a href="#dfinite"><li><code>dfinite</code></li></a>
+          
+          <a href="#finite"><li><code>finite</code></li></a>
+          
+          <a href="#pfinite"><li><code>pfinite</code></li></a>
+          
+          <a href="#qfinite"><li><code>qfinite</code></li></a>
+          
+          <a href="#rfinite"><li><code>rfinite</code></li></a>
+          
+        </ul>
+        <a href="#gamma"><li class="depth2"><code>gamma</code></li></a>
+        <ul>
+          
+          <a href="#dgamma"><li><code>dgamma</code></li></a>
+          
+          <a href="#gammadistr"><li><code>gammadistr</code></li></a>
+          
+          <a href="#pgamma"><li><code>pgamma</code></li></a>
+          
+          <a href="#qgamma"><li><code>qgamma</code></li></a>
+          
+          <a href="#rgamma"><li><code>rgamma</code></li></a>
+          
+        </ul>
+        <a href="#normal"><li class="depth2"><code>normal</code></li></a>
+        <ul>
+          
+          <a href="#dnorm"><li><code>dnorm</code></li></a>
+          
+          <a href="#normal"><li><code>normal</code></li></a>
+          
+          <a href="#pnorm"><li><code>pnorm</code></li></a>
+          
+          <a href="#qnorm"><li><code>qnorm</code></li></a>
+          
+          <a href="#rnorm"><li><code>rnorm</code></li></a>
+          
+        </ul>
+        <a href="#poisson"><li class="depth2"><code>poisson</code></li></a>
+        <ul>
+          
+          <a href="#dpois"><li><code>dpois</code></li></a>
+          
+          <a href="#pois"><li><code>pois</code></li></a>
+          
+          <a href="#ppois"><li><code>ppois</code></li></a>
+          
+          <a href="#qpois"><li><code>qpois</code></li></a>
+          
+          <a href="#rpois"><li><code>rpois</code></li></a>
+          
+        </ul>
+        <a href="#t"><li class="depth2"><code>t</code></li></a>
+        <ul>
+          
+          <a href="#dt"><li><code>dt</code></li></a>
+          
+          <a href="#pt"><li><code>pt</code></li></a>
+          
+          <a href="#qt"><li><code>qt</code></li></a>
+          
+          <a href="#rt"><li><code>rt</code></li></a>
+          
+          <a href="#tdistr"><li><code>tdistr</code></li></a>
+          
+        </ul>
+        <a href="#uniform"><li class="depth2"><code>uniform</code></li></a>
+        <ul>
+          
+          <a href="#dunif"><li><code>dunif</code></li></a>
+          
+          <a href="#punif"><li><code>punif</code></li></a>
+          
+          <a href="#qunif"><li><code>qunif</code></li></a>
+          
+          <a href="#runif"><li><code>runif</code></li></a>
+          
+          <a href="#unif"><li><code>unif</code></li></a>
+          
+        </ul>
+        <a href="#rgen"><li class="depth0"><code>rgen</code></li></a>
+        <ul>
+          
+          <a href="#getAlgorithms"><li><code>getAlgorithms</code></li></a>
+          
+          <a href="#random"><li><code>random</code></li></a>
+          
+          <a href="#setAlgorithm"><li><code>setAlgorithm</code></li></a>
+          
+          <a href="#setRandomSeed"><li><code>setRandomSeed</code></li></a>
+          
+          <a href="#setSeed"><li><code>setSeed</code></li></a>
+          
+        </ul>
+      </ul>
+      </div>
+    </div>
+    <div id="main">
+      <div class="moduleInfo">
+        <h2>Module <code>panthrMath</code></h2>
+        <p>Author(s): unknown<p>
+      </div>
+        <div>
+          <h2 id="panthrMath"><code>panthrMath</code></h2>
+          <p>Math computation library for PanthR</p>
+<p>Provides special functions, probability distributions,
+and random number generators; inspired by the R code.</p>
+          <div>
+            <h4 id="C"><code>C</code></h4>
+            <p>Frequently used constants.  See <a href = "C.html"><code>C</code></a></p>
+          </div>
+          <div>
+            <h4 id="Polynomial"><code>Polynomial(coefs)</code></h4>
+            <p>Polynomial Class</p>
+          </div>
+          <div>
+            <h4 id="Polynomial.new"><code>Polynomial.new(coefs)</code></h4>
+            <p>TODO</p>
+          </div>
+          <div>
+            <h4 id="Rational"><code>Rational(num, denom)</code></h4>
+            <p>Rational Class</p>
+          </div>
+          <div>
+            <h4 id="Rational.new"><code>Rational.new(num, denom)</code></h4>
+            <p>TODO</p>
+          </div>
+          <div>
+            <h4 id="basicfunc"><code>basicfunc</code></h4>
+            <p>A collection of basic and special functions. See <a href = "basicFunc.html"><code>basicFunc</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="distributions"><code>distributions</code></h4>
+            <p>Various probability distributions. See <a href = "distributions.html"><code>distributions</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="Polynomial%25evalAt"><code>Polynomial.prototype.evalAt(x)</code></h4>
+            <p>TODO</p>
+          </div>
+          <div>
+            <h4 id="Rational%25evalAt"><code>Rational.prototype.evalAt(x)</code></h4>
+            <p>TODO</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="basicFunc"><code>basicFunc</code></h2>
+          <p>Basic math functions.</p>
+          <div>
+            <h4 id="bd0"><code>bd0(x, y)</code></h4>
+            <p>Computes the expression $$bd0(x, y) = x \ln(x/y) + y - x$$</p>
+<p>Based on:  <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
+          </div>
+          <div>
+            <h4 id="beta"><code>beta(a, b)</code></h4>
+            <p>Computes the beta function
+$$B(a,b) = \int_0^1 x^{a-1} (1-x)^{b-1} dx$$ where $a&gt;0$ and $b&gt;0$.</p>
+<p>See also: <a href="#lbeta"><code>lbeta</code></a></p>
+<p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios</em>, by DiDonato and Morris, 1992</p>
+          </div>
+          <div>
+            <h4 id="bratio"><code>bratio(a, b, x, lowerTail, logp)</code></h4>
+            <p>Returns the lower tail of the incomplete beta function
+$$I_x(a, b)=G(a,b)\int_0^xt^{a-1}(1-t)^{b-1}dt$$
+where $B(a,b)=1/G(a,b) = \Gamma(a)\Gamma(b)/\Gamma(a+b)$ is the
+usual beta function.</p>
+<p>If <code>lowerTail</code> is <code>false</code>, returns the upper tail instead.
+If <code>logp</code> is <code>true</code>, returns the logarithm of the tail.
+Expects $a&gt;0$, $b&gt;0$, and $0 \leq x \leq 1$.</p>
+<p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios</em>, by DiDonato and Morris, 1992</p>
+          </div>
+          <div>
+            <h4 id="erf"><code>erf(x)</code></h4>
+            <p>Implementation for erf, the real error function:
+$$\textrm{erf}(x) = \frac{2}{\sqrt{\pi}}\int_0^x e^{-t^2} dt$$
+Based on: <em>Rational Chebyshev Approximations for the Error
+Function</em>, by W. J. Cody, 1969</p>
+          </div>
+          <div>
+            <h4 id="erfc"><code>erfc(x)</code></h4>
+            <p>Implementation for erfc, the complement of the real error function:
+$$\textrm{erfc}(x) = \frac{2}{\sqrt{\pi}}\int_x^\infty e^{-t^2} dt$$
+Based on: <em>Rational Chebyshev Approximations for the Error
+Function</em>, by W. J. Cody, 1969</p>
+          </div>
+          <div>
+            <h4 id="expm1"><code>expm1(x)</code></h4>
+            <p>Computes $$\textrm{expm1}(x) = e^x - 1$$ with reasonable precision near $x = 0$.</p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+          </div>
+          <div>
+            <h4 id="gam1"><code>gam1(x)</code></h4>
+            <p>Computes $$H(x)=\frac{1}{\Gamma(x+1)} - 1$$ with reasonable precision even near
+the zeroes ($x = 0, 1$).</p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+          </div>
+          <div>
+            <h4 id="gaminv"><code>gaminv(a)(p, lower)</code></h4>
+            <p>Returns the inverse function
+of the incomplete gamma ratio (see: <a href="#gratio"><code>gratio</code></a>).</p>
+<p><code>a</code> is the shape parameter and <code>p</code> is the desired tail probability.
+<code>lower</code> is a boolean which determines whether <code>p</code> is a left-tail
+probability or not (defaults to <code>true</code>).</p>
+<p>See also: <a href="#qgamma"><code>qgamma</code></a></p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+          </div>
+          <div>
+            <h4 id="gamma"><code>gamma(x)</code></h4>
+            <p>Computes $$\Gamma(x) = \int_0^\infty u^{x-1} e^{-u} du$$</p>
+<p>Inspired by code in the Gnu Scientific Library</p>
+<p>Also see: <em>A Precision Approximation of the Gamma Function</em>, by
+Lanczos, 1964</p>
+          </div>
+          <div>
+            <h4 id="gratR"><code>gratR(a, x, logr)</code></h4>
+            <p>Computes the scaled complement of the incomplete gamma ratio function
+(see: <a href="#gratio"><code>gratio</code></a>): $$\textrm{grat}_r(a,x,r) =  \frac{Q(a,x)}{r}$$
+where
+              $Q(a,x)$ is the upper-tail incomplete gamma function
+(see: <a href="#gratioc"><code>gratioc</code></a>) and  $r = \frac{e^{-x} x^a}{\Gamma(a)}$</p>
+<p>Meant to be used internally.</p>
+<p>Based on:   <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+          </div>
+          <div>
+            <h4 id="gratio"><code>gratio(a)(x)</code></h4>
+            <p>Returns the incomplete gamma ratio:
+$$P(a,x) = \frac{1}{\Gamma(a)} \int_0^x e^{-t} t^{a-1} dt$$</p>
+<p><code>a</code> is the shape parameter and $0 &lt; x &lt; \infty$.</p>
+<p>See also: <a href="#pgamma"><code>pgamma</code></a></p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+          </div>
+          <div>
+            <h4 id="gratioc"><code>gratioc(a)(x)</code></h4>
+            <p>Returns the complement of the incomplete gamma ratio:
+$$Q(a,x) = \frac{1}{\Gamma(a)} \int_x^\infty e^{-t} t^{a-1} dt$$</p>
+<p><code>a</code> is the shape parameter and $0 &lt; x &lt; \infty$.</p>
+<p>See also: <a href="#pgamma"><code>pgamma</code></a></p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+          </div>
+          <div>
+            <h4 id="lbeta"><code>lbeta(a, b)</code></h4>
+            <p>Computes the logarithm of the beta function.
+See: <a href="#beta"><code>beta</code></a></p>
+<p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios</em>, by DiDonato and Morris, 1992</p>
+          </div>
+          <div>
+            <h4 id="lgamma"><code>lgamma(x)</code></h4>
+            <p>Computes the logarithm of the gamma function.  See: <a href="#gamma"><code>gamma</code></a></p>
+<p>Inspired by code in the Gnu Scientific Library</p>
+<p>Also see: <em>A Precision Approximation of the Gamma Function</em>, by
+Lanczos, 1964</p>
+          </div>
+          <div>
+            <h4 id="log1p"><code>log1p(x)</code></h4>
+            <p>Computes $$\textrm{log1p}(x) = \ln(1+x)$$ with reasonable precision near $x = 0$.</p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+          </div>
+          <div>
+            <h4 id="lpoisson"><code>lpoisson(lambda)(x)</code></h4>
+            <p>Computes the logarithm of the Poisson pdf
+$$\log\left(\frac{\lambda^x}{\Gamma(x+1)}e^{-\lambda}\right)
+= -\lambda + x \ln(\lambda) - \ln(\Gamma(x+1))$$
+where $x&gt;0$ and $\lambda&gt;0$.</p>
+<p>Based on:  <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
+          </div>
+          <div>
+            <h4 id="phi"><code>phi(x)</code></h4>
+            <p>Computes $$\phi(x) = x - 1 - \ln(x)$$ with reasonable precision
+near $x = 1$.</p>
+<p>Based on:  <em>Computation of the Incomplete Gamma Function Ratios
+and their Inverse</em>, by DiDonato and Morris, 1986</p>
+          </div>
+          <div>
+            <h4 id="stirlerr"><code>stirlerr(n)</code></h4>
+            <p>Computes the error term in Stirling's approximation
+$$\textrm{stirlerr}(n) = \ln(\Gamma(n+1)) - n \ln(n) + n - \frac{1}{2} \ln\left(2\pi n\right)$$
+where $n&gt;0$ (<code>n</code> does not need to be an integer).</p>
+<p>Based on:  <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="C"><code>C</code></h2>
+          <p>Constants module, provides frozen values for some frequently-used constants.</p>
+          <div>
+            <h4 id="C"><code>C</code></h4>
+            <p>Constants module, provides frozen values for some frequently-used constants.</p>
+          </div>
+          <div>
+            <h4 id="eulerGamma"><code>eulerGamma</code></h4>
+            <p>The Euler-Mascheroni constant
+\[\gamma = \lim _ {n \to \infty} \left(-\ln(n) + \sum _ {k=1}^n \frac{1}{k}\right) = 0.57721566 \ldots\]</p>
+          </div>
+          <div>
+            <h4 id="log2pi"><code>log2pi</code></h4>
+            <p>$\ln(2\pi)$</p>
+          </div>
+          <div>
+            <h4 id="sqrt2pi"><code>sqrt2pi</code></h4>
+            <p>$\sqrt{2\pi}$</p>
+          </div>
+          <div>
+            <h4 id="twopi"><code>twopi</code></h4>
+            <p>$2\pi$</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="distributions"><code>distributions</code></h2>
+          <p>Probability Distributions</p>
+<p>The correspondence between the possible values of a random
+variable and their associated probabilities is referred to
+as a <em>probability distribution</em>. Random variables can be <em>discrete</em>,
+that is, taking any of a specified finite or countable list of values,
+or <em>continuous</em>, taking any value in a specified subset
+of the real numbers (typically, an interval).
+This module provides some of the most commonly used discrete
+and continuous probability distributions.</p>
+<p>If $X$ is a discrete random variable with sample space $S$
+(the set of all possible values), then $X$ can be
+specified by a probability mass function (pmf) $f:\,S \rightarrow [0,1]$.
+The probability of $X$ taking the single value $x$ is given by $f(x)$:
+$$\textrm{Pr}(X = x) = f(x)$$ and the total mass is 1:
+$$\textrm{Pr}(X \in S) = \sum_{x \in S} f(x) = 1$$</p>
+<p>If $X$ is a continuous random variable, then $X$ can be specified
+by a probability
+density function (pdf) $f:\,\Re \rightarrow [0, \infty)$. The
+probability of $X$
+taking a value in a given interval $[a, b]$ is the corresponding
+area beneath the density curve:
+$$\textrm{Pr}(a \leq X \leq b) = \int_{a}^{b} f(x) \, dx$$</p>
+<p>The probability for a continuous random variable $X$ to take
+any single value
+is thus zero.
+and the total mass is 1:
+$$\textrm{Pr}(-\infty \leq X \leq \infty) = \int_{-\infty}^{\infty} f(x) \, dx = 1$$</p>
+<p>The cumulative distribution function (cdf) $F(x)$ is defined by
+$F(x) = \textrm{Pr}(X \leq x)$; $F(x)$ is is often referred to as the
+<em>left-tail probability</em> for the cutoff value $x$.
+In the discrete case, where
+$f(x)$ is the probability mass function and $S$ is
+the sample space (set of all possible values for $X$),
+the cdf is defined as a sum:
+$$ F(x) = \sum_{t \in S \text{, } t \leq x}f(t)$$</p>
+<p>In the continuous case, where $f(x)$ is the probability density
+function, the cdf is defined as an integral:
+$$ F(x) = \int_{-\infty}^{x} f(t) \, dt$$</p>
+<p>For $0 &lt; p &lt; 1$, the <em>quantile function</em> $Q(p)$ returns the smallest
+value of $X$ for which the left-tail probability is at least $p$:
+$$Q(p) = \textrm{inf} \{x : p \leq F(x) \}$$</p>
+<p>When the cdf $F$ is continuous and strictly monotone,
+$Q = F^{-1}$; that is,
+$$Q(p) = x \text{ such that } \textrm{Pr}(X \leq x) = p$$
+This explains the usage of <em>inverse cdf</em> as a synonym for <em>quantile
+function</em>.</p>
+<p>If the sample space $S$ has a minimum, then
+$Q(0) = \textrm{min}(S)$; similarly, if the sample space $S$ has a maximum, then
+$Q(1) = \textrm{max}(S)$.</p>
+<p>A single observation from a random variable is referred to as a <em>variate</em>
+or <em>deviate</em>.  Each of the distributions provided in this module includes
+a method for generating random variates.</p>
+          <div>
+            <h4 id="beta"><code>beta</code></h4>
+            <p>The beta distribution. See <a href = "beta.html"><code>beta</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="binom"><code>binom</code></h4>
+            <p>The binomial distribution. See <a href = "binomial.html"><code>binomial</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="finite"><code>finite</code></h4>
+            <p>Constructor for finite distributions. See <a href = "finite.html"><code>finite</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="gamma"><code>gamma</code></h4>
+            <p>The gamma distribution. See <a href = "gamma.html"><code>gamma</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="normal"><code>normal</code></h4>
+            <p>The normal distribution. See <a href = "normal.html"><code>normal</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="poisson"><code>poisson</code></h4>
+            <p>The Poisson distribution. See <a href = "poisson.html"><code>poisson</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="t"><code>t</code></h4>
+            <p>The t distribution. See <a href = "t.html"><code>t</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="uniform"><code>uniform</code></h4>
+            <p>The uniform distribution. See <a href = "uniform.html"><code>uniform</code></a>.</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="beta"><code>beta</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the Beta distribution, which is defined by the pdf
+$$f(x;a,b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$
+where $x\in[0,1]$ and the parameters $a,b &gt; 0$.</p>
+<p><a href="#dbeta"><code>dbeta</code></a> provides access to this probability density function,
+<a href="#pbeta"><code>pbeta</code></a> to the cumulative distribution function, <a href="#qbeta"><code>qbeta</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rbeta"><code>rbeta</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#betadistr"><code>betadistr</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
+          <div>
+            <h4 id="betadistr"><code>betadistr(a, b)</code></h4>
+            <p>Returns an object representing a beta distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>betadistr(a, b).d(x, logp)            // same as dbeta(a, b, logp)(x)
+betadistr(a, b).p(x, lowerTail, logp) // same as pbeta(a, b, lowerTail, logp)(x)
+betadistr(a, b).q(x, lowerTail, logp) // same as qbeta(a, b, lowerTail, logp)(x)
+betadistr(a, b).r(n)                  // same as rbeta(a, b)(n)</code></pre>
+          </div>
+          <div>
+            <h4 id="dbeta"><code>dbeta(a, b, logp)(x)</code></h4>
+            <p>Evaluates the Beta density function at <code>x</code>:
+$$\textrm{dbeta}(a,b)(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$</p>
+<p>Expects $a &gt; 0$, $b &gt; 0$, and $0 \leq x \leq 1$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="pbeta"><code>pbeta(a, b, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the Beta cumulative distribution
+function at <code>x</code> (lower tail probability):
+$$\textrm{pbeta}(a, b)(x) = I_x(a, b)=G(a,b)\int_0^xt^{a-1}(1-t)^{b-1}dt$$
+where $B(a,b)=1/G(a,b) = \Gamma(a)\Gamma(b)/\Gamma(a+b)$ is the
+usual beta function.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+<p>Expects $a&gt;0$, $b&gt;0$, and $0 \leq x \leq 1$.</p>
+<p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios</em>, by DiDonato and Morris, 1992</p>
+          </div>
+          <div>
+            <h4 id="qbeta"><code>qbeta(a, b, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the Beta quantile function (inverse cdf) at <code>p</code>:
+$$\textrm{qbeta}(a, b)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Beta}(a,b)$ distribution.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p>Expects $a&gt;0$, $b&gt;0$, and $0 \leq p \leq 1$.</p>
+          </div>
+          <div>
+            <h4 id="rbeta"><code>rbeta(a, b)</code></h4>
+            <p>Returns a random variate from the $\textrm{Beta}(a, b)$ distribution.</p>
+<p>Expects $a&gt;0$ and $b&gt;0$.</p>
+<p>Based on R's code; see: <em>Generating beta variates with nonintegral shape parameters</em>, by
+RCH Cheng, 1978</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="binomial"><code>binomial</code></h2>
+          <p>Provides probability mass function, cumulative distribution function,
+quantile function, and random number generator
+for the Binomial distribution, which is defined by the pmf
+$$f(x;n,p) = {n \choose x}p^x(1-p)^{n-x}$$
+where $x=0,\ldots,n$, $n$ is the <em>size</em> and $p$ is the probability of success.</p>
+<p><a href="#dbinom"><code>dbinom</code></a> provides access to this probability mass function,
+<a href="#pbinom"><code>pbinom</code></a> to the cumulative distribution function, <a href="#qbinom"><code>qbinom</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rbinom"><code>rbinom</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#binom"><code>binom</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
+          <div>
+            <h4 id="binom"><code>binom(size, p)</code></h4>
+            <p>Returns an object representing a binomial distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>binom(size, p).d(x, logp)            // same as dbinom(size, p, logp)(x)
+binom(size, p).p(x, lowerTail, logp) // same as pbinom(size, p, lowerTail, logp)(x)
+binom(size, p).q(x, lowerTail, logp) // same as qbinom(size, p, lowerTail, logp)(x)
+binom(size, p).r()                   // same as rbinom(size, p)()</code></pre>
+          </div>
+          <div>
+            <h4 id="dbinom"><code>dbinom(size, p, logp)(x)</code></h4>
+            <p>Returns the Binomial probability at <code>x</code>:
+$$\textrm{dbinom}(\textrm{size}, p)(x) = \binom{\textrm{size}}{p}p^{x}(1-p)^{(\textrm{size}-x)}$$
+where <code>x</code> is an integer, $0 \leq x \leq \textrm{size}$.</p>
+<p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+<p>Based on: <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
+          </div>
+          <div>
+            <h4 id="pbinom"><code>pbinom(size, p, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the Binomial cumulative distribution
+function at <code>x</code> (lower tail probability):
+$$\textrm{pbinom}(\textrm{size}, p)(x) = \sum_{k \leq x} \binom{\textrm{size}}{p}p^{k}(1-p)^{(\textrm{size}-k)}$$</p>
+<p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead:
+$$\textrm{pbinom}(\textrm{size}, p, \textrm{false})(x) = \sum_{k&gt;x} \binom{\textrm{size}}{p}p^{k}(1-p)^{(\textrm{size}-k)}$$</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qbinom"><code>qbinom(size, p, lowerTail, logp)(prob)</code></h4>
+            <p>Returns the quantile corresponding to <code>prob</code>
+for the $\textrm{Binomial}(size, p)$ distribution.
+In general, for a discrete probability
+distribution, the <em>quantile</em> is defined as the smallest domain value
+<code>x</code> such that $F(x) \geq prob$, where $F$ is the cumulative
+distribution function.</p>
+<p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>prob</code> is
+interpreted as an upper tail probability.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>prob</code> as
+the logarithm of the desired probability.</p>
+          </div>
+          <div>
+            <h4 id="rbinom"><code>rbinom(size, p)</code></h4>
+            <p>Returns a random variate from the $\textrm{Binomial}(size, p)$ distribution.</p>
+<p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="finite"><code>finite</code></h2>
+          <p>Provides probability mass function, constructor, cumulative distribution
+function, quantile function, and random number generator for finite
+discrete probability distributions.</p>
+<p>For all members of the <a href = "finite.html"><code>finite</code></a> module, distributions are provided
+via appropriate properties of the object <code>o</code>. There are two possible options
+for that object:</p>
+<ul>
+<li>It can have properties <code>xs</code>, <code>ws</code>, which are arrays of equal length,
+corresponding to the values the distribution can take and their
+respective probabilities. In this case the <code>xs</code> are assumed to be distinct and
+in increasing order, and the <code>ws</code> are treated as weights, so if they do not add
+up to 1 then they will be scaled appropriately. The <code>ws</code> need to be positive.</li>
+<li>It can have properties <code>f</code>, <code>min</code>, <code>max</code>, where <code>min</code> and <code>max</code> are numbers
+and <code>f(i)</code> is a function. Then the distribution's values are meant to be the
+sequential numbers (arithmetic sequence) from <code>min</code> to <code>max</code> with
+an increment of 1, and <code>f(i)</code> gives the probability of the value <code>i</code>
+(similar to the <code>ws</code>).</li>
+</ul>
+<p><a href="#finite"><code>finite</code></a> returns an object representing the distribution, <a href="#dfinite"><code>dfinite</code></a> returns
+the pmf, <a href="#pfinite"><code>pfinite</code></a> the cdf, <a href="#qfinite"><code>qfinite</code></a> the inverse cdf, and <a href="#rfinite"><code>rfinite</code></a> generates
+random variates.</p>
+<p>Examples:</p>
+<pre class="prettyprint source"><code>finite({ min: 1, max: 10, f: function() { return 1; } })  // 10-sided fair die
+finite({ xs: [0, 1], ws: [2, 1] }) // Bernoulli trial P(0) = 2/3</code></pre>
+          <div>
+            <h4 id="dfinite"><code>dfinite(o, logp)(x)</code></h4>
+            <p>Returns the probability at <code>x</code> for the finite distribution
+represented by object <code>o</code>.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="finite"><code>finite(o)</code></h4>
+            <p>Returns an object representing a finite distribution, with properties
+<code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>finite(o).d(x, logp)            // same as dfinite(o, logp)(x)
+finite(o).p(x, lowerTail, logp) // same as pfinite(o, lowerTail, logp)(x)
+finite(o).q(x, lowerTail, logp) // same as qfinite(o, lowerTail, logp)(x)
+finite(o).r(n)                  // same as rfinite(o)(n)</code></pre>
+          </div>
+          <div>
+            <h4 id="pfinite"><code>pfinite(o, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the cumulative distribution function at <code>x</code>
+for the finite distribution represented by object <code>o</code>:
+$$\textrm{pfinite}(o)(x) = \sum_{k \leq x} dfinite(k)$$</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead:
+$$\textrm{pfinite}(o)(x) = \sum_{k &gt; x} dfinite(k)$$</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qfinite"><code>qfinite(o, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the quantile function for the finite distribution
+specified by object <code>o</code>.
+In general, for a discrete probability
+distribution, the <em>quantile</em> is defined as the smallest domain value
+<code>x</code> such that $F(x) \geq p$, where $F$ is the cumulative
+distribution function.</p>
+<p><code>p</code> is the desired probability ($0 \leq p \leq 1$).</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p><a href="#qfinite"><code>qfinite</code></a> tries to invert <a href="#pfinite"><code>pfinite</code></a> but cannot be an exact inverse.
+In particular, for <code>lowerTail = true</code>:</p>
+<ul>
+<li>if asked for the smallest quantile for which the left area (&lt;=) is 0, <a href="#qfinite"><code>qfinite</code></a> returns
+<code>min</code></li>
+<li>if asked for the smallest quantile for which the left area (&lt;=) is 1,
+<a href="#qfinite"><code>qfinite</code></a> returns <code>max</code>.</li>
+</ul>
+<p>The edge cases for <code>lowerTail = false</code> are symmetrical to the preceding:
+<a href="#qfinite"><code>qfinite</code></a> returns <code>min</code> or <code>max</code> for a right-tail area (&gt;) of 1 or 0, respectively.</p>
+          </div>
+          <div>
+            <h4 id="rfinite"><code>rfinite(o)</code></h4>
+            <p>Returns a random variate from the finite distribution
+specified by object <code>o</code>.</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="gamma"><code>gamma</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the Gamma distribution, which is defined by the pdf
+$$f(x;a,s) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$
+where $x\in(0,\infty)$. The parameter $a&gt;0$ is called the <em>shape</em>
+and the parameter $s&gt;0$ the <em>scale</em>.</p>
+<p><a href="#dgamma"><code>dgamma</code></a> provides access to this probability density function,
+<a href="#pgamma"><code>pgamma</code></a> to the cumulative distribution function, <a href="#qgamma"><code>qgamma</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rgamma"><code>rgamma</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#gammadistr"><code>gammadistr</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
+          <div>
+            <h4 id="dgamma"><code>dgamma(a, s, logp)(x)</code></h4>
+            <p>Evaluates the Gamma density function at <code>x</code>:
+$$\textrm{dgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$</p>
+<p>Expects $a &gt; 0$, $s &gt; 0$, and $x &gt; 0$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="gammadistr"><code>gammadistr(a, s)</code></h4>
+            <p>Returns an object representing a gamma distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>gammadistr(a, s).d(x, logp)            // same as dgamma(a, s, logp)(x)
+gammadistr(a, s).p(x, lowerTail, logp) // same as pgamma(a, s, lowerTail, logp)(x)
+gammadistr(a, s).q(x, lowerTail, logp) // same as qgamma(a, s, lowerTail, logp)(x)
+gammadistr(a, s).r()                   // same as rgamma(a, s)()</code></pre>
+          </div>
+          <div>
+            <h4 id="pgamma"><code>pgamma(a, s, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the Gamma cumulative distribution
+function at <code>x</code> (lower tail probability):
+$$\textrm{pgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}\int_0^x t^{a-1}e^{-t/s}dt$$</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+<p>Expects $a &gt; 0$, $s &gt; 0$, and $x &gt; 0$.</p>
+<p>Based on: <em>Computation of the Incomplete Gamma Function Ratios and their
+Inverse</em>, by DiDonato and Morris, 1992</p>
+          </div>
+          <div>
+            <h4 id="qgamma"><code>qgamma(a, s, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the Gamma distribution's quantile function (inverse cdf) at <code>p</code>:
+$$\textrm{qgamma}(a, s)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Gamma}(a, s)$ distribution.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p>Expects $a&gt;0$, $s&gt;0$, and $0 \leq p \leq 1$.</p>
+          </div>
+          <div>
+            <h4 id="rgamma"><code>rgamma(a, s)</code></h4>
+            <p>Returns a random variate from the $\textrm{Gamma}(a, s)$ distribution.</p>
+<p>Expects $a &gt; 0$ and $s &gt; 0$.</p>
+<p>TODO: Add links to algorithms</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="normal"><code>normal</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the normal distribution, which is defined by the pdf
+$$f(x;\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$
+where $x\in(-\infty,\infty)$ and as usual $\mu$ is the mean and $\sigma&gt;0$
+is the standard deviation.</p>
+<p><a href="#dnorm"><code>dnorm</code></a> provides access to this probability density function,
+<a href="#pnorm"><code>pnorm</code></a> to the cumulative distribution function, <a href="#qnorm"><code>qnorm</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rnorm"><code>rnorm</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#normal"><code>normal</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
+          <div>
+            <h4 id="dnorm"><code>dnorm(mu, sigma, logp)(x)</code></h4>
+            <p>Evaluates the Normal density function at <code>x</code>:
+$$\textrm{dnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$</p>
+<p>Expects $\sigma &gt; 0$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="normal"><code>normal(mu, sigma)</code></h4>
+            <p>Returns an object representing a normal distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>normal(mu, sigma).d(x, logp)            // same as dnorm(mu, sigma, logp)(x)
+normal(mu, sigma).p(x, lowerTail, logp) // same as pnorm(mu, sigma, lowerTail, logp)(x)
+normal(mu, sigma).q(x, lowerTail, logp) // same as qnorm(mu, sigma, lowerTail, logp)(x)
+normal(mu, sigma).r()                   // same as rnorm(mu, sigma)()</code></pre>
+          </div>
+          <div>
+            <h4 id="pnorm"><code>pnorm(mu, sigma, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the Normal distribution:
+$$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}}\int_{-\infty}^x e^{\displaystyle -\frac{(t-\mu)^2}{2\sigma^2}}dt$$</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+<p>Expects $\sigma &gt; 0$.</p>
+          </div>
+          <div>
+            <h4 id="qnorm"><code>qnorm(mu, sigma, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the Normal distribution's quantile function (inverse cdf) at <code>p</code>:
+$$\textrm{qnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $N(\mu,\sigma)$ distribution.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p>Expects $\sigma &gt; 0$.</p>
+          </div>
+          <div>
+            <h4 id="rnorm"><code>rnorm(mu, sigma)</code></h4>
+            <p>Returns a random variate from the $N(\mu, \sigma)$ distribution.</p>
+<p>Expects $\sigma &gt; 0$.</p>
+<p>Uses a rejection polar method.</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="poisson"><code>poisson</code></h2>
+          <p>Provides probability mass function, cumulative distribution function,
+quantile function, and random number generator
+for the Poisson distribution, which is defined by the pmf
+$$f(x;\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}$$
+where $x=0,1,2,\ldots$ and $\lambda &gt; 0$ is the mean.</p>
+<p><a href="#dpois"><code>dpois</code></a> provides access to this probability mass function,
+<a href="#ppois"><code>ppois</code></a> to the cumulative distribution function, <a href="#qpois"><code>qpois</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rpois"><code>rpois</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#pois"><code>pois</code></a> to obtain an object
+representing the Poisson distribution for a given value of $\lambda$.</p>
+          <div>
+            <h4 id="dpois"><code>dpois(lambda, logp)(x)</code></h4>
+            <p>Evaluates the Poisson pmf at <code>x</code>:
+$$\textrm{dpois}(\lambda)(x) = \frac{\lambda^x}{x!}e^{-\lambda}$$</p>
+<p>Expects $\lambda &gt; 0$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="pois"><code>pois(lambda)</code></h4>
+            <p>Returns an object representing a Poisson distribution
+for a given value of $\lambda &gt; 0$, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>pois(a, b).d(x, logp)            // same as dpois(a, b, logp)(x)
+pois(a, b).p(x, lowerTail, logp) // same as ppois(a, b, lowerTail, logp)(x)
+pois(a, b).q(x, lowerTail, logp) // same as qpois(a, b, lowerTail, logp)(x)
+pois(a, b).r()                   // same as rpois(a, b)()</code></pre>
+          </div>
+          <div>
+            <h4 id="ppois"><code>ppois(lambda, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the Poisson distribution:
+$$\textrm{ppois}(\lambda)(x) = e^{-\lambda} \sum_{i=0}^{\left \lfloor{x}\right \rfloor}\frac{\lambda^i}{i!}$$</p>
+<p>Expects $\lambda &gt; 0$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability ($P(X &gt; x)$) instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qpois"><code>qpois(lambda, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the Poisson distribution's quantile function
+(inverse cdf) at <code>p</code>:
+$$\textrm{qpois}(\lambda)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Poisson}(\lambda)$ distribution.</p>
+<p>Expects $\lambda &gt; 0$ and $0 \leq p \leq 1$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+          </div>
+          <div>
+            <h4 id="rpois"><code>rpois(lambda)</code></h4>
+            <p>Returns a random variate from the $\textrm{Poisson}(\lambda)$ distribution.</p>
+<p>Expects $\lambda &gt; 0$.</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="t"><code>t</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the Student's t distribution, which is defined by the pdf
+$$f(x;\nu) = \frac{1}{\sqrt{\nu}\,\textrm{B}(1/2, \nu/2)} \left(1+\frac{x^2}{\nu} \right)^{-\frac{\nu + 1}{2}}$$
+where B is the Beta function, $x \in (-\infty, \infty)$ and $\nu &gt;0$ is the <em>degrees of freedom</em>.</p>
+<p><a href="#dt"><code>dt</code></a> provides access to this probability density function,
+<a href="#pt"><code>pt</code></a> to the cumulative distribution function, <a href="#qt"><code>qt</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rt"><code>rt</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#tdistr"><code>tdistr</code></a> to obtain an object
+representing the t distribution for a given value of $\nu$.</p>
+          <div>
+            <h4 id="dt"><code>dt(df, logp)(x)</code></h4>
+            <p>Evaluates the t density function at <code>x</code>:
+$$\textrm{dt}(\textrm{df})(x) = \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$</p>
+<p>Expects $\textrm{df} &gt; 0$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="pt"><code>pt(df, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the t distribution:
+$$\textrm{pt}(\textrm{df})(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$</p>
+<p>Expects $\textrm{df} &gt; 0$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qt"><code>qt(df, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the t distribution's quantile function
+(inverse cdf) at <code>p</code>:
+$$\textrm{qt}(\textrm{df})(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $t(\textrm{df})$ distribution.</p>
+<p>Expects $\textrm{df} &gt; 0$ and $0 \leq p \leq 1$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p>Based on: R code</p>
+          </div>
+          <div>
+            <h4 id="rt"><code>rt(df)</code></h4>
+            <p>Returns a random variate from the $t(\textrm{df})$ distribution.</p>
+<p>Expects $\textrm{df} &gt; 0$.</p>
+          </div>
+          <div>
+            <h4 id="tdistr"><code>tdistr(df)</code></h4>
+            <p>Returns an object representing a t distribution with $\textrm{df} &gt; 0$
+degrees of freedom, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>tdistr(a, b).d(x, logp)            // same as dt(a, b, logp)(x)
+tdistr(a, b).p(x, lowerTail, logp) // same as pt(a, b, lowerTail, logp)(x)
+tdistr(a, b).q(x, lowerTail, logp) // same as qt(a, b, lowerTail, logp)(x)
+tdistr(a, b).r()                   // same as rt(a, b)()</code></pre>
+          </div>
+        </div>
+        <div>
+          <h2 id="uniform"><code>uniform</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the continuous uniform distribution on $[a, b]$, which
+is defined by the pdf
+$$ f(x; a, b) = \begin{cases}
+  \frac{1}{b-a},  &amp; \text{if $a \leq x \leq b$} \\
+  0, &amp; \text{if $x &lt; a$ or $x &gt; b$} \end{cases} $$
+where $a &lt; b$ and $x \in (-\infty, \infty)$.</p>
+<p><a href="#dunif"><code>dunif</code></a> provides access to this probability density function,
+<a href="#punif"><code>punif</code></a> to the cumulative distribution function, <a href="#qunif"><code>qunif</code></a> to the
+quantile function (inverse cdf)
+and <a href="#runif"><code>runif</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#unif"><code>unif</code></a> to obtain an object
+representing the Uniform distribution for given values of
+<code>a</code> and <code>b</code>.</p>
+          <div>
+            <h4 id="dunif"><code>dunif(a, b, logp)(x)</code></h4>
+            <p>Evaluates the Uniform density function at <code>x</code>:
+$$\textrm{dunif}(a, b)(x) = \begin{cases}
+  \frac{1}{b-a},  &amp; \text{if $a \leq x \leq b$} \\
+  0, &amp; \text{if $x &lt; a$ or $x &gt; b$} \end{cases} $$</p>
+<p>Expects $a &lt; b$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="punif"><code>punif(a, b, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the Uniform distribution:
+$$\textrm{punif}(a, b)(x) = \begin{cases}
+  \frac{x-a}{b-a},  &amp; \text{if $a \leq x \leq b$} \\
+  0,                &amp; \text{if $x &lt; a$} \\
+  1,                &amp; \text{if $x &gt; b$} \end{cases} $$</p>
+<p>Expects $a &lt; b$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qunif"><code>qunif(a, b, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the Uniform distribution's quantile function
+(inverse cdf) at <code>p</code>:
+$$\textrm{qunif}(a, b)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Uniform}(a, b)$ distribution.</p>
+<p>Expects $a &lt; b$ and $0 \leq p \leq 1$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+          </div>
+          <div>
+            <h4 id="runif"><code>runif(a, b)</code></h4>
+            <p>Returns a random variate from the $\textrm{Uniform}(a,b)$ distribution.</p>
+<p>Expects $a&lt;b$.</p>
+          </div>
+          <div>
+            <h4 id="unif"><code>unif(a, b)</code></h4>
+            <p>Returns an object representing a Uniform distribution on $[a, b]$,
+with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>unif(a, b).d(x, logp)            // same as dunif(a, b, logp)(x)
+unif(a, b).p(x, lowerTail, logp) // same as punif(a, b, lowerTail, logp)(x)
+unif(a, b).q(x, lowerTail, logp) // same as qunif(a, b, lowerTail, logp)(x)
+unif(a, b).r()                   // same as runif(a, b)()</code></pre>
+          </div>
+        </div>
+        <div>
+          <h2 id="rgen"><code>rgen</code></h2>
+          <p>Random number generation</p>
+<p>panthrMath implements its own random number generation, to provide
+consistency across platforms.  Currently, only one algorithm is provided.
+See: <em>Random Number Generation and Monte Carlo Methods</em>, 2nd edition,
+by J. Gentle (Springer).</p>
+<p>Available algorithms:</p>
+<ul>
+<li><code>slcg</code>: simple linear congruential generator, using the
+  congruence $x_i \equiv a x _ {i-1} + c \bmod m$ where
+  $a = 16807$, $c = 0$, and $m = 2^{31} - 1$.</li>
+</ul>
+          <div>
+            <h4 id="getAlgorithms"><code>getAlgorithms()</code></h4>
+            <p>Returns a list of the available algorithms for random number
+generation.</p>
+          </div>
+          <div>
+            <h4 id="random"><code>random()</code></h4>
+            <p>Generates a random number uniformly on the interval $(0, 1)$.</p>
+          </div>
+          <div>
+            <h4 id="setAlgorithm"><code>setAlgorithm(name)</code></h4>
+            <p>Sets the algorithm to be used for random number generation.
+Expects <code>name</code> to be one of the strings returned by <a href="#getAlgorithms"><code>getAlgorithms</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="setRandomSeed"><code>setRandomSeed()</code></h4>
+            <p>Sets a seed for random number generation, based on the system date.</p>
+          </div>
+          <div>
+            <h4 id="setSeed"><code>setSeed(seed)</code></h4>
+            <p>Sets a seed for the random number generator.  Expects <code>seed</code> to
+be an integer.</p>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title>distributions</title>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Documentation for module <code>distributions</code>
+      
+      </h1>
+    </div>
+    <div id="sidebar">
+      <div>
+        <h3>Module Index</h3>
+      <ul>
+        <a href="panthrMath.html"><li class="depth0"><code>panthrMath</code></li></a>
+        <a href="basicFunc.html"><li class="depth1"><code>basicFunc</code></li></a>
+        <a href="C.html"><li class="depth1"><code>C</code></li></a>
+        <a href="distributions.html"><li class="depth1"><code>distributions</code></li></a>
+        <a href="beta.html"><li class="depth2"><code>beta</code></li></a>
+        <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
+        <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
+        <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
+        <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
+        <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
+        <a href="t.html"><li class="depth2"><code>t</code></li></a>
+        <a href="uniform.html"><li class="depth2"><code>uniform</code></li></a>
+        <a href="rgen.html"><li class="depth0"><code>rgen</code></li></a>
+      </ul>
+      </div>
+      <div>
+        <h3>Contents</h3>
+      <ul>
+        
+        <a href="#beta"><li><code>beta</code></li></a>
+        
+        <a href="#binom"><li><code>binom</code></li></a>
+        
+        <a href="#finite"><li><code>finite</code></li></a>
+        
+        <a href="#gamma"><li><code>gamma</code></li></a>
+        
+        <a href="#normal"><li><code>normal</code></li></a>
+        
+        <a href="#poisson"><li><code>poisson</code></li></a>
+        
+        <a href="#t"><li><code>t</code></li></a>
+        
+        <a href="#uniform"><li><code>uniform</code></li></a>
+        
+      </ul>
+      </div>
+    </div>
+    <div id="main">
+      <div class="moduleInfo">
+        <h2>Module <code>distributions</code></h2>
+        <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
+        <p>Probability Distributions</p>
+<p>The correspondence between the possible values of a random
+variable and their associated probabilities is referred to
+as a <em>probability distribution</em>. Random variables can be <em>discrete</em>,
+that is, taking any of a specified finite or countable list of values,
+or <em>continuous</em>, taking any value in a specified subset
+of the real numbers (typically, an interval).
+This module provides some of the most commonly used discrete
+and continuous probability distributions.</p>
+<p>If $X$ is a discrete random variable with sample space $S$
+(the set of all possible values), then $X$ can be
+specified by a probability mass function (pmf) $f:\,S \rightarrow [0,1]$.
+The probability of $X$ taking the single value $x$ is given by $f(x)$:
+$$\textrm{Pr}(X = x) = f(x)$$ and the total mass is 1:
+$$\textrm{Pr}(X \in S) = \sum_{x \in S} f(x) = 1$$</p>
+<p>If $X$ is a continuous random variable, then $X$ can be specified
+by a probability
+density function (pdf) $f:\,\Re \rightarrow [0, \infty)$. The
+probability of $X$
+taking a value in a given interval $[a, b]$ is the corresponding
+area beneath the density curve:
+$$\textrm{Pr}(a \leq X \leq b) = \int_{a}^{b} f(x) \, dx$$</p>
+<p>The probability for a continuous random variable $X$ to take
+any single value
+is thus zero.
+and the total mass is 1:
+$$\textrm{Pr}(-\infty \leq X \leq \infty) = \int_{-\infty}^{\infty} f(x) \, dx = 1$$</p>
+<p>The cumulative distribution function (cdf) $F(x)$ is defined by
+$F(x) = \textrm{Pr}(X \leq x)$; $F(x)$ is is often referred to as the
+<em>left-tail probability</em> for the cutoff value $x$.
+In the discrete case, where
+$f(x)$ is the probability mass function and $S$ is
+the sample space (set of all possible values for $X$),
+the cdf is defined as a sum:
+$$ F(x) = \sum_{t \in S \text{, } t \leq x}f(t)$$</p>
+<p>In the continuous case, where $f(x)$ is the probability density
+function, the cdf is defined as an integral:
+$$ F(x) = \int_{-\infty}^{x} f(t) \, dt$$</p>
+<p>For $0 &lt; p &lt; 1$, the <em>quantile function</em> $Q(p)$ returns the smallest
+value of $X$ for which the left-tail probability is at least $p$:
+$$Q(p) = \textrm{inf} \{x : p \leq F(x) \}$$</p>
+<p>When the cdf $F$ is continuous and strictly monotone,
+$Q = F^{-1}$; that is,
+$$Q(p) = x \text{ such that } \textrm{Pr}(X \leq x) = p$$
+This explains the usage of <em>inverse cdf</em> as a synonym for <em>quantile
+function</em>.</p>
+<p>If the sample space $S$ has a minimum, then
+$Q(0) = \textrm{min}(S)$; similarly, if the sample space $S$ has a maximum, then
+$Q(1) = \textrm{max}(S)$.</p>
+<p>A single observation from a random variable is referred to as a <em>variate</em>
+or <em>deviate</em>.  Each of the distributions provided in this module includes
+a method for generating random variates.</p>
+      </div>
+      <div>
+        <h4 id="beta"><code>beta</code></h4>
+        <p>The beta distribution. See <a href = "beta.html"><code>beta</code></a>.</p>
+      </div>
+      <div>
+        <h4 id="binom"><code>binom</code></h4>
+        <p>The binomial distribution. See <a href = "binomial.html"><code>binomial</code></a>.</p>
+      </div>
+      <div>
+        <h4 id="finite"><code>finite</code></h4>
+        <p>Constructor for finite distributions. See <a href = "finite.html"><code>finite</code></a>.</p>
+      </div>
+      <div>
+        <h4 id="gamma"><code>gamma</code></h4>
+        <p>The gamma distribution. See <a href = "gamma.html"><code>gamma</code></a>.</p>
+      </div>
+      <div>
+        <h4 id="normal"><code>normal</code></h4>
+        <p>The normal distribution. See <a href = "normal.html"><code>normal</code></a>.</p>
+      </div>
+      <div>
+        <h4 id="poisson"><code>poisson</code></h4>
+        <p>The Poisson distribution. See <a href = "poisson.html"><code>poisson</code></a>.</p>
+      </div>
+      <div>
+        <h4 id="t"><code>t</code></h4>
+        <p>The t distribution. See <a href = "t.html"><code>t</code></a>.</p>
+      </div>
+      <div>
+        <h4 id="uniform"><code>uniform</code></h4>
+        <p>The uniform distribution. See <a href = "uniform.html"><code>uniform</code></a>.</p>
+      </div>
+    </div>
+  </body>
+</html>

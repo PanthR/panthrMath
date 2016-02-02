@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title>finite</title>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Documentation for module <code>finite</code>
+      
+      </h1>
+    </div>
+    <div id="sidebar">
+      <div>
+        <h3>Module Index</h3>
+      <ul>
+        <a href="panthrMath.html"><li class="depth0"><code>panthrMath</code></li></a>
+        <a href="basicFunc.html"><li class="depth1"><code>basicFunc</code></li></a>
+        <a href="C.html"><li class="depth1"><code>C</code></li></a>
+        <a href="distributions.html"><li class="depth1"><code>distributions</code></li></a>
+        <a href="beta.html"><li class="depth2"><code>beta</code></li></a>
+        <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
+        <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
+        <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
+        <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
+        <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
+        <a href="t.html"><li class="depth2"><code>t</code></li></a>
+        <a href="uniform.html"><li class="depth2"><code>uniform</code></li></a>
+        <a href="rgen.html"><li class="depth0"><code>rgen</code></li></a>
+      </ul>
+      </div>
+      <div>
+        <h3>Contents</h3>
+      <ul>
+        
+        <a href="#dfinite"><li><code>dfinite</code></li></a>
+        
+        <a href="#finite"><li><code>finite</code></li></a>
+        
+        <a href="#pfinite"><li><code>pfinite</code></li></a>
+        
+        <a href="#qfinite"><li><code>qfinite</code></li></a>
+        
+        <a href="#rfinite"><li><code>rfinite</code></li></a>
+        
+      </ul>
+      </div>
+    </div>
+    <div id="main">
+      <div class="moduleInfo">
+        <h2>Module <code>finite</code></h2>
+        <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
+        <p>Provides probability mass function, constructor, cumulative distribution
+function, quantile function, and random number generator for finite
+discrete probability distributions.</p>
+<p>For all members of the <a href = "finite.html"><code>finite</code></a> module, distributions are provided
+via appropriate properties of the object <code>o</code>. There are two possible options
+for that object:</p>
+<ul>
+<li>It can have properties <code>xs</code>, <code>ws</code>, which are arrays of equal length,
+corresponding to the values the distribution can take and their
+respective probabilities. In this case the <code>xs</code> are assumed to be distinct and
+in increasing order, and the <code>ws</code> are treated as weights, so if they do not add
+up to 1 then they will be scaled appropriately. The <code>ws</code> need to be positive.</li>
+<li>It can have properties <code>f</code>, <code>min</code>, <code>max</code>, where <code>min</code> and <code>max</code> are numbers
+and <code>f(i)</code> is a function. Then the distribution's values are meant to be the
+sequential numbers (arithmetic sequence) from <code>min</code> to <code>max</code> with
+an increment of 1, and <code>f(i)</code> gives the probability of the value <code>i</code>
+(similar to the <code>ws</code>).</li>
+</ul>
+<p><a href="#finite"><code>finite</code></a> returns an object representing the distribution, <a href="#dfinite"><code>dfinite</code></a> returns
+the pmf, <a href="#pfinite"><code>pfinite</code></a> the cdf, <a href="#qfinite"><code>qfinite</code></a> the inverse cdf, and <a href="#rfinite"><code>rfinite</code></a> generates
+random variates.</p>
+<p>Examples:</p>
+<pre class="prettyprint source"><code>finite({ min: 1, max: 10, f: function() { return 1; } })  // 10-sided fair die
+finite({ xs: [0, 1], ws: [2, 1] }) // Bernoulli trial P(0) = 2/3</code></pre>
+      </div>
+      <div>
+        <h4 id="dfinite"><code>dfinite(o, logp)(x)</code></h4>
+        <p>Returns the probability at <code>x</code> for the finite distribution
+represented by object <code>o</code>.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+      </div>
+      <div>
+        <h4 id="finite"><code>finite(o)</code></h4>
+        <p>Returns an object representing a finite distribution, with properties
+<code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>finite(o).d(x, logp)            // same as dfinite(o, logp)(x)
+finite(o).p(x, lowerTail, logp) // same as pfinite(o, lowerTail, logp)(x)
+finite(o).q(x, lowerTail, logp) // same as qfinite(o, lowerTail, logp)(x)
+finite(o).r(n)                  // same as rfinite(o)(n)</code></pre>
+      </div>
+      <div>
+        <h4 id="pfinite"><code>pfinite(o, lowerTail, logp)(x)</code></h4>
+        <p>Evaluates the cumulative distribution function at <code>x</code>
+for the finite distribution represented by object <code>o</code>:
+$$\textrm{pfinite}(o)(x) = \sum_{k \leq x} dfinite(k)$$</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead:
+$$\textrm{pfinite}(o)(x) = \sum_{k &gt; x} dfinite(k)$$</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+      </div>
+      <div>
+        <h4 id="qfinite"><code>qfinite(o, lowerTail, logp)(p)</code></h4>
+        <p>Evaluates the quantile function for the finite distribution
+specified by object <code>o</code>.
+In general, for a discrete probability
+distribution, the <em>quantile</em> is defined as the smallest domain value
+<code>x</code> such that $F(x) \geq p$, where $F$ is the cumulative
+distribution function.</p>
+<p><code>p</code> is the desired probability ($0 \leq p \leq 1$).</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p><a href="#qfinite"><code>qfinite</code></a> tries to invert <a href="#pfinite"><code>pfinite</code></a> but cannot be an exact inverse.
+In particular, for <code>lowerTail = true</code>:</p>
+<ul>
+<li>if asked for the smallest quantile for which the left area (&lt;=) is 0, <a href="#qfinite"><code>qfinite</code></a> returns
+<code>min</code></li>
+<li>if asked for the smallest quantile for which the left area (&lt;=) is 1,
+<a href="#qfinite"><code>qfinite</code></a> returns <code>max</code>.</li>
+</ul>
+<p>The edge cases for <code>lowerTail = false</code> are symmetrical to the preceding:
+<a href="#qfinite"><code>qfinite</code></a> returns <code>min</code> or <code>max</code> for a right-tail area (&gt;) of 1 or 0, respectively.</p>
+      </div>
+      <div>
+        <h4 id="rfinite"><code>rfinite(o)</code></h4>
+        <p>Returns a random variate from the finite distribution
+specified by object <code>o</code>.</p>
+      </div>
+    </div>
+  </body>
+</html>

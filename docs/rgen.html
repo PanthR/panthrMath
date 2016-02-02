@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title>rgen</title>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+  <body>
+    <div id="header">
+    <h1>Documentation for module <code>rgen</code>
+      <span class="version">(v0.0.1)</span>
+      </h1>
+    </div>
+    <div id="sidebar">
+      <div>
+        <h3>Module Index</h3>
+      <ul>
+        <a href="panthrMath.html"><li class="depth0"><code>panthrMath</code></li></a>
+        <a href="basicFunc.html"><li class="depth1"><code>basicFunc</code></li></a>
+        <a href="C.html"><li class="depth1"><code>C</code></li></a>
+        <a href="distributions.html"><li class="depth1"><code>distributions</code></li></a>
+        <a href="beta.html"><li class="depth2"><code>beta</code></li></a>
+        <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
+        <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
+        <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
+        <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
+        <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
+        <a href="t.html"><li class="depth2"><code>t</code></li></a>
+        <a href="uniform.html"><li class="depth2"><code>uniform</code></li></a>
+        <a href="rgen.html"><li class="depth0"><code>rgen</code></li></a>
+      </ul>
+      </div>
+      <div>
+        <h3>Contents</h3>
+      <ul>
+        
+        <a href="#getAlgorithms"><li><code>getAlgorithms</code></li></a>
+        
+        <a href="#random"><li><code>random</code></li></a>
+        
+        <a href="#setAlgorithm"><li><code>setAlgorithm</code></li></a>
+        
+        <a href="#setRandomSeed"><li><code>setRandomSeed</code></li></a>
+        
+        <a href="#setSeed"><li><code>setSeed</code></li></a>
+        
+      </ul>
+      </div>
+    </div>
+    <div id="main">
+      <div class="moduleInfo">
+        <h2>Module <code>rgen</code></h2>
+        <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
+        <p>Random number generation</p>
+<p>panthrMath implements its own random number generation, to provide
+consistency across platforms.  Currently, only one algorithm is provided.
+See: <em>Random Number Generation and Monte Carlo Methods</em>, 2nd edition,
+by J. Gentle (Springer).</p>
+<p>Available algorithms:</p>
+<ul>
+<li><code>slcg</code>: simple linear congruential generator, using the
+  congruence $x_i \equiv a x _ {i-1} + c \bmod m$ where
+  $a = 16807$, $c = 0$, and $m = 2^{31} - 1$.</li>
+</ul>
+      </div>
+      <div>
+        <h4 id="getAlgorithms"><code>getAlgorithms()</code></h4>
+        <p>Returns a list of the available algorithms for random number
+generation.</p>
+      </div>
+      <div>
+        <h4 id="random"><code>random()</code></h4>
+        <p>Generates a random number uniformly on the interval $(0, 1)$.</p>
+      </div>
+      <div>
+        <h4 id="setAlgorithm"><code>setAlgorithm(name)</code></h4>
+        <p>Sets the algorithm to be used for random number generation.
+Expects <code>name</code> to be one of the strings returned by <a href="#getAlgorithms"><code>getAlgorithms</code></a>.</p>
+      </div>
+      <div>
+        <h4 id="setRandomSeed"><code>setRandomSeed()</code></h4>
+        <p>Sets a seed for random number generation, based on the system date.</p>
+      </div>
+      <div>
+        <h4 id="setSeed"><code>setSeed(seed)</code></h4>
+        <p>Sets a seed for the random number generator.  Expects <code>seed</code> to
+be an integer.</p>
+      </div>
+    </div>
+  </body>
+</html>

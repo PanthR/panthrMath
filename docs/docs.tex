@@ -1,0 +1,987 @@
+\documentclass{article}
+\usepackage{listings}
+\usepackage[vmargin=1in,hmargin=1in]{geometry}
+\title{PanthRBase Documentation}
+\author{PanthR Team}
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+  \section{panthrMath}
+    \subsection*{C}
+    \addcontentsline{toc}{subsection}{C}
+    Frequently used constants.  See \texttt{module:C}
+
+
+    \subsection*{Polynomial(coefs)}
+    \addcontentsline{toc}{subsection}{Polynomial(coefs)}
+    Polynomial Class
+
+
+    \subsection*{Polynomial.new(coefs)}
+    \addcontentsline{toc}{subsection}{Polynomial.new(coefs)}
+    TODO
+
+
+    \subsection*{Rational(num, denom)}
+    \addcontentsline{toc}{subsection}{Rational(num, denom)}
+    Rational Class
+
+
+    \subsection*{Rational.new(num, denom)}
+    \addcontentsline{toc}{subsection}{Rational.new(num, denom)}
+    TODO
+
+
+    \subsection*{basicfunc}
+    \addcontentsline{toc}{subsection}{basicfunc}
+    A collection of basic and special functions. See \texttt{module:basicFunc}.
+
+
+    \subsection*{distributions}
+    \addcontentsline{toc}{subsection}{distributions}
+    Various probability distributions. See \texttt{module:distributions}.
+
+
+    \subsection*{Polynomial.prototype.evalAt(x)}
+    \addcontentsline{toc}{subsection}{Polynomial.prototype.evalAt(x)}
+    TODO
+
+
+    \subsection*{Rational.prototype.evalAt(x)}
+    \addcontentsline{toc}{subsection}{Rational.prototype.evalAt(x)}
+    TODO
+
+
+  \section{basicFunc}
+    \subsection*{bd0(x, y)}
+    \addcontentsline{toc}{subsection}{bd0(x, y)}
+    Computes the expression $$bd0(x, y) = x \ln(x/y) + y - x$$
+
+
+Based on:  \emph{Fast and Accurate Computation of Binomial Probabilities},
+by Catherine Loader, 2000
+
+
+    \subsection*{beta(a, b)}
+    \addcontentsline{toc}{subsection}{beta(a, b)}
+    Computes the beta function
+$$B(a,b) = \int\_0^1 x^{a-1} (1-x)^{b-1} dx$$ where $a\&gt;0$ and $b\&gt;0$.
+
+
+See also: \texttt{lbeta}
+
+
+Based on: \emph{Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios}, by DiDonato and Morris, 1992
+
+
+    \subsection*{bratio(a, b, x, lowerTail, logp)}
+    \addcontentsline{toc}{subsection}{bratio(a, b, x, lowerTail, logp)}
+    Returns the lower tail of the incomplete beta function
+$$I\_x(a, b)=G(a,b)\int\_0^xt^{a-1}(1-t)^{b-1}dt$$
+where $B(a,b)=1/G(a,b) = \Gamma(a)\Gamma(b)/\Gamma(a+b)$ is the
+usual beta function.
+
+
+If \texttt{lowerTail} is \texttt{false}, returns the upper tail instead.
+If \texttt{logp} is \texttt{true}, returns the logarithm of the tail.
+Expects $a\&gt;0$, $b\&gt;0$, and $0 \leq x \leq 1$.
+
+
+Based on: \emph{Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios}, by DiDonato and Morris, 1992
+
+
+    \subsection*{erf(x)}
+    \addcontentsline{toc}{subsection}{erf(x)}
+    Implementation for erf, the real error function:
+$$\textrm{erf}(x) = \frac{2}{\sqrt{\pi}}\int\_0^x e^{-t^2} dt$$
+Based on: \emph{Rational Chebyshev Approximations for the Error
+Function}, by W. J. Cody, 1969
+
+
+    \subsection*{erfc(x)}
+    \addcontentsline{toc}{subsection}{erfc(x)}
+    Implementation for erfc, the complement of the real error function:
+$$\textrm{erfc}(x) = \frac{2}{\sqrt{\pi}}\int\_x^\infty e^{-t^2} dt$$
+Based on: \emph{Rational Chebyshev Approximations for the Error
+Function}, by W. J. Cody, 1969
+
+
+    \subsection*{expm1(x)}
+    \addcontentsline{toc}{subsection}{expm1(x)}
+    Computes $$\textrm{expm1}(x) = e^x - 1$$ with reasonable precision near $x = 0$.
+
+
+Based on:  \emph{Computation of the Incomplete Gamma Function Ratios
+and their Inverse}, by DiDonato and Morris, 1986
+
+
+    \subsection*{gam1(x)}
+    \addcontentsline{toc}{subsection}{gam1(x)}
+    Computes $$H(x)=\frac{1}{\Gamma(x+1)} - 1$$ with reasonable precision even near
+the zeroes ($x = 0, 1$).
+
+
+Based on:  \emph{Computation of the Incomplete Gamma Function Ratios
+and their Inverse}, by DiDonato and Morris, 1986
+
+
+    \subsection*{gaminv(a)(p, lower)}
+    \addcontentsline{toc}{subsection}{gaminv(a)(p, lower)}
+    Returns the inverse function
+of the incomplete gamma ratio (see: \texttt{gratio}).
+
+
+\texttt{a} is the shape parameter and \texttt{p} is the desired tail probability.
+\texttt{lower} is a boolean which determines whether \texttt{p} is a left-tail
+probability or not (defaults to \texttt{true}).
+
+
+See also: \texttt{qgamma}
+
+
+Based on:  \emph{Computation of the Incomplete Gamma Function Ratios
+and their Inverse}, by DiDonato and Morris, 1986
+
+
+    \subsection*{gamma(x)}
+    \addcontentsline{toc}{subsection}{gamma(x)}
+    Computes $$\Gamma(x) = \int\_0^\infty u^{x-1} e^{-u} du$$
+
+
+Inspired by code in the Gnu Scientific Library
+
+
+Also see: \emph{A Precision Approximation of the Gamma Function}, by
+Lanczos, 1964
+
+
+    \subsection*{gratR(a, x, logr)}
+    \addcontentsline{toc}{subsection}{gratR(a, x, logr)}
+    Computes the scaled complement of the incomplete gamma ratio function
+(see: \texttt{gratio}): $$\textrm{grat}\_r(a,x,r) =  \frac{Q(a,x)}{r}$$
+where
+              $Q(a,x)$ is the upper-tail incomplete gamma function
+(see: \texttt{gratioc}) and  $r = \frac{e^{-x} x^a}{\Gamma(a)}$
+
+
+Meant to be used internally.
+
+
+Based on:   \emph{Computation of the Incomplete Gamma Function Ratios
+and their Inverse}, by DiDonato and Morris, 1986
+
+
+    \subsection*{gratio(a)(x)}
+    \addcontentsline{toc}{subsection}{gratio(a)(x)}
+    Returns the incomplete gamma ratio:
+$$P(a,x) = \frac{1}{\Gamma(a)} \int\_0^x e^{-t} t^{a-1} dt$$
+
+
+\texttt{a} is the shape parameter and $0 \&lt; x \&lt; \infty$.
+
+
+See also: \texttt{pgamma}
+
+
+Based on:  \emph{Computation of the Incomplete Gamma Function Ratios
+and their Inverse}, by DiDonato and Morris, 1986
+
+
+    \subsection*{gratioc(a)(x)}
+    \addcontentsline{toc}{subsection}{gratioc(a)(x)}
+    Returns the complement of the incomplete gamma ratio:
+$$Q(a,x) = \frac{1}{\Gamma(a)} \int\_x^\infty e^{-t} t^{a-1} dt$$
+
+
+\texttt{a} is the shape parameter and $0 \&lt; x \&lt; \infty$.
+
+
+See also: \texttt{pgamma}
+
+
+Based on:  \emph{Computation of the Incomplete Gamma Function Ratios
+and their Inverse}, by DiDonato and Morris, 1986
+
+
+    \subsection*{lbeta(a, b)}
+    \addcontentsline{toc}{subsection}{lbeta(a, b)}
+    Computes the logarithm of the beta function.
+See: \texttt{beta}
+
+
+Based on: \emph{Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios}, by DiDonato and Morris, 1992
+
+
+    \subsection*{lgamma(x)}
+    \addcontentsline{toc}{subsection}{lgamma(x)}
+    Computes the logarithm of the gamma function.  See: \texttt{gamma}
+
+
+Inspired by code in the Gnu Scientific Library
+
+
+Also see: \emph{A Precision Approximation of the Gamma Function}, by
+Lanczos, 1964
+
+
+    \subsection*{log1p(x)}
+    \addcontentsline{toc}{subsection}{log1p(x)}
+    Computes $$\textrm{log1p}(x) = \ln(1+x)$$ with reasonable precision near $x = 0$.
+
+
+Based on:  \emph{Computation of the Incomplete Gamma Function Ratios
+and their Inverse}, by DiDonato and Morris, 1986
+
+
+    \subsection*{lpoisson(lambda)(x)}
+    \addcontentsline{toc}{subsection}{lpoisson(lambda)(x)}
+    Computes the logarithm of the Poisson pdf
+$$\log\left(\frac{\lambda^x}{\Gamma(x+1)}e^{-\lambda}\right)
+= -\lambda + x \ln(\lambda) - \ln(\Gamma(x+1))$$
+where $x\&gt;0$ and $\lambda\&gt;0$.
+
+
+Based on:  \emph{Fast and Accurate Computation of Binomial Probabilities},
+by Catherine Loader, 2000
+
+
+    \subsection*{phi(x)}
+    \addcontentsline{toc}{subsection}{phi(x)}
+    Computes $$\phi(x) = x - 1 - \ln(x)$$ with reasonable precision
+near $x = 1$.
+
+
+Based on:  \emph{Computation of the Incomplete Gamma Function Ratios
+and their Inverse}, by DiDonato and Morris, 1986
+
+
+    \subsection*{stirlerr(n)}
+    \addcontentsline{toc}{subsection}{stirlerr(n)}
+    Computes the error term in Stirling's approximation
+$$\textrm{stirlerr}(n) = \ln(\Gamma(n+1)) - n \ln(n) + n - \frac{1}{2} \ln\left(2\pi n\right)$$
+where $n\&gt;0$ (\texttt{n} does not need to be an integer).
+
+
+Based on:  \emph{Fast and Accurate Computation of Binomial Probabilities},
+by Catherine Loader, 2000
+
+
+  \section{C}
+    \subsection*{C}
+    \addcontentsline{toc}{subsection}{C}
+    Constants module, provides frozen values for some frequently-used constants.
+
+
+    \subsection*{eulerGamma}
+    \addcontentsline{toc}{subsection}{eulerGamma}
+    The Euler-Mascheroni constant
+\[\gamma = \lim \_ {n \to \infty} \left(-\ln(n) + \sum \_ {k=1}^n \frac{1}{k}\right) = 0.57721566 \ldots\]
+
+
+    \subsection*{log2pi}
+    \addcontentsline{toc}{subsection}{log2pi}
+    $\ln(2\pi)$
+
+
+    \subsection*{sqrt2pi}
+    \addcontentsline{toc}{subsection}{sqrt2pi}
+    $\sqrt{2\pi}$
+
+
+    \subsection*{twopi}
+    \addcontentsline{toc}{subsection}{twopi}
+    $2\pi$
+
+
+  \section{distributions}
+    \subsection*{beta}
+    \addcontentsline{toc}{subsection}{beta}
+    The beta distribution. See \texttt{module:beta}.
+
+
+    \subsection*{binom}
+    \addcontentsline{toc}{subsection}{binom}
+    The binomial distribution. See \texttt{module:binomial}.
+
+
+    \subsection*{finite}
+    \addcontentsline{toc}{subsection}{finite}
+    Constructor for finite distributions. See \texttt{module:finite}.
+
+
+    \subsection*{gamma}
+    \addcontentsline{toc}{subsection}{gamma}
+    The gamma distribution. See \texttt{module:gamma}.
+
+
+    \subsection*{normal}
+    \addcontentsline{toc}{subsection}{normal}
+    The normal distribution. See \texttt{module:normal}.
+
+
+    \subsection*{poisson}
+    \addcontentsline{toc}{subsection}{poisson}
+    The Poisson distribution. See \texttt{module:poisson}.
+
+
+    \subsection*{t}
+    \addcontentsline{toc}{subsection}{t}
+    The t distribution. See \texttt{module:t}.
+
+
+    \subsection*{uniform}
+    \addcontentsline{toc}{subsection}{uniform}
+    The uniform distribution. See \texttt{module:uniform}.
+
+
+  \section{beta}
+    \subsection*{betadistr(a, b)}
+    \addcontentsline{toc}{subsection}{betadistr(a, b)}
+    Returns an object representing a beta distribution, with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{betadistr(a, b).d(x, logp)            // same as dbeta(a, b, logp)(x)
+betadistr(a, b).p(x, lowerTail, logp) // same as pbeta(a, b, lowerTail, logp)(x)
+betadistr(a, b).q(x, lowerTail, logp) // same as qbeta(a, b, lowerTail, logp)(x)
+betadistr(a, b).r(n)                  // same as rbeta(a, b)(n)}\end{lstlisting}
+
+    \subsection*{dbeta(a, b, logp)(x)}
+    \addcontentsline{toc}{subsection}{dbeta(a, b, logp)(x)}
+    Evaluates the Beta density function at \texttt{x}:
+$$\textrm{dbeta}(a,b)(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{(a-1)}(1-x)^{(b-1)}$$
+
+
+Expects $a \&gt; 0$, $b \&gt; 0$, and $0 \leq x \leq 1$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{pbeta(a, b, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pbeta(a, b, lowerTail, logp)(x)}
+    Evaluates the Beta cumulative distribution
+function at \texttt{x} (lower tail probability):
+$$\textrm{pbeta}(a, b)(x) = I\_x(a, b)=G(a,b)\int\_0^xt^{a-1}(1-t)^{b-1}dt$$
+where $B(a,b)=1/G(a,b) = \Gamma(a)\Gamma(b)/\Gamma(a+b)$ is the
+usual beta function.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+Expects $a\&gt;0$, $b\&gt;0$, and $0 \leq x \leq 1$.
+
+
+Based on: \emph{Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
+Ratios}, by DiDonato and Morris, 1992
+
+
+    \subsection*{qbeta(a, b, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qbeta(a, b, lowerTail, logp)(p)}
+    Evaluates the Beta quantile function (inverse cdf) at \texttt{p}:
+$$\textrm{qbeta}(a, b)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Beta}(a,b)$ distribution.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+Expects $a\&gt;0$, $b\&gt;0$, and $0 \leq p \leq 1$.
+
+
+    \subsection*{rbeta(a, b)}
+    \addcontentsline{toc}{subsection}{rbeta(a, b)}
+    Returns a random variate from the $\textrm{Beta}(a, b)$ distribution.
+
+
+Expects $a\&gt;0$ and $b\&gt;0$.
+
+
+Based on R's code; see: \emph{Generating beta variates with nonintegral shape parameters}, by
+RCH Cheng, 1978
+
+
+  \section{binomial}
+    \subsection*{binom(size, p)}
+    \addcontentsline{toc}{subsection}{binom(size, p)}
+    Returns an object representing a binomial distribution, with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{binom(size, p).d(x, logp)            // same as dbinom(size, p, logp)(x)
+binom(size, p).p(x, lowerTail, logp) // same as pbinom(size, p, lowerTail, logp)(x)
+binom(size, p).q(x, lowerTail, logp) // same as qbinom(size, p, lowerTail, logp)(x)
+binom(size, p).r()                   // same as rbinom(size, p)()}\end{lstlisting}
+
+    \subsection*{dbinom(size, p, logp)(x)}
+    \addcontentsline{toc}{subsection}{dbinom(size, p, logp)(x)}
+    Returns the Binomial probability at \texttt{x}:
+$$\textrm{dbinom}(\textrm{size}, p)(x) = \binom{\textrm{size}}{p}p^{x}(1-p)^{(\textrm{size}-x)}$$
+where \texttt{x} is an integer, $0 \leq x \leq \textrm{size}$.
+
+
+\texttt{size} is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+Based on: \emph{Fast and Accurate Computation of Binomial Probabilities},
+by Catherine Loader, 2000
+
+
+    \subsection*{pbinom(size, p, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pbinom(size, p, lowerTail, logp)(x)}
+    Evaluates the Binomial cumulative distribution
+function at \texttt{x} (lower tail probability):
+$$\textrm{pbinom}(\textrm{size}, p)(x) = \sum\_{k \leq x} \binom{\textrm{size}}{p}p^{k}(1-p)^{(\textrm{size}-k)}$$
+
+
+\texttt{size} is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead:
+$$\textrm{pbinom}(\textrm{size}, p, \textrm{false})(x) = \sum\_{k\&gt;x} \binom{\textrm{size}}{p}p^{k}(1-p)^{(\textrm{size}-k)}$$
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qbinom(size, p, lowerTail, logp)(prob)}
+    \addcontentsline{toc}{subsection}{qbinom(size, p, lowerTail, logp)(prob)}
+    Returns the quantile corresponding to \texttt{prob}
+for the $\textrm{Binomial}(size, p)$ distribution.
+In general, for a discrete probability
+distribution, the \emph{quantile} is defined as the smallest domain value
+\texttt{x} such that $F(x) \geq prob$, where $F$ is the cumulative
+distribution function.
+
+
+\texttt{size} is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{prob} is
+interpreted as an upper tail probability.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{prob} as
+the logarithm of the desired probability.
+
+
+    \subsection*{rbinom(size, p)}
+    \addcontentsline{toc}{subsection}{rbinom(size, p)}
+    Returns a random variate from the $\textrm{Binomial}(size, p)$ distribution.
+
+
+\texttt{size} is a positive integer (number of trials) and $0 \leq p \leq 1$
+(the probability of success on a single trial).
+
+
+  \section{finite}
+    \subsection*{dfinite(o, logp)(x)}
+    \addcontentsline{toc}{subsection}{dfinite(o, logp)(x)}
+    Returns the probability at \texttt{x} for the finite distribution
+represented by object \texttt{o}.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{finite(o)}
+    \addcontentsline{toc}{subsection}{finite(o)}
+    Returns an object representing a finite distribution, with properties
+\texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{finite(o).d(x, logp)            // same as dfinite(o, logp)(x)
+finite(o).p(x, lowerTail, logp) // same as pfinite(o, lowerTail, logp)(x)
+finite(o).q(x, lowerTail, logp) // same as qfinite(o, lowerTail, logp)(x)
+finite(o).r(n)                  // same as rfinite(o)(n)}\end{lstlisting}
+
+    \subsection*{pfinite(o, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pfinite(o, lowerTail, logp)(x)}
+    Evaluates the cumulative distribution function at \texttt{x}
+for the finite distribution represented by object \texttt{o}:
+$$\textrm{pfinite}(o)(x) = \sum\_{k \leq x} dfinite(k)$$
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead:
+$$\textrm{pfinite}(o)(x) = \sum\_{k \&gt; x} dfinite(k)$$
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qfinite(o, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qfinite(o, lowerTail, logp)(p)}
+    Evaluates the quantile function for the finite distribution
+specified by object \texttt{o}.
+In general, for a discrete probability
+distribution, the \emph{quantile} is defined as the smallest domain value
+\texttt{x} such that $F(x) \geq p$, where $F$ is the cumulative
+distribution function.
+
+
+\texttt{p} is the desired probability ($0 \leq p \leq 1$).
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+\texttt{qfinite} tries to invert \texttt{pfinite} but cannot be an exact inverse.
+In particular, for \texttt{lowerTail = true}:
+
+
+\begin{itemize}
+
+\item if asked for the smallest quantile for which the left area (\&lt;=) is 0, \texttt{qfinite} returns
+\texttt{min}
+
+\item if asked for the smallest quantile for which the left area (\&lt;=) is 1,
+\texttt{qfinite} returns \texttt{max}.
+
+\end{itemize}
+
+The edge cases for \texttt{lowerTail = false} are symmetrical to the preceding:
+\texttt{qfinite} returns \texttt{min} or \texttt{max} for a right-tail area (\&gt;) of 1 or 0, respectively.
+
+
+    \subsection*{rfinite(o)}
+    \addcontentsline{toc}{subsection}{rfinite(o)}
+    Returns a random variate from the finite distribution
+specified by object \texttt{o}.
+
+
+  \section{gamma}
+    \subsection*{dgamma(a, s, logp)(x)}
+    \addcontentsline{toc}{subsection}{dgamma(a, s, logp)(x)}
+    Evaluates the Gamma density function at \texttt{x}:
+$$\textrm{dgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}x^{a-1}e^{-x/s}$$
+
+
+Expects $a \&gt; 0$, $s \&gt; 0$, and $x \&gt; 0$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{gammadistr(a, s)}
+    \addcontentsline{toc}{subsection}{gammadistr(a, s)}
+    Returns an object representing a gamma distribution, with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{gammadistr(a, s).d(x, logp)            // same as dgamma(a, s, logp)(x)
+gammadistr(a, s).p(x, lowerTail, logp) // same as pgamma(a, s, lowerTail, logp)(x)
+gammadistr(a, s).q(x, lowerTail, logp) // same as qgamma(a, s, lowerTail, logp)(x)
+gammadistr(a, s).r()                   // same as rgamma(a, s)()}\end{lstlisting}
+
+    \subsection*{pgamma(a, s, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pgamma(a, s, lowerTail, logp)(x)}
+    Evaluates the Gamma cumulative distribution
+function at \texttt{x} (lower tail probability):
+$$\textrm{pgamma}(a, s)(x) = \frac{1}{s^a\Gamma(a)}\int\_0^x t^{a-1}e^{-t/s}dt$$
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+Expects $a \&gt; 0$, $s \&gt; 0$, and $x \&gt; 0$.
+
+
+Based on: \emph{Computation of the Incomplete Gamma Function Ratios and their
+Inverse}, by DiDonato and Morris, 1992
+
+
+    \subsection*{qgamma(a, s, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qgamma(a, s, lowerTail, logp)(p)}
+    Evaluates the Gamma distribution's quantile function (inverse cdf) at \texttt{p}:
+$$\textrm{qgamma}(a, s)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Gamma}(a, s)$ distribution.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+Expects $a\&gt;0$, $s\&gt;0$, and $0 \leq p \leq 1$.
+
+
+    \subsection*{rgamma(a, s)}
+    \addcontentsline{toc}{subsection}{rgamma(a, s)}
+    Returns a random variate from the $\textrm{Gamma}(a, s)$ distribution.
+
+
+Expects $a \&gt; 0$ and $s \&gt; 0$.
+
+
+TODO: Add links to algorithms
+
+
+  \section{normal}
+    \subsection*{dnorm(mu, sigma, logp)(x)}
+    \addcontentsline{toc}{subsection}{dnorm(mu, sigma, logp)(x)}
+    Evaluates the Normal density function at \texttt{x}:
+$$\textrm{dnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$
+
+
+Expects $\sigma \&gt; 0$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{normal(mu, sigma)}
+    \addcontentsline{toc}{subsection}{normal(mu, sigma)}
+    Returns an object representing a normal distribution, with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{normal(mu, sigma).d(x, logp)            // same as dnorm(mu, sigma, logp)(x)
+normal(mu, sigma).p(x, lowerTail, logp) // same as pnorm(mu, sigma, lowerTail, logp)(x)
+normal(mu, sigma).q(x, lowerTail, logp) // same as qnorm(mu, sigma, lowerTail, logp)(x)
+normal(mu, sigma).r()                   // same as rnorm(mu, sigma)()}\end{lstlisting}
+
+    \subsection*{pnorm(mu, sigma, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pnorm(mu, sigma, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the Normal distribution:
+$$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}}\int\_{-\infty}^x e^{\displaystyle -\frac{(t-\mu)^2}{2\sigma^2}}dt$$
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+Expects $\sigma \&gt; 0$.
+
+
+    \subsection*{qnorm(mu, sigma, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qnorm(mu, sigma, lowerTail, logp)(p)}
+    Evaluates the Normal distribution's quantile function (inverse cdf) at \texttt{p}:
+$$\textrm{qnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $N(\mu,\sigma)$ distribution.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+Expects $\sigma \&gt; 0$.
+
+
+    \subsection*{rnorm(mu, sigma)}
+    \addcontentsline{toc}{subsection}{rnorm(mu, sigma)}
+    Returns a random variate from the $N(\mu, \sigma)$ distribution.
+
+
+Expects $\sigma \&gt; 0$.
+
+
+Uses a rejection polar method.
+
+
+  \section{poisson}
+    \subsection*{dpois(lambda, logp)(x)}
+    \addcontentsline{toc}{subsection}{dpois(lambda, logp)(x)}
+    Evaluates the Poisson pmf at \texttt{x}:
+$$\textrm{dpois}(\lambda)(x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
+
+
+Expects $\lambda \&gt; 0$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{pois(lambda)}
+    \addcontentsline{toc}{subsection}{pois(lambda)}
+    Returns an object representing a Poisson distribution
+for a given value of $\lambda \&gt; 0$, with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{pois(a, b).d(x, logp)            // same as dpois(a, b, logp)(x)
+pois(a, b).p(x, lowerTail, logp) // same as ppois(a, b, lowerTail, logp)(x)
+pois(a, b).q(x, lowerTail, logp) // same as qpois(a, b, lowerTail, logp)(x)
+pois(a, b).r()                   // same as rpois(a, b)()}\end{lstlisting}
+
+    \subsection*{ppois(lambda, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{ppois(lambda, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the Poisson distribution:
+$$\textrm{ppois}(\lambda)(x) = e^{-\lambda} \sum\_{i=0}^{\left \lfloor{x}\right \rfloor}\frac{\lambda^i}{i!}$$
+
+
+Expects $\lambda \&gt; 0$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability ($P(X \&gt; x)$) instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qpois(lambda, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qpois(lambda, lowerTail, logp)(p)}
+    Evaluates the Poisson distribution's quantile function
+(inverse cdf) at \texttt{p}:
+$$\textrm{qpois}(\lambda)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Poisson}(\lambda)$ distribution.
+
+
+Expects $\lambda \&gt; 0$ and $0 \leq p \leq 1$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+    \subsection*{rpois(lambda)}
+    \addcontentsline{toc}{subsection}{rpois(lambda)}
+    Returns a random variate from the $\textrm{Poisson}(\lambda)$ distribution.
+
+
+Expects $\lambda \&gt; 0$.
+
+
+  \section{t}
+    \subsection*{dt(df, logp)(x)}
+    \addcontentsline{toc}{subsection}{dt(df, logp)(x)}
+    Evaluates the t density function at \texttt{x}:
+$$\textrm{dt}(\textrm{df})(x) = \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$
+
+
+Expects $\textrm{df} \&gt; 0$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{pt(df, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pt(df, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the t distribution:
+$$\textrm{pt}(\textrm{df})(x) = \int\_{-\infty}^{x} \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$
+
+
+Expects $\textrm{df} \&gt; 0$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qt(df, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qt(df, lowerTail, logp)(p)}
+    Evaluates the t distribution's quantile function
+(inverse cdf) at \texttt{p}:
+$$\textrm{qt}(\textrm{df})(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $t(\textrm{df})$ distribution.
+
+
+Expects $\textrm{df} \&gt; 0$ and $0 \leq p \leq 1$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+Based on: R code
+
+
+    \subsection*{rt(df)}
+    \addcontentsline{toc}{subsection}{rt(df)}
+    Returns a random variate from the $t(\textrm{df})$ distribution.
+
+
+Expects $\textrm{df} \&gt; 0$.
+
+
+    \subsection*{tdistr(df)}
+    \addcontentsline{toc}{subsection}{tdistr(df)}
+    Returns an object representing a t distribution with $\textrm{df} \&gt; 0$
+degrees of freedom, with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{tdistr(a, b).d(x, logp)            // same as dt(a, b, logp)(x)
+tdistr(a, b).p(x, lowerTail, logp) // same as pt(a, b, lowerTail, logp)(x)
+tdistr(a, b).q(x, lowerTail, logp) // same as qt(a, b, lowerTail, logp)(x)
+tdistr(a, b).r()                   // same as rt(a, b)()}\end{lstlisting}
+
+  \section{uniform}
+    \subsection*{dunif(a, b, logp)(x)}
+    \addcontentsline{toc}{subsection}{dunif(a, b, logp)(x)}
+    Evaluates the Uniform density function at \texttt{x}:
+$$\textrm{dunif}(a, b)(x) = \begin{cases}
+  \frac{1}{b-a},  \&amp; \text{if $a \leq x \leq b$} \\
+  0, \&amp; \text{if $x \&lt; a$ or $x \&gt; b$} \end{cases} $$
+
+
+Expects $a \&lt; b$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{punif(a, b, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{punif(a, b, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the Uniform distribution:
+$$\textrm{punif}(a, b)(x) = \begin{cases}
+  \frac{x-a}{b-a},  \&amp; \text{if $a \leq x \leq b$} \\
+  0,                \&amp; \text{if $x \&lt; a$} \\
+  1,                \&amp; \text{if $x \&gt; b$} \end{cases} $$
+
+
+Expects $a \&lt; b$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qunif(a, b, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qunif(a, b, lowerTail, logp)(p)}
+    Evaluates the Uniform distribution's quantile function
+(inverse cdf) at \texttt{p}:
+$$\textrm{qunif}(a, b)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the $\textrm{Uniform}(a, b)$ distribution.
+
+
+Expects $a \&lt; b$ and $0 \leq p \leq 1$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+    \subsection*{runif(a, b)}
+    \addcontentsline{toc}{subsection}{runif(a, b)}
+    Returns a random variate from the $\textrm{Uniform}(a,b)$ distribution.
+
+
+Expects $a\&lt;b$.
+
+
+    \subsection*{unif(a, b)}
+    \addcontentsline{toc}{subsection}{unif(a, b)}
+    Returns an object representing a Uniform distribution on $[a, b]$,
+with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{unif(a, b).d(x, logp)            // same as dunif(a, b, logp)(x)
+unif(a, b).p(x, lowerTail, logp) // same as punif(a, b, lowerTail, logp)(x)
+unif(a, b).q(x, lowerTail, logp) // same as qunif(a, b, lowerTail, logp)(x)
+unif(a, b).r()                   // same as runif(a, b)()}\end{lstlisting}
+
+  \section{rgen}
+    \subsection*{getAlgorithms()}
+    \addcontentsline{toc}{subsection}{getAlgorithms()}
+    Returns a list of the available algorithms for random number
+generation.
+
+
+    \subsection*{random()}
+    \addcontentsline{toc}{subsection}{random()}
+    Generates a random number uniformly on the interval $(0, 1)$.
+
+
+    \subsection*{setAlgorithm(name)}
+    \addcontentsline{toc}{subsection}{setAlgorithm(name)}
+    Sets the algorithm to be used for random number generation.
+Expects \texttt{name} to be one of the strings returned by \texttt{getAlgorithms}.
+
+
+    \subsection*{setRandomSeed()}
+    \addcontentsline{toc}{subsection}{setRandomSeed()}
+    Sets a seed for random number generation, based on the system date.
+
+
+    \subsection*{setSeed(seed)}
+    \addcontentsline{toc}{subsection}{setSeed(seed)}
+    Sets a seed for the random number generator.  Expects \texttt{seed} to
+be an integer.
+
+
+\end{document}
