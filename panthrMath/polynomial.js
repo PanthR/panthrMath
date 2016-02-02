@@ -2,13 +2,8 @@
 'use strict';
 define(function(require) {
 
-   // creates a polynomial function from the array of coefficients
-   // for example, if the function is ax^3 + bx^2 + cx + d
-   // the array is [a, b, c, d], that is, the array indexing is
-   // the reverse of the usual coefficient indexing
-
    /**
-    * Polynomial Class
+    * A small wrapper class for representing polynomial functions.
     * @memberof panthrMath
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
@@ -17,14 +12,17 @@ define(function(require) {
       this.coefs = coefs;
    }
    /**
-    * TODO
+    * Creates a polynomial function from `coefs`, an array of coefficients.
+    * For example, if the function is $ax^3 + bx^2 + cx + d$
+    * the array is `[a, b, c, d]`, that is, the array indexing is
+    * the reverse of the usual coefficient indexing.
     * @memberof panthrMath
     */
    Polynomial.new = function(coefs) {
       return new Polynomial(coefs);
    };
    /**
-    * TODO
+    * Evaluates the polynomial at a given value `x`.
     * @memberof panthrMath
     */
    Polynomial.prototype.evalAt = function evalAt(x) {

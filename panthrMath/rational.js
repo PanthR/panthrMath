@@ -6,12 +6,8 @@ define(function(require) {
 
    Polynomial = require('./polynomial');
 
-   // creates a rational function
-   // num can be a Polynomial or an array of coefficients for the poly constr.
-   // same for denom
-
    /**
-    * Rational Class
+    * A small wrapper class for representing rational functions.
     * @memberof panthrMath
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
@@ -20,14 +16,20 @@ define(function(require) {
       this.denom = new Polynomial(denom);
    }
    /**
-    * TODO
+    * Creates a rational function.
+    *
+    * `num` and `denom` can be instances of `Polynomial`
+    * or arrays of coefficients for `Polynomial.new`.
+    *
+    * Common factors between the numerator and denominator are *not*
+    * eliminated.
     * @memberof panthrMath
     */
    Rational.new = function(num, denom) {
       return new Rational(num, denom);
    };
    /**
-    * TODO
+    * Evaluates the rational function at the value `x`.
     * @memberof panthrMath
     */
    Rational.prototype.evalAt = function evalAt(x) {
