@@ -146,7 +146,15 @@ define(function(require) {
     *
     * Expects $a > 0$ and $s > 0$.
     *
-    * TODO: Add links to algorithms
+    * Based on:
+    * - *Some simple gamma variate generators*, by Cheng and Feast, 1979
+    * - *Computer methods for sampling from gamma, beta, Poisson and binomial
+    * distributions*, by Ahrens and Dieter, 1974
+    * - *A note on gamma variate generators with shape parameter less than
+    * unity*, by Best, 1983
+    *
+    * As seen in: *Random Number Generation and Monte Carlo Methods, Second Edition*,
+    * by Gentle, Springer 2005
     * @memberof gamma
     */
    function rgamma(a, s) {
