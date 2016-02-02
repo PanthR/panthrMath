@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{listings}
 \usepackage[vmargin=1in,hmargin=1in]{geometry}
+\usepackage{amsmath}
 \title{PanthRBase Documentation}
 \author{PanthR Team}
 \begin{document}
@@ -16,22 +17,33 @@
 
     \subsection*{Polynomial(coefs)}
     \addcontentsline{toc}{subsection}{Polynomial(coefs)}
-    Polynomial Class
+    A small wrapper class for representing polynomial functions.
 
 
     \subsection*{Polynomial.new(coefs)}
     \addcontentsline{toc}{subsection}{Polynomial.new(coefs)}
-    TODO
+    Creates a polynomial function from \texttt{coefs}, an array of coefficients.
+For example, if the function is $ax^3 + bx^2 + cx + d$
+the array is \texttt{[a, b, c, d]}, that is, the array indexing is
+the reverse of the usual coefficient indexing.
 
 
     \subsection*{Rational(num, denom)}
     \addcontentsline{toc}{subsection}{Rational(num, denom)}
-    Rational Class
+    A small wrapper class for representing rational functions.
 
 
     \subsection*{Rational.new(num, denom)}
     \addcontentsline{toc}{subsection}{Rational.new(num, denom)}
-    TODO
+    Creates a rational function.
+
+
+\texttt{num} and \texttt{denom} can be instances of \texttt{Polynomial}
+or arrays of coefficients for \texttt{Polynomial.new}.
+
+
+Common factors between the numerator and denominator are \emph{not}
+eliminated.
 
 
     \subsection*{basicfunc}
@@ -46,12 +58,12 @@
 
     \subsection*{Polynomial.prototype.evalAt(x)}
     \addcontentsline{toc}{subsection}{Polynomial.prototype.evalAt(x)}
-    TODO
+    Evaluates the polynomial at a given value \texttt{x}.
 
 
     \subsection*{Rational.prototype.evalAt(x)}
     \addcontentsline{toc}{subsection}{Rational.prototype.evalAt(x)}
-    TODO
+    Evaluates the rational function at the value \texttt{x}.
 
 
   \section{basicFunc}
@@ -659,7 +671,23 @@ Expects $a\&gt;0$, $s\&gt;0$, and $0 \leq p \leq 1$.
 Expects $a \&gt; 0$ and $s \&gt; 0$.
 
 
-TODO: Add links to algorithms
+Based on:
+
+
+\begin{itemize}
+
+\item \emph{Some simple gamma variate generators}, by Cheng and Feast, 1979
+
+\item \emph{Computer methods for sampling from gamma, beta, Poisson and binomial
+distributions}, by Ahrens and Dieter, 1974
+
+\item \emph{A note on gamma variate generators with shape parameter less than
+unity}, by Best, 1983
+
+\end{itemize}
+
+As seen in: \emph{Random Number Generation and Monte Carlo Methods, Second Edition},
+by Gentle, Springer 2005
 
 
   \section{normal}

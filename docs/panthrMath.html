@@ -76,19 +76,26 @@ and random number generators; inspired by the R code.</p>
       </div>
       <div>
         <h4 id="Polynomial"><code>Polynomial(coefs)</code></h4>
-        <p>Polynomial Class</p>
+        <p>A small wrapper class for representing polynomial functions.</p>
       </div>
       <div>
         <h4 id="Polynomial.new"><code>Polynomial.new(coefs)</code></h4>
-        <p>TODO</p>
+        <p>Creates a polynomial function from <code>coefs</code>, an array of coefficients.
+For example, if the function is $ax^3 + bx^2 + cx + d$
+the array is <code>[a, b, c, d]</code>, that is, the array indexing is
+the reverse of the usual coefficient indexing.</p>
       </div>
       <div>
         <h4 id="Rational"><code>Rational(num, denom)</code></h4>
-        <p>Rational Class</p>
+        <p>A small wrapper class for representing rational functions.</p>
       </div>
       <div>
         <h4 id="Rational.new"><code>Rational.new(num, denom)</code></h4>
-        <p>TODO</p>
+        <p>Creates a rational function.</p>
+<p><code>num</code> and <code>denom</code> can be instances of <a href="#Polynomial"><code>Polynomial</code></a>
+or arrays of coefficients for <a href="#Polynomial.new"><code>Polynomial.new</code></a>.</p>
+<p>Common factors between the numerator and denominator are <em>not</em>
+eliminated.</p>
       </div>
       <div>
         <h4 id="basicfunc"><code>basicfunc</code></h4>
@@ -100,11 +107,11 @@ and random number generators; inspired by the R code.</p>
       </div>
       <div>
         <h4 id="Polynomial%25evalAt"><code>Polynomial.prototype.evalAt(x)</code></h4>
-        <p>TODO</p>
+        <p>Evaluates the polynomial at a given value <code>x</code>.</p>
       </div>
       <div>
         <h4 id="Rational%25evalAt"><code>Rational.prototype.evalAt(x)</code></h4>
-        <p>TODO</p>
+        <p>Evaluates the rational function at the value <code>x</code>.</p>
       </div>
     </div>
   </body>
