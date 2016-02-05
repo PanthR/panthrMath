@@ -81,6 +81,8 @@ define(function(require) {
       require('./distributions/normal'),
       /** The gamma distribution. See `module:gamma`. */
       require('./distributions/gamma'),
+      /** The chi squared distribution. See `module:chisq`. */
+      require('./distributions/chisq'),
       /** The Poisson distribution. See `module:poisson`. */
       require('./distributions/poisson'),
       /** The t distribution. See `module:t`. */
