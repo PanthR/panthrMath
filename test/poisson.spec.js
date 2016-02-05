@@ -23818,7 +23818,7 @@ describe('lpoisson', function() {
          rq = tuple[3];
          p = main.ppois(lambda, true, true)(x);
          q = main.ppois(lambda, false, true)(x);
-         if (rq > -30 && rp < -1e-10) {
+         if (rp > -30 && rp < -1e-10) {
             if (rp < -1e-3) {
                expect(utils.relativelyCloseTo(p, rp, precision)).to.be.ok;
             }
