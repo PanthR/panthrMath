@@ -83,3 +83,17 @@ function testDiscrete(distrObj, xs, nparams) {
       }, 0) / reps;
 }
 
+describe("(slow) Integration test", function() {
+   it("for binomial", function() {
+      var n, p, pvalues, xs, obj;
+      seq(1, 20).forEach(function() {
+         n = 20 + Math.floor(Math.random() * 30);
+         p = main.runif(0.1, 0.9)();
+         expect(testDiscrete(main.binom(n, p), seq(0, n), 2)).to.be.below(0.3);
+         // Providing a "closeby" distribution
+         obj = main.binom(n, p);
+         obj.r = main.binom(n, p * 1.01).r;
+         expect(testDiscrete(obj, seq(0, n), 2)).to.be.above(0.3);
+      });
+   });
+});
