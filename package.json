@@ -4,7 +4,8 @@
    "description": "Random number generators for PanthR",
    "main": "index.js",
    "scripts": {
-      "test": "mocha --reporter=progress --recursive --timeout 10000",
+      "test": "mocha --reporter=progress --recursive --timeout 10000 --fgrep \"(slow)\" --invert",
+      "testSlow": "mocha --reporter=progress --recursive --timeout 10000 --fgrep \"(slow)\"",
       "lint": "eslint .",
       "doc": "node ./node_modules/panthrdoc/run.js .",
       "build": "browserify bundlePre.js | uglifyjs -c > panthrMath.min.js"
