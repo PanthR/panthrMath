@@ -10,6 +10,7 @@ define(function(require) {
    function Polynomial(coefs) {
       if (coefs instanceof Polynomial) { return coefs; }
       this.coefs = coefs;
+      return this;
    }
    /**
     * Creates a polynomial function from `coefs`, an array of coefficients.
