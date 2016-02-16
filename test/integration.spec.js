@@ -84,16 +84,47 @@ function testDiscrete(distrObj, xs, nparams) {
 }
 
 describe("(slow) Integration test", function() {
-   it("for binomial", function() {
-      var n, p, pvalues, xs, obj;
+   describe("for binomial", function() {
       seq(1, 20).forEach(function() {
-         n = 20 + Math.floor(Math.random() * 30);
-         p = main.runif(0.1, 0.9)();
-         expect(testDiscrete(main.binom(n, p), seq(0, n), 2)).to.be.below(0.3);
+         it("repeated test", function() {
+            var n, p, pvalues, xs, obj;
+            n = 20 + Math.floor(Math.random() * 30);
+            p = main.runif(0.1, 0.9)();
+            expect(testDiscrete(main.binom(n, p), seq(0, n), 2)).to.be.below(0.2);
+            // Providing a "closeby" distribution
+            obj = main.binom(n, p);
+            obj.r = main.binom(n, p * 1.01).r;
+            expect(testDiscrete(obj, seq(0, n), 2)).to.be.above(0.2);
+         });
+      });
+   });
+   describe("for Poisson", function() {
+      seq(1, 20).forEach(function() {
+         it("repeated test", function() {
+            var lambda, range, pvalues, xs, obj;
+            lambda = main.runif(0.2, 4)();
+            range = seq(0, lambda + 10 * Math.sqrt(lambda));
+            expect(testDiscrete(main.pois(lambda), range, 1)).to.be.below(0.2);
+            // Providing a "closeby" distribution
+            obj = main.pois(lambda);
+            obj.r = main.pois(lambda * 1.02).r;
+            expect(testDiscrete(obj, range, 1)).to.be.above(0.2);
+         });
+      });
+   });
+   describe("for finite", function() {
+      it("repeated test", function() {
+         var setObj, dObj, pvalues, xs, obj;
+         setObj = {
+            xs: [1, 5, 7, 10],
+            ws: [0.1, 0.2, 0.3, 0.4]
+         };
+         dObj = main.finite(setObj);
+         expect(testDiscrete(dObj, setObj.xs, 0)).to.be.below(0.2);
          // Providing a "closeby" distribution
-         obj = main.binom(n, p);
-         obj.r = main.binom(n, p * 1.01).r;
-         expect(testDiscrete(obj, seq(0, n), 2)).to.be.above(0.3);
+         setObj.ws[3] = 0.43;
+         dObj.r = main.finite(setObj).r;
+         expect(testDiscrete(dObj, setObj.xs, 0)).to.be.above(0.2);
       });
    });
 });
