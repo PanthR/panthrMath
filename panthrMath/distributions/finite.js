@@ -53,9 +53,12 @@ define(function(require) {
    function finite(o) {
       var sum, xs, ws, cumsLeft, cumsRight, i, finObj;
 
-      if (typeof o.f === 'function') {
-         o = popObjFromFunc(o);
-      }
+      o = typeof o.f === 'function' ? popObjFromFunc(o)
+                                    : {
+                                       xs: o.xs.slice(0),
+                                       ws: o.ws.slice(0)
+                                    };
+
       xs = o.xs;
       ws = o.ws;
 
