@@ -43,7 +43,6 @@ function getPvalue(observed, predicted, dfs) {
       return acc + p * ratio * ratio;
    }, 0);
    testStat *= n;
-   // console.log("testStat", testStat, "dfs", dfs);
    return chisq(dfs).p(testStat, false);
 }
 /*
@@ -74,7 +73,6 @@ function testDiscrete(distrObj, xs, nparams) {
       pvalues.push(getPvalue(observed.filter(filterFun),
                              predicted.filter(filterFun),
                              xs.filter(filterFun).length - nparams - 1));
-      // console.log(xs.filter(filterFun));
    }
 
    // Return proportion of small p-values. On a properly calibrated r-distr
@@ -106,9 +104,8 @@ function testCont(distrObj) {
       }, -1);
 
       pvalues.push(ks(nks, dstat));
-      // ...  put pvalue in pvalues
    }
-   // return pvalues;
+
    return pvalues.reduce(function(acc, v) {
       return v < 0.05 ? (acc + 1) : acc;
    }, 0) / reps;
