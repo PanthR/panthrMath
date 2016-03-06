@@ -245,7 +245,7 @@ define(function(require) {
             }
          }
          /* eslint-enable no-constant-condition */
-         return a === a0 ? b0 / (b0 + w) : w / (b0 + w);
+         return a !== a0 ? b0 / (b0 + w) : w / (b0 + w);
       };
    }
 
