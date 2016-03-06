@@ -13,7 +13,7 @@ var chisq = main.chisq;
 var precision = 1e-8;
 
 var n = 10000;    // Number of random variates generated for each test
-var nks = 1000;
+var nks = 1500;
 var reps = 100;    // Number of times to repeat test
 
 // Returns the array [a, a+1, ..., b]
@@ -314,15 +314,50 @@ describe("(slow) Integration test", function() {
       });
    });
    describe.only("for beta", function() {
-      it("repeated test", function() {
-         var a = 1 + Math.random() * 6;
-         var b = 1 + Math.random() * 6;
+      it("a param > 1 but close to 1", function() {
+         var a = 1 + Math.random() * 0.1;
+         var b = 2 + Math.random() * 6;
          var distr = main.betadistr(a, b);
+         console.log(a, b);
          expect(testCont(distr)).to.be.below(0.2);
          distr.r = main.betadistr(a, 1.1 * b).r;
          expect(testCont(distr)).to.be.above(0.2);
          distr.r = main.betadistr(1.1 * a, b).r;
          expect(testCont(distr)).to.be.above(0.2);
+      });
+      it("both params > 1", function() {
+         var a = 2 + Math.random() * 6;
+         var b = 2 + Math.random() * 6;
+         var distr = main.betadistr(a, b);
+         console.log(a, b);
+         expect(testCont(distr)).to.be.below(0.2);
+         distr.r = main.betadistr(a, 1.1 * b).r;
+         expect(testCont(distr)).to.be.above(0.2);
+         distr.r = main.betadistr(1.1 * a, b).r;
+         expect(testCont(distr)).to.be.above(0.2);
+      });
+      it("one param < 1", function() {
+         var a = Math.random();
+         var b = 1 + Math.random() * 6;
+         console.log(a, b);
+         distr = main.betadistr(a, b);
+         expect(testCont(distr)).to.be.below(0.2);
+      });
+      it("both params < 1", function() {
+         // Values between (0,1) have different algorithm
+         var a = 0.5 + Math.random() * 0.5;
+         var b = 0.5 + Math.random() * 0.5;
+         console.log(a, b);
+         var distr = main.betadistr(a, b);
+         expect(testCont(distr)).to.be.below(0.2);
+      });
+      it("one param close to 0", function() {
+         // Values between (0,1) have different algorithm
+         var a = Math.random() * 0.1;
+         var b = Math.random() * 0.5 + 0.5;
+         console.log(a, b);
+         var distr = main.betadistr(a, b);
+         expect(testCont(distr)).to.be.below(0.2);
       });
    });
 });
