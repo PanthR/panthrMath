@@ -355,4 +355,14 @@ describe("(slow) Integration test", function() {
          expect(testCont(distr)).to.be.below(0.2);
       });
    });
+   describe("for chi-squared", function() {
+      it("repeated test", function() {
+         var df, distr;
+         for (var i = 0; i < 5; i += 1) {
+            df = Math.random() * 60;
+            distr = main.chisq(df);
+            expect(testCont(distr)).to.be.below(0.2);
+         }
+      });
+   });
 });
