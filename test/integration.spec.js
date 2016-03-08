@@ -313,7 +313,7 @@ describe("(slow) Integration test", function() {
          expect(testCont(distr)).to.be.above(0.2);
       });
    });
-   describe.only("for beta", function() {
+   describe("for beta", function() {
       it("a param > 1 but close to 1", function() {
          var a = 1 + Math.random() * 0.1;
          var b = 2 + Math.random() * 6;
