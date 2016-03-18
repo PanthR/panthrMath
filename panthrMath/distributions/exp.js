@@ -127,7 +127,7 @@ define(function(require) {
       return function(p) {
          if (logp) {
             if (p > 0) { return NaN; }
-            return lowerTail ? -log1p(-Math.exp(p)) / rate
+            return lowerTail ? -Math.log(-expm1(p)) / rate
                              : -p / rate;
          }
          // else, not log

@@ -336,7 +336,7 @@ describe('Exponential Distribution', function() {
          rlogp = tuple[2];
          rlogq = tuple[3];
          logp = main.pexp(a, true, true)(x);
-         // if (!utils.isEssentiallyZero(rlogp) && !utils.isEssentiallyZero(rlogq)) {
+         if (!utils.isEssentiallyZero(rlogp) && !utils.isEssentiallyZero(rlogq)) {
             expect(utils.relativelyCloseTo(rlogp, logp, precision)).to.be.ok;
             expect(utils.relativelyCloseTo(Math.exp(rlogp),
                main.pexp(a)(x), precision)).to.be.ok;
@@ -345,11 +345,10 @@ describe('Exponential Distribution', function() {
             expect(utils.relativelyCloseTo(Math.exp(rlogq),
                main.pexp(a, false)(x), precision)).to.be.ok;
             xfromqexp = main.qexp(a, true, true)(logp);
-            // console.log(tuple, logp, xfromqexp);
             expect(utils.relativelyCloseTo(xfromqexp, x, precision)).to.be.ok;
             xfromqexp = main.qexp(a, false, true)(rlogq);
             expect(utils.relativelyCloseTo(xfromqexp, x, precision)).to.be.ok;
-         // }
+         }
       });
    });
 

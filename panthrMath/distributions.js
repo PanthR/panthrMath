@@ -91,6 +91,8 @@ define(function(require) {
       require('./distributions/uniform'),
       /** The beta distribution. See `module:beta`. */
       require('./distributions/beta'),
+      /** The exponential distribution. See `module:exponential`. */
+      require('./distributions/exp'),
       /** The binomial distribution. See `module:binomial`. */
       require('./distributions/binom')
    );
