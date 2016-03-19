@@ -2,26 +2,24 @@
 'use strict';
 define(function(require) {
 
-   /** TODO
+   /**
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the continuous uniform distribution on $[a, b]$, which
+    * for the continuous exponential distribution with *rate* $\lambda$, which
     * is defined by the pdf
-    * $$ f(x; a, b) = \begin{cases}
-    *   \frac{1}{b-a},  & \text{if $a \leq x \leq b$} \\\\
-    *   0, & \text{if $x < a$ or $x > b$} \end{cases} $$
-    * where $a < b$ and $x \in (-\infty, \infty)$.
+    * $$ f(x; \lambda) = \lambda e^{-\lambda x}$$
+    * where $\lambda > 0$ and $x \in [0, \infty)$.
     *
-    * `dunif` provides access to this probability density function,
-    * `punif` to the cumulative distribution function, `qunif` to the
+    * `dexp` provides access to this probability density function,
+    * `pexp` to the cumulative distribution function, `qexp` to the
     * quantile function (inverse cdf)
-    * and `runif` to random deviates.
+    * and `rexp` to random deviates.
     *
-    * Finally, you can use `unif` to obtain an object
-    * representing the Uniform distribution for given values of
-    * `a` and `b`.
+    * Finally, you can use `expdistr` to obtain an object
+    * representing the exponential distribution for a given value of
+    * the *rate* $\lambda$.
     *
-    * @module distributions.uniform
+    * @module distributions.exponential
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
@@ -31,19 +29,18 @@ define(function(require) {
    expm1 = require('../basicFunc/expm1').expm1;
    rand = require('../rgen/rgen').random;
 
-   /** TODO
-    * Evaluates the Uniform density function at `x`:
-    * $$\textrm{dunif}(a, b)(x) = \begin{cases}
-    *   \frac{1}{b-a},  & \text{if $a \leq x \leq b$} \\\\
-    *   0, & \text{if $x < a$ or $x > b$} \end{cases} $$
+   /**
+    * Evaluates the exponential distribution's density function at `x`:
+    * $$\textrm{dexp}(\lambda)(x) = \lambda e^{-\lambda x}$$
+    * for $x \geq 0$.
     *
-    * Expects $a < b$.
+    * Expects the rate $\lambda > 0$.
     *
     * `logp` defaults to `false`; if `logp` is `true`, returns the
     * logarithm of the result.
     *
-    * @fullName dunif(a, b, logp)(x)
-    * @memberof uniform
+    * @fullName dexp(rate, logp)(x)
+    * @memberof exponential
     */
    function dexp(rate, logp) {
       logp = logp === true;
@@ -59,22 +56,19 @@ define(function(require) {
       };
    }
 
-   /** TODO
-    * Evaluates the lower-tail cdf at `x` for the Uniform distribution:
-    * $$\textrm{punif}(a, b)(x) = \begin{cases}
-    *   \frac{x-a}{b-a},  & \text{if $a \leq x \leq b$} \\\\
-    *   0,                & \text{if $x < a$} \\\\
-    *   1,                & \text{if $x > b$} \end{cases} $$
+   /**
+    * Evaluates the lower-tail cdf at `x` for the exponential distribution:
+    * $$\textrm{pexp}(\lambda)(x) = 1 - e^{-\lambda x}$$
     *
-    * Expects $a < b$.
+    * Expects the rate $\lambda > 0$.
     *
     * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
     * the upper tail probability instead.
     *
     * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
     * of the result.
-    * @fullName punif(a, b, lowerTail, logp)(x)
-    * @memberof uniform
+    * @fullName pexp(rate, lowerTail, logp)(x)
+    * @memberof exponential
     */
    function pexp(rate, lowerTail, logp) {
       logp = logp === true;
@@ -101,13 +95,13 @@ define(function(require) {
       };
    }
 
-   /** TODO
-    * Evaluates the Uniform distribution's quantile function
+   /**
+    * Evaluates the exponential distribution's quantile function
     * (inverse cdf) at `p`:
-    * $$\textrm{qunif}(a, b)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
-    * where $X$ is a random variable with the $\textrm{Uniform}(a, b)$ distribution.
+    * $$\textrm{qexp}(\lambda)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+    * where $X$ is a random variable with the exponential distribution.
     *
-    * Expects $a < b$ and $0 \leq p \leq 1$.
+    * Expects the rate $\lambda > 0$.
     *
     * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
     * interpreted as an upper tail probability (returns
@@ -115,8 +109,8 @@ define(function(require) {
     *
     * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
     * the logarithm of the desired probability.
-    * @fullName qunif(a, b, lowerTail, logp)(p)
-    * @memberof uniform
+    * @fullName qexp(rate, lowerTail, logp)(p)
+    * @memberof exponential
     */
    function qexp(rate, lowerTail, logp) {
       logp = logp === true;
@@ -174,11 +168,14 @@ define(function(require) {
       };
    }());
 
-   /** TODO
-    * See: R code, sexp.c (nmath)
+   /**
+    * Returns a random variate from the exponential distribution.
     *
+    * Expects the rate $\lambda > 0$.
     *
-    * @memberof exp
+    * Based on the R code in sexp.c (nmath)
+    *
+    * @memberof exponential
     */
    function rexp(rate) {
       if (rate < 0) { return function() { return NaN; }; }
@@ -187,9 +184,9 @@ define(function(require) {
    }
 
    return {
-      /** TODO
+      /**
        * Returns an object representing an exponential distribution with a
-       * given rate (`rate` > 0),
+       * given rate $\lambda > 0$,
        * with properties `d`, `p`, `q`, `r`.
        * ```
        * expdistr(rate).d(x, logp)            // same as dexp(rate, logp)(x)
@@ -197,7 +194,7 @@ define(function(require) {
        * expdistr(rate).q(x, lowerTail, logp) // same as qexp(rate, lowerTail, logp)(x)
        * expdistr(rate).r()                   // same as rexp(rate)()
        * ```
-       * @memberof exp
+       * @memberof exponential
        */
       expdistr: function(rate) {
          return {
