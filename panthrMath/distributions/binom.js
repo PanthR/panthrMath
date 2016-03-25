@@ -186,6 +186,7 @@ define(function(require) {
     * `size` is a positive integer (number of trials) and $0 \leq p \leq 1$
     * (the probability of success on a single trial).
     *
+    * @fullName rbinom(size, p)()
     * @memberof binomial
     */
    function rbinom(size, p) {

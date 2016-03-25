@@ -127,6 +127,7 @@ define(function(require) {
     * Returns a random variate from the $\textrm{Uniform}(a,b)$ distribution.
     *
     * Expects $a<b$.
+    * @fullName runif(a, b)()
     * @memberof uniform
     */
    function runif(a, b) {

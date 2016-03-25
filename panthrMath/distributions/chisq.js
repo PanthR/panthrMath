@@ -48,6 +48,7 @@ define(function(require) {
    /**
     * TODO
     *
+    * @fullName rchisq(df)()
     * @memberof chisq
     */
    function rchisq(df) {

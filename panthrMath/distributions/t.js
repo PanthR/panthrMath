@@ -176,6 +176,7 @@ define(function(require) {
     * Returns a random variate from the $t(\textrm{df})$ distribution.
     *
     * Expects $\textrm{df} > 0$.
+    * @fullName rt(df)()
     * @memberof t
     */
    function rt(df) {

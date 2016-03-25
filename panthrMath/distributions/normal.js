@@ -279,6 +279,7 @@ define(function(require) {
     * Expects $\sigma > 0$.
     *
     * Uses a rejection polar method.
+    * @fullName rnorm(mu, sigma)()
     * @memberof normal
     */
    function rnorm(mu, sigma) {

@@ -173,6 +173,7 @@ define(function(require) {
     *
     * Based on R's code; see: *Generating beta variates with nonintegral shape parameters*, by
     * RCH Cheng, 1978
+    * @fullName rbeta(a, b)()
     * @memberof beta
     */
    function rbeta(a, b) {

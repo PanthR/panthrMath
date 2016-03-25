@@ -159,7 +159,7 @@ define(function(require) {
     * Expects the probability parameter $0 < p \leq 1$.
     *
     * Following R's code (rgeom.c)
-    *
+    * @fullName rgeom(prob)()
     * @memberof geometric
     */
    function rgeom(prob) {

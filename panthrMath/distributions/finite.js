@@ -281,6 +281,7 @@ define(function(require) {
        * Returns a random variate from the finite distribution
        * specified by object `o`.
        *
+       * @fullName rfinite(o)()
        * @memberof finite
        */
        function rfinite(o) {

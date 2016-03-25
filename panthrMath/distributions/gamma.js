@@ -155,6 +155,7 @@ define(function(require) {
     *
     * As seen in: *Random Number Generation and Monte Carlo Methods, Second Edition*,
     * by Gentle, Springer 2005
+    * @fullName rgamma(a, s)()
     * @memberof gamma
     */
    function rgamma(a, s) {

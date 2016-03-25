@@ -140,6 +140,7 @@ define(function(require) {
     * Returns a random variate from the $\textrm{Poisson}(\lambda)$ distribution.
     *
     * Expects $\lambda > 0$.
+    * @fullName rpois(lambda)()
     * @memberof poisson
     */
    function rpois(lambda) {

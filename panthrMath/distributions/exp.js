@@ -175,6 +175,7 @@ define(function(require) {
     *
     * Based on the R code in sexp.c (nmath)
     *
+    * @fullName rexp(rate)()
     * @memberof exponential
     */
    function rexp(rate) {
