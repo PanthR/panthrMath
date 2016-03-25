@@ -181,7 +181,7 @@ define(function(require) {
    function rexp(rate) {
       if (rate < 0) { return function() { return NaN; }; }
 
-      return function() { return rate * sexp(); };
+      return function() { return sexp() / rate; };
    }
 
    return {
