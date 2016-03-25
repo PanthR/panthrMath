@@ -321,6 +321,16 @@ by Catherine Loader, 2000
     The binomial distribution. See \texttt{module:binomial}.
 
 
+    \subsection*{chisq}
+    \addcontentsline{toc}{subsection}{chisq}
+    The chi squared distribution. See \texttt{module:chisq}.
+
+
+    \subsection*{exp}
+    \addcontentsline{toc}{subsection}{exp}
+    The exponential distribution. See \texttt{module:exponential}.
+
+
     \subsection*{finite}
     \addcontentsline{toc}{subsection}{finite}
     Constructor for finite distributions. See \texttt{module:finite}.
@@ -329,6 +339,11 @@ by Catherine Loader, 2000
     \subsection*{gamma}
     \addcontentsline{toc}{subsection}{gamma}
     The gamma distribution. See \texttt{module:gamma}.
+
+
+    \subsection*{geom}
+    \addcontentsline{toc}{subsection}{geom}
+    The binomial distribution. See \texttt{module:geometric}.
 
 
     \subsection*{normal}
@@ -419,8 +434,8 @@ the logarithm of the desired probability.
 Expects $a\&gt;0$, $b\&gt;0$, and $0 \leq p \leq 1$.
 
 
-    \subsection*{rbeta(a, b)}
-    \addcontentsline{toc}{subsection}{rbeta(a, b)}
+    \subsection*{rbeta(a, b)()}
+    \addcontentsline{toc}{subsection}{rbeta(a, b)()}
     Returns a random variate from the $\textrm{Beta}(a, b)$ distribution.
 
 
@@ -504,13 +519,158 @@ interpreted as an upper tail probability.
 the logarithm of the desired probability.
 
 
-    \subsection*{rbinom(size, p)}
-    \addcontentsline{toc}{subsection}{rbinom(size, p)}
+    \subsection*{rbinom(size, p)()}
+    \addcontentsline{toc}{subsection}{rbinom(size, p)()}
     Returns a random variate from the $\textrm{Binomial}(size, p)$ distribution.
 
 
 \texttt{size} is a positive integer (number of trials) and $0 \leq p \leq 1$
 (the probability of success on a single trial).
+
+
+  \section{chisq}
+    \subsection*{chisq(df)}
+    \addcontentsline{toc}{subsection}{chisq(df)}
+    Returns an object representing a chi squared distribution for \texttt{df} degrees
+of freedom, with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{chisq(df).d(x, logp)            // same as dchisq(df, logp)(x)
+chisq(df).p(x, lowerTail, logp) // same as pchisq(df, lowerTail, logp)(x)
+chisq(df).q(x, lowerTail, logp) // same as qchisq(df, lowerTail, logp)(x)
+chisq(df).r()                   // same as rchisq(df)()}\end{lstlisting}
+
+    \subsection*{dchisq(df, logp)(x)}
+    \addcontentsline{toc}{subsection}{dchisq(df, logp)(x)}
+    Evaluates the chi squared distribution's density function at \texttt{x}.
+
+
+\texttt{df} is the degrees of freedom $k$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{pchisq(df, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pchisq(df, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the chi squared distribution:
+$$\textrm{pchisq}(k)(x) = \frac{\gamma(k/2, x/2)}{\Gamma(k/2)}$$
+
+
+where $\gamma$ is the incomplete gamma function, and
+\texttt{df} is the degrees of freedom $k$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qchisq(df, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qchisq(df, lowerTail, logp)(p)}
+    Evaluates the chi-squared distribution's quantile function
+(inverse cdf) at \texttt{p}:
+$$\textrm{qchisq}(k)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the chi-squared distribution.
+
+
+\texttt{df} is the degrees of freedom $k$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+    \subsection*{rchisq(df)()}
+    \addcontentsline{toc}{subsection}{rchisq(df)()}
+    Returns a random variate from the chi squared distribution with \texttt{df} degrees
+of freedom.
+
+
+  \section{exponential}
+    \subsection*{dexp(rate, logp)(x)}
+    \addcontentsline{toc}{subsection}{dexp(rate, logp)(x)}
+    Evaluates the exponential distribution's density function at \texttt{x}:
+$$\textrm{dexp}(\lambda)(x) = \lambda e^{-\lambda x}$$
+for $x \geq 0$.
+
+
+Expects the rate $\lambda \&gt; 0$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+    \subsection*{expdistr(rate)}
+    \addcontentsline{toc}{subsection}{expdistr(rate)}
+    Returns an object representing an exponential distribution with a
+given rate $\lambda \&gt; 0$,
+with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{expdistr(rate).d(x, logp)            // same as dexp(rate, logp)(x)
+expdistr(rate).p(x, lowerTail, logp) // same as pexp(rate, lowerTail, logp)(x)
+expdistr(rate).q(x, lowerTail, logp) // same as qexp(rate, lowerTail, logp)(x)
+expdistr(rate).r()                   // same as rexp(rate)()}\end{lstlisting}
+
+    \subsection*{pexp(rate, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pexp(rate, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the exponential distribution:
+$$\textrm{pexp}(\lambda)(x) = 1 - e^{-\lambda x}$$
+
+
+Expects the rate $\lambda \&gt; 0$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qexp(rate, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qexp(rate, lowerTail, logp)(p)}
+    Evaluates the exponential distribution's quantile function
+(inverse cdf) at \texttt{p}:
+$$\textrm{qexp}(\lambda)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the exponential distribution.
+
+
+Expects the rate $\lambda \&gt; 0$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+    \subsection*{rexp(rate)()}
+    \addcontentsline{toc}{subsection}{rexp(rate)()}
+    Returns a random variate from the exponential distribution.
+
+
+Expects the rate $\lambda \&gt; 0$.
+
+
+Based on the R code in sexp.c (nmath)
 
 
   \section{finite}
@@ -591,8 +751,8 @@ The edge cases for \texttt{lowerTail = false} are symmetrical to the preceding:
 \texttt{qfinite} returns \texttt{min} or \texttt{max} for a right-tail area (\&gt;) of 1 or 0, respectively.
 
 
-    \subsection*{rfinite(o)}
-    \addcontentsline{toc}{subsection}{rfinite(o)}
+    \subsection*{rfinite(o)()}
+    \addcontentsline{toc}{subsection}{rfinite(o)()}
     Returns a random variate from the finite distribution
 specified by object \texttt{o}.
 
@@ -663,8 +823,8 @@ the logarithm of the desired probability.
 Expects $a\&gt;0$, $s\&gt;0$, and $0 \leq p \leq 1$.
 
 
-    \subsection*{rgamma(a, s)}
-    \addcontentsline{toc}{subsection}{rgamma(a, s)}
+    \subsection*{rgamma(a, s)()}
+    \addcontentsline{toc}{subsection}{rgamma(a, s)()}
     Returns a random variate from the $\textrm{Gamma}(a, s)$ distribution.
 
 
@@ -688,6 +848,88 @@ unity}, by Best, 1983
 
 As seen in: \emph{Random Number Generation and Monte Carlo Methods, Second Edition},
 by Gentle, Springer 2005
+
+
+  \section{geometric}
+    \subsection*{dgeom(prob, logp)(x)}
+    \addcontentsline{toc}{subsection}{dgeom(prob, logp)(x)}
+    Evaluates the geometric distribution's density function at \texttt{x}:
+$$\textrm{dgeom}(p)(x) = p(1-p)^x$$
+for $x \in\left\{0,1,2,\ldots\right\}$.
+
+
+Expects the probability $0 \&lt; p\leq 1$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+The implementation uses \texttt{dbinom}.
+
+
+    \subsection*{geom(prob)}
+    \addcontentsline{toc}{subsection}{geom(prob)}
+    Returns an object representing an geometric distribution with a
+given probability parameter $0 \&lt; p \leq 1$,
+with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{geom(prob).d(x, logp)            // same as dgeom(prob, logp)(x)
+geom(prob).p(x, lowerTail, logp) // same as pgeom(prob, lowerTail, logp)(x)
+geom(prob).q(x, lowerTail, logp) // same as qgeom(prob, lowerTail, logp)(x)
+geom(prob).r()                   // same as rgeom(prob)()}\end{lstlisting}
+
+    \subsection*{pgeom(prob, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pgeom(prob, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the geometric distribution:
+$$\textrm{pgeom}(p)(x) = 1 - (1-p)^{x+1}$$
+
+
+Expects the probability $0 \&lt; p \leq 1$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+The implementation uses \texttt{pbinom}.
+
+
+    \subsection*{qgeom(prob, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qgeom(prob, lowerTail, logp)(p)}
+    Evaluates the geometric distribution's quantile function
+(inverse cdf) at \texttt{p}:
+$$\textrm{qexp}(\textrm{prob})(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the geometric distribution.
+
+
+Expects the probability parameter $0 \&lt; \textrm{prob} \leq 1$.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+    \subsection*{rgeom(prob)()}
+    \addcontentsline{toc}{subsection}{rgeom(prob)()}
+    Returns a random variate from the geometric distribution.
+
+
+Expects the probability parameter $0 \&lt; p \leq 1$.
+
+
+Following R's code (rgeom.c)
 
 
   \section{normal}
@@ -751,8 +993,8 @@ the logarithm of the desired probability.
 Expects $\sigma \&gt; 0$.
 
 
-    \subsection*{rnorm(mu, sigma)}
-    \addcontentsline{toc}{subsection}{rnorm(mu, sigma)}
+    \subsection*{rnorm(mu, sigma)()}
+    \addcontentsline{toc}{subsection}{rnorm(mu, sigma)()}
     Returns a random variate from the $N(\mu, \sigma)$ distribution.
 
 
@@ -825,8 +1067,8 @@ $x$ such that $\textrm{prob}(X \&gt; x) = p)$.
 the logarithm of the desired probability.
 
 
-    \subsection*{rpois(lambda)}
-    \addcontentsline{toc}{subsection}{rpois(lambda)}
+    \subsection*{rpois(lambda)()}
+    \addcontentsline{toc}{subsection}{rpois(lambda)()}
     Returns a random variate from the $\textrm{Poisson}(\lambda)$ distribution.
 
 
@@ -887,8 +1129,8 @@ the logarithm of the desired probability.
 Based on: R code
 
 
-    \subsection*{rt(df)}
-    \addcontentsline{toc}{subsection}{rt(df)}
+    \subsection*{rt(df)()}
+    \addcontentsline{toc}{subsection}{rt(df)()}
     Returns a random variate from the $t(\textrm{df})$ distribution.
 
 
@@ -963,8 +1205,8 @@ $x$ such that $\textrm{prob}(X \&gt; x) = p)$.
 the logarithm of the desired probability.
 
 
-    \subsection*{runif(a, b)}
-    \addcontentsline{toc}{subsection}{runif(a, b)}
+    \subsection*{runif(a, b)()}
+    \addcontentsline{toc}{subsection}{runif(a, b)()}
     Returns a random variate from the $\textrm{Uniform}(a,b)$ distribution.
 
 

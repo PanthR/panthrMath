@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
-    <title>poisson</title>
+    <title>chisq</title>
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
@@ -14,7 +14,7 @@
   </head>
   <body>
     <div id="header">
-    <h1>Documentation for module <code>poisson</code>
+    <h1>Documentation for module <code>chisq</code>
       
       </h1>
     </div>
@@ -44,69 +44,73 @@
         <h3>Contents</h3>
       <ul>
         
-        <a href="#dpois"><li><code>dpois</code></li></a>
+        <a href="#chisq"><li><code>chisq</code></li></a>
         
-        <a href="#pois"><li><code>pois</code></li></a>
+        <a href="#dchisq"><li><code>dchisq</code></li></a>
         
-        <a href="#ppois"><li><code>ppois</code></li></a>
+        <a href="#pchisq"><li><code>pchisq</code></li></a>
         
-        <a href="#qpois"><li><code>qpois</code></li></a>
+        <a href="#qchisq"><li><code>qchisq</code></li></a>
         
-        <a href="#rpois"><li><code>rpois</code></li></a>
+        <a href="#rchisq"><li><code>rchisq</code></li></a>
         
       </ul>
       </div>
     </div>
     <div id="main">
       <div class="moduleInfo">
-        <h2>Module <code>poisson</code></h2>
+        <h2>Module <code>chisq</code></h2>
         <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
-        <p>Provides probability mass function, cumulative distribution function,
+        <p>Provides density function, cumulative distribution function,
 quantile function, and random number generator
-for the Poisson distribution, which is defined by the pmf
-$$f(x;\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}$$
-where $x=0,1,2,\ldots$ and $\lambda &gt; 0$ is the mean.</p>
-<p><a href="#dpois"><code>dpois</code></a> provides access to this probability mass function,
-<a href="#ppois"><code>ppois</code></a> to the cumulative distribution function, <a href="#qpois"><code>qpois</code></a> to the
+for the chi squared distribution on $k$ degrees of freedom, defined by
+the pdf:
+$$f(x; u) = \frac{1}{2^u\Gamma(u)}x^{u - 1} e^{-x/2}$$
+where $u = k / 2$, the integer $k &gt; 0$ is the degrees of freedom
+and $x \in [0, \infty)$.</p>
+<p><a href="#dchisq"><code>dchisq</code></a> provides access to this probability density function,
+<a href="#pchisq"><code>pchisq</code></a> to the cumulative distribution function, <a href="#qchisq"><code>qchisq</code></a> to the
 quantile function (inverse cdf)
-and <a href="#rpois"><code>rpois</code></a> to random deviates.</p>
-<p>Finally, you can use <a href="#pois"><code>pois</code></a> to obtain an object
-representing the Poisson distribution for a given value of $\lambda$.</p>
+and <a href="#rchisq"><code>rchisq</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#chisq"><code>chisq</code></a> to obtain an object
+representing the chi squared distribution for a given value of
+the degrees of freedom $k$.</p>
+<p>The implementation uses the gamma distribution. See <a href = "gamma.html"><code>gamma</code></a>.</p>
       </div>
       <div>
-        <h4 id="dpois"><code>dpois(lambda, logp)(x)</code></h4>
-        <p>Evaluates the Poisson pmf at <code>x</code>:
-$$\textrm{dpois}(\lambda)(x) = \frac{\lambda^x}{x!}e^{-\lambda}$$</p>
-<p>Expects $\lambda &gt; 0$.</p>
+        <h4 id="chisq"><code>chisq(df)</code></h4>
+        <p>Returns an object representing a chi squared distribution for <code>df</code> degrees
+of freedom, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>chisq(df).d(x, logp)            // same as dchisq(df, logp)(x)
+chisq(df).p(x, lowerTail, logp) // same as pchisq(df, lowerTail, logp)(x)
+chisq(df).q(x, lowerTail, logp) // same as qchisq(df, lowerTail, logp)(x)
+chisq(df).r()                   // same as rchisq(df)()</code></pre>
+      </div>
+      <div>
+        <h4 id="dchisq"><code>dchisq(df, logp)(x)</code></h4>
+        <p>Evaluates the chi squared distribution's density function at <code>x</code>.</p>
+<p><code>df</code> is the degrees of freedom $k$.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
 logarithm of the result.</p>
       </div>
       <div>
-        <h4 id="pois"><code>pois(lambda)</code></h4>
-        <p>Returns an object representing a Poisson distribution
-for a given value of $\lambda &gt; 0$, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
-<pre class="prettyprint source"><code>pois(a, b).d(x, logp)            // same as dpois(a, b, logp)(x)
-pois(a, b).p(x, lowerTail, logp) // same as ppois(a, b, lowerTail, logp)(x)
-pois(a, b).q(x, lowerTail, logp) // same as qpois(a, b, lowerTail, logp)(x)
-pois(a, b).r()                   // same as rpois(a, b)()</code></pre>
-      </div>
-      <div>
-        <h4 id="ppois"><code>ppois(lambda, lowerTail, logp)(x)</code></h4>
-        <p>Evaluates the lower-tail cdf at <code>x</code> for the Poisson distribution:
-$$\textrm{ppois}(\lambda)(x) = e^{-\lambda} \sum_{i=0}^{\left \lfloor{x}\right \rfloor}\frac{\lambda^i}{i!}$$</p>
-<p>Expects $\lambda &gt; 0$.</p>
+        <h4 id="pchisq"><code>pchisq(df, lowerTail, logp)(x)</code></h4>
+        <p>Evaluates the lower-tail cdf at <code>x</code> for the chi squared distribution:
+$$\textrm{pchisq}(k)(x) = \frac{\gamma(k/2, x/2)}{\Gamma(k/2)}$$</p>
+<p>where $\gamma$ is the incomplete gamma function, and
+<code>df</code> is the degrees of freedom $k$.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
-the upper tail probability ($P(X &gt; x)$) instead.</p>
+the upper tail probability instead.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
 of the result.</p>
       </div>
       <div>
-        <h4 id="qpois"><code>qpois(lambda, lowerTail, logp)(p)</code></h4>
-        <p>Evaluates the Poisson distribution's quantile function
+        <h4 id="qchisq"><code>qchisq(df, lowerTail, logp)(p)</code></h4>
+        <p>Evaluates the chi-squared distribution's quantile function
 (inverse cdf) at <code>p</code>:
-$$\textrm{qpois}(\lambda)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
-where $X$ is a random variable with the $\textrm{Poisson}(\lambda)$ distribution.</p>
-<p>Expects $\lambda &gt; 0$ and $0 \leq p \leq 1$.</p>
+$$\textrm{qchisq}(k)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the chi-squared distribution.</p>
+<p><code>df</code> is the degrees of freedom $k$.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
 interpreted as an upper tail probability (returns
 $x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
@@ -114,9 +118,9 @@ $x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
 the logarithm of the desired probability.</p>
       </div>
       <div>
-        <h4 id="rpois"><code>rpois(lambda)()</code></h4>
-        <p>Returns a random variate from the $\textrm{Poisson}(\lambda)$ distribution.</p>
-<p>Expects $\lambda &gt; 0$.</p>
+        <h4 id="rchisq"><code>rchisq(df)()</code></h4>
+        <p>Returns a random variate from the chi squared distribution with <code>df</code> degrees
+of freedom.</p>
       </div>
     </div>
   </body>

@@ -105,9 +105,15 @@
           
           <a href="#binom"><li><code>binom</code></li></a>
           
+          <a href="#chisq"><li><code>chisq</code></li></a>
+          
+          <a href="#exp"><li><code>exp</code></li></a>
+          
           <a href="#finite"><li><code>finite</code></li></a>
           
           <a href="#gamma"><li><code>gamma</code></li></a>
+          
+          <a href="#geom"><li><code>geom</code></li></a>
           
           <a href="#normal"><li><code>normal</code></li></a>
           
@@ -146,6 +152,34 @@
           <a href="#rbinom"><li><code>rbinom</code></li></a>
           
         </ul>
+        <a href="#chisq"><li class="depth2"><code>chisq</code></li></a>
+        <ul>
+          
+          <a href="#chisq"><li><code>chisq</code></li></a>
+          
+          <a href="#dchisq"><li><code>dchisq</code></li></a>
+          
+          <a href="#pchisq"><li><code>pchisq</code></li></a>
+          
+          <a href="#qchisq"><li><code>qchisq</code></li></a>
+          
+          <a href="#rchisq"><li><code>rchisq</code></li></a>
+          
+        </ul>
+        <a href="#exponential"><li class="depth2"><code>exponential</code></li></a>
+        <ul>
+          
+          <a href="#dexp"><li><code>dexp</code></li></a>
+          
+          <a href="#expdistr"><li><code>expdistr</code></li></a>
+          
+          <a href="#pexp"><li><code>pexp</code></li></a>
+          
+          <a href="#qexp"><li><code>qexp</code></li></a>
+          
+          <a href="#rexp"><li><code>rexp</code></li></a>
+          
+        </ul>
         <a href="#finite"><li class="depth2"><code>finite</code></li></a>
         <ul>
           
@@ -172,6 +206,20 @@
           <a href="#qgamma"><li><code>qgamma</code></li></a>
           
           <a href="#rgamma"><li><code>rgamma</code></li></a>
+          
+        </ul>
+        <a href="#geometric"><li class="depth2"><code>geometric</code></li></a>
+        <ul>
+          
+          <a href="#dgeom"><li><code>dgeom</code></li></a>
+          
+          <a href="#geom"><li><code>geom</code></li></a>
+          
+          <a href="#pgeom"><li><code>pgeom</code></li></a>
+          
+          <a href="#qgeom"><li><code>qgeom</code></li></a>
+          
+          <a href="#rgeom"><li><code>rgeom</code></li></a>
           
         </ul>
         <a href="#normal"><li class="depth2"><code>normal</code></li></a>
@@ -537,12 +585,24 @@ a method for generating random variates.</p>
             <p>The binomial distribution. See <a href = "binomial.html"><code>binomial</code></a>.</p>
           </div>
           <div>
+            <h4 id="chisq"><code>chisq</code></h4>
+            <p>The chi squared distribution. See <a href = "chisq.html"><code>chisq</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="exp"><code>exp</code></h4>
+            <p>The exponential distribution. See <a href = "exponential.html"><code>exponential</code></a>.</p>
+          </div>
+          <div>
             <h4 id="finite"><code>finite</code></h4>
             <p>Constructor for finite distributions. See <a href = "finite.html"><code>finite</code></a>.</p>
           </div>
           <div>
             <h4 id="gamma"><code>gamma</code></h4>
             <p>The gamma distribution. See <a href = "gamma.html"><code>gamma</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="geom"><code>geom</code></h4>
+            <p>The binomial distribution. See <a href = "geometric.html"><code>geometric</code></a>.</p>
           </div>
           <div>
             <h4 id="normal"><code>normal</code></h4>
@@ -618,7 +678,7 @@ the logarithm of the desired probability.</p>
 <p>Expects $a&gt;0$, $b&gt;0$, and $0 \leq p \leq 1$.</p>
           </div>
           <div>
-            <h4 id="rbeta"><code>rbeta(a, b)</code></h4>
+            <h4 id="rbeta"><code>rbeta(a, b)()</code></h4>
             <p>Returns a random variate from the $\textrm{Beta}(a, b)$ distribution.</p>
 <p>Expects $a&gt;0$ and $b&gt;0$.</p>
 <p>Based on R's code; see: <em>Generating beta variates with nonintegral shape parameters</em>, by
@@ -687,10 +747,137 @@ interpreted as an upper tail probability.</p>
 the logarithm of the desired probability.</p>
           </div>
           <div>
-            <h4 id="rbinom"><code>rbinom(size, p)</code></h4>
+            <h4 id="rbinom"><code>rbinom(size, p)()</code></h4>
             <p>Returns a random variate from the $\textrm{Binomial}(size, p)$ distribution.</p>
 <p><code>size</code> is a positive integer (number of trials) and $0 \leq p \leq 1$
 (the probability of success on a single trial).</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="chisq"><code>chisq</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the chi squared distribution on $k$ degrees of freedom, defined by
+the pdf:
+$$f(x; u) = \frac{1}{2^u\Gamma(u)}x^{u - 1} e^{-x/2}$$
+where $u = k / 2$, the integer $k &gt; 0$ is the degrees of freedom
+and $x \in [0, \infty)$.</p>
+<p><a href="#dchisq"><code>dchisq</code></a> provides access to this probability density function,
+<a href="#pchisq"><code>pchisq</code></a> to the cumulative distribution function, <a href="#qchisq"><code>qchisq</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rchisq"><code>rchisq</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#chisq"><code>chisq</code></a> to obtain an object
+representing the chi squared distribution for a given value of
+the degrees of freedom $k$.</p>
+<p>The implementation uses the gamma distribution. See <a href = "gamma.html"><code>gamma</code></a>.</p>
+          <div>
+            <h4 id="chisq"><code>chisq(df)</code></h4>
+            <p>Returns an object representing a chi squared distribution for <code>df</code> degrees
+of freedom, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>chisq(df).d(x, logp)            // same as dchisq(df, logp)(x)
+chisq(df).p(x, lowerTail, logp) // same as pchisq(df, lowerTail, logp)(x)
+chisq(df).q(x, lowerTail, logp) // same as qchisq(df, lowerTail, logp)(x)
+chisq(df).r()                   // same as rchisq(df)()</code></pre>
+          </div>
+          <div>
+            <h4 id="dchisq"><code>dchisq(df, logp)(x)</code></h4>
+            <p>Evaluates the chi squared distribution's density function at <code>x</code>.</p>
+<p><code>df</code> is the degrees of freedom $k$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="pchisq"><code>pchisq(df, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the chi squared distribution:
+$$\textrm{pchisq}(k)(x) = \frac{\gamma(k/2, x/2)}{\Gamma(k/2)}$$</p>
+<p>where $\gamma$ is the incomplete gamma function, and
+<code>df</code> is the degrees of freedom $k$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qchisq"><code>qchisq(df, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the chi-squared distribution's quantile function
+(inverse cdf) at <code>p</code>:
+$$\textrm{qchisq}(k)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the chi-squared distribution.</p>
+<p><code>df</code> is the degrees of freedom $k$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+          </div>
+          <div>
+            <h4 id="rchisq"><code>rchisq(df)()</code></h4>
+            <p>Returns a random variate from the chi squared distribution with <code>df</code> degrees
+of freedom.</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="exponential"><code>exponential</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the continuous exponential distribution with <em>rate</em> $\lambda$, which
+is defined by the pdf
+$$ f(x; \lambda) = \lambda e^{-\lambda x}$$
+where $\lambda &gt; 0$ and $x \in [0, \infty)$.</p>
+<p><a href="#dexp"><code>dexp</code></a> provides access to this probability density function,
+<a href="#pexp"><code>pexp</code></a> to the cumulative distribution function, <a href="#qexp"><code>qexp</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rexp"><code>rexp</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#expdistr"><code>expdistr</code></a> to obtain an object
+representing the exponential distribution for a given value of
+the <em>rate</em> $\lambda$.</p>
+          <div>
+            <h4 id="dexp"><code>dexp(rate, logp)(x)</code></h4>
+            <p>Evaluates the exponential distribution's density function at <code>x</code>:
+$$\textrm{dexp}(\lambda)(x) = \lambda e^{-\lambda x}$$
+for $x \geq 0$.</p>
+<p>Expects the rate $\lambda &gt; 0$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+          </div>
+          <div>
+            <h4 id="expdistr"><code>expdistr(rate)</code></h4>
+            <p>Returns an object representing an exponential distribution with a
+given rate $\lambda &gt; 0$,
+with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>expdistr(rate).d(x, logp)            // same as dexp(rate, logp)(x)
+expdistr(rate).p(x, lowerTail, logp) // same as pexp(rate, lowerTail, logp)(x)
+expdistr(rate).q(x, lowerTail, logp) // same as qexp(rate, lowerTail, logp)(x)
+expdistr(rate).r()                   // same as rexp(rate)()</code></pre>
+          </div>
+          <div>
+            <h4 id="pexp"><code>pexp(rate, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the exponential distribution:
+$$\textrm{pexp}(\lambda)(x) = 1 - e^{-\lambda x}$$</p>
+<p>Expects the rate $\lambda &gt; 0$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qexp"><code>qexp(rate, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the exponential distribution's quantile function
+(inverse cdf) at <code>p</code>:
+$$\textrm{qexp}(\lambda)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the exponential distribution.</p>
+<p>Expects the rate $\lambda &gt; 0$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+          </div>
+          <div>
+            <h4 id="rexp"><code>rexp(rate)()</code></h4>
+            <p>Returns a random variate from the exponential distribution.</p>
+<p>Expects the rate $\lambda &gt; 0$.</p>
+<p>Based on the R code in sexp.c (nmath)</p>
           </div>
         </div>
         <div>
@@ -771,7 +958,7 @@ In particular, for <code>lowerTail = true</code>:</p>
 <a href="#qfinite"><code>qfinite</code></a> returns <code>min</code> or <code>max</code> for a right-tail area (&gt;) of 1 or 0, respectively.</p>
           </div>
           <div>
-            <h4 id="rfinite"><code>rfinite(o)</code></h4>
+            <h4 id="rfinite"><code>rfinite(o)()</code></h4>
             <p>Returns a random variate from the finite distribution
 specified by object <code>o</code>.</p>
           </div>
@@ -832,7 +1019,7 @@ the logarithm of the desired probability.</p>
 <p>Expects $a&gt;0$, $s&gt;0$, and $0 \leq p \leq 1$.</p>
           </div>
           <div>
-            <h4 id="rgamma"><code>rgamma(a, s)</code></h4>
+            <h4 id="rgamma"><code>rgamma(a, s)()</code></h4>
             <p>Returns a random variate from the $\textrm{Gamma}(a, s)$ distribution.</p>
 <p>Expects $a &gt; 0$ and $s &gt; 0$.</p>
 <p>Based on:</p>
@@ -845,6 +1032,72 @@ unity</em>, by Best, 1983</li>
 </ul>
 <p>As seen in: <em>Random Number Generation and Monte Carlo Methods, Second Edition</em>,
 by Gentle, Springer 2005</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="geometric"><code>geometric</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the geometric distribution with parameter the probability $p$, which
+is defined by the pdf
+$$ f(x; p) = p (1-p)^x$$
+where $0 &lt; p \leq 1$ and $x \in\left\{0,1,2,\ldots\right\}$.</p>
+<p><a href="#dgeom"><code>dgeom</code></a> provides access to this probability density function,
+<a href="#pgeom"><code>pgeom</code></a> to the cumulative distribution function, <a href="#qgeom"><code>qgeom</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rgeom"><code>rgeom</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#geom"><code>geom</code></a> to obtain an object
+representing the geometric distribution for a given value of
+the probability parameter $p$.</p>
+          <div>
+            <h4 id="dgeom"><code>dgeom(prob, logp)(x)</code></h4>
+            <p>Evaluates the geometric distribution's density function at <code>x</code>:
+$$\textrm{dgeom}(p)(x) = p(1-p)^x$$
+for $x \in\left\{0,1,2,\ldots\right\}$.</p>
+<p>Expects the probability $0 &lt; p\leq 1$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+<p>The implementation uses <a href="#dbinom"><code>dbinom</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="geom"><code>geom(prob)</code></h4>
+            <p>Returns an object representing an geometric distribution with a
+given probability parameter $0 &lt; p \leq 1$,
+with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>geom(prob).d(x, logp)            // same as dgeom(prob, logp)(x)
+geom(prob).p(x, lowerTail, logp) // same as pgeom(prob, lowerTail, logp)(x)
+geom(prob).q(x, lowerTail, logp) // same as qgeom(prob, lowerTail, logp)(x)
+geom(prob).r()                   // same as rgeom(prob)()</code></pre>
+          </div>
+          <div>
+            <h4 id="pgeom"><code>pgeom(prob, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the geometric distribution:
+$$\textrm{pgeom}(p)(x) = 1 - (1-p)^{x+1}$$</p>
+<p>Expects the probability $0 &lt; p \leq 1$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+<p>The implementation uses <a href="#pbinom"><code>pbinom</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="qgeom"><code>qgeom(prob, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the geometric distribution's quantile function
+(inverse cdf) at <code>p</code>:
+$$\textrm{qexp}(\textrm{prob})(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the geometric distribution.</p>
+<p>Expects the probability parameter $0 &lt; \textrm{prob} \leq 1$.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+          </div>
+          <div>
+            <h4 id="rgeom"><code>rgeom(prob)()</code></h4>
+            <p>Returns a random variate from the geometric distribution.</p>
+<p>Expects the probability parameter $0 &lt; p \leq 1$.</p>
+<p>Following R's code (rgeom.c)</p>
           </div>
         </div>
         <div>
@@ -900,7 +1153,7 @@ the logarithm of the desired probability.</p>
 <p>Expects $\sigma &gt; 0$.</p>
           </div>
           <div>
-            <h4 id="rnorm"><code>rnorm(mu, sigma)</code></h4>
+            <h4 id="rnorm"><code>rnorm(mu, sigma)()</code></h4>
             <p>Returns a random variate from the $N(\mu, \sigma)$ distribution.</p>
 <p>Expects $\sigma &gt; 0$.</p>
 <p>Uses a rejection polar method.</p>
@@ -960,7 +1213,7 @@ $x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
 the logarithm of the desired probability.</p>
           </div>
           <div>
-            <h4 id="rpois"><code>rpois(lambda)</code></h4>
+            <h4 id="rpois"><code>rpois(lambda)()</code></h4>
             <p>Returns a random variate from the $\textrm{Poisson}(\lambda)$ distribution.</p>
 <p>Expects $\lambda &gt; 0$.</p>
           </div>
@@ -1011,7 +1264,7 @@ the logarithm of the desired probability.</p>
 <p>Based on: R code</p>
           </div>
           <div>
-            <h4 id="rt"><code>rt(df)</code></h4>
+            <h4 id="rt"><code>rt(df)()</code></h4>
             <p>Returns a random variate from the $t(\textrm{df})$ distribution.</p>
 <p>Expects $\textrm{df} &gt; 0$.</p>
           </div>
@@ -1079,7 +1332,7 @@ $x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
 the logarithm of the desired probability.</p>
           </div>
           <div>
-            <h4 id="runif"><code>runif(a, b)</code></h4>
+            <h4 id="runif"><code>runif(a, b)()</code></h4>
             <p>Returns a random variate from the $\textrm{Uniform}(a,b)$ distribution.</p>
 <p>Expects $a&lt;b$.</p>
           </div>
