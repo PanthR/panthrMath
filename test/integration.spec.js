@@ -241,6 +241,23 @@ describe("(slow) Integration test", function() {
          });
       });
    });
+   describe("for geometric", function() {
+      seq(1, 20).forEach(function() {
+         it("repeated test", function() {
+            var prob, pvalues, xs, obj, n, p;
+            prob = main.runif(0.1, 0.9)();
+            // Finding the point where right tail small enough
+            n = 0;
+            p = 1 - prob;
+            while (p >= 1e-4) { n += 1; p *= 1 - prob; }
+            expect(testDiscrete(main.geom(prob), seq(0, n), 1)).to.be.below(0.2);
+            // Providing a "closeby" distribution
+            obj = main.geom(prob);
+            obj.r = main.geom(prob * 1.05).r;
+            expect(testDiscrete(obj, seq(0, n), 1)).to.be.above(0.2);
+         });
+      });
+   });
    describe("for Poisson", function() {
       seq(1, 20).forEach(function() {
          it("repeated test", function() {
@@ -279,6 +296,15 @@ describe("(slow) Integration test", function() {
          distr.r = main.normal(mu, 1.1 * sigma).r;
          expect(testCont(distr)).to.be.above(0.2);
          distr.r = main.normal(mu + 0.1 * sigma, sigma).r;
+         expect(testCont(distr)).to.be.above(0.2);
+      });
+   });
+   describe("for exponential", function() {
+      it("repeated test", function() {
+         var lambda = 0.1 + Math.random() * 10;
+         var distr = main.expdistr(lambda);
+         expect(testCont(distr)).to.be.below(0.2);
+         distr.r = main.expdistr(1.05 * lambda).r;
          expect(testCont(distr)).to.be.above(0.2);
       });
    });
