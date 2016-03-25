@@ -8,7 +8,7 @@ define(function(require) {
     * for the geometric distribution with parameter the probability $p$, which
     * is defined by the pdf
     * $$ f(x; p) = p (1-p)^x$$
-    * where $0 < p \leq 1$ and $x \in\left\{0,1,2,\ldots\right\}$.
+    * where $0 < p \leq 1$ and $x \in\left\\{0,1,2,\ldots\right\\}$.
     *
     * `dgeom` provides access to this probability density function,
     * `pgeom` to the cumulative distribution function, `qgeom` to the
@@ -34,7 +34,7 @@ define(function(require) {
    /**
     * Evaluates the geometric distribution's density function at `x`:
     * $$\textrm{dgeom}(p)(x) = p(1-p)^x$$
-    * for $x \in\left\{0,1,2,\ldots\right\}$.
+    * for $x \in\left\\{0,1,2,\ldots\right\\}$.
     *
     * Expects the probability $0 < p\leq 1$.
     *
