@@ -167,7 +167,7 @@ define(function(require) {
 
       if (prob <= 0 || prob > 1) { return function() { return NaN; }; }
 
-      scale = (1 - prob) / prob;
+      scale = prob / (1 - prob);
 
       return function() {
          return rpois(rexp(scale)())();

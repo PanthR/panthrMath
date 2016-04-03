@@ -248,7 +248,7 @@ describe("(slow) Integration test", function() {
             prob = main.runif(0.1, 0.9)();
             // Finding the point where right tail small enough
             n = 0;
-            p = 1 - prob;
+            p = prob;
             while (p >= 1e-4) { n += 1; p *= 1 - prob; }
             expect(testDiscrete(main.geom(prob), seq(0, n), 1)).to.be.below(0.2);
             // Providing a "closeby" distribution
