@@ -147,12 +147,12 @@ define(function(require) {
       if (!goodParams) { return function(prob) { return NaN; }; }
       if (p === 0) {
          return pWrap(lowerTail, logp,
-            function(prob) { return prob === 1 ? size : 0; }
+            function(ps) { return ps.q === 0 ? size : 0; }
          );
       }
       if (p === 1) {
          return pWrap(lowerTail, logp,
-            function(prob) { return prob === 0 ? 0 : size; }
+            function(ps) { return ps.p === 0 ? 0 : size; }
          );
       }
       // 0 < p < 1
@@ -160,19 +160,19 @@ define(function(require) {
       sigma = Math.sqrt(mu * (1 - p));
       gamma = (1 - 2 * p) / sigma;
 
-      return pWrap(true, logp, function(prob) {
+      return pWrap(true, logp, function(ps) {
          var z, ret;
 
-         // if (prob === 0) { return 0; }
-         // if (prob === 1) { return size; }
-         z = qnorm(0, 1, lowerTail)(prob); // initial value
+         // if (ps.p === 0) { return 0; }
+         // if (ps.p === 1) { return size; }
+         z = qnorm(0, 1, lowerTail)(ps.p); // initial value
          ret = Math.floor(mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
          if (ret > size) { ret = size; }
-         if (prob === 1) { return lowerTail ? size : 0; }
+         if (ps.q === 0) { return lowerTail ? size : 0; }
          if (lowerTail) {
-            return discInvCdf(0, size, ret, prob, pbinom(size, p));
+            return discInvCdf(0, size, ret, ps.p, pbinom(size, p));
          }
-         return -discInvCdf(-size, 0, -ret, prob, function(x) {
+         return -discInvCdf(-size, 0, -ret, ps.p, function(x) {
             return pbinom(size, p, lowerTail)(-x);
          });
       });

@@ -251,20 +251,20 @@ define(function(require) {
       return function(mu, sigma, lowerTail, logp) {
          lowerTail = lowerTail !== false;
          logp = logp === true;
-         return pWrap(lowerTail, logp, function(p) {
+         return pWrap(lowerTail, logp, function(ps) {
             var dp, minp, r;
 
-            dp = p - 0.5;
-            minp = p < 0.5 ? p : 1 - p;
+            dp = ps.p - 0.5;
+            minp = ps.p < 0.5 ? ps.p : ps.q;
 
-            if (p === 1) { return Infinity; }
-            if (p === 0) { return -Infinity; }
+            if (ps.q === 0) { return Infinity; } // A better test than p === 1
+            if (ps.p === 0) { return -Infinity; }
             if (Math.abs(dp) <= 0.425) {
                r = dp * small.evalAt(0.180625 - dp * dp);
             } else {
                r = Math.sqrt(-Math.log(minp));
                r = r <= 5 ? medium.evalAt(r - 1.6) : large.evalAt(r - 5);
-               r = p < 0.5 ? -r : r;
+               r = ps.p < 0.5 ? -r : r;
             }
             return mu + sigma * r;
          });

@@ -289,11 +289,17 @@ define(function(require) {
        */
       pWrap: function pWrap(lowerTail, logp, f) {
          return function(prob) {
-            prob = logp ? lowerTail ? Math.exp(prob)
-                                    : -expm1(prob)
-                        : lowerTail ? prob
-                                    : 1 - prob;
-            return prob >= 0 && prob <= 1 ? f(prob) : NaN;
+            var pprob, qprob;
+
+            qprob = logp ? lowerTail ? -expm1(prob)
+                                     : Math.exp(prob)
+                         : lowerTail ? 1 - prob
+                                     : prob;
+            pprob = logp ? lowerTail ? Math.exp(prob)
+                                     : -expm1(prob)
+                         : lowerTail ? prob
+                                     : 1 - prob;
+            return pprob >= 0 && pprob <= 1 ? f({ p: pprob, q: qprob }) : NaN;
          };
       }
    };

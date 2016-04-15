@@ -118,18 +118,18 @@ define(function(require) {
       sigma = Math.sqrt(lambda);
       gamma = 1 / sigma;
 
-      return pWrap(true, logp, function(prob) {
+      return pWrap(true, logp, function(ps) {
          var z, ret;
 
-         z = qnorm(0, 1, lowerTail)(prob); // initial value
+         z = qnorm(0, 1, lowerTail)(ps.p); // initial value
          if (z < -10) { z = -10; }
          if (z > 10) { z = 10; }
          ret = Math.floor(mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
-         if (prob === 1) { return lowerTail ? Infinity : 0; }
+         if (ps.q === 0) { return lowerTail ? Infinity : 0; }
          if (lowerTail) {
-            return discInvCdf(0, 1e10, ret, prob, ppois(lambda));
+            return discInvCdf(0, 1e10, ret, ps.p, ppois(lambda));
          }
-         return -discInvCdf(-1e10, 0, -ret, prob, function(x) {
+         return -discInvCdf(-1e10, 0, -ret, ps.p, function(x) {
             return ppois(lambda, lowerTail)(-x);
          });
       });
