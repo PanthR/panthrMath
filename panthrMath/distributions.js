@@ -93,8 +93,10 @@ define(function(require) {
       require('./distributions/beta'),
       /** The exponential distribution. See `module:exponential`. */
       require('./distributions/exp'),
-      /** The binomial distribution. See `module:geometric`. */
+      /** The geometric distribution. See `module:geometric`. */
       require('./distributions/geom'),
+      /** The lognormal distribution. See `module:lognormal`. */
+      require('./distributions/lognormal'),
       /** The binomial distribution. See `module:binomial`. */
       require('./distributions/binom')
    );
