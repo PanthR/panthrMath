@@ -3,38 +3,39 @@
 define(function(require) {
 
    /**
-    * TODO: Update the documentation
     * Provides density function, cumulative distribution function,
     * quantile function, and random number generator
-    * for the normal distribution, which is defined by the pdf
-    * $$f(x;\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(x-\mu)^2}{2\sigma^2}}$$
-    * where $x\in(-\infty,\infty)$ and as usual $\mu$ is the mean and $\sigma>0$
-    * is the standard deviation.
+    * for the lognormal distribution, with parameter $\mu$ (`meanlog`) and
+    * $\sigma$ (`sdlog`) for the associated normal distribution.
     *
-    * `dnorm` provides access to this probability density function,
-    * `pnorm` to the cumulative distribution function, `qnorm` to the
+    * The lognormal is defined by the pdf:
+    * $$f(x;\mu,\sigma) = \frac{1}{x\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(\ln x-\mu)^2}{2\sigma^2}}$$
+    * where $x\in(0,\infty)$.
+    *
+    * `dlnorm` provides access to this probability density function,
+    * `plnorm` to the cumulative distribution function, `qlnorm` to the
     * quantile function (inverse cdf)
-    * and `rnorm` to random deviates.
+    * and `rlnorm` to random deviates.
     *
-    * Finally, you can use `normal` to obtain an object
+    * Finally, you can use `lognormal` to obtain an object
     * representing the distribution for some values of the parameters.
-    * @module distributions.normal
+    * @module distributions.lognormal
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
    var normal, C, logRoot2pi, recipRoot2pi;
 
    normal = require('./normal');
-   C = require('./constants');
+   C = require('../constants');
    logRoot2pi = C.log2pi * 0.5;
    recipRoot2pi = 1 / C.sqrt2pi;
 
    /**
-    * TODO
-    * assuming sdlog > 0
-    * support for dlnorm is x  > 0
-    * @fullName dnorm(meanlog, sdlog, logp)(x)
-    * @memberof normal
+    * Evaluates the lognormal distribution's density function at `x`.
+    *
+    * Expects $x > 0$ and $\textrm{sdlog} > 0$.
+    * @fullName dlnorm(meanlog, sdlog, logp)(x)
+    * @memberof lognormal
     */
    function dlnorm(meanlog, sdlog, logp) {
       logp = logp === true;
@@ -50,9 +51,8 @@ define(function(require) {
    }
 
    /**
-    * TODO FIX ME
-    * Evaluates the lower-tail cdf at `x` for the Normal distribution:
-    * $$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{\sigma \sqrt{2\pi}}\int_{-\infty}^x e^{\displaystyle -\frac{(t-\mu)^2}{2\sigma^2}}dt$$
+    * Evaluates the lower-tail cdf at `x` for the lognormal distribution:
+    * $$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{2}\left(1 + \textrm{erf}\left(\frac{\ln x - \mu}{\sigma\sqrt{2}}\right)\right)$$
     *
     * `lowerTail` defaults to `true`; if `lowerTail` is `false`, returns
     * the upper tail probability instead.
@@ -60,10 +60,10 @@ define(function(require) {
     * `logp` defaults to `false`; if `logp` is `true`, returns the logarithm
     * of the result.
     *
-    * Expects $\sigma > 0$.
+    * Expects $\textrm{sdlog} > 0$ and $x > 0$.
     *
-    * @fullName pnorm(meanlog, sdlog, lowerTail, logp)(x)
-    * @memberof normal
+    * @fullName plnorm(meanlog, sdlog, lowerTail, logp)(x)
+    * @memberof lognormal
     */
    function plnorm(meanlog, sdlog, lowerTail, logp) {
       var pnorm;
@@ -83,10 +83,9 @@ define(function(require) {
    }
 
    /**
-    * TODO
-    * Evaluates the Normal distribution's quantile function (inverse cdf) at `p`:
-    * $$\textrm{qnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
-    * where $X$ is a random variable with the $N(\mu,\sigma)$ distribution.
+    * Evaluates the lognormal distribution's quantile function (inverse cdf) at `p`:
+    * $$\textrm{qlnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+    * where $X$ is a random variable with the lognormal distribution.
     *
     * `lowerTail` defaults to `true`; if `lowerTail` is `false`, `p` is
     * interpreted as an upper tail probability (returns
@@ -95,9 +94,9 @@ define(function(require) {
     * `logp` defaults to `false`; if `logp` is `true`, interprets `p` as
     * the logarithm of the desired probability.
     *
-    * Expects $\sigma > 0$.
-    * @fullName qnorm(meanlog, sdlog, lowerTail, logp)(p)
-    * @memberof normal
+    * Expects $\textrm{sdlog} > 0$.
+    * @fullName qlnorm(meanlog, sdlog, lowerTail, logp)(p)
+    * @memberof lognormal
     */
    function qlnorm(meanlog, sdlog, lowerTail, logp) {
       var qnorm;
@@ -114,14 +113,13 @@ define(function(require) {
    }
 
    /**
-    * TODO
-    * Returns a random variate from the $N(\mu, \sigma)$ distribution.
+    * Returns a random variate from the lognormal distribution.
     *
-    * Expects $\sigma > 0$.
+    * Expects $\textrm{sdlog} > 0$.
     *
     * Uses a rejection polar method.
-    * @fullName rnorm(meanlog, sdlog)()
-    * @memberof normal
+    * @fullName rlnorm(meanlog, sdlog)()
+    * @memberof lognormal
     */
    function rlnorm(meanlog, sdlog) {
       var rnorm;
