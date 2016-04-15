@@ -893,8 +893,14 @@ describe('Normal Distribution', function() {
          expect(utils.relativelyCloseTo(
             normal.pnorm(mu, sigma, true, true)(mu + sigma * x), rlogp, precision)).to.be.ok;
          expect(utils.relativelyCloseTo(logq, rlogq, precision)).to.be.ok;
-         expect(utils.relativelyCloseTo(
-            normal.qnorm(mu, sigma, false, true)(x), mu + sigma * rlogq, precision)).to.be.ok;
+         if (x !== 0) {
+            expect(utils.relativelyCloseTo(
+               normal.qnorm(0, 1, true, true)(rlogp), x, precision)).to.be.ok;
+            expect(utils.relativelyCloseTo(
+               normal.qnorm(0, 1, false, true)(rlogq), x, precision)).to.be.ok;
+            expect(utils.relativelyCloseTo(
+               normal.qnorm(mu, sigma, false, true)(rlogq), mu + sigma * x, precision)).to.be.ok;
+         }
       });
    });
    it('normal also exported as an object', function() {
