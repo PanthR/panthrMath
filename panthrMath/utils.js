@@ -252,6 +252,35 @@ define(function(require) {
          return Math.max(lx, ly) + log1p(Math.exp(-Math.abs(lx - ly)));
       },
       /*
+       * Given a lower tail probability value, it "adjusts" it to
+       * requested lowerTail and logp settings.
+       *
+       * It expects p in the range [0, 1]
+       */
+      adjustLower: function(p, lowerTail, logp) {
+        if (p === 1) {
+          p = 0;
+          lowerTail = !lowerTail;
+        }
+        if (p === 0) {
+          return lowerTail ? logp ? -Infinity : 0
+                           : logp ? 0 : 1;
+        }
+        return lowerTail ? logp ? Math.log(p) : p
+                         : logp ? log1p(-p) : 1 - p;
+      },
+      /*
+       * Given a upper tail probability value, it "adjusts" it to
+       * requested lowerTail and logp settings.
+       *
+       * It expects q in the range (0, 1).
+       * Use `adjustLower` for q = 0 or 1.
+       */
+      adjustUpper: function(q, lowerTail, logp) {
+        return lowerTail ? logp ? log1p(-q) : 1 - q
+                         : logp ? Math.log(q) : q;
+      },
+      /*
        * Given a function 'f(prob)', returns a function of the probability
        * which has been adjusted in the space specified by 'lowerTail' and
        * 'logp'.  The new function wraps f, ensuring that f is called on
