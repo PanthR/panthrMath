@@ -21,7 +21,7 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var C, twopi, sqrt2pi, Rational, pnorm, qnorm, pWrap, rgen;
+   var C, twopi, sqrt2pi, Rational, pnorm, qnorm, pWrap, rgen, adjustLower, adjustUpper;
 
    C = require('../constants');
    twopi = C.twopi;
@@ -29,6 +29,8 @@ define(function(require) {
    Rational = require('../rational');
    pWrap = require('../utils').pWrap;
    rgen = require('../rgen/rgen');
+   adjustLower = require('../utils').adjustLower;
+   adjustUpper = require('../utils').adjustUpper;
 
    /**
     * Evaluates the Normal density function at `x`:
@@ -136,34 +138,31 @@ define(function(require) {
          logp = logp === true;
          /* eslint-disable complexity */
          return function(x) {
-            var z, absz, oneOverzsq, r, ret, lower;
+            var z, absz, oneOverzsq, r;
 
-            lower = lowerTail;
             z = (x - mu) / sigma;
-            if (z > 5 && !lower) { /* danger zone for upper */
+            if (z > 5 && !lowerTail) { /* danger zone for upper */
                z = -z;
-               lower = true;
+               lowerTail = true;
             }
             absz = Math.abs(z);
 
             if (absz < 0.66291) {
-               ret = 0.5 + z * small.evalAt(z * z);
+               return adjustLower(0.5 + z * small.evalAt(z * z), lowerTail, logp);
             } else if (absz < 5.656854) {
                r = addExpTerm(z, medium.evalAt(absz));
-               ret = z > 0 ? 1 - r : r;
-            } else if (z > 8.572) {
-               ret = 1;
+               return z > 0 ? adjustUpper(r, lowerTail, logp)
+                            : adjustLower(r, lowerTail, logp);
+            } else if (z > 28.572) {
+               return adjustLower(1, lowerTail, logp);
             } else if (z < -37.519) {
-               ret = 0;
-            } else {
-               oneOverzsq = 1 / (z * z);
-               r = oneOverzsq * large.evalAt(oneOverzsq);
-               r = addExpTerm(z, (1 / sqrt2pi - r) / absz);
-               ret = z > 0 ? 1 - r : r;
+               return adjustLower(0, lowerTail, logp);
             }
-            if (!lower) { ret = 1 - ret; }
-            if (logp) { ret = Math.log(ret); }
-            return ret;
+             oneOverzsq = 1 / (z * z);
+             r = oneOverzsq * large.evalAt(oneOverzsq);
+             r = addExpTerm(z, (1 / sqrt2pi - r) / absz);
+             return z > 0 ? adjustUpper(r, lowerTail, logp)
+                          : adjustLower(r, lowerTail, logp);
          };
          /* eslint-enable complexity */
       };
