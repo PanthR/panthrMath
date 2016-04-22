@@ -20,35 +20,15 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var C, stirlerr, bd0, pbeta, qnorm, pWrap, discInvCdf, inverseCDF;
+   var dbinomLog, pbeta, qnorm, pWrap, discInvCdf, inverseCDF;
 
-   C = require('../constants');
-   stirlerr = require('../basicFunc/stirlerr').stirlerr;
-   bd0 = require('../basicFunc/bd0').bd0;
+   dbinomLog = require('../basicFunc/dbinomLog').dbinomLog;
    pbeta = require('./beta').pbeta;
    qnorm = require('./normal').qnorm;
    pWrap = require('../utils').pWrap;
    discInvCdf = require('../utils').discInvCdf;
    inverseCDF = require('../rgen/inverseCDF');
 
-   // returns the log of the binomial probability
-   // Note: the arguments are re-arranged:  lbinomProb(size, p, x)
-   // calculates log(binom_prob(x; size, p)) where size > 0 and
-   // 0 <= p <= 1.
-   // Based on:  "Fast and Accurate Computation of Binomial Probabilities",
-   // Loader (2000)
-   function dbinomLog(size, p) {
-      if (p === 0) { return function(x) { return x === 0 ? 0 : -Infinity; }; }
-      if (p === 1) { return function(x) { return x === size ? 0 : -Infinity; }; }
-      return function(x) {
-         if (x === 0) { return size * Math.log(1 - p); }
-         if (x === size) { return size * Math.log(p); }
-         if (x < 0 || x > size || Math.round(x) !== x) { return -Infinity; }
-         return stirlerr(size) - stirlerr(x) - stirlerr(size - x) -
-            bd0(x, size * p) - bd0(size - x, size * (1 - p)) +
-            0.5 * Math.log(size / (C.twopi * x * (size - x)));
-      };
-   }
    /**
     * Returns the Binomial probability at `x`:
     * $$\textrm{dbinom}(\textrm{size}, p)(x) = \binom{\textrm{size}}{p}p^{x}(1-p)^{(\textrm{size}-x)}$$
@@ -70,12 +50,21 @@ define(function(require) {
       var lbinom;
 
       logp = logp === true;
+
       lbinom = dbinomLog(size, p);
 
       return function(x) {
-         return logp ? lbinom(x) : Math.exp(lbinom(x));
+         var res;
+
+         res = x === 0 ? size * Math.log(1 - p)
+             : x === size ? size * Math.log(p)
+             : x < 0 || x > size || Math.round(x) !== x ? -Infinity
+             : lbinom(x);
+
+         return logp ? res : Math.exp(res);
       };
    }
+
    /**
     * Evaluates the Binomial cumulative distribution
     * function at `x` (lower tail probability):
