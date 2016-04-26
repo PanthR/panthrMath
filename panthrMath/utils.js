@@ -301,6 +301,22 @@ define(function(require) {
                                      : 1 - prob;
             return pprob >= 0 && pprob <= 1 ? f({ p: pprob, q: qprob }) : NaN;
          };
+      },
+
+      /*
+       * qhelper
+       * helper for quantile functions, to handle out-of-range cases
+       *
+       * Takes `logp` and a function `f`.
+       * Returns a function of `p` which checks that `p` is a valid probability
+       * in the logp space before passing `p` to `f`.
+       *
+       * The returned function returns NaN if the probability represented by `p` is out
+       * of range.
+       */
+      qhelper: function qhelper(logp, f) {
+         return logp ? function(p) { return p <= 0 ? f(p) : NaN; }
+                     : function(p) { return p >= 0 && p <= 1 ? f(p) : NaN; };
       }
    };
 
