@@ -87,6 +87,8 @@ define(function(require) {
       require('./distributions/poisson'),
       /** The t distribution. See `module:t`. */
       require('./distributions/t'),
+      /** The f distribution. See `module:f`. */
+      require('./distributions/f'),
       /** The uniform distribution. See `module:uniform`. */
       require('./distributions/uniform'),
       /** The beta distribution. See `module:beta`. */
