@@ -25,7 +25,7 @@ define(function(require) {
             if (size === 0) { return 0; }
             return size * log1p(-p);
          }
-         if (x === size ) { return size * Math.log(p); }
+         if (x === size) { return size * Math.log(p); }
          return stirlerr(size) - stirlerr(x) - stirlerr(size - x) -
             bd0(x, size * p) - bd0(size - x, size * (1 - p)) +
             0.5 * Math.log(size / (C.twopi * x * (size - x)));
