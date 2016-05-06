@@ -23,13 +23,13 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var binom, log1p, expm1, rexp, rpois;
+   var log1p, expm1, rexp, rpois, dbinomLog;
 
-   binom = require('./binom').binom;
    rexp = require('./exp').rexp;
    rpois = require('./poisson').rpois;
    log1p = require('../basicFunc/log1p').log1p;
    expm1 = require('../basicFunc/expm1').expm1;
+   dbinomLog = require('../basicFunc/dbinomLog').dbinomLog;
 
    /**
     * Evaluates the geometric distribution's density function at `x`:
@@ -55,9 +55,8 @@ define(function(require) {
          if (x < 0 || Math.round(x) !== x) {
             return logp ? -Infinity : 0;
          }
-
-         return logp ? Math.log(prob) + binom(x, prob).d(0, true)
-                     : prob * binom(x, prob).d(0, false);
+         return logp ? Math.log(prob) + dbinomLog(x, prob)(0)
+                     : prob * Math.exp(dbinomLog(x, prob)(0));
       };
    }
 
