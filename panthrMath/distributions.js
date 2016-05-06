@@ -99,6 +99,8 @@ define(function(require) {
       require('./distributions/geom'),
       /** The lognormal distribution. See `module:lognormal`. */
       require('./distributions/lognormal'),
+      /** The negative binomial distribution. See `module:nbinom`. */
+      require('./distributions/nbinom'),
       /** The binomial distribution. See `module:binomial`. */
       require('./distributions/binom')
    );
