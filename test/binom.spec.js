@@ -3,7 +3,7 @@ var binom = require('../panthrMath/distributions/binom');
 var chai = require('chai');
 var expect = chai.expect;
 var utils = require('../panthrMath/utils');
-var precision = 1e-10;
+var precision = 1e-9;
 
 /* Rcode generating the tests:
    options(digits = 20)
