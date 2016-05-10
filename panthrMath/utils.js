@@ -281,6 +281,26 @@ define(function(require) {
                          : logp ? Math.log(q) : q;
       },
       /*
+       * Given a p-value in lowerTail/logp space, returns an object
+       * of the logged lowerTail/upperTail probabilities p, q
+       */
+      logProbs: function logProbs(prob, lowerTail, logp) {
+         return logp ? lowerTail ? { p: prob, q: Math.log(-expm1(prob)) }
+                                 : { p: Math.log(-expm1(prob)), q: prob }
+                     : lowerTail ? { p: Math.log(prob), q: log1p(-prob) }
+                                 : { p: log1p(-prob), q: Math.log(prob) };
+      },
+      /*
+       * Given a p-value in lowerTail/logp space, returns an object
+       * of the unlogged lowerTail/upperTail probabilities p, q
+       */
+      trueProbs: function trueProbs(prob, lowerTail, logp) {
+         return logp ? lowerTail ? { p: Math.exp(prob), q: -expm1(prob) }
+                                 : { p: -expm1(prob), q: Math.exp(prob) }
+                     : lowerTail ? { p: prob, q: 1 - prob }
+                                 : { p: 1 - prob, q: prob };
+      },
+      /*
        * Given a function 'f(prob)', returns a function of the probability
        * which has been adjusted in the space specified by 'lowerTail' and
        * 'logp'.  The new function wraps f, ensuring that f is called on
@@ -289,17 +309,11 @@ define(function(require) {
        */
       pWrap: function pWrap(lowerTail, logp, f) {
          return function(prob) {
-            var pprob, qprob;
+            var probs;
 
-            qprob = logp ? lowerTail ? -expm1(prob)
-                                     : Math.exp(prob)
-                         : lowerTail ? 1 - prob
-                                     : prob;
-            pprob = logp ? lowerTail ? Math.exp(prob)
-                                     : -expm1(prob)
-                         : lowerTail ? prob
-                                     : 1 - prob;
-            return pprob >= 0 && pprob <= 1 ? f({ p: pprob, q: qprob }) : NaN;
+            probs = utils.trueProbs(prob, lowerTail, logp);
+
+            return probs.p >= 0 && probs.q >= 0 ? f(probs) : NaN;
          };
       },
 
