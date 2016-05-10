@@ -20,12 +20,13 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var dbinomLog, pbeta, qnorm, pWrap, discInvCdf, inverseCDF;
+   var dbinomLog, pbeta, qnorm, pWrap, discInvCdf, inverseCDF, utils;
 
    dbinomLog = require('../basicFunc/dbinomLog').dbinomLog;
    pbeta = require('./beta').pbeta;
    qnorm = require('./normal').qnorm;
    pWrap = require('../utils').pWrap;
+   utils = require('../utils');
    discInvCdf = require('../utils').discInvCdf;
    inverseCDF = require('../rgen/inverseCDF');
 
@@ -122,49 +123,53 @@ define(function(require) {
     * `logp` defaults to `false`; if `logp` is `true`, interprets `prob` as
     * the logarithm of the desired probability.
     *
-    * @fullName qbinom(size, p, lowerTail, logp)(prob)
+    * @fullName qbinom(size, prob, lowerTail, logp)(prob)
     * @memberof binomial
     */
-   function qbinom(size, p, lowerTail, logp) {
+   function qbinom(size, prob, lowerTail, logp) {
       var goodParams, mu, sigma, gamma;
 
       logp = logp === true;
       lowerTail = lowerTail !== false;
       goodParams = size >= 0 && size < Infinity && size === Math.floor(size) &&
-                   p >= 0 && p <= 1;
+                   prob >= 0 && prob <= 1;
 
-      if (!goodParams) { return function(prob) { return NaN; }; }
-      if (p === 0) {
+      if (!goodParams) { return function(p) { return NaN; }; }
+      if (prob === 0) {
          return pWrap(lowerTail, logp,
             function(ps) { return ps.q === 0 ? size : 0; }
          );
       }
-      if (p === 1) {
+      if (prob === 1) {
          return pWrap(lowerTail, logp,
             function(ps) { return ps.p === 0 ? 0 : size; }
          );
       }
-      // 0 < p < 1
-      mu = size * p;
-      sigma = Math.sqrt(mu * (1 - p));
-      gamma = (1 - 2 * p) / sigma;
+      // 0 < prob < 1
+      mu = size * prob;
+      sigma = Math.sqrt(mu * (1 - prob));
+      gamma = (1 - 2 * prob) / sigma;
 
-      return pWrap(true, logp, function(ps) {
-         var z, ret;
+      // return pWrap(true, logp, function(ps) {
+      return function(p) {
+         var z, ret, probs;
 
-         // if (ps.p === 0) { return 0; }
-         // if (ps.p === 1) { return size; }
-         z = qnorm(0, 1, lowerTail)(ps.p); // initial value
+         probs = utils.logProbs(p, lowerTail, logp);
+
+         if (probs.p === -Infinity) { return 0; }
+         if (probs.q === -Infinity) { return size; }
+
+         z = qnorm(0, 1, lowerTail, logp)(p); // initial value
          ret = Math.floor(mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
          if (ret > size) { ret = size; }
-         if (ps.q === 0) { return lowerTail ? size : 0; }
+
          if (lowerTail) {
-            return discInvCdf(0, size, ret, ps.p, pbinom(size, p));
+            return discInvCdf(0, size, ret, p, pbinom(size, prob, true, logp));
          }
-         return -discInvCdf(-size, 0, -ret, ps.p, function(x) {
-            return pbinom(size, p, lowerTail)(-x);
+         return -discInvCdf(-size, 0, -ret, p, function(x) {
+            return pbinom(size, prob, lowerTail, logp)(-x);
          });
-      });
+      };
    }
 
    // rbinom, using inverseCDF
