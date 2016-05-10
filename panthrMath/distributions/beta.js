@@ -20,14 +20,12 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var bratio, lbeta, solve, stirlerr, bd0, log1p, C, rgen;
+   var bratio, lbeta, solve, log1p, rgen, dbinomLog;
 
-   C = require('../constants');
-   bd0 = require('../basicFunc/bd0').bd0;
-   stirlerr = require('../basicFunc/stirlerr').stirlerr;
    log1p = require('../basicFunc/log1p').log1p;
    lbeta = require('../basicFunc/lbeta').lbeta;
    bratio = require('../basicFunc/bratio').bratio;
+   dbinomLog = require('../basicFunc/dbinomlog').dbinomLog;
    solve = require('../utils').binSearchSolve;
    rgen = require('../rgen/rgen');
 
@@ -57,10 +55,7 @@ define(function(require) {
             p = x;
             x = a - 1;
             n = a + b - 2;
-            lb = Math.log(a + b - 1) +
-               stirlerr(n) - stirlerr(x) - stirlerr(n - x) -
-               bd0(x, n * p) - bd0(n - x, n * (1 - p)) +
-               0.5 * Math.log(n / (C.twopi * x * (n - x)));
+            lb = Math.log(a + b - 1) + dbinomLog(n, p)(x);
          }
          return logp ? lb : Math.exp(lb);
       };
