@@ -924,6 +924,8 @@ describe('Negative Binomial Distribution', function() {
          rval = tuple[3];
          val = main.dnbinom(n, p, true)(x);
       expect(utils.relativelyCloseTo(val, rval, precision)).to.be.ok;
+      expect(utils.relativelyCloseTo(main.dnbinom(n, p)(x),
+                                     Math.exp(rval), precision)).to.be.ok;
       });
    });
    it('pnbinom and qnbinom', function() {

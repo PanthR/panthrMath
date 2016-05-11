@@ -71,7 +71,7 @@ define(function(require) {
          ans = dbinomLog(x + size, prob)(size);
          p = size / (size + x);
 
-         return logp ? Math.log(p) + ans : p * ans;
+         return logp ? Math.log(p) + ans : p * Math.exp(ans);
       };
    }
 
