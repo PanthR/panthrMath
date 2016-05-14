@@ -23,8 +23,8 @@ var utils = require('../panthrMath/utils');
    s = paste("[", s, "]", sep="")
  */
 
-describe('lpoisson', function() {
-   it('works', function() {
+describe('poisson distribution', function() {
+   it('dpois works', function() {
        [[1, 0.01, -4.61517018598809],
        [1, 0.117, -2.26258134418438],
        [1, 0.224, -1.7201092271271],
@@ -23434,7 +23434,7 @@ describe('lpoisson', function() {
          expect(utils.relativelyCloseTo(p, rp, precision)).to.be.ok;
       });
    });
-   it('ppois and qpois', function() {
+   it('ppois and qpois work', function() {
       [
       [       0, 0.006737947,     -0.006737947, -5.00336708170125],
       [       1, 0.006737947, -2.25985099735193e-05, -10.6976378834685],
