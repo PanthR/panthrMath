@@ -143,7 +143,7 @@ define(function(require) {
 
       // TODO: deal with df === INF -- use qchisqr
 
-      return qhelper(logp, function(p) {
+      return qhelper(lowerTail, logp, 0, Infinity, function(p) {
          return (1 / qbeta(p) - 1) * (df2 / df1);
       });
    }

@@ -328,9 +328,13 @@ define(function(require) {
        * The returned function returns NaN if the probability represented by `p` is out
        * of range.
        */
-      qhelper: function qhelper(logp, f) {
-         return logp ? function(p) { return p <= 0 ? f(p) : NaN; }
-                     : function(p) { return p >= 0 && p <= 1 ? f(p) : NaN; };
+      qhelper: function qhelper(lowerTail, logp, xmin, xmax, f) {
+         return logp ? function(p) { return p === -Infinity ? lowerTail ? xmin : xmax
+                                          : p === 0 ? lowerTail ? xmax : xmin
+                                          : p < 0 ? f(p) : NaN; }
+                     : function(p) { return p === 0 ? lowerTail ? xmin : xmax
+                                          : p === 1 ? lowerTail ? xmax : xmin
+                                          : p > 0 && p < 1 ? f(p) : NaN; };
       }
    };
 
