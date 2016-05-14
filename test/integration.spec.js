@@ -241,6 +241,23 @@ describe("(slow) Integration test", function() {
          });
       });
    });
+   describe("for negative binomial", function() {
+      seq(1, 10).forEach(function() {
+         it("repeated test", function() {
+            var n, p, pvalues, xs, obj, upper, lower;
+            n = 5 + Math.floor(Math.random() * 10);
+            p = main.runif(0.5, 0.8)();
+            obj = main.nbinom(n, p);
+            upper = n;
+            while ( obj.d(upper) >= 1e-4) { upper += 1; }
+
+            expect(testDiscrete(obj, seq(0, upper), 2)).to.be.below(0.2);
+            // Providing a "closeby" distribution
+            obj.r = main.nbinom(n, p * 0.9).r;
+            expect(testDiscrete(obj, seq(0, n), 2)).to.be.above(0.2);
+         });
+      });
+   });
    describe("for geometric", function() {
       seq(1, 20).forEach(function() {
          it("repeated test", function() {
@@ -299,6 +316,20 @@ describe("(slow) Integration test", function() {
          expect(testCont(distr)).to.be.above(0.2);
       });
    });
+   describe("for lognormal", function() {
+      seq(1, 5).forEach(function() {
+         it("repeated test", function() {
+            var mu = Math.random() * 5;
+            var sigma = 1 + Math.random() * 3;
+            var distr = main.lognormal(mu, sigma);
+            expect(testCont(distr)).to.be.below(0.2);
+            distr.r = main.lognormal(mu, 1.1 * sigma).r;
+            expect(testCont(distr)).to.be.above(0.2);
+            distr.r = main.lognormal(mu + 0.1 * sigma, sigma).r;
+            expect(testCont(distr)).to.be.above(0.2);
+         });
+      });
+   });
    describe("for exponential", function() {
       it("repeated test", function() {
          var lambda = 0.1 + Math.random() * 10;
@@ -321,10 +352,22 @@ describe("(slow) Integration test", function() {
       });
    });
    describe("for t", function() {
-      it("repeated test", function() {
-         var df = Math.random() * 30;
-         var distr = main.tdistr(df);
-         expect(testCont(distr)).to.be.below(0.2);
+      seq(1, 10).forEach(function() {
+         it("repeated test", function() {
+            var df = Math.random() * 30;
+            var distr = main.tdistr(df);
+            expect(testCont(distr)).to.be.below(0.2);
+         });
+      });
+   });
+   describe("for F", function() {
+      seq(1, 10).forEach(function() {
+         it("repeated test", function() {
+            var df1 = Math.random() * 30;
+            var df2 = Math.random() * 30;
+            var distr = main.fdistr(df1, df2);
+            expect(testCont(distr)).to.be.below(0.2);
+         });
       });
    });
    describe("for gamma", function() {
