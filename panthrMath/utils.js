@@ -281,6 +281,15 @@ define(function(require) {
                          : logp ? Math.log(q) : q;
       },
       /*
+       * Given an arbitrary number of arguments, returns whether
+       * any of the arguments is non-numeric or NaN/undefined/null.
+       */
+      hasNaN: function() {
+         return [].reduce.call(arguments, function(soFar, x) {
+            return soFar || x != x || typeof x != 'number';
+         }, false);
+      },
+      /*
        * Given a p-value in lowerTail/logp space, returns an object
        * of the logged lowerTail/upperTail probabilities p, q
        */
