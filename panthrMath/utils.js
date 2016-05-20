@@ -285,9 +285,11 @@ define(function(require) {
        * any of the arguments is non-numeric or NaN/undefined/null.
        */
       hasNaN: function() {
+         /* eslint-disable eqeqeq, no-self-compare */
          return [].reduce.call(arguments, function(soFar, x) {
             return soFar || x != x || typeof x != 'number';
          }, false);
+         /* eslint-enable eqeqeq, no-self-compare */
       },
       /*
        * Given a p-value in lowerTail/logp space, returns an object
@@ -338,12 +340,15 @@ define(function(require) {
        * of range.
        */
       qhelper: function qhelper(lowerTail, logp, xmin, xmax, f) {
-         return logp ? function(p) { return p === -Infinity ? lowerTail ? xmin : xmax
-                                          : p === 0 ? lowerTail ? xmax : xmin
-                                          : p < 0 ? f(p) : NaN; }
-                     : function(p) { return p === 0 ? lowerTail ? xmin : xmax
-                                          : p === 1 ? lowerTail ? xmax : xmin
-                                          : p > 0 && p < 1 ? f(p) : NaN; };
+         return logp ? function(p) {
+            return p === -Infinity ? lowerTail ? xmin : xmax
+                 : p === 0 ? lowerTail ? xmax : xmin
+                 : p < 0 ? f(p) : NaN;
+         } : function(p) {
+            return p === 0 ? lowerTail ? xmin : xmax
+                     : p === 1 ? lowerTail ? xmax : xmin
+                     : p > 0 && p < 1 ? f(p) : NaN;
+         };
       }
    };
 
