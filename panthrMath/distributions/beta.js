@@ -20,8 +20,9 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var bratio, lbeta, solve, log1p, rgen, dbinomLog;
+   var bratio, lbeta, solve, log1p, rgen, dbinomLog, utils;
 
+   utils = require('../utils');
    log1p = require('../basicFunc/log1p').log1p;
    lbeta = require('../basicFunc/lbeta').lbeta;
    bratio = require('../basicFunc/bratio').bratio;
@@ -44,13 +45,26 @@ define(function(require) {
    function dbeta(a, b, logp) {
       logp = logp === true;
 
+      /* eslint-disable complexity */
       return function(x) {
-         var lb, p, n;
+         var lb, p, n, alogx, blogmx;
 
+         if (utils.hasNaN(x, a, b) || a < 0 || b < 0) { return NaN; }
          if (x < 0 || x > 1) {
             lb = -Infinity;
+         } else if (a === 0 && b === 0) { // point mass 1/2 at each of {0,1} :
+            lb = x === 0 || x === 1 ? Infinity : -Infinity;
+         } else if (a === Infinity && b === Infinity) {
+            lb = x === 0.5 ? Infinity : -Infinity; // point mass 1 at 1/2
+         } else if (a / b === 0) { // a=0 or b=Inf. point mass 1 at 0
+            lb = x === 0 ? Infinity : -Infinity;
+         } else if (b / a === 0) { // b=0 or a=Inf. point mass 1 at 1
+            lb = x === 1 ? Infinity : -Infinity;
          } else if (a <= 2 || b <= 2) {
-            lb = (a - 1) * Math.log(x) + (b - 1) * log1p(-x) - lbeta(a, b);
+            // Direct beta calculation
+            alogx = a === 1 && x === 0 ? 0 : (a - 1) * Math.log(x);
+            blogmx = b === 1 && x === 1 ? 0 : (b - 1) * log1p(-x);
+            lb = alogx + blogmx - lbeta(a, b);
          } else {
             p = x;
             x = a - 1;
@@ -59,6 +73,7 @@ define(function(require) {
          }
          return logp ? lb : Math.exp(lb);
       };
+      /* eslint-enable complexity */
    }
 
    /**
@@ -85,17 +100,29 @@ define(function(require) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
+      /* eslint-disable complexity */
       return function(x) {
-         var lp;
+         if (utils.hasNaN(x, a, b) || a < 0 || b < 0) { return NaN; }
 
-         if (a <= 0 || b <= 0) { return NaN; }
-         if (x > 0 && x < 1) {
-            return bratio(a, b, x, lowerTail, logp);
+         if (x <= 0) { return utils.adjustLower(0, lowerTail, logp); }
+         if (x >= 1) { return utils.adjustLower(1, lowerTail, logp); }
+
+         // Point mass limit cases
+         if (a === 0 && b === 0) { // point mass 1/2 at each of {0,1}
+            return logp ? Math.log(0.5) : 0.5;
          }
-         lp = x <= 0 ? 0 : 1;
-         lp = lowerTail ? lp : 1 - lp;
-         return logp ? Math.log(lp) : lp;
+         if (a === Infinity && b === Infinity) { // point mass 1 at 1/2
+            return utils.adjustLower(x < 0.5 ? 0 : 1, lowerTail, logp);
+         }
+         if (a / b === 0) { // point mass 1 at 0 ==> P(X <= x) = 1, all x > 0
+            return utils.adjustLower(1, lowerTail, logp);
+         }
+         if (b / a === 0) { // point mass 1 at 1 ==> P(X <= x) = 0, all x < 1
+            return utils.adjustLower(0, lowerTail, logp);
+         }
+         return bratio(a, b, x, lowerTail, logp);
       };
+      /* eslint-enable complexity */
    }
 
    // inverse cdf
@@ -123,19 +150,35 @@ define(function(require) {
       logp = logp === true;
       f = pbeta(a, b, lowerTail, logp);
 
+      if (utils.hasNaN(a, b) || a < 0 || b < 0) {
+         return function() { return NaN; };
+      }
+
       /* eslint-disable complexity */
-      return function(p) {
+      return utils.qhelper(lowerTail, logp, 0, 1, function(p) {
          // need reasonable endpoints
-         var l, u, incr, realLogP;
+         var l, u, incr, unloggedp;
 
-         if (a <= 0 || b <= 0) { return NaN; }
+         if (utils.hasNaN(p)) { return NaN; }
 
-         if (!logp && !(p >= 0 && p <= 1)) { return NaN; }
-         realLogP = logp ? p : Math.log(p);
-         realLogP = lowerTail ? realLogP : -realLogP;
+         unloggedp = logp ? Math.exp(p) : p;
 
-         if (realLogP === -Infinity) { return 0; }
-         if (realLogP === Infinity) { return 1; }
+         if (a === 0 && b === 0) { // point mass 1/2 at each of {0,1}
+            // WARNING: Following R here, and ignoring the question of
+            // upper/lower tail.
+            return unloggedp < 0.5 ? 0
+                 : unloggedp > 0.5 ? 1
+                 : 0.5;
+         }
+         if (a === Infinity && b === Infinity) { // point mass 1 at 1/2
+            return 0.5;
+         }
+         if (a / b === 0) { // point mass 1 at 0 ==> P(X <= x) = 1, all x > 0
+            return 0;
+         }
+         if (b / a === 0) { // point mass 1 at 1 ==> P(X <= x) = 0, all x < 1
+            return 1;
+         }
 
          incr = 1e-1;
          l = 1e-1;
@@ -156,7 +199,7 @@ define(function(require) {
          /* eslint-enable complexity */
 
          return solve(function(x) { return f(x); }, p, l, u);
-      };
+      });
    }
 
    // Following R's code, which follows:
