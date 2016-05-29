@@ -292,6 +292,19 @@ define(function(require) {
          /* eslint-enable eqeqeq, no-self-compare */
       },
       /*
+       * Checks whether a given value is plus or minus infinity.
+       */
+      isInfinite: function(x) {
+         return x === Infinity || x === -Infinity;
+      },
+      /*
+       * Checks whether a given value is finite; checks for NaN,
+       * undefined.
+       */
+      isFinite: function(x) {
+         return !utils.isInfinite(x) && !utils.hasNaN(x);
+      },
+      /*
        * Given a p-value in lowerTail/logp space, returns an object
        * of the logged lowerTail/upperTail probabilities p, q
        */
