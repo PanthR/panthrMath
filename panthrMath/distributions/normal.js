@@ -21,13 +21,13 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var C, twopi, sqrt2pi, Rational, pnorm, qnorm, pWrap, rgen, adjustLower, adjustUpper;
+   var C, twopi, sqrt2pi, Rational, pnorm, qnorm, utils, rgen, adjustLower, adjustUpper;
 
    C = require('../constants');
    twopi = C.twopi;
    sqrt2pi = C.sqrt2pi;
    Rational = require('../rational');
-   pWrap = require('../utils').pWrap;
+   utils = require('../utils');
    rgen = require('../rgen/rgen');
    adjustLower = require('../utils').adjustLower;
    adjustUpper = require('../utils').adjustUpper;
@@ -50,6 +50,14 @@ define(function(require) {
       c = Math.log(twopi);
       return function(x) {
          var z, p;
+
+         if (utils.hasNaN(x, mu, sigma)) { return NaN; }
+         if (utils.isInfinite(sigma)) {
+            return logp ? -Infinity : 0;
+         }
+         if (utils.isInfinite(x) && mu === x) { return NaN; }
+         if (sigma < 0) { return NaN; }
+         if (sigma === 0) { return x === mu ? Infinity : logp ? -Infinity : 0; }
 
          z = (x - mu) / sigma;
          p = -0.5 * (c + z * z) - Math.log(sigma);
@@ -140,7 +148,17 @@ define(function(require) {
          return function(x) {
             var z, absz, oneOverzsq, r;
 
+            if (utils.hasNaN(x, mu, sigma)) { return NaN; }
+            if (utils.isInfinite(x) && x === mu) { return NaN; }
+            if (sigma < 0) { return NaN; }
+            if (sigma === 0) {
+               return adjustLower(x < mu ? 0 : 1, lowerTail, logp);
+            }
+
             z = (x - mu) / sigma;
+            if (!utils.isFinite(z)) {
+               return adjustLower(x < mu ? 0 : 1, lowerTail, logp);
+            }
             if (z > 5 && !lowerTail) { /* danger zone for upper */
                z = -z;
                lowerTail = true;
@@ -251,9 +269,16 @@ define(function(require) {
       return function(mu, sigma, lowerTail, logp) {
          lowerTail = lowerTail !== false;
          logp = logp === true;
-         return pWrap(lowerTail, logp, function(ps) {
-            var dp, minp, r;
 
+         if (utils.hasNaN(mu, sigma)) { return function() { return NaN; }; }
+
+         return utils.qhelper(lowerTail, logp, -Infinity, Infinity, function(prob) {
+            var dp, minp, r, ps;
+
+            if (utils.hasNaN(prob)) { return NaN; }
+            ps = utils.trueProbs(prob, lowerTail, logp);
+            if (sigma < 0) { return NaN; }
+            if (sigma === 0) { return mu; }
             dp = ps.p - 0.5;
             minp = ps.p < 0.5 ? ps.p : ps.q;
 
