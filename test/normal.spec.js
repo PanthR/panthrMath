@@ -434,7 +434,7 @@ describe('Normal Distribution', function() {
          var mu = Math.random() * 50 - 50, sigma = Math.random() * 10 + 0.00001;
          expect(utils.relativelyCloseTo(
             normal.dnorm(mu, sigma, true, true)(mu + sigma * pair[0]),
-            pair[1], precision)).to.be.ok;
+            pair[1] - Math.log(sigma), precision)).to.be.ok;
       });
    });
    it('pnorm and qnorm', function() {

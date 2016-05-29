@@ -52,7 +52,7 @@ define(function(require) {
          var z, p;
 
          z = (x - mu) / sigma;
-         p = -0.5 * (c + z * z);
+         p = -0.5 * (c + z * z) - Math.log(sigma);
          return logp ? p : Math.exp(p);
       };
    }
