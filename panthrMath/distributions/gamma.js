@@ -21,29 +21,26 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var lpoisson, gratio, exponential, rgen;
+   var lpoisson, gratio, exponential, rgen, utils;
 
    lpoisson = require('../basicFunc/lpoisson').lpoisson;
    gratio = require('../basicFunc/gratio');
    exponential = require('../rgen/exponential');
    rgen = require('../rgen/rgen');
+   utils = require('../utils');
 
    // helper function
    function dgammaLog(a, s) {
-      if (a < 1) {
-         return function(x) {
-            if (x === 0) { return Infinity; }
-            return Math.log(a / x) + lpoisson(x / s)(a);
-         };
-      }
-      if (a === 1) {
-         return function(x) {
-            return -x / s - Math.log(s);
-         };
-      }
-      // a > 1
       return function(x) {
-         if (x === 0) { return -Infinity; }
+         if (utils.hasNaN(x, a, s) || a < 0 || s <= 0) { return NaN; }
+         if (x < 0) { return -Infinity; }
+         if (a === 0) { return x === 0 ? Infinity : -Infinity; }
+         if (x === 0) {
+            return a < 1 ? Infinity
+                 : a > 1 ? -Infinity
+                         : -x / s - Math.log(s);
+         }
+         if (a < 1) { return Math.log(a / x) + lpoisson(x / s)(a); }
          return -Math.log(s) + lpoisson(x / s)(a - 1);
       };
    }
@@ -64,6 +61,7 @@ define(function(require) {
     */
    function dgamma(a, s, logp) {
       logp = logp === true;
+
       return function(x) {
          return logp ? dgammaLog(a, s)(x) : Math.exp(dgammaLog(a, s)(x));
       };
@@ -92,16 +90,24 @@ define(function(require) {
    function pgamma(a, s, lowerTail, logp) {
       var f;
 
-      if (s <= 0 || a <= 0) { return function(x) { return NaN; }; }
       logp = logp === true;
       lowerTail = lowerTail !== false;
       f = lowerTail ? gratio.gratio(a) : gratio.gratioc(a);
 
-      return function(x) {
-         var p;
+      if (s <= 0 || a < 0 || utils.hasNaN(a, s)) {
+         return function(x) { return NaN; };
+      }
 
-         p = x > 0 ? f(x / s) : lowerTail ? 0 : 1;
-         return logp ? Math.log(p) : p;
+      return function(x) {
+         x /= s;
+         if (utils.hasNaN(x)) { return NaN; }
+         if (a === 0) {
+            return utils.adjustLower(x <= 0 ? 0 : 1, lowerTail, logp);
+         }
+         if (x <= 0) { return utils.adjustLower(0, lowerTail, logp); }
+         if (x === Infinity) { return utils.adjustLower(1, lowerTail, logp); }
+
+         return utils.adjustLower(f(x), true, logp);
       };
    }
 

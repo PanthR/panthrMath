@@ -2,11 +2,12 @@
 'use strict';
 define(function(require) {
 
-   var C, bd0, stirlerr;
+   var C, bd0, stirlerr, utils;
 
    C = require('../constants');
    bd0 = require('./bd0').bd0;
    stirlerr = require('./stirlerr').stirlerr;
+   utils = require('../utils');
 
    // returns the log of the poisson distribution
    // Based on dpois from Loader (2000).
@@ -23,13 +24,12 @@ define(function(require) {
     * @memberof basicFunc
     */
    function lpoisson(lambda) {
-      if (lambda === 0) {
-         return function(x) {
-            return x === 0 ? 0 : -Infinity;
-         };
-      }
       return function(x) {
+         if (lambda === 0) { return x === 0 ? 0 : -Infinity; }
+         if (!utils.isFinite(lambda)) { return -Infinity; }
+         if (x < 0) { return -Infinity; }
          if (x === 0) { return -lambda; }
+         if (x === Infinity) { return -lambda + x * Math.log(lambda) - Infinity; }
          return -stirlerr(x) - bd0(x, lambda) - 0.5 * Math.log(C.twopi * x);
       };
    }

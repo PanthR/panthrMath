@@ -44445,4 +44445,367 @@ describe('gamma', function() {
          }
       });
    });
+   /* Testing for Inappropriate Inputs*/
+   /* Rcode generating the tests:
+      options(digits = 20)
+      x = c(NaN, -Inf, -1.3, 0, 1.5, Inf)
+      a = c(NaN, -Inf, -1.3, 0, 1, 1.5, Inf)
+      s = c(NaN, -Inf, -1, 0, 1, 3.7, Inf)
+      g = expand.grid(x=x, a=a, s=s)
+      g$d = dgamma(g$x, g$a, scale = g$s, log=TRUE)
+      g$p = pgamma(g$x, g$a, scale = g$s, log.p=TRUE)
+      g$q = pgamma(g$x, g$a, scale = g$s, lower.tail=FALSE, log.p=TRUE)
+      s = paste(g$x, g$a, g$s, g$d, g$p, g$q, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   var A = [
+   [NaN, NaN, NaN, NaN, NaN, NaN],
+   [-Infinity, NaN, NaN, NaN, NaN, NaN],
+   [-1.3, NaN, NaN, NaN, NaN, NaN],
+   [0, NaN, NaN, NaN, NaN, NaN],
+   [1.5, NaN, NaN, NaN, NaN, NaN],
+   [Infinity, NaN, NaN, NaN, NaN, NaN],
+   [NaN, -Infinity, NaN, NaN, NaN, NaN],
+   [-Infinity, -Infinity, NaN, NaN, NaN, NaN],
+   [-1.3, -Infinity, NaN, NaN, NaN, NaN],
+   [0, -Infinity, NaN, NaN, NaN, NaN],
+   [1.5, -Infinity, NaN, NaN, NaN, NaN],
+   [Infinity, -Infinity, NaN, NaN, NaN, NaN],
+   [NaN, -1.3, NaN, NaN, NaN, NaN],
+   [-Infinity, -1.3, NaN, NaN, NaN, NaN],
+   [-1.3, -1.3, NaN, NaN, NaN, NaN],
+   [0, -1.3, NaN, NaN, NaN, NaN],
+   [1.5, -1.3, NaN, NaN, NaN, NaN],
+   [Infinity, -1.3, NaN, NaN, NaN, NaN],
+   [NaN, 0, NaN, NaN, NaN, NaN],
+   [-Infinity, 0, NaN, NaN, NaN, NaN],
+   [-1.3, 0, NaN, NaN, NaN, NaN],
+   [0, 0, NaN, NaN, NaN, NaN],
+   [1.5, 0, NaN, NaN, NaN, NaN],
+   [Infinity, 0, NaN, NaN, NaN, NaN],
+   [NaN, 1, NaN, NaN, NaN, NaN],
+   [-Infinity, 1, NaN, NaN, NaN, NaN],
+   [-1.3, 1, NaN, NaN, NaN, NaN],
+   [0, 1, NaN, NaN, NaN, NaN],
+   [1.5, 1, NaN, NaN, NaN, NaN],
+   [Infinity, 1, NaN, NaN, NaN, NaN],
+   [NaN, 1.5, NaN, NaN, NaN, NaN],
+   [-Infinity, 1.5, NaN, NaN, NaN, NaN],
+   [-1.3, 1.5, NaN, NaN, NaN, NaN],
+   [0, 1.5, NaN, NaN, NaN, NaN],
+   [1.5, 1.5, NaN, NaN, NaN, NaN],
+   [Infinity, 1.5, NaN, NaN, NaN, NaN],
+   [NaN, Infinity, NaN, NaN, NaN, NaN],
+   [-Infinity, Infinity, NaN, NaN, NaN, NaN],
+   [-1.3, Infinity, NaN, NaN, NaN, NaN],
+   [0, Infinity, NaN, NaN, NaN, NaN],
+   [1.5, Infinity, NaN, NaN, NaN, NaN],
+   [Infinity, Infinity, NaN, NaN, NaN, NaN],
+   [NaN, NaN, -Infinity, NaN, NaN, NaN],
+   [-Infinity, NaN, -Infinity, NaN, NaN, NaN],
+   [-1.3, NaN, -Infinity, NaN, NaN, NaN],
+   [0, NaN, -Infinity, NaN, NaN, NaN],
+   [1.5, NaN, -Infinity, NaN, NaN, NaN],
+   [Infinity, NaN, -Infinity, NaN, NaN, NaN],
+   [NaN, -Infinity, -Infinity, NaN, NaN, NaN],
+   [-Infinity, -Infinity, -Infinity, NaN, NaN, NaN],
+   [-1.3, -Infinity, -Infinity, NaN, NaN, NaN],
+   [0, -Infinity, -Infinity, NaN, NaN, NaN],
+   [1.5, -Infinity, -Infinity, NaN, NaN, NaN],
+   [Infinity, -Infinity, -Infinity, NaN, NaN, NaN],
+   [NaN, -1.3, -Infinity, NaN, NaN, NaN],
+   [-Infinity, -1.3, -Infinity, NaN, NaN, NaN],
+   [-1.3, -1.3, -Infinity, NaN, NaN, NaN],
+   [0, -1.3, -Infinity, NaN, NaN, NaN],
+   [1.5, -1.3, -Infinity, NaN, NaN, NaN],
+   [Infinity, -1.3, -Infinity, NaN, NaN, NaN],
+   [NaN, 0, -Infinity, NaN, NaN, NaN],
+   [-Infinity, 0, -Infinity, NaN, NaN, NaN],
+   [-1.3, 0, -Infinity, NaN, NaN, NaN],
+   [0, 0, -Infinity, NaN, NaN, NaN],
+   [1.5, 0, -Infinity, NaN, NaN, NaN],
+   [Infinity, 0, -Infinity, NaN, NaN, NaN],
+   [NaN, 1, -Infinity, NaN, NaN, NaN],
+   [-Infinity, 1, -Infinity, NaN, NaN, NaN],
+   [-1.3, 1, -Infinity, NaN, NaN, NaN],
+   [0, 1, -Infinity, NaN, NaN, NaN],
+   [1.5, 1, -Infinity, NaN, NaN, NaN],
+   [Infinity, 1, -Infinity, NaN, NaN, NaN],
+   [NaN, 1.5, -Infinity, NaN, NaN, NaN],
+   [-Infinity, 1.5, -Infinity, NaN, NaN, NaN],
+   [-1.3, 1.5, -Infinity, NaN, NaN, NaN],
+   [0, 1.5, -Infinity, NaN, NaN, NaN],
+   [1.5, 1.5, -Infinity, NaN, NaN, NaN],
+   [Infinity, 1.5, -Infinity, NaN, NaN, NaN],
+   [NaN, Infinity, -Infinity, NaN, NaN, NaN],
+   [-Infinity, Infinity, -Infinity, NaN, NaN, NaN],
+   [-1.3, Infinity, -Infinity, NaN, NaN, NaN],
+   [0, Infinity, -Infinity, NaN, NaN, NaN],
+   [1.5, Infinity, -Infinity, NaN, NaN, NaN],
+   [Infinity, Infinity, -Infinity, NaN, NaN, NaN],
+   [NaN, NaN, -1, NaN, NaN, NaN],
+   [-Infinity, NaN, -1, NaN, NaN, NaN],
+   [-1.3, NaN, -1, NaN, NaN, NaN],
+   [0, NaN, -1, NaN, NaN, NaN],
+   [1.5, NaN, -1, NaN, NaN, NaN],
+   [Infinity, NaN, -1, NaN, NaN, NaN],
+   [NaN, -Infinity, -1, NaN, NaN, NaN],
+   [-Infinity, -Infinity, -1, NaN, NaN, NaN],
+   [-1.3, -Infinity, -1, NaN, NaN, NaN],
+   [0, -Infinity, -1, NaN, NaN, NaN],
+   [1.5, -Infinity, -1, NaN, NaN, NaN],
+   [Infinity, -Infinity, -1, NaN, NaN, NaN],
+   [NaN, -1.3, -1, NaN, NaN, NaN],
+   [-Infinity, -1.3, -1, NaN, NaN, NaN],
+   [-1.3, -1.3, -1, NaN, NaN, NaN],
+   [0, -1.3, -1, NaN, NaN, NaN],
+   [1.5, -1.3, -1, NaN, NaN, NaN],
+   [Infinity, -1.3, -1, NaN, NaN, NaN],
+   [NaN, 0, -1, NaN, NaN, NaN],
+   [-Infinity, 0, -1, NaN, NaN, NaN],
+   [-1.3, 0, -1, NaN, NaN, NaN],
+   [0, 0, -1, NaN, NaN, NaN],
+   [1.5, 0, -1, NaN, NaN, NaN],
+   [Infinity, 0, -1, NaN, NaN, NaN],
+   [NaN, 1, -1, NaN, NaN, NaN],
+   [-Infinity, 1, -1, NaN, NaN, NaN],
+   [-1.3, 1, -1, NaN, NaN, NaN],
+   [0, 1, -1, NaN, NaN, NaN],
+   [1.5, 1, -1, NaN, NaN, NaN],
+   [Infinity, 1, -1, NaN, NaN, NaN],
+   [NaN, 1.5, -1, NaN, NaN, NaN],
+   [-Infinity, 1.5, -1, NaN, NaN, NaN],
+   [-1.3, 1.5, -1, NaN, NaN, NaN],
+   [0, 1.5, -1, NaN, NaN, NaN],
+   [1.5, 1.5, -1, NaN, NaN, NaN],
+   [Infinity, 1.5, -1, NaN, NaN, NaN],
+   [NaN, Infinity, -1, NaN, NaN, NaN],
+   [-Infinity, Infinity, -1, NaN, NaN, NaN],
+   [-1.3, Infinity, -1, NaN, NaN, NaN],
+   [0, Infinity, -1, NaN, NaN, NaN],
+   [1.5, Infinity, -1, NaN, NaN, NaN],
+   [Infinity, Infinity, -1, NaN, NaN, NaN],
+   [NaN, NaN, 0, NaN, NaN, NaN],
+   [-Infinity, NaN, 0, NaN, NaN, NaN],
+   [-1.3, NaN, 0, NaN, NaN, NaN],
+   [0, NaN, 0, NaN, NaN, NaN],
+   [1.5, NaN, 0, NaN, NaN, NaN],
+   [Infinity, NaN, 0, NaN, NaN, NaN],
+   [NaN, -Infinity, 0, NaN, NaN, NaN],
+   [-Infinity, -Infinity, 0, NaN, NaN, NaN],
+   [-1.3, -Infinity, 0, NaN, NaN, NaN],
+   [0, -Infinity, 0, NaN, NaN, NaN],
+   [1.5, -Infinity, 0, NaN, NaN, NaN],
+   [Infinity, -Infinity, 0, NaN, NaN, NaN],
+   [NaN, -1.3, 0, NaN, NaN, NaN],
+   [-Infinity, -1.3, 0, NaN, NaN, NaN],
+   [-1.3, -1.3, 0, NaN, NaN, NaN],
+   [0, -1.3, 0, NaN, NaN, NaN],
+   [1.5, -1.3, 0, NaN, NaN, NaN],
+   [Infinity, -1.3, 0, NaN, NaN, NaN],
+   [NaN, 0, 0, NaN, NaN, NaN],
+   [-Infinity, 0, 0, NaN, NaN, NaN],
+   [-1.3, 0, 0, NaN, NaN, NaN],
+   [0, 0, 0, NaN, NaN, NaN],
+   [1.5, 0, 0, NaN, NaN, NaN],
+   [Infinity, 0, 0, NaN, NaN, NaN],
+   [NaN, 1, 0, NaN, NaN, NaN],
+   [-Infinity, 1, 0, NaN, NaN, NaN],
+   [-1.3, 1, 0, NaN, NaN, NaN],
+   [0, 1, 0, NaN, NaN, NaN],
+   [1.5, 1, 0, NaN, NaN, NaN],
+   [Infinity, 1, 0, NaN, NaN, NaN],
+   [NaN, 1.5, 0, NaN, NaN, NaN],
+   [-Infinity, 1.5, 0, NaN, NaN, NaN],
+   [-1.3, 1.5, 0, NaN, NaN, NaN],
+   [0, 1.5, 0, NaN, NaN, NaN],
+   [1.5, 1.5, 0, NaN, NaN, NaN],
+   [Infinity, 1.5, 0, NaN, NaN, NaN],
+   [NaN, Infinity, 0, NaN, NaN, NaN],
+   [-Infinity, Infinity, 0, NaN, NaN, NaN],
+   [-1.3, Infinity, 0, NaN, NaN, NaN],
+   [0, Infinity, 0, NaN, NaN, NaN],
+   [1.5, Infinity, 0, NaN, NaN, NaN],
+   [Infinity, Infinity, 0, NaN, NaN, NaN],
+   [NaN, NaN, 1, NaN, NaN, NaN],
+   [-Infinity, NaN, 1, NaN, NaN, NaN],
+   [-1.3, NaN, 1, NaN, NaN, NaN],
+   [0, NaN, 1, NaN, NaN, NaN],
+   [1.5, NaN, 1, NaN, NaN, NaN],
+   [Infinity, NaN, 1, NaN, NaN, NaN],
+   [NaN, -Infinity, 1, NaN, NaN, NaN],
+   [-Infinity, -Infinity, 1, NaN, NaN, NaN],
+   [-1.3, -Infinity, 1, NaN, NaN, NaN],
+   [0, -Infinity, 1, NaN, NaN, NaN],
+   [1.5, -Infinity, 1, NaN, NaN, NaN],
+   [Infinity, -Infinity, 1, NaN, NaN, NaN],
+   [NaN, -1.3, 1, NaN, NaN, NaN],
+   [-Infinity, -1.3, 1, NaN, NaN, NaN],
+   [-1.3, -1.3, 1, NaN, NaN, NaN],
+   [0, -1.3, 1, NaN, NaN, NaN],
+   [1.5, -1.3, 1, NaN, NaN, NaN],
+   [Infinity, -1.3, 1, NaN, NaN, NaN],
+   [NaN, 0, 1, NaN, NaN, NaN],
+   [-Infinity, 0, 1, -Infinity, -Infinity, 0],
+   [-1.3, 0, 1, -Infinity, -Infinity, 0],
+   [0, 0, 1, Infinity, -Infinity, 0],
+   [1.5, 0, 1, -Infinity, 0, -Infinity],
+   [Infinity, 0, 1, -Infinity, 0, -Infinity],
+   [NaN, 1, 1, NaN, NaN, NaN],
+   [-Infinity, 1, 1, -Infinity, -Infinity, 0],
+   [-1.3, 1, 1, -Infinity, -Infinity, 0],
+   [0, 1, 1, 0, -Infinity, 0],
+   [1.5, 1, 1, -1.5, -0.252482458925454, -1.5],
+   [Infinity, 1, 1, -Infinity, 0, -Infinity],
+   [NaN, 1.5, 1, NaN, NaN, NaN],
+   [-Infinity, 1.5, 1, -Infinity, -Infinity, 0],
+   [-1.3, 1.5, 1, -Infinity, -Infinity, 0],
+   [0, 1.5, 1, -Infinity, -Infinity, 0],
+   [1.5, 1.5, 1, -1.17648520831067, -0.496964100569409, -0.937450079608156],
+   [Infinity, 1.5, 1, -Infinity, 0, -Infinity],
+   [NaN, Infinity, 1, NaN, NaN, NaN],
+   [-Infinity, Infinity, 1, -Infinity, -Infinity, 0],
+   [-1.3, Infinity, 1, -Infinity, -Infinity, 0],
+   [0, Infinity, 1, -Infinity, -Infinity, 0],
+   [1.5, Infinity, 1, NaN, NaN, NaN],
+   [Infinity, Infinity, 1, -Infinity, 0, -Infinity],
+   [NaN, NaN, 3.7, NaN, NaN, NaN],
+   [-Infinity, NaN, 3.7, NaN, NaN, NaN],
+   [-1.3, NaN, 3.7, NaN, NaN, NaN],
+   [0, NaN, 3.7, NaN, NaN, NaN],
+   [1.5, NaN, 3.7, NaN, NaN, NaN],
+   [Infinity, NaN, 3.7, NaN, NaN, NaN],
+   [NaN, -Infinity, 3.7, NaN, NaN, NaN],
+   [-Infinity, -Infinity, 3.7, NaN, NaN, NaN],
+   [-1.3, -Infinity, 3.7, NaN, NaN, NaN],
+   [0, -Infinity, 3.7, NaN, NaN, NaN],
+   [1.5, -Infinity, 3.7, NaN, NaN, NaN],
+   [Infinity, -Infinity, 3.7, NaN, NaN, NaN],
+   [NaN, -1.3, 3.7, NaN, NaN, NaN],
+   [-Infinity, -1.3, 3.7, NaN, NaN, NaN],
+   [-1.3, -1.3, 3.7, NaN, NaN, NaN],
+   [0, -1.3, 3.7, NaN, NaN, NaN],
+   [1.5, -1.3, 3.7, NaN, NaN, NaN],
+   [Infinity, -1.3, 3.7, NaN, NaN, NaN],
+   [NaN, 0, 3.7, NaN, NaN, NaN],
+   [-Infinity, 0, 3.7, -Infinity, -Infinity, 0],
+   [-1.3, 0, 3.7, -Infinity, -Infinity, 0],
+   [0, 0, 3.7, Infinity, -Infinity, 0],
+   [1.5, 0, 3.7, -Infinity, 0, -Infinity],
+   [Infinity, 0, 3.7, -Infinity, 0, -Infinity],
+   [NaN, 1, 3.7, NaN, NaN, NaN],
+   [-Infinity, 1, 3.7, -Infinity, -Infinity, 0],
+   [-1.3, 1, 3.7, -Infinity, -Infinity, 0],
+   [0, 1, 3.7, -1.30833281965018, -Infinity, 0],
+   [1.5, 1, 3.7, -1.71373822505558, -1.09873170476793, -0.405405405405405],
+   [Infinity, 1, 3.7, -Infinity, 0, -Infinity],
+   [NaN, 1.5, 3.7, NaN, NaN, NaN],
+   [-Infinity, 1.5, 3.7, -Infinity, -Infinity, 0],
+   [-1.3, 1.5, 3.7, -Infinity, -Infinity, 0],
+   [0, 1.5, 3.7, -Infinity, -Infinity, 0],
+   [1.5, 1.5, 3.7, -2.04438984319135, -1.87653022286922, -0.166196836504852],
+   [Infinity, 1.5, 3.7, -Infinity, 0, -Infinity],
+   [NaN, Infinity, 3.7, NaN, NaN, NaN],
+   [-Infinity, Infinity, 3.7, -Infinity, -Infinity, 0],
+   [-1.3, Infinity, 3.7, -Infinity, -Infinity, 0],
+   [0, Infinity, 3.7, -Infinity, -Infinity, 0],
+   [1.5, Infinity, 3.7, -Infinity, NaN, NaN],
+   [Infinity, Infinity, 3.7, -Infinity, 0, -Infinity],
+   [NaN, NaN, Infinity, NaN, NaN, NaN],
+   [-Infinity, NaN, Infinity, NaN, NaN, NaN],
+   [-1.3, NaN, Infinity, NaN, NaN, NaN],
+   [0, NaN, Infinity, NaN, NaN, NaN],
+   [1.5, NaN, Infinity, NaN, NaN, NaN],
+   [Infinity, NaN, Infinity, NaN, NaN, NaN],
+   [NaN, -Infinity, Infinity, NaN, NaN, NaN],
+   [-Infinity, -Infinity, Infinity, NaN, NaN, NaN],
+   [-1.3, -Infinity, Infinity, NaN, NaN, NaN],
+   [0, -Infinity, Infinity, NaN, NaN, NaN],
+   [1.5, -Infinity, Infinity, NaN, NaN, NaN],
+   [Infinity, -Infinity, Infinity, NaN, NaN, NaN],
+   [NaN, -1.3, Infinity, NaN, NaN, NaN],
+   [-Infinity, -1.3, Infinity, NaN, NaN, NaN],
+   [-1.3, -1.3, Infinity, NaN, NaN, NaN],
+   [0, -1.3, Infinity, NaN, NaN, NaN],
+   [1.5, -1.3, Infinity, NaN, NaN, NaN],
+   [Infinity, -1.3, Infinity, NaN, NaN, NaN],
+   [NaN, 0, Infinity, NaN, NaN, NaN],
+   [-Infinity, 0, Infinity, -Infinity, NaN, NaN],
+   [-1.3, 0, Infinity, -Infinity, -Infinity, 0],
+   [0, 0, Infinity, Infinity, -Infinity, 0],
+   [1.5, 0, Infinity, -Infinity, -Infinity, 0],
+   [Infinity, 0, Infinity, -Infinity, NaN, NaN],
+   [NaN, 1, Infinity, NaN, NaN, NaN],
+   [-Infinity, 1, Infinity, -Infinity, NaN, NaN],
+   [-1.3, 1, Infinity, -Infinity, -Infinity, 0],
+   [0, 1, Infinity, -Infinity, -Infinity, 0],
+   [1.5, 1, Infinity, -Infinity, -Infinity, 0],
+   [Infinity, 1, Infinity, -Infinity, NaN, NaN],
+   [NaN, 1.5, Infinity, NaN, NaN, NaN],
+   [-Infinity, 1.5, Infinity, -Infinity, NaN, NaN],
+   [-1.3, 1.5, Infinity, -Infinity, -Infinity, 0],
+   [0, 1.5, Infinity, -Infinity, -Infinity, 0],
+   [1.5, 1.5, Infinity, -Infinity, -Infinity, 0],
+   [Infinity, 1.5, Infinity, -Infinity, NaN, NaN],
+   [NaN, Infinity, Infinity, NaN, NaN, NaN],
+   [-Infinity, Infinity, Infinity, -Infinity, NaN, NaN],
+   [-1.3, Infinity, Infinity, -Infinity, -Infinity, 0],
+   [0, Infinity, Infinity, -Infinity, -Infinity, 0],
+   [1.5, Infinity, Infinity, -Infinity, -Infinity, 0],
+   [Infinity, Infinity, Infinity, -Infinity, NaN, NaN]
+      ];
+   it('dgamma handles inappropriate inputs', function() {
+      A.forEach(function(tuple) {
+         var x, a, s, rlogd, logd;
+         x = tuple[0];
+         a = tuple[1];
+         s = tuple[2];
+         rlogd = tuple[3];
+         logd = main.dgamma(a, s, true)(x);
+         expect(utils.relativelyCloseTo(logd, rlogd)).to.equal(true);
+      });
+   });
+   it('pgamma handles inappropriate inputs', function() {
+      A.forEach(function(tuple) {
+         var x, a, s, rlogp, rlogq, logp, logq;
+         x = tuple[0];
+         a = tuple[1];
+         s = tuple[2];
+         rlogp = tuple[4];
+         rlogq = tuple[5];
+         logp = main.pgamma(a, s, true, true)(x);
+         logq = main.pgamma(a, s, false, true)(x);
+         // console.log(tuple, logp, logq);
+         expect(utils.relativelyCloseTo(logp, rlogp)).to.equal(true);
+         expect(utils.relativelyCloseTo(logq, rlogq)).to.equal(true);
+      });
+   });
+
+   /* Rcode generating the tests:
+      options(digits = 20)
+      p = c(NaN, -Inf, -1, 0, 0.3, 1, Inf)
+      mu = c(NaN, -Inf, -1.3, 1.5, Inf)
+      sigma = c(NaN, -Inf, -1, 0, 3.7, Inf)
+      g = expand.grid(p=p, mu=mu, sigma=sigma)
+      g$x1 = qgamma(g$p, g$mu, g$sigma, lower.tail=TRUE, log.p=TRUE)
+      g$x2 = qgamma(g$p, g$mu, g$sigma, lower.tail=FALSE, log.p=TRUE)
+      s = paste(g$p, g$mu, g$sigma, g$x1, g$x2, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   it('qgamma handles inappropriate inputs', function() {
+      [
+      ].forEach(function(tuple) {
+         var p, mu, sigma, x1r, x2r, x1, x2;
+         p = tuple[0];
+         mu = tuple[1];
+         sigma = tuple[2];
+         x1r = tuple[3];
+         x2r = tuple[4];
+         x1 = main.qgamma(mu, sigma, true, true)(p);
+         x2 = main.qgamma(mu, sigma, false, true)(p);
+         expect(utils.relativelyCloseTo(x1r, x1)).to.equal(true);
+         expect(utils.relativelyCloseTo(x2r, x2)).to.equal(true);
+      });
+   });
+
 });

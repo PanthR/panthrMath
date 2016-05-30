@@ -22,7 +22,7 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var lpoisson, lgamma, pgamma, pWrap, qnorm, discInvCdf, inverseCDF;
+   var lpoisson, lgamma, pgamma, pWrap, qnorm, discInvCdf, inverseCDF, utils;
 
    lpoisson = require('../basicFunc/lpoisson').lpoisson;
    lgamma = require('../basicFunc/lgamma').lgamma;
@@ -31,6 +31,7 @@ define(function(require) {
    discInvCdf = require('../utils').discInvCdf;
    qnorm = require('./normal').qnorm;
    inverseCDF = require('../rgen/inverseCDF');
+   utils = require('../utils');
 
    /**
     * Evaluates the Poisson pmf at `x`:
@@ -45,7 +46,13 @@ define(function(require) {
     */
    function dpois(lambda, logp) {
       logp = logp === true;
+
       return function(x) {
+         if (utils.hasNaN(x, lambda) || lambda < 0) { return NaN; }
+         if (x !== Math.floor(x) || utils.isInfinite(x)) {
+            return logp ? -Infinity : 0;
+         }
+
          return logp ? lpoisson(lambda)(x) : Math.exp(lpoisson(lambda)(x));
       };
    }
@@ -72,15 +79,13 @@ define(function(require) {
       if (!(lambda >= 0)) { return function(x) { return NaN; }; }
 
       return function(x) {
-         var ret;
-
-         if (x >= 0 && lambda > 0) {
-            return pgamma(Math.floor(x + 1e-10) + 1, 1, !lowerTail, logp)(lambda);
+         if (utils.hasNaN(x)) { return NaN; }
+         if (x < 0) { return utils.adjustLower(0, lowerTail, logp); }
+         if (lambda === 0 || x === Infinity) {
+            return utils.adjustLower(1, lowerTail, logp);
          }
 
-         ret = lowerTail ? 1 : 0;
-         if (x < 0) { ret = lowerTail ? 0 : 1; }
-         return logp ? Math.log(ret) : ret;
+         return pgamma(Math.floor(x + 1e-10) + 1, 1, !lowerTail, logp)(lambda);
       };
    }
 
