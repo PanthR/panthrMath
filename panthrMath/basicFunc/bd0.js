@@ -1,7 +1,9 @@
 (function(define) {
 'use strict';
 define(function(require) {
+   var utils;
 
+   utils = require('../utils');
    /**
     * Computes the expression $$bd0(x, y) = x \ln(x/y) + y - x$$
     *
@@ -11,6 +13,8 @@ define(function(require) {
     */
    function bd0(x, y) {
       var ej, j, s, sTemp, v;
+
+      if (!utils.isFinite(x) || !utils.isFinite(y) || y === 0) { return NaN; }
 
       if (Math.abs(x - y) < 0.1 * (x + y)) {
          v = (x - y) / (x + y);
