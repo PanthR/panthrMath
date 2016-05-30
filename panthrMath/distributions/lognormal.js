@@ -23,12 +23,13 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var normal, C, logRoot2pi, recipRoot2pi;
+   var normal, C, logRoot2pi, recipRoot2pi, utils;
 
    normal = require('./normal');
    C = require('../constants');
    logRoot2pi = C.log2pi * 0.5;
    recipRoot2pi = 1 / C.sqrt2pi;
+   utils = require('../utils');
 
    /**
     * Evaluates the lognormal distribution's density function at `x`.
@@ -39,9 +40,20 @@ define(function(require) {
     */
    function dlnorm(meanlog, sdlog, logp) {
       logp = logp === true;
+
+      if (utils.hasNaN(meanlog, sdlog) || sdlog < 0) {
+         return function() { return NaN; };
+      }
+
       return function(x) {
          var z;
 
+         if (utils.hasNaN(x)) { return NaN; }
+         if (sdlog === 0) {
+            return Math.log(x) === meanlog ? Infinity
+                                    : logp ? -Infinity
+                                           : 0;
+         }
          if (x <= 0) { return logp ? -Infinity : 0; }
 
          z = (Math.log(x) - meanlog) / sdlog;
@@ -70,9 +82,15 @@ define(function(require) {
 
       lowerTail = lowerTail !== false;
       logp = logp === true;
+
+      if (utils.hasNaN(meanlog, sdlog) || sdlog < 0) {
+         return function() { return NaN; };
+      }
+
       pnorm = normal.pnorm(meanlog, sdlog, lowerTail, logp);
 
       return function(x) {
+         if (utils.hasNaN(x)) { return NaN; }
          if (x <= 0) {
             return lowerTail ? logp ? -Infinity : 0
                              : logp ? 0 : 1;
@@ -105,11 +123,13 @@ define(function(require) {
       lowerTail = lowerTail !== false;
       qnorm = normal.qnorm(meanlog, sdlog, lowerTail, logp);
 
-      if (sdlog <= 0) { return function(x) { return NaN; }; }
+      if (utils.hasNaN(meanlog, sdlog)) {
+         return function() { return NaN; };
+      }
 
-      return function(p) {
-         return Math.exp(qnorm(p));
-      };
+      return utils.qhelper(lowerTail, logp, 0, Infinity,
+         function(p) { return Math.exp(qnorm(p)); }
+      );
    }
 
    /**
