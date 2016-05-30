@@ -25,9 +25,10 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var rgen;
+   var rgen, utils;
 
    rgen = require('../rgen/rgen');
+   utils = require('../utils');
 
    /**
     * Evaluates the Uniform density function at `x`:
@@ -46,11 +47,14 @@ define(function(require) {
    function dunif(a, b, logp) {
       logp = logp === true;
 
-      if (!(a < b)) { return function(x) { return NaN; }; }
+      if (utils.hasNaN(a, b) || b <= a) {
+         return function(x) { return NaN; };
+      }
 
       return function(x) {
          var p;
 
+         if (utils.hasNaN(x)) { return NaN; }
          p = x < a || x > b ? 0 : 1 / (b - a);
 
          return logp ? Math.log(p) : p;
@@ -78,17 +82,18 @@ define(function(require) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      if (!(a < b)) { return function(x) { return NaN; }; }
+      if (b < a || !utils.isFinite(a) || !utils.isFinite(b)) {
+         return function(x) { return NaN; };
+      }
 
       return function(x) {
-         var p;
+         if (utils.hasNaN(x)) { return NaN; }
+         if (x >= b) { return utils.adjustLower(1, lowerTail, logp); }
+         if (x <= a) { return utils.adjustLower(0, lowerTail, logp); }
 
-         p = x <= a ? 0
-           : x >= b ? 1
-                    : (x - a) / (b - a);
-         p = lowerTail ? p : 1 - p;
-
-         return logp ? Math.log(p) : p;
+         return utils.adjustLower(
+            (lowerTail ? x - a : b - x) / (b - a), true, logp
+         );
       };
    }
 
@@ -113,7 +118,9 @@ define(function(require) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      if (!(a < b)) { return function(x) { return NaN; }; }
+      if (b < a || !utils.isFinite(a) || !utils.isFinite(b)) {
+         return function(x) { return NaN; };
+      }
 
       return function(p) {
          p = logp ? Math.exp(p) : p;
