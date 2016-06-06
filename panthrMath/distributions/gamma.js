@@ -132,16 +132,19 @@ define(function(require) {
    function qgamma(a, s, lowerTail, logp) {
       var gaminv;
 
-      if (s <= 0 || a <= 0) { return function(x) { return NaN; }; }
       logp = logp === true;
       lowerTail = lowerTail !== false;
       gaminv = gratio.gaminv(a); // function of p, lowerTail
 
-      return function(p) {
-         p = logp ? Math.exp(p) : p;
-         if (!(p >= 0 && p <= 1)) { return NaN; }
-         return s * gaminv(p, lowerTail);
-      };
+      if (utils.hasNaN(a, s)) { return function() { return NaN; }; }
+
+      return utils.qhelper(lowerTail, logp, 0, Infinity, function(p) {
+         if (a < 0 || s <= 0) { return NaN; }
+         if (utils.isInfinite(a)) { return Infinity; }
+         if (a === 0) { return 0; }
+
+         return s * gaminv(logp ? Math.exp(p) : p, lowerTail);
+      });
    }
 
    // rgamma stuff...
