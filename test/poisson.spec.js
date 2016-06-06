@@ -23852,7 +23852,7 @@ describe('poisson distribution', function() {
       s = paste(g$x, g$lambda, g$d, g$p, g$q, sep=", ", collapse="],\n[")
       s = paste("[", s, "]", sep="")
    */
-   it('ppois, dpois handle inappropriate inputs and dpois scales with sigma', function() {
+   it('ppois, dpois handle inappropriate inputs', function() {
       [
    [NaN, NaN, NaN, NaN, NaN],
    [-Infinity, NaN, NaN, NaN, NaN],
@@ -23928,25 +23928,65 @@ describe('poisson distribution', function() {
    /* Rcode generating the tests:
       options(digits = 20)
       p = c(NaN, -Inf, -1, 0, 0.3, 1, Inf)
-      lambda = c(NaN, -Inf, -1.3, 1.5, Inf)
-      sigma = c(NaN, -Inf, -1, 0, 3.7, Inf)
-      g = expand.grid(p=p, lambda=lambda, sigma=sigma)
-      g$x1 = qpois(g$p, g$lambda, lower.tail=TRUE, log.p=TRUE)
-      g$x2 = qpois(g$p, g$lambda, lower.tail=FALSE, log.p=TRUE)
+      lambda = c(NaN, -Inf, -1.3, 0, 1.5, Inf)
+      g = expand.grid(p=p, lambda=lambda)
+      g$x1 = qpois(g$p, g$lambda, lower.tail=TRUE, log.p=FALSE)
+      g$x2 = qpois(g$p, g$lambda, lower.tail=FALSE, log.p=FALSE)
       s = paste(g$p, g$lambda, g$x1, g$x2, sep=", ", collapse="],\n[")
       s = paste("[", s, "]", sep="")
    */
    it('qpois handles inappropriate inputs', function() {
       [
+      [NaN, NaN, NaN, NaN],
+      [-Infinity, NaN, NaN, NaN],
+      [-1, NaN, NaN, NaN],
+      [0, NaN, NaN, NaN],
+      [0.3, NaN, NaN, NaN],
+      [1, NaN, NaN, NaN],
+      [Infinity, NaN, NaN, NaN],
+      [NaN, -Infinity, NaN, NaN],
+      [-Infinity, -Infinity, NaN, NaN],
+      [-1, -Infinity, NaN, NaN],
+      [0, -Infinity, NaN, NaN],
+      [0.3, -Infinity, NaN, NaN],
+      [1, -Infinity, NaN, NaN],
+      [Infinity, -Infinity, NaN, NaN],
+      [NaN, -1.3, NaN, NaN],
+      [-Infinity, -1.3, NaN, NaN],
+      [-1, -1.3, NaN, NaN],
+      [0, -1.3, NaN, NaN],
+      [0.3, -1.3, NaN, NaN],
+      [1, -1.3, NaN, NaN],
+      [Infinity, -1.3, NaN, NaN],
+      [NaN, 0, NaN, NaN],
+      [-Infinity, 0, 0, 0],
+      [-1, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0.3, 0, 0, 0],
+      [1, 0, 0, 0],
+      [Infinity, 0, 0, 0],
+      [NaN, 1.5, NaN, NaN],
+      [-Infinity, 1.5, NaN, NaN],
+      [-1, 1.5, NaN, NaN],
+      [0, 1.5, 0, Infinity],
+      [0.3, 1.5, 1, 2],
+      [1, 1.5, Infinity, 0],
+      [Infinity, 1.5, NaN, NaN],
+      [NaN, Infinity, NaN, NaN],
+      [-Infinity, Infinity, NaN, NaN],
+      [-1, Infinity, NaN, NaN],
+      [0, Infinity, NaN, NaN],
+      [0.3, Infinity, NaN, NaN],
+      [1, Infinity, NaN, NaN],
+      [Infinity, Infinity, NaN, NaN]
       ].forEach(function(tuple) {
          var p, lambda, x1r, x2r, x1, x2;
          p = tuple[0];
          lambda = tuple[1];
-         sigma = tuple[2];
-         x1r = tuple[3];
-         x2r = tuple[4];
-         x1 = main.qpois(lambda, true, true)(p);
-         x2 = main.qpois(lambda, false, true)(p);
+         x1r = tuple[2];
+         x2r = tuple[3];
+         x1 = main.qpois(lambda, true, false)(p);
+         x2 = main.qpois(lambda, false, false)(p);
          expect(utils.relativelyCloseTo(x1r, x1)).to.equal(true);
          expect(utils.relativelyCloseTo(x2r, x2)).to.equal(true);
       });

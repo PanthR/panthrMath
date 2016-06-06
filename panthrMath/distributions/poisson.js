@@ -116,7 +116,11 @@ define(function(require) {
 
       if (!goodParams) { return function(prob) { return NaN; }; }
       if (lambda === 0) {
-         return pWrap(lowerTail, logp, function(prob) { return 0; });
+         return function(prob) {
+            // this behavior seems wrong but it matches R's implementation --
+            // when prob is out of range and lambda === 0, doesn't return NaN
+            return utils.hasNaN(prob) ? NaN : 0;
+         };
       }
 
       mu = lambda;
@@ -126,11 +130,13 @@ define(function(require) {
       return pWrap(true, logp, function(ps) {
          var z, ret;
 
+         if (ps.p === 0) { return lowerTail ? 0 : Infinity; }
+         if (ps.q === 0) { return lowerTail ? Infinity : 0; }
+
          z = qnorm(0, 1, lowerTail)(ps.p); // initial value
          if (z < -10) { z = -10; }
          if (z > 10) { z = 10; }
          ret = Math.floor(mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
-         if (ps.q === 0) { return lowerTail ? Infinity : 0; }
          if (lowerTail) {
             return discInvCdf(0, 1e10, ret, ps.p, ppois(lambda));
          }
