@@ -172,7 +172,7 @@ define(function(require) {
          var incr;
 
          if (p === 0) { return min; }
-         if (p === 1) { x = max; }
+         if (p === 1) { return max; }
          if (x > max) { x = max; }
          if (x < min) { x = min; }
 
@@ -209,6 +209,68 @@ define(function(require) {
             } else {
                // return x, or go right?
                if (x === max || f(x) >= p || utils.relativelyCloseTo(f(x), p, 1e-14)) {
+                  return x;
+               }
+               x += 1;  // go right
+            }
+         }
+         /* eslint-enable no-constant-condition */
+      },
+       /* eslint-enable complexity */
+      /* eslint-disable complexity */
+      /*
+       *  Helper for inverting a discrete CDF for integer values, using
+       *  upper-tail probabilities.
+       *  Searches for a quantile x in the range [`min`, `max`] such
+       *  that x is the smallest quantile for the provided CDF `f`
+       *  with right-tail probability <= `p`.
+       *  `x` is an initial estimate for the desired quantile.
+       *  When `p` is 0, return max.
+       *  When `p` is 1, return min.
+       *  Precondition:  `0 <= p <= 1`.
+       *  Precondition:  `f(x)` is 1 when `x < min` and 0 when `x > max`.
+       */
+      discInvCdf2: function discInvCdf2(min, max, x, p, f) {
+         var incr;
+
+         if (p === 0) { return max; }
+         if (p === 1) { return min; }
+         if (x > max) { x = max; }
+         if (x < min) { x = min; }
+
+         incr = Math.min(x - min, max - x);
+         incr = Math.max(Math.floor(0.001 * incr), 1);
+         while (incr > 1) {
+            if (f(x) > p) { // x is too small
+               x += incr;
+               if (f(x) <= p) {
+                  incr = Math.floor(incr / 2);
+               }
+            } else {
+               // x is probably too large
+               x -= incr;
+               if (f(x) > p) {
+                  incr = Math.floor(incr / 2);
+               }
+            }
+         }
+         if (x < min) { x = min; }
+         if (x > max) { x = max; }
+         // incr is 1
+         /* eslint-disable no-constant-condition */
+         while (true) {
+            if (x === min) {
+               if (f(x) <= p || utils.relativelyCloseTo(f(x), p, 1e-14)) { return x; }
+               x += 1;  // go right
+            } else if (f(x - 1) <= p ||
+               utils.relativelyCloseTo(f(x - 1), p, 1e-14)) {
+               if (Math.abs(f(x) - p) < Math.abs(f(x - 1) - p)) {
+                  return x;  // don't go left, x is better!
+               }
+               x -= 1; // go left
+            } else {
+               // return x, or go right?
+               if (x === max || f(x) <= p || utils.relativelyCloseTo(f(x), p, 1e-14)) {
                   return x;
                }
                x += 1;  // go right

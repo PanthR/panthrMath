@@ -23834,6 +23834,93 @@ describe('poisson distribution', function() {
          }
       });
    });
+   /* Rcode generating the tests:
+      options(digits = 20)
+      p = seq(0, 1, 0.05)
+      lambda = c(1, 1.5, 4)
+      g = expand.grid(p=p, lambda=lambda)
+      g$x1 = qpois(g$p, g$lambda, lower.tail=TRUE, log.p=FALSE)
+      g$x2 = qpois(g$p, g$lambda, lower.tail=FALSE, log.p=FALSE)
+      s = paste(g$p, g$lambda, g$x1, g$x2, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   it('qpois works properly at non-exact values', function() {
+      [
+      [0, 1, 0, Infinity],
+      [0.05, 1, 0, 3],
+      [0.1, 1, 0, 2],
+      [0.15, 1, 0, 2],
+      [0.2, 1, 0, 2],
+      [0.25, 1, 0, 2],
+      [0.3, 1, 0, 1],
+      [0.35, 1, 0, 1],
+      [0.4, 1, 1, 1],
+      [0.45, 1, 1, 1],
+      [0.5, 1, 1, 1],
+      [0.55, 1, 1, 1],
+      [0.6, 1, 1, 1],
+      [0.65, 1, 1, 0],
+      [0.7, 1, 1, 0],
+      [0.75, 1, 2, 0],
+      [0.8, 1, 2, 0],
+      [0.85, 1, 2, 0],
+      [0.9, 1, 2, 0],
+      [0.95, 1, 3, 0],
+      [1, 1, Infinity, 0],
+      [0, 1.5, 0, Infinity],
+      [0.05, 1.5, 0, 4],
+      [0.1, 1.5, 0, 3],
+      [0.15, 1.5, 0, 3],
+      [0.2, 1.5, 0, 2],
+      [0.25, 1.5, 1, 2],
+      [0.3, 1.5, 1, 2],
+      [0.35, 1.5, 1, 2],
+      [0.4, 1.5, 1, 2],
+      [0.45, 1.5, 1, 1],
+      [0.5, 1.5, 1, 1],
+      [0.55, 1.5, 1, 1],
+      [0.6, 1.5, 2, 1],
+      [0.65, 1.5, 2, 1],
+      [0.7, 1.5, 2, 1],
+      [0.75, 1.5, 2, 1],
+      [0.8, 1.5, 2, 0],
+      [0.85, 1.5, 3, 0],
+      [0.9, 1.5, 3, 0],
+      [0.95, 1.5, 4, 0],
+      [1, 1.5, Infinity, 0],
+      [0, 4, 0, Infinity],
+      [0.05, 4, 1, 8],
+      [0.1, 4, 2, 7],
+      [0.15, 4, 2, 6],
+      [0.2, 4, 2, 6],
+      [0.25, 4, 3, 5],
+      [0.3, 4, 3, 5],
+      [0.35, 4, 3, 5],
+      [0.4, 4, 3, 4],
+      [0.45, 4, 4, 4],
+      [0.5, 4, 4, 4],
+      [0.55, 4, 4, 4],
+      [0.6, 4, 4, 3],
+      [0.65, 4, 5, 3],
+      [0.7, 4, 5, 3],
+      [0.75, 4, 5, 3],
+      [0.8, 4, 6, 2],
+      [0.85, 4, 6, 2],
+      [0.9, 4, 7, 2],
+      [0.95, 4, 8, 1],
+      [1, 4, Infinity, 0]
+      ].forEach(function(tuple) {
+         var p, lambda, x1r, x2r, x1, x2;
+         p = tuple[0];
+         lambda = tuple[1];
+         x1r = tuple[2];
+         x2r = tuple[3];
+         x1 = main.qpois(lambda, true, false)(p);
+         x2 = main.qpois(lambda, false, false)(p);
+         expect(utils.relativelyCloseTo(x1r, x1)).to.equal(true);
+         expect(utils.relativelyCloseTo(x2r, x2)).to.equal(true);
+      });
+   });
    it('poisson also exported as an object', function() {
       var o;
       o = main.pois(.1);

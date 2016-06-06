@@ -22,13 +22,14 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var lpoisson, lgamma, pgamma, pWrap, qnorm, discInvCdf, inverseCDF, utils;
+   var lpoisson, lgamma, pgamma, pWrap, qnorm, discInvCdf, discInvCdf2, inverseCDF, utils;
 
    lpoisson = require('../basicFunc/lpoisson').lpoisson;
    lgamma = require('../basicFunc/lgamma').lgamma;
    pgamma = require('./gamma').pgamma;
    pWrap = require('../utils').pWrap;
    discInvCdf = require('../utils').discInvCdf;
+   discInvCdf2 = require('../utils').discInvCdf2;
    qnorm = require('./normal').qnorm;
    inverseCDF = require('../rgen/inverseCDF');
    utils = require('../utils');
@@ -140,9 +141,7 @@ define(function(require) {
          if (lowerTail) {
             return discInvCdf(0, 1e10, ret, ps.p, ppois(lambda));
          }
-         return -discInvCdf(-1e10, 0, -ret, ps.p, function(x) {
-            return ppois(lambda, lowerTail)(-x);
-         });
+         return discInvCdf2(0, 1e10, ret, ps.p, ppois(lambda, false));
       });
    }
 
