@@ -26,15 +26,12 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var beta, dbinomLog, adjustLower, qnorm, pWrap, discInvCdf, discInvCdf2, rpois, rgamma;
+   var beta, dbinomLog, qnorm, utils, rpois, rgamma;
 
    dbinomLog = require('../basicFunc/dbinomLog').dbinomLog;
    beta = require('./beta');
    qnorm = require('./normal').qnorm;
-   adjustLower = require('../utils').adjustLower;
-   pWrap = require('../utils').pWrap;
-   discInvCdf = require('../utils').discInvCdf;
-   discInvCdf2 = require('../utils').discInvCdf2;
+   utils = require('../utils');
    rpois = require('./poisson').rpois;
    rgamma = require('./gamma').rgamma;
 
@@ -55,19 +52,20 @@ define(function(require) {
    function dnbinom(size, prob, logp) {
       logp = logp === true;
 
-      if (prob <= 0 || prob > 1 || size < 0) {
+      if (utils.hasNaN(prob, size) || prob <= 0 || prob > 1 || size < 0) {
         return function(x) { return NaN; };
       }
 
       return function(x) {
          var p, ans;
 
-         if (x < 0 || x !== Math.floor(x)) {
+         if (utils.hasNaN(x)) { return NaN; }
+         if (x < 0 || x !== Math.floor(x) ||
+             utils.isInfinite(x)) {
             return logp ? -Infinity : 0;
          }
-         if (x === 0 && size === 0) {
-            return logp ? 0 : 1;
-         }
+         if (x === 0 && size === 0) { return logp ? 0 : 1; }
+         if (utils.isInfinite(size)) { size = Number.MAX_VALUE; }
 
          ans = dbinomLog(x + size, prob)(size);
          p = size / (size + x);
@@ -96,13 +94,15 @@ define(function(require) {
 
       return function(x) {
 
-         if (isNaN(x + size + prob) || size < 0 || prob <= 0 || prob > 1) {
+         if (utils.hasNaN(x, size, prob) ||
+             size < 0 || prob <= 0 || prob > 1 ||
+             utils.isInfinite(size)) {
            return NaN;
          }
          if (size === 0) {
-             return adjustLower(x >= 0 ? 1 : 0, lowerTail, logp);
+             return utils.adjustLower(x >= 0 ? 1 : 0, lowerTail, logp);
          }
-         if (x < 0) { return adjustLower(0, lowerTail, logp); }
+         if (x < 0) { return utils.adjustLower(0, lowerTail, logp); }
 
          x = Math.floor(x + 1e-14);
 
@@ -136,26 +136,37 @@ define(function(require) {
       sigma = Math.sqrt(size * (1 - prob) / prob / prob);
       gamma = (2 - prob) / prob / sigma;
 
-      /* eslint-disable complexity */
-      return pWrap(lowerTail, logp, function(ps) {
-         var z, ret;
+      if (utils.hasNaN(prob, size)) {
+         return function() { return NaN; };
+      }
+      if (prob === 0 && size === 0) {
+         return function(p) { return utils.hasNaN(p) ? NaN : 0; };
+      }
+      if (prob <= 0 || prob > 1 || size < 0) {
+         return function() { return NaN; };
+      }
+      if (prob === 1 || size === 0) {
+         return function(p) { return utils.hasNaN(p) ? NaN : 0; };
+      }
 
-         if (isNaN(ps.p + prob + size)) { return NaN; }
-         if (prob === 0 && size === 0) { return 0; }
-         if (prob <= 0 || prob > 1 || size < 0) { return NaN; }
-         if (prob === 1 || size === 0) { return 0; }
+      /* eslint-disable complexity */
+      return utils.pWrap(lowerTail, logp, function(ps) {
+         var z, ret;
 
          if (ps.p === 0) { return 0; }
          if (ps.q === 0) { return Infinity; }
+         // Our addition, R loops instead
+         if (size === Infinity) { return Infinity; }
 
          z = ps.p > 0.9 ? qnorm(0, 1, false)(ps.q) : qnorm(0, 1)(ps.p); // initial value
          ret = Math.floor(mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
 
          // Supposed to do: ps.p *= 1 - 64*DBL_EPSILON here
          if (ps.p > 0.9) {
-            return discInvCdf2(0, Infinity, ret, ps.q, pnbinom(size, prob, false));
+            return utils.discInvCdf2(0, Infinity, ret, ps.q,
+                      pnbinom(size, prob, false));
          }
-         return discInvCdf(0, Infinity, ret, ps.p, pnbinom(size, prob));
+         return utils.discInvCdf(0, Infinity, ret, ps.p, pnbinom(size, prob));
       });
       /* eslint-enable complexity */
    }
