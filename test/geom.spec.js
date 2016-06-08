@@ -203,7 +203,93 @@ describe('Geometric Distribution', function() {
          }
       });
    });
-
+   /* Rcode generating the tests:
+      options(digits = 20)
+      p = seq(0, 1, 0.05)
+      prob = c(0.23, 0.5,0.89)
+      g = expand.grid(p=p, prob=prob)
+      g$x1 = qgeom(g$p, g$prob, lower.tail=TRUE, log.p=FALSE)
+      g$x2 = qgeom(g$p, g$prob, lower.tail=FALSE, log.p=FALSE)
+      s = paste(g$p, g$prob, g$x1, g$x2, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   it('qgeom works properly at non-exact values', function() {
+      [
+      [0, 0.23, 0, Infinity],
+      [0.05, 0.23, 0, 11],
+      [0.1, 0.23, 0, 8],
+      [0.15, 0.23, 0, 7],
+      [0.2, 0.23, 0, 6],
+      [0.25, 0.23, 1, 5],
+      [0.3, 0.23, 1, 4],
+      [0.35, 0.23, 1, 4],
+      [0.4, 0.23, 1, 3],
+      [0.45, 0.23, 2, 3],
+      [0.5, 0.23, 2, 2],
+      [0.55, 0.23, 3, 2],
+      [0.6, 0.23, 3, 1],
+      [0.65, 0.23, 4, 1],
+      [0.7, 0.23, 4, 1],
+      [0.75, 0.23, 5, 1],
+      [0.8, 0.23, 6, 0],
+      [0.85, 0.23, 7, 0],
+      [0.9, 0.23, 8, 0],
+      [0.95, 0.23, 11, 0],
+      [1, 0.23, Infinity, 0],
+      [0, 0.5, 0, Infinity],
+      [0.05, 0.5, 0, 4],
+      [0.1, 0.5, 0, 3],
+      [0.15, 0.5, 0, 2],
+      [0.2, 0.5, 0, 2],
+      [0.25, 0.5, 0, 1],
+      [0.3, 0.5, 0, 1],
+      [0.35, 0.5, 0, 1],
+      [0.4, 0.5, 0, 1],
+      [0.45, 0.5, 0, 1],
+      [0.5, 0.5, 0, 0],
+      [0.55, 0.5, 1, 0],
+      [0.6, 0.5, 1, 0],
+      [0.65, 0.5, 1, 0],
+      [0.7, 0.5, 1, 0],
+      [0.75, 0.5, 1, 0],
+      [0.8, 0.5, 2, 0],
+      [0.85, 0.5, 2, 0],
+      [0.9, 0.5, 3, 0],
+      [0.95, 0.5, 4, 0],
+      [1, 0.5, Infinity, 0],
+      [0, 0.89, 0, Infinity],
+      [0.05, 0.89, 0, 1],
+      [0.1, 0.89, 0, 1],
+      [0.15, 0.89, 0, 0],
+      [0.2, 0.89, 0, 0],
+      [0.25, 0.89, 0, 0],
+      [0.3, 0.89, 0, 0],
+      [0.35, 0.89, 0, 0],
+      [0.4, 0.89, 0, 0],
+      [0.45, 0.89, 0, 0],
+      [0.5, 0.89, 0, 0],
+      [0.55, 0.89, 0, 0],
+      [0.6, 0.89, 0, 0],
+      [0.65, 0.89, 0, 0],
+      [0.7, 0.89, 0, 0],
+      [0.75, 0.89, 0, 0],
+      [0.8, 0.89, 0, 0],
+      [0.85, 0.89, 0, 0],
+      [0.9, 0.89, 1, 0],
+      [0.95, 0.89, 1, 0],
+      [1, 0.89, Infinity, 0]
+      ].forEach(function(tuple) {
+         var p, n, prob, x1r, x2r, x1, x2;
+         p = tuple[0];
+         prob = tuple[1];
+         x1r = tuple[2];
+         x2r = tuple[3];
+         x1 = main.qgeom(prob, true, false)(p);
+         x2 = main.qgeom(prob, false, false)(p);
+         expect(utils.relativelyCloseTo(x1r, x1)).to.equal(true);
+         expect(utils.relativelyCloseTo(x2r, x2)).to.equal(true);
+      });
+   });
    it('is also exported as an object', function() {
       var o;
       o = main.geom(.1);
