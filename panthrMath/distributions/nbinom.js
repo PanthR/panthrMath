@@ -26,7 +26,7 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var beta, dbinomLog, adjustLower, qnorm, pWrap, discInvCdf, rpois, rgamma;
+   var beta, dbinomLog, adjustLower, qnorm, pWrap, discInvCdf, discInvCdf2, rpois, rgamma;
 
    dbinomLog = require('../basicFunc/dbinomLog').dbinomLog;
    beta = require('./beta');
@@ -34,6 +34,7 @@ define(function(require) {
    adjustLower = require('../utils').adjustLower;
    pWrap = require('../utils').pWrap;
    discInvCdf = require('../utils').discInvCdf;
+   discInvCdf2 = require('../utils').discInvCdf2;
    rpois = require('./poisson').rpois;
    rgamma = require('./gamma').rgamma;
 
@@ -152,9 +153,7 @@ define(function(require) {
 
          // Supposed to do: ps.p *= 1 - 64*DBL_EPSILON here
          if (ps.p > 0.9) {
-            return -discInvCdf(-Infinity, -0, -ret, ps.q, function(x) {
-               return pnbinom(size, prob, false)(-x);
-            });
+            return discInvCdf2(0, Infinity, ret, ps.q, pnbinom(size, prob, false));
          }
          return discInvCdf(0, Infinity, ret, ps.p, pnbinom(size, prob));
       });
