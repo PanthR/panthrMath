@@ -23,13 +23,14 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var log1p, expm1, rexp, rpois, dbinomLog;
+   var log1p, expm1, rexp, rpois, dbinomLog, utils;
 
    rexp = require('./exp').rexp;
    rpois = require('./poisson').rpois;
    log1p = require('../basicFunc/log1p').log1p;
    expm1 = require('../basicFunc/expm1').expm1;
    dbinomLog = require('../basicFunc/dbinomLog').dbinomLog;
+   utils = require('../utils');
 
    /**
     * Evaluates the geometric distribution's density function at `x`:
@@ -49,9 +50,12 @@ define(function(require) {
    function dgeom(prob, logp) {
       logp = logp === true;
 
-      if (prob <= 0 || prob > 1) { return function(x) { return NaN; }; }
+      if (prob <= 0 || prob > 1 || utils.hasNaN(prob)) {
+         return function(x) { return NaN; };
+      }
 
       return function(x) {
+         if (utils.hasNaN(x)) { return NaN; }
          if (x < 0 || Math.round(x) !== x) {
             return logp ? -Infinity : 0;
          }
@@ -81,11 +85,14 @@ define(function(require) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      if (prob <= 0 || prob > 1) { return function(x) { return NaN; }; }
+      if (prob <= 0 || prob > 1 || utils.hasNaN(prob)) {
+         return function(x) { return NaN; };
+      }
       if (prob === 1) {
          return function(x) {
             var ret;
 
+            if (utils.hasNaN(x)) { return NaN; }
             ret = x < 0 ? 0 : 1;
             ret = lowerTail ? ret : 1 - ret;
             return logp ? Math.log(ret) : ret;
@@ -94,6 +101,8 @@ define(function(require) {
 
       return function(x) {
          var ret;
+
+         if (utils.hasNaN(x)) { return NaN; }
 
          x = Math.floor(x + 1e-14);
 

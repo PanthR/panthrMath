@@ -300,5 +300,121 @@ describe('Geometric Distribution', function() {
          }
       });
    });
+   /* Rcode generating the tests:
+      options(digits = 20)
+      x = c(NaN, -Inf, -1, 0, 1, 1.5, 4, Inf)
+      prob = c(NaN, -Inf, -0.3, 0, 0.3, 1, 1.3, Inf)
+      g = expand.grid(x=x, prob=prob)
+      g$d = dgeom(g$x, g$prob, log=TRUE)
+      g$p = pgeom(g$x, g$prob, log.p=TRUE)
+      g$q = pgeom(g$x, g$prob, lower.tail=FALSE, log.p=TRUE)
+      s = paste(g$x, g$prob, g$d, g$p, g$q, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   it('pgeom, dgeom handle inappropriate inputs', function() {
+      [
+      [NaN, NaN, NaN, NaN, NaN],
+      [-Infinity, NaN, NaN, NaN, NaN],
+      [-1, NaN, NaN, NaN, NaN],
+      [0, NaN, NaN, NaN, NaN],
+      [1, NaN, NaN, NaN, NaN],
+      [1.5, NaN, NaN, NaN, NaN],
+      [4, NaN, NaN, NaN, NaN],
+      [Infinity, NaN, NaN, NaN, NaN],
+      [NaN, -Infinity, NaN, NaN, NaN],
+      [-Infinity, -Infinity, NaN, NaN, NaN],
+      [-1, -Infinity, NaN, NaN, NaN],
+      [0, -Infinity, NaN, NaN, NaN],
+      [1, -Infinity, NaN, NaN, NaN],
+      [1.5, -Infinity, NaN, NaN, NaN],
+      [4, -Infinity, NaN, NaN, NaN],
+      [Infinity, -Infinity, NaN, NaN, NaN],
+      [NaN, -0.3, NaN, NaN, NaN],
+      [-Infinity, -0.3, NaN, NaN, NaN],
+      [-1, -0.3, NaN, NaN, NaN],
+      [0, -0.3, NaN, NaN, NaN],
+      [1, -0.3, NaN, NaN, NaN],
+      [1.5, -0.3, NaN, NaN, NaN],
+      [4, -0.3, NaN, NaN, NaN],
+      [Infinity, -0.3, NaN, NaN, NaN],
+      [NaN, 0, NaN, NaN, NaN],
+      [-Infinity, 0, NaN, NaN, NaN],
+      [-1, 0, NaN, NaN, NaN],
+      [0, 0, NaN, NaN, NaN],
+      [1, 0, NaN, NaN, NaN],
+      [1.5, 0, NaN, NaN, NaN],
+      [4, 0, NaN, NaN, NaN],
+      [Infinity, 0, NaN, NaN, NaN],
+      [NaN, 0.3, NaN, NaN, NaN],
+      [-Infinity, 0.3, -Infinity, -Infinity, 0],
+      [-1, 0.3, -Infinity, -Infinity, 0],
+      [0, 0.3, -1.20397280432594, -1.20397280432594, -0.356674943938732],
+      [1, 0.3, -1.56064774826467, -0.673344553263766, -0.713349887877465],
+      [1.5, 0.3, -Infinity, -0.673344553263766, -0.713349887877465],
+      [4, 0.3, -2.63067258008087, -0.184006976315828, -1.78337471969366],
+      [Infinity, 0.3, -Infinity, 0, -Infinity],
+      [NaN, 1, NaN, NaN, NaN],
+      [-Infinity, 1, -Infinity, -Infinity, 0],
+      [-1, 1, -Infinity, -Infinity, 0],
+      [0, 1, 0, 0, -Infinity],
+      [1, 1, -Infinity, 0, -Infinity],
+      [1.5, 1, -Infinity, 0, -Infinity],
+      [4, 1, -Infinity, 0, -Infinity],
+      [Infinity, 1, -Infinity, 0, -Infinity],
+      [NaN, 1.3, NaN, NaN, NaN],
+      [-Infinity, 1.3, NaN, NaN, NaN],
+      [-1, 1.3, NaN, NaN, NaN],
+      [0, 1.3, NaN, NaN, NaN],
+      [1, 1.3, NaN, NaN, NaN],
+      [1.5, 1.3, NaN, NaN, NaN],
+      [4, 1.3, NaN, NaN, NaN],
+      [Infinity, 1.3, NaN, NaN, NaN],
+      [NaN, Infinity, NaN, NaN, NaN],
+      [-Infinity, Infinity, NaN, NaN, NaN],
+      [-1, Infinity, NaN, NaN, NaN],
+      [0, Infinity, NaN, NaN, NaN],
+      [1, Infinity, NaN, NaN, NaN],
+      [1.5, Infinity, NaN, NaN, NaN],
+      [4, Infinity, NaN, NaN, NaN],
+      [Infinity, Infinity, NaN, NaN, NaN]
+      ].forEach(function(tuple) {
+         var x, prob, rlogp, rlogq, rlogd, logp, logq, logd;
+         x = tuple[0];
+         prob = tuple[1];
+         rlogd = tuple[2];
+         rlogp = tuple[3];
+         rlogq = tuple[4];
+         logp = main.pgeom(prob, true, true)(x);
+         logq = main.pgeom(prob, false, true)(x);
+         logd = main.dgeom(prob, true)(x);
+         expect(utils.relativelyCloseTo(logp, rlogp)).to.equal(true);
+         expect(utils.relativelyCloseTo(logq, rlogq)).to.equal(true);
+         expect(utils.relativelyCloseTo(logd, rlogd)).to.equal(true);
+      });
+   });
 
+   /* Rcode generating the tests:
+      options(digits = 20)
+      p = c(NaN, -Inf, -1, 0, 0.3, 1, Inf)
+      prob = c(NaN, -Inf, -0.3, 0, 0.3, 1, 1.3, Inf)
+      g = expand.grid(p=p, prob=prob)
+      g$x1 = qgeom(g$p, g$prob, lower.tail=TRUE, log.p=FALSE)
+      g$x2 = qgeom(g$p, g$prob, lower.tail=FALSE, log.p=FALSE)
+      s = paste(g$p, g$prob, g$x1, g$x2, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   it('qgeom handles inappropriate inputs', function() {
+      [
+      ].forEach(function(tuple) {
+         var p, prob, x1r, x2r, x1, x2;
+         p = tuple[0];
+         prob = tuple[1];
+         x1r = tuple[2];
+         x2r = tuple[3];
+         x1 = main.qgeom(prob, true, false)(p);
+         x2 = main.qgeom(prob, false, false)(p);
+         expect(utils.relativelyCloseTo(x1r, x1)).to.equal(true);
+         expect(utils.relativelyCloseTo(x2r, x2)).to.equal(true);
+      });
+   });
 });
