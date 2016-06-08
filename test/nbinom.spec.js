@@ -1812,53 +1812,52 @@ describe('Negative Binomial Distribution', function() {
 [            4097,              256, 0.645822673104703,               -0, -3397.76207669137],
 [            4097,              256, 0.568536232924089,               -0, -2621.36359602778],
 [            4097,              256, 0.81528470129706,               -0, -6006.0886497963]
-].forEach(function(tuple) {
-      var x, n, p, logp, rlogp, rlogq, xfromqnbinom;
-      x = tuple[0];
-      n = tuple[1];
-      p = tuple[2];
-      rlogp = tuple[3];
-      rlogq = tuple[4];
-      logp = main.pnbinom(n, p, true, true)(x);
-      if (!utils.isEssentiallyZero(rlogp) && !utils.isEssentiallyZero(rlogq)) {
-         expect(utils.relativelyCloseTo(rlogp, logp, precision)).to.be.ok;
-         expect(utils.relativelyCloseTo(Math.exp(rlogp),
-            main.pnbinom(n, p)(x), precision)).to.be.ok;
-         expect(utils.relativelyCloseTo(rlogq,
-            main.pnbinom(n, p, false, true)(x), precision)).to.be.ok;
-         expect(utils.relativelyCloseTo(Math.exp(rlogq),
-            main.pnbinom(n, p, false)(x), precision)).to.be.ok;
-         xfromqnbinom = main.qnbinom(n, p, true, true)(logp);
-         if (logp !== -Infinity && logp !== 0 && !isNaN(xfromqnbinom)) {
-            expect(utils.relativelyCloseTo(xfromqnbinom,
-               Math.floor(x), precision)).to.be.ok;
+   ].forEach(function(tuple) {
+         var x, n, p, logp, rlogp, rlogq, xfromqnbinom;
+         x = tuple[0];
+         n = tuple[1];
+         p = tuple[2];
+         rlogp = tuple[3];
+         rlogq = tuple[4];
+         logp = main.pnbinom(n, p, true, true)(x);
+         if (!utils.isEssentiallyZero(rlogp) && !utils.isEssentiallyZero(rlogq)) {
+            expect(utils.relativelyCloseTo(rlogp, logp, precision)).to.be.ok;
+            expect(utils.relativelyCloseTo(Math.exp(rlogp),
+               main.pnbinom(n, p)(x), precision)).to.be.ok;
+            expect(utils.relativelyCloseTo(rlogq,
+               main.pnbinom(n, p, false, true)(x), precision)).to.be.ok;
+            expect(utils.relativelyCloseTo(Math.exp(rlogq),
+               main.pnbinom(n, p, false)(x), precision)).to.be.ok;
+            xfromqnbinom = main.qnbinom(n, p, true, true)(logp);
+            if (logp !== -Infinity && logp !== 0 && !isNaN(xfromqnbinom)) {
+               expect(utils.relativelyCloseTo(xfromqnbinom,
+                  Math.floor(x), precision)).to.be.ok;
+            }
          }
-      }
-   }); // forEach
-}); // it
-it('is also exported as an object', function() {
-   var o;
-   o = main.nbinom(33, .283);
-   ['d', 'p', 'q', 'r'].forEach(function(s) {
-      expect(o).to.respondTo(s);
+      }); // forEach
+   }); // it
+   it('is also exported as an object', function() {
+      var o;
+      o = main.nbinom(33, .283);
+      ['d', 'p', 'q', 'r'].forEach(function(s) {
+         expect(o).to.respondTo(s);
+      });
    });
-});
-// it('qnbinom is inverse to pnbinom', function() {
-//    var o, n, p, i, reps;
-//    for (reps = 0; reps < 100; reps += 1)
-//    {
-//       n = Math.floor(Math.random() * 10 + 20);
-//       p = Math.random();
-//       o = main.nbinom(n, p);
-//       for (i = 0; i <= n; i += 1) {
-//          expect(o.q(o.p(i))).to.equal(o.p(i) === 1 ? n : i);
-//          // testing with upperTail
-//          expect(o.q(o.p(i, false), false)).to.equal(
-//             o.p(i, false) === 1 ? 0 : i
-//          );
-//       }
-//    }
-// });
-
+   // it('qnbinom is inverse to pnbinom', function() {
+   //    var o, n, p, i, reps;
+   //    for (reps = 0; reps < 100; reps += 1)
+   //    {
+   //       n = Math.floor(Math.random() * 10 + 20);
+   //       p = Math.random();
+   //       o = main.nbinom(n, p);
+   //       for (i = 0; i <= n; i += 1) {
+   //          expect(o.q(o.p(i))).to.equal(o.p(i) === 1 ? n : i);
+   //          // testing with upperTail
+   //          expect(o.q(o.p(i, false), false)).to.equal(
+   //             o.p(i, false) === 1 ? 0 : i
+   //          );
+   //       }
+   //    }
+   // });
 }); // describe
 
