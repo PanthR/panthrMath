@@ -52,18 +52,23 @@ define(function(require) {
       var lbinom;
 
       logp = logp === true;
-
       lbinom = dbinomLog(size, p);
 
+      if (utils.hasNaN(size, p) ||
+          size < 0 || p < 0 || p > 1 ||
+          size !== Math.floor(size)) {
+         return function() { return NaN; };
+      }
+
       return function(x) {
-         var res;
+         if (utils.hasNaN(x)) { return NaN; }
 
-         res = x === 0 ? size * Math.log(1 - p)
-             : x === size ? size * Math.log(p)
-             : x < 0 || x > size || Math.round(x) !== x ? -Infinity
-             : lbinom(x);
+         if (x < 0 || x > size || Math.floor(x) !== x ||
+                      utils.isInfinite(x)) {
+            return logp ? -Infinity : 0;
+         }
 
-         return logp ? res : Math.exp(res);
+         return logp ? lbinom(x) : Math.exp(lbinom(x));
       };
    }
 
@@ -151,14 +156,11 @@ define(function(require) {
       sigma = Math.sqrt(mu * (1 - prob));
       gamma = (1 - 2 * prob) / sigma;
 
-      // return pWrap(true, logp, function(ps) {
-      return function(p) {
-         var z, ret, probs;
+      return utils.qhelper(lowerTail, logp, 0, size, function(p) {
+         var z, ret;
 
-         probs = utils.logProbs(p, lowerTail, logp);
-
-         if (probs.p === -Infinity) { return 0; }
-         if (probs.q === -Infinity) { return size; }
+         if (!utils.isFinite(size) || !utils.isFinite(prob)) { return NaN; }
+         if (size === 0 || prob === 0) { return 0; }
 
          z = qnorm(0, 1, lowerTail, logp)(p); // initial value
          ret = Math.floor(mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
@@ -169,7 +171,7 @@ define(function(require) {
          }
 
          return discInvCdf2(0, size, ret, p, pbinom(size, prob, false, logp));
-      };
+      });
    }
 
    // rbinom, using inverseCDF
