@@ -20,7 +20,7 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var dbinomLog, pbeta, qnorm, pWrap, discInvCdf, inverseCDF, utils;
+   var dbinomLog, pbeta, qnorm, pWrap, discInvCdf, discInvCdf2, inverseCDF, utils;
 
    dbinomLog = require('../basicFunc/dbinomLog').dbinomLog;
    pbeta = require('./beta').pbeta;
@@ -28,6 +28,7 @@ define(function(require) {
    pWrap = require('../utils').pWrap;
    utils = require('../utils');
    discInvCdf = require('../utils').discInvCdf;
+   discInvCdf2 = require('../utils').discInvCdf2;
    inverseCDF = require('../rgen/inverseCDF');
 
    /**
@@ -166,9 +167,8 @@ define(function(require) {
          if (lowerTail) {
             return discInvCdf(0, size, ret, p, pbinom(size, prob, true, logp));
          }
-         return -discInvCdf(-size, 0, -ret, p, function(x) {
-            return pbinom(size, prob, lowerTail, logp)(-x);
-         });
+
+         return discInvCdf2(0, size, ret, p, pbinom(size, prob, false, logp));
       };
    }
 
