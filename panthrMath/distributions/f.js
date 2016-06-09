@@ -22,14 +22,13 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var gamma, beta, dbinomLog, chisq, adjustLower, qhelper;
+   var gamma, beta, dbinomLog, chisq, utils;
 
    dbinomLog = require('../basicFunc/dbinomLog').dbinomLog;
    gamma = require('./gamma');
    beta = require('./beta');
    chisq = require('./chisq');
-   adjustLower = require('../utils').adjustLower;
-   qhelper = require('../utils').qhelper;
+   utils = require('../utils');
 
    /**
     * Evaluates the F distribution's density function at `x`, where
@@ -48,18 +47,25 @@ define(function(require) {
    function df(df1, df2, logp) {
       logp = logp === true;
 
-      if (df1 <= 0 || df2 <= 0) { return function(x) { return NaN; }; }
+      if (df1 <= 0 || df2 <= 0 || utils.hasNaN(df1, df2)) {
+        return function(x) { return NaN; };
+      }
 
       /* eslint-disable complexity */
       return function(x) {
          var f, q, p, dens;
 
+         if (utils.hasNaN(x)) { return NaN; }
          if (x < 0) { return logp ? -Infinity : 0; }
          if (x === 0) {
             if (df1 > 2) { return logp ? -Infinity : 0; }
             if (df1 === 2) { return logp ? 0 : 1; }
             return Infinity;
          }
+         if (df1 === Infinity && df2 === Infinity) {
+            return x === 1 ? Infinity : logp ? -Infinity : 0;
+         }
+         if (df2 === Infinity) { return gamma.dgamma(df1 / 2, 2 / df1, logp)(x); }
          if (df1 > 1e14) {
             return logp ? gamma.dgamma(df2 / 2, 2 / df2, logp)(1 / x) - 2 * Math.log(x)
                         : gamma.dgamma(df2 / 2, 2 / df2, logp)(1 / x) / (x * x);
@@ -70,6 +76,7 @@ define(function(require) {
          p = x * df1 * f;
 
          if (df1 >= 2) {
+            p = x === Infinity ? 1 : p;
             dens = dbinomLog((df1 + df2 - 2) / 2, p)((df1 - 2) / 2);
             f = df1 * q / 2;
          } else {
@@ -99,12 +106,26 @@ define(function(require) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      if (df1 <= 0 || df2 <= 0) { return function(x) { return NaN; }; }
+      if (df1 <= 0 || df2 <= 0 || utils.hasNaN(df1, df2)) {
+        return function(x) { return NaN; };
+      }
 
       return function(x) {
-         if (x <= 0) { return adjustLower(0, lowerTail, logp); }
+         if (utils.hasNaN(x)) { return NaN; }
+         if (x <= 0) { return utils.adjustLower(0, lowerTail, logp); }
 
-         // TODO: deal with df === INF -- use pchisqr
+         // deal with df === INF -- use pchisqr
+         if (df2 === Infinity) {
+            if (df1 === Infinity) {
+               return x < 1 ? utils.adjustLower(0, lowerTail, logp)
+                  : x === 1 ? logp ? -Math.log(2) : 0.5
+                            : utils.adjustLower(1, lowerTail, logp);
+            }
+            return chisq.pchisq(df1, lowerTail, logp)(x * df1);
+         }
+         if (df1 === Infinity) {
+            return chisq.pchisq(df2, !lowerTail, logp)(df2 / x);
+         }
 
          if (df1 * x > df2) {
             return beta.pbeta(df2 / 2, df1 / 2,
@@ -139,11 +160,16 @@ define(function(require) {
       lowerTail = lowerTail !== false;
       qbeta = beta.qbeta(df2 / 2, df1 / 2, !lowerTail, logp);
 
-      if (df1 <= 0 || df2 <= 0) { return function(x) { return NaN; }; }
+      if (df1 <= 0 || df2 <= 0 || utils.hasNaN(df1, df2)) {
+         return function(x) { return NaN; };
+      }
 
-      // TODO: deal with df === INF -- use qchisqr
-
-      return qhelper(lowerTail, logp, 0, Infinity, function(p) {
+      return utils.qhelper(lowerTail, logp, 0, Infinity, function(p) {
+         if (df1 <= df2 && df2 > 4e5) {
+            return df1 === Infinity ? 1
+                   : chisq.qchisq(df1, lowerTail, logp)(p) / df1;
+         }
+         if (df1 > 4e5) { return df2 / chisq.qchisq(df2, !lowerTail, logp)(p); }
          return (1 / qbeta(p) - 1) * (df2 / df1);
       });
    }
