@@ -12729,4 +12729,135 @@ describe('T Distribution', function() {
          }
       });
    });
+   /* Rcode
+      options(digits = 20)
+      x = c(NaN, -Inf, -1.3, 0, 2, Inf)
+      df = c(NaN, -Inf, -1.3, 0, 1.5, Inf)
+      g = expand.grid(x=x, df=df)
+      g$d = dt(g$x, g$df, log=TRUE)
+      g$p = pt(g$x, g$df, log.p=TRUE)
+      g$q = pt(g$x, g$df, lower.tail=FALSE, log.p=TRUE)
+      s = paste(g$x, g$df, g$d, g$p, g$q, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   it('pt, dt handle inappropriate inputs', function() {
+      [
+      [NaN, NaN, NaN, NaN, NaN],
+      [-Infinity, NaN, NaN, NaN, NaN],
+      [-1.3, NaN, NaN, NaN, NaN],
+      [0, NaN, NaN, NaN, NaN],
+      [2, NaN, NaN, NaN, NaN],
+      [Infinity, NaN, NaN, NaN, NaN],
+      [NaN, -Infinity, NaN, NaN, NaN],
+      [-Infinity, -Infinity, NaN, NaN, NaN],
+      [-1.3, -Infinity, NaN, NaN, NaN],
+      [0, -Infinity, NaN, NaN, NaN],
+      [2, -Infinity, NaN, NaN, NaN],
+      [Infinity, -Infinity, NaN, NaN, NaN],
+      [NaN, -1.3, NaN, NaN, NaN],
+      [-Infinity, -1.3, NaN, NaN, NaN],
+      [-1.3, -1.3, NaN, NaN, NaN],
+      [0, -1.3, NaN, NaN, NaN],
+      [2, -1.3, NaN, NaN, NaN],
+      [Infinity, -1.3, NaN, NaN, NaN],
+      [NaN, 0, NaN, NaN, NaN],
+      [-Infinity, 0, NaN, NaN, NaN],
+      [-1.3, 0, NaN, NaN, NaN],
+      [0, 0, NaN, NaN, NaN],
+      [2, 0, NaN, NaN, NaN],
+      [Infinity, 0, NaN, NaN, NaN],
+      [NaN, 1.5, NaN, NaN, NaN],
+      [-Infinity, 1.5, -Infinity, -Infinity, 0],
+      [-1.3, 1.5, -2.01984504569263, -1.72028737818283, -0.197250069325464],
+      [0, 1.5, -1.07665028483189, -0.693147180559945, -0.693147180559945],
+      [2, 1.5, -2.70075401499472, -0.118889583479949, -2.1884160004101],
+      [Infinity, 1.5, -Infinity, 0, -Infinity],
+      [NaN, Infinity, NaN, NaN, NaN],
+      [-Infinity, Infinity, -Infinity, -Infinity, 0],
+      [-1.3, Infinity, -1.76393853320467, -2.33510327866244, -0.101811802667655],
+      [0, Infinity, -0.918938533204673, -0.693147180559945, -0.693147180559945],
+      [2, Infinity, -2.91893853320467, -0.0230129093289635, -3.78318433368203],
+      [Infinity, Infinity, -Infinity, 0, -Infinity]
+      ].forEach(function(tuple) {
+         var x, df, rlogp, rlogq, rlogd, logp, logq, logd;
+         x = tuple[0];
+         df = tuple[1];
+         rlogd = tuple[2];
+         rlogp = tuple[3];
+         rlogq = tuple[4];
+         logp = main.pt(df, true, true)(x);
+         logq = main.pt(df, false, true)(x);
+         logd = main.dt(df, true)(x);
+         expect(utils.relativelyCloseTo(logp, rlogp)).to.equal(true);
+         expect(utils.relativelyCloseTo(logq, rlogq)).to.equal(true);
+         expect(utils.relativelyCloseTo(logd, rlogd)).to.equal(true);
+      });
+   });
+
+   /* Rcode generating the tests:
+      options(digits = 20)
+      p = c(NaN, -Inf, -1, 0, 0.3, 1, Inf)
+      df = c(NaN, -Inf, -1.3, 0, 1.5, Inf)
+      g = expand.grid(p=p, df=df)
+      g$x1 = qt(g$p, g$df, lower.tail=TRUE, log.p=FALSE)
+      g$x2 = qt(g$p, g$df, lower.tail=FALSE, log.p=FALSE)
+      s = paste(g$p, g$df, g$x1, g$x2, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   it('qt handles inappropriate inputs', function() {
+      [
+      [NaN, NaN, NaN, NaN],
+      [-Infinity, NaN, NaN, NaN],
+      [-1, NaN, NaN, NaN],
+      [0, NaN, NaN, NaN],
+      [0.3, NaN, NaN, NaN],
+      [1, NaN, NaN, NaN],
+      [Infinity, NaN, NaN, NaN],
+      [NaN, -Infinity, NaN, NaN],
+      [-Infinity, -Infinity, NaN, NaN],
+      [-1, -Infinity, NaN, NaN],
+      [0, -Infinity, -Infinity, Infinity],
+      [0.3, -Infinity, NaN, NaN],
+      [1, -Infinity, Infinity, -Infinity],
+      [Infinity, -Infinity, NaN, NaN],
+      [NaN, -1.3, NaN, NaN],
+      [-Infinity, -1.3, NaN, NaN],
+      [-1, -1.3, NaN, NaN],
+      [0, -1.3, -Infinity, Infinity],
+      [0.3, -1.3, NaN, NaN],
+      [1, -1.3, Infinity, -Infinity],
+      [Infinity, -1.3, NaN, NaN],
+      [NaN, 0, NaN, NaN],
+      [-Infinity, 0, NaN, NaN],
+      [-1, 0, NaN, NaN],
+      [0, 0, -Infinity, Infinity],
+      [0.3, 0, NaN, NaN],
+      [1, 0, Infinity, -Infinity],
+      [Infinity, 0, NaN, NaN],
+      [NaN, 1.5, NaN, NaN],
+      [-Infinity, 1.5, NaN, NaN],
+      [-1, 1.5, NaN, NaN],
+      [0, 1.5, -Infinity, Infinity],
+      [0.3, 1.5, -0.651795482602357, 0.651795482602357],
+      [1, 1.5, Infinity, -Infinity],
+      [Infinity, 1.5, NaN, NaN],
+      [NaN, Infinity, NaN, NaN],
+      [-Infinity, Infinity, NaN, NaN],
+      [-1, Infinity, NaN, NaN],
+      [0, Infinity, -Infinity, Infinity],
+      [0.3, Infinity, -0.524400512708041, 0.524400512708041],
+      [1, Infinity, Infinity, -Infinity],
+      [Infinity, Infinity, NaN, NaN]
+      ].forEach(function(tuple) {
+         var p, df, x1r, x2r, x1, x2;
+         p = tuple[0];
+         df = tuple[1];
+         x1r = tuple[2];
+         x2r = tuple[3];
+         x1 = main.qt(df, true, false)(p);
+         x2 = main.qt(df, false, false)(p);
+         expect(utils.relativelyCloseTo(x1r, x1)).to.equal(true);
+         expect(utils.relativelyCloseTo(x2r, x2)).to.equal(true);
+      });
+   });
 });

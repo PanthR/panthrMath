@@ -21,7 +21,7 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var C, bd0, stirlerr, sqrt2pi, bratio, log1p, solve, rgen;
+   var C, bd0, stirlerr, sqrt2pi, bratio, log1p, utils, rgen, normal;
    // var expm1,  qnorm;
 
    C = require('../constants');
@@ -30,10 +30,9 @@ define(function(require) {
    sqrt2pi = C.sqrt2pi;
    bratio = require('../basicFunc/bratio').bratio;
    log1p = require('../basicFunc/log1p').log1p;
-   // expm1 = require('../basicFunc/expm1').expm1;
-   solve = require('../utils').binSearchSolve;
-   // qnorm = require('./normal').qnorm;
+   utils = require('../utils');
    rgen = require('../rgen/rgen');
+   normal = require('./normal');
 
    /*
     * Return the log-of-density function for student's t distribution.
@@ -46,6 +45,8 @@ define(function(require) {
       t = -bd0(df / 2, (df + 1) / 2) + stirlerr((df + 1) / 2) - stirlerr(df / 2);
       return function(x) {
          var x2n, logx2n, u;
+
+         if (utils.hasNaN(x, df) || df <= 0) { return NaN; }
 
          x2n = x * x / df;
          logx2n = Math.log(1 + x2n) / 2;
@@ -75,9 +76,8 @@ define(function(require) {
 
       logp = logp === true;
       dtl = dtlog(df);
-      return function(x) {
-         return logp ? dtl(x) : Math.exp(dtl(x));
-      };
+      if (df === Infinity) { return normal.dnorm(0, 1, logp); }
+      return logp ? dtl : function(x) { return Math.exp(dtl(x)); };
    }
 
    // cumulative distribution function, log version
@@ -86,6 +86,7 @@ define(function(require) {
       return function(x) {
          var val;
 
+         if (utils.hasNaN(x, df) || df <= 0) { return NaN; }
          val = df > x * x ?
                bratio(0.5, df / 2, x * x / (df + x * x), false, true)
              : bratio(df / 2, 0.5, 1 / (1 + x / df * x), true, true);
@@ -118,9 +119,8 @@ define(function(require) {
       lowerTail = lowerTail !== false;
       logp = logp === true;
       ptl = ptlog(df, lowerTail);
-      return function(x) {
-         return logp ? ptl(x) : Math.exp(ptl(x));
-      };
+      if (df === Infinity) { return normal.pnorm(0, 1, lowerTail, logp); }
+      return logp ? ptl : function(x) { return Math.exp(ptl(x)); };
    }
 
    // inverse cdf
@@ -149,16 +149,17 @@ define(function(require) {
       lowerTail = lowerTail !== false;
       logp = logp === true;
 
-      return function(p) {
+      if (utils.hasNaN(df)) { return function(p) { return NaN; }; }
+      return utils.qhelper(lowerTail, logp, -Infinity, Infinity, function(p) {
          // var pp;
 
          // two-tailed prob, pp = 2 * min(p, 1-p)
          // pp = 2 * (logp ? Math.min(Math.exp(p), -expm1(p))
                         // : Math.min(p, 1 - p));
-
+         if (df <= 0) { return NaN; }
          // Using the solver on whole range (possibly inefficient but works)
          // if (df < 1) {
-            return solve(function(x) {
+            return utils.binSearchSolve(function(x) {
                return pt(df, lowerTail, logp)(x);
             }, p);
          // }
@@ -169,7 +170,7 @@ define(function(require) {
 
          // TODO: Could consider optimizing for df close to 1 or 2
 
-      };
+      });
    }
 
    /**
