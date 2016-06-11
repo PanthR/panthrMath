@@ -1,6 +1,6 @@
 {
   "name": "panthr-math",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Math computation library for PanthR. Includes standard statistical distributions.",
   "main": "index.js",
   "scripts": {
