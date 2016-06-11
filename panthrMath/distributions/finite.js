@@ -22,8 +22,8 @@ define(function(require) {
     * (similar to the `ws`).
     *
     * `finite` returns an object representing the distribution, `dfinite` returns
-    * the pmf, `pfinite` the cdf, `qfinite` the inverse cdf, and `rfinite` generates
-    * random variates.
+    * the probability mass function, `pfinite` the cumulative distribution function,
+    * `qfinite` the inverse cdf, and `rfinite` generates random variates.
     *
     * Examples:
     * ```

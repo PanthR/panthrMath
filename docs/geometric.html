@@ -30,9 +30,12 @@
         <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
         <a href="chisq.html"><li class="depth2"><code>chisq</code></li></a>
         <a href="exponential.html"><li class="depth2"><code>exponential</code></li></a>
+        <a href="f.html"><li class="depth2"><code>f</code></li></a>
         <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
         <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
         <a href="geometric.html"><li class="depth2"><code>geometric</code></li></a>
+        <a href="lognormal.html"><li class="depth2"><code>lognormal</code></li></a>
+        <a href="nbinom.html"><li class="depth2"><code>nbinom</code></li></a>
         <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
         <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
         <a href="t.html"><li class="depth2"><code>t</code></li></a>
@@ -61,13 +64,13 @@
       <div class="moduleInfo">
         <h2>Module <code>geometric</code></h2>
         <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
-        <p>Provides density function, cumulative distribution function,
+        <p>Provides probability mass function, cumulative distribution function,
 quantile function, and random number generator
 for the geometric distribution with parameter the probability $p$, which
 is defined by the pdf
 $$ f(x; p) = p (1-p)^x$$
 where $0 &lt; p \leq 1$ and $x \in\left\{0,1,2,\ldots\right\}$.</p>
-<p><a href="#dgeom"><code>dgeom</code></a> provides access to this probability density function,
+<p><a href="#dgeom"><code>dgeom</code></a> provides access to this probability mass function,
 <a href="#pgeom"><code>pgeom</code></a> to the cumulative distribution function, <a href="#qgeom"><code>qgeom</code></a> to the
 quantile function (inverse cdf)
 and <a href="#rgeom"><code>rgeom</code></a> to random deviates.</p>
@@ -77,7 +80,7 @@ the probability parameter $p$.</p>
       </div>
       <div>
         <h4 id="dgeom"><code>dgeom(prob, logp)(x)</code></h4>
-        <p>Evaluates the geometric distribution's density function at <code>x</code>:
+        <p>Evaluates the geometric distribution's probability mass function at <code>x</code>:
 $$\textrm{dgeom}(p)(x) = p(1-p)^x$$
 for $x \in\left\{0,1,2,\ldots\right\}$.</p>
 <p>Expects the probability $0 &lt; p\leq 1$.</p>

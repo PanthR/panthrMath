@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
-    <title>t</title>
+    <title>lognormal</title>
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
@@ -14,7 +14,7 @@
   </head>
   <body>
     <div id="header">
-    <h1>Documentation for module <code>t</code>
+    <h1>Documentation for module <code>lognormal</code>
       
       </h1>
     </div>
@@ -47,80 +47,77 @@
         <h3>Contents</h3>
       <ul>
         
-        <a href="#dt"><li><code>dt</code></li></a>
+        <a href="#dlnorm"><li><code>dlnorm</code></li></a>
         
-        <a href="#pt"><li><code>pt</code></li></a>
+        <a href="#lognormal"><li><code>lognormal</code></li></a>
         
-        <a href="#qt"><li><code>qt</code></li></a>
+        <a href="#plnorm"><li><code>plnorm</code></li></a>
         
-        <a href="#rt"><li><code>rt</code></li></a>
+        <a href="#qlnorm"><li><code>qlnorm</code></li></a>
         
-        <a href="#tdistr"><li><code>tdistr</code></li></a>
+        <a href="#rlnorm"><li><code>rlnorm</code></li></a>
         
       </ul>
       </div>
     </div>
     <div id="main">
       <div class="moduleInfo">
-        <h2>Module <code>t</code></h2>
+        <h2>Module <code>lognormal</code></h2>
         <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
         <p>Provides density function, cumulative distribution function,
 quantile function, and random number generator
-for the Student's t distribution, which is defined by the pdf
-$$f(x;\nu) = \frac{1}{\sqrt{\nu}\,\textrm{B}(1/2, \nu/2)} \left(1+\frac{x^2}{\nu} \right)^{-\frac{\nu + 1}{2}}$$
-where B is the Beta function, $x \in (-\infty, \infty)$ and $\nu &gt;0$ is the <em>degrees of freedom</em>.</p>
-<p><a href="#dt"><code>dt</code></a> provides access to this probability density function,
-<a href="#pt"><code>pt</code></a> to the cumulative distribution function, <a href="#qt"><code>qt</code></a> to the
+for the lognormal distribution, with parameter $\mu$ (<code>meanlog</code>) and
+$\sigma$ (<code>sdlog</code>) for the associated normal distribution.</p>
+<p>The lognormal is defined by the pdf:
+$$f(x;\mu,\sigma) = \frac{1}{x\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(\ln x-\mu)^2}{2\sigma^2}}$$
+where $x\in(0,\infty)$.</p>
+<p><a href="#dlnorm"><code>dlnorm</code></a> provides access to this probability density function,
+<a href="#plnorm"><code>plnorm</code></a> to the cumulative distribution function, <a href="#qlnorm"><code>qlnorm</code></a> to the
 quantile function (inverse cdf)
-and <a href="#rt"><code>rt</code></a> to random deviates.</p>
-<p>Finally, you can use <a href="#tdistr"><code>tdistr</code></a> to obtain an object
-representing the t distribution for a given value of $\nu$.</p>
+and <a href="#rlnorm"><code>rlnorm</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#lognormal"><code>lognormal</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
       </div>
       <div>
-        <h4 id="dt"><code>dt(df, logp)(x)</code></h4>
-        <p>Evaluates the t density function at <code>x</code>:
-$$\textrm{dt}(\textrm{df})(x) = \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$</p>
-<p>Expects $\textrm{df} &gt; 0$.</p>
-<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
-logarithm of the result.</p>
+        <h4 id="dlnorm"><code>dlnorm(meanlog, sdlog, logp)(x)</code></h4>
+        <p>Evaluates the lognormal distribution's density function at <code>x</code>.</p>
+<p>Expects $x &gt; 0$ and $\textrm{sdlog} &gt; 0$.</p>
       </div>
       <div>
-        <h4 id="pt"><code>pt(df, lowerTail, logp)(x)</code></h4>
-        <p>Evaluates the lower-tail cdf at <code>x</code> for the t distribution:
-$$\textrm{pt}(\textrm{df})(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$</p>
-<p>Expects $\textrm{df} &gt; 0$.</p>
+        <h4 id="lognormal"><code>lognormal(meanlog, sdlog)</code></h4>
+        <p>Returns an object representing a normal distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>lognormal(meanlog, sdlog).d(x, logp)            // same as dlnorm(meanlog, sdlog, logp)(x)
+lognormal(meanlog, sdlog).p(x, lowerTail, logp) // same as plnorm(meanlog, sdlog, lowerTail, logp)(x)
+lognormal(meanlog, sdlog).q(x, lowerTail, logp) // same as qlnorm(meanlog, sdlog, lowerTail, logp)(x)
+lognormal(meanlog, sdlog).r()                   // same as rlnorm(meanlog, sdlog)()</code></pre>
+      </div>
+      <div>
+        <h4 id="plnorm"><code>plnorm(meanlog, sdlog, lowerTail, logp)(x)</code></h4>
+        <p>Evaluates the lower-tail cdf at <code>x</code> for the lognormal distribution:
+$$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{2}\left(1 + \textrm{erf}\left(\frac{\ln x - \mu}{\sigma\sqrt{2}}\right)\right)$$</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
 the upper tail probability instead.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
 of the result.</p>
+<p>Expects $\textrm{sdlog} &gt; 0$ and $x &gt; 0$.</p>
       </div>
       <div>
-        <h4 id="qt"><code>qt(df, lowerTail, logp)(p)</code></h4>
-        <p>Evaluates the t distribution's quantile function
-(inverse cdf) at <code>p</code>:
-$$\textrm{qt}(\textrm{df})(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
-where $X$ is a random variable with the $t(\textrm{df})$ distribution.</p>
-<p>Expects $\textrm{df} &gt; 0$ and $0 \leq p \leq 1$.</p>
+        <h4 id="qlnorm"><code>qlnorm(meanlog, sdlog, lowerTail, logp)(p)</code></h4>
+        <p>Evaluates the lognormal distribution's quantile function (inverse cdf) at <code>p</code>:
+$$\textrm{qlnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the lognormal distribution.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
 interpreted as an upper tail probability (returns
 $x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
 the logarithm of the desired probability.</p>
-<p>Based on: R code</p>
+<p>Expects $\textrm{sdlog} &gt; 0$.</p>
       </div>
       <div>
-        <h4 id="rt"><code>rt(df)()</code></h4>
-        <p>Returns a random variate from the $t(\textrm{df})$ distribution.</p>
-<p>Expects $\textrm{df} &gt; 0$.</p>
-      </div>
-      <div>
-        <h4 id="tdistr"><code>tdistr(df)</code></h4>
-        <p>Returns an object representing a t distribution with $\textrm{df} &gt; 0$
-degrees of freedom, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
-<pre class="prettyprint source"><code>tdistr(a, b).d(x, logp)            // same as dt(a, b, logp)(x)
-tdistr(a, b).p(x, lowerTail, logp) // same as pt(a, b, lowerTail, logp)(x)
-tdistr(a, b).q(x, lowerTail, logp) // same as qt(a, b, lowerTail, logp)(x)
-tdistr(a, b).r()                   // same as rt(a, b)()</code></pre>
+        <h4 id="rlnorm"><code>rlnorm(meanlog, sdlog)()</code></h4>
+        <p>Returns a random variate from the lognormal distribution.</p>
+<p>Expects $\textrm{sdlog} &gt; 0$.</p>
+<p>Uses a rejection polar method.</p>
       </div>
     </div>
   </body>

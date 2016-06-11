@@ -30,9 +30,12 @@
         <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
         <a href="chisq.html"><li class="depth2"><code>chisq</code></li></a>
         <a href="exponential.html"><li class="depth2"><code>exponential</code></li></a>
+        <a href="f.html"><li class="depth2"><code>f</code></li></a>
         <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
         <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
         <a href="geometric.html"><li class="depth2"><code>geometric</code></li></a>
+        <a href="lognormal.html"><li class="depth2"><code>lognormal</code></li></a>
+        <a href="nbinom.html"><li class="depth2"><code>nbinom</code></li></a>
         <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
         <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
         <a href="t.html"><li class="depth2"><code>t</code></li></a>
@@ -49,6 +52,8 @@
         <a href="#beta"><li><code>beta</code></li></a>
         
         <a href="#bratio"><li><code>bratio</code></li></a>
+        
+        <a href="#dbinomLog"><li><code>dbinomLog</code></li></a>
         
         <a href="#erf"><li><code>erf</code></li></a>
         
@@ -114,6 +119,13 @@ If <code>logp</code> is <code>true</code>, returns the logarithm of the tail.
 Expects $a&gt;0$, $b&gt;0$, and $0 \leq x \leq 1$.</p>
 <p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
 Ratios</em>, by DiDonato and Morris, 1992</p>
+      </div>
+      <div>
+        <h4 id="dbinomLog"><code>dbinomLog(size, p)</code></h4>
+        <p>Performs the raw binomial log computation, even when $x$ is not an
+integer.</p>
+<p>Based on:  <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
       </div>
       <div>
         <h4 id="erf"><code>erf(x)</code></h4>

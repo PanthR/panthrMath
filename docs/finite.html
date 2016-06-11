@@ -30,9 +30,12 @@
         <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
         <a href="chisq.html"><li class="depth2"><code>chisq</code></li></a>
         <a href="exponential.html"><li class="depth2"><code>exponential</code></li></a>
+        <a href="f.html"><li class="depth2"><code>f</code></li></a>
         <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
         <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
         <a href="geometric.html"><li class="depth2"><code>geometric</code></li></a>
+        <a href="lognormal.html"><li class="depth2"><code>lognormal</code></li></a>
+        <a href="nbinom.html"><li class="depth2"><code>nbinom</code></li></a>
         <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
         <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
         <a href="t.html"><li class="depth2"><code>t</code></li></a>
@@ -73,15 +76,15 @@ corresponding to the values the distribution can take and their
 respective probabilities. In this case the <code>xs</code> are assumed to be distinct and
 in increasing order, and the <code>ws</code> are treated as weights, so if they do not add
 up to 1 then they will be scaled appropriately. The <code>ws</code> need to be positive.</li>
-<li>It can have properties <code>f</code>, <code>min</code>, <code>max</code>, where <code>min</code> and <code>max</code> are numbers
-and <code>f(i)</code> is a function. Then the distribution's values are meant to be the
+<li>It can have properties <a href="#f"><code>f</code></a>, <code>min</code>, <code>max</code>, where <code>min</code> and <code>max</code> are numbers
+and <a href="#f"><code>f(i)</code></a> is a function. Then the distribution's values are meant to be the
 sequential numbers (arithmetic sequence) from <code>min</code> to <code>max</code> with
-an increment of 1, and <code>f(i)</code> gives the probability of the value <code>i</code>
+an increment of 1, and <a href="#f"><code>f(i)</code></a> gives the probability of the value <code>i</code>
 (similar to the <code>ws</code>).</li>
 </ul>
 <p><a href="#finite"><code>finite</code></a> returns an object representing the distribution, <a href="#dfinite"><code>dfinite</code></a> returns
-the pmf, <a href="#pfinite"><code>pfinite</code></a> the cdf, <a href="#qfinite"><code>qfinite</code></a> the inverse cdf, and <a href="#rfinite"><code>rfinite</code></a> generates
-random variates.</p>
+the probability mass function, <a href="#pfinite"><code>pfinite</code></a> the cumulative distribution function,
+<a href="#qfinite"><code>qfinite</code></a> the inverse cdf, and <a href="#rfinite"><code>rfinite</code></a> generates random variates.</p>
 <p>Examples:</p>
 <pre class="prettyprint source"><code>finite({ min: 1, max: 10, f: function() { return 1; } })  // 10-sided fair die
 finite({ xs: [0, 1], ws: [2, 1] }) // Bernoulli trial P(0) = 2/3</code></pre>

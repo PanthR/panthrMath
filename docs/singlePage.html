@@ -53,6 +53,8 @@
           
           <a href="#bratio"><li><code>bratio</code></li></a>
           
+          <a href="#dbinomLog"><li><code>dbinomLog</code></li></a>
+          
           <a href="#erf"><li><code>erf</code></li></a>
           
           <a href="#erfc"><li><code>erfc</code></li></a>
@@ -109,11 +111,17 @@
           
           <a href="#exp"><li><code>exp</code></li></a>
           
+          <a href="#f"><li><code>f</code></li></a>
+          
           <a href="#finite"><li><code>finite</code></li></a>
           
           <a href="#gamma"><li><code>gamma</code></li></a>
           
           <a href="#geom"><li><code>geom</code></li></a>
+          
+          <a href="#lognormal"><li><code>lognormal</code></li></a>
+          
+          <a href="#nbinom"><li><code>nbinom</code></li></a>
           
           <a href="#normal"><li><code>normal</code></li></a>
           
@@ -180,6 +188,20 @@
           <a href="#rexp"><li><code>rexp</code></li></a>
           
         </ul>
+        <a href="#f"><li class="depth2"><code>f</code></li></a>
+        <ul>
+          
+          <a href="#df"><li><code>df</code></li></a>
+          
+          <a href="#fdistr"><li><code>fdistr</code></li></a>
+          
+          <a href="#pf"><li><code>pf</code></li></a>
+          
+          <a href="#qf"><li><code>qf</code></li></a>
+          
+          <a href="#rf"><li><code>rf</code></li></a>
+          
+        </ul>
         <a href="#finite"><li class="depth2"><code>finite</code></li></a>
         <ul>
           
@@ -220,6 +242,34 @@
           <a href="#qgeom"><li><code>qgeom</code></li></a>
           
           <a href="#rgeom"><li><code>rgeom</code></li></a>
+          
+        </ul>
+        <a href="#lognormal"><li class="depth2"><code>lognormal</code></li></a>
+        <ul>
+          
+          <a href="#dlnorm"><li><code>dlnorm</code></li></a>
+          
+          <a href="#lognormal"><li><code>lognormal</code></li></a>
+          
+          <a href="#plnorm"><li><code>plnorm</code></li></a>
+          
+          <a href="#qlnorm"><li><code>qlnorm</code></li></a>
+          
+          <a href="#rlnorm"><li><code>rlnorm</code></li></a>
+          
+        </ul>
+        <a href="#nbinom"><li class="depth2"><code>nbinom</code></li></a>
+        <ul>
+          
+          <a href="#dnbinom"><li><code>dnbinom</code></li></a>
+          
+          <a href="#nbinom"><li><code>nbinom</code></li></a>
+          
+          <a href="#pnbinom"><li><code>pnbinom</code></li></a>
+          
+          <a href="#qnbinom"><li><code>qnbinom</code></li></a>
+          
+          <a href="#rnbinom"><li><code>rnbinom</code></li></a>
           
         </ul>
         <a href="#normal"><li class="depth2"><code>normal</code></li></a>
@@ -377,6 +427,13 @@ If <code>logp</code> is <code>true</code>, returns the logarithm of the tail.
 Expects $a&gt;0$, $b&gt;0$, and $0 \leq x \leq 1$.</p>
 <p>Based on: <em>Algorithm 708: Significant Digit Computation of the Incomplete Beta Function
 Ratios</em>, by DiDonato and Morris, 1992</p>
+          </div>
+          <div>
+            <h4 id="dbinomLog"><code>dbinomLog(size, p)</code></h4>
+            <p>Performs the raw binomial log computation, even when $x$ is not an
+integer.</p>
+<p>Based on:  <em>Fast and Accurate Computation of Binomial Probabilities</em>,
+by Catherine Loader, 2000</p>
           </div>
           <div>
             <h4 id="erf"><code>erf(x)</code></h4>
@@ -593,6 +650,10 @@ a method for generating random variates.</p>
             <p>The exponential distribution. See <a href = "exponential.html"><code>exponential</code></a>.</p>
           </div>
           <div>
+            <h4 id="f"><code>f</code></h4>
+            <p>The f distribution. See <a href = "f.html"><code>f</code></a>.</p>
+          </div>
+          <div>
             <h4 id="finite"><code>finite</code></h4>
             <p>Constructor for finite distributions. See <a href = "finite.html"><code>finite</code></a>.</p>
           </div>
@@ -602,7 +663,15 @@ a method for generating random variates.</p>
           </div>
           <div>
             <h4 id="geom"><code>geom</code></h4>
-            <p>The binomial distribution. See <a href = "geometric.html"><code>geometric</code></a>.</p>
+            <p>The geometric distribution. See <a href = "geometric.html"><code>geometric</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="lognormal"><code>lognormal</code></h4>
+            <p>The lognormal distribution. See <a href = "lognormal.html"><code>lognormal</code></a>.</p>
+          </div>
+          <div>
+            <h4 id="nbinom"><code>nbinom</code></h4>
+            <p>The negative binomial distribution. See <a href = "nbinom.html"><code>nbinom</code></a>.</p>
           </div>
           <div>
             <h4 id="normal"><code>normal</code></h4>
@@ -732,7 +801,7 @@ $$\textrm{pbinom}(\textrm{size}, p, \textrm{false})(x) = \sum_{k&gt;x} \binom{\t
 of the result.</p>
           </div>
           <div>
-            <h4 id="qbinom"><code>qbinom(size, p, lowerTail, logp)(prob)</code></h4>
+            <h4 id="qbinom"><code>qbinom(size, prob, lowerTail, logp)(prob)</code></h4>
             <p>Returns the quantile corresponding to <code>prob</code>
 for the $\textrm{Binomial}(size, p)$ distribution.
 In general, for a discrete probability
@@ -772,7 +841,7 @@ the degrees of freedom $k$.</p>
 <p>The implementation uses the gamma distribution. See <a href = "gamma.html"><code>gamma</code></a>.</p>
           <div>
             <h4 id="chisq"><code>chisq(df)</code></h4>
-            <p>Returns an object representing a chi squared distribution for <code>df</code> degrees
+            <p>Returns an object representing a chi squared distribution for <a href="#df"><code>df</code></a> degrees
 of freedom, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
 <pre class="prettyprint source"><code>chisq(df).d(x, logp)            // same as dchisq(df, logp)(x)
 chisq(df).p(x, lowerTail, logp) // same as pchisq(df, lowerTail, logp)(x)
@@ -782,7 +851,7 @@ chisq(df).r()                   // same as rchisq(df)()</code></pre>
           <div>
             <h4 id="dchisq"><code>dchisq(df, logp)(x)</code></h4>
             <p>Evaluates the chi squared distribution's density function at <code>x</code>.</p>
-<p><code>df</code> is the degrees of freedom $k$.</p>
+<p><a href="#df"><code>df</code></a> is the degrees of freedom $k$.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
 logarithm of the result.</p>
           </div>
@@ -791,7 +860,7 @@ logarithm of the result.</p>
             <p>Evaluates the lower-tail cdf at <code>x</code> for the chi squared distribution:
 $$\textrm{pchisq}(k)(x) = \frac{\gamma(k/2, x/2)}{\Gamma(k/2)}$$</p>
 <p>where $\gamma$ is the incomplete gamma function, and
-<code>df</code> is the degrees of freedom $k$.</p>
+<a href="#df"><code>df</code></a> is the degrees of freedom $k$.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
 the upper tail probability instead.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
@@ -803,7 +872,7 @@ of the result.</p>
 (inverse cdf) at <code>p</code>:
 $$\textrm{qchisq}(k)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
 where $X$ is a random variable with the chi-squared distribution.</p>
-<p><code>df</code> is the degrees of freedom $k$.</p>
+<p><a href="#df"><code>df</code></a> is the degrees of freedom $k$.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
 interpreted as an upper tail probability (returns
 $x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
@@ -812,7 +881,7 @@ the logarithm of the desired probability.</p>
           </div>
           <div>
             <h4 id="rchisq"><code>rchisq(df)()</code></h4>
-            <p>Returns a random variate from the chi squared distribution with <code>df</code> degrees
+            <p>Returns a random variate from the chi squared distribution with <a href="#df"><code>df</code></a> degrees
 of freedom.</p>
           </div>
         </div>
@@ -881,6 +950,66 @@ the logarithm of the desired probability.</p>
           </div>
         </div>
         <div>
+          <h2 id="f"><code>f</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the Fisher-Snedecor F distribution with parameters <code>df1</code> and <code>df2</code>
+(degrees of freedom).  It is the distribution of the ratio of the mean
+squares of <code>df1</code> and <code>df2</code> independent standard normal variates.</p>
+<p><a href="#df"><code>df</code></a> provides access to the probability density function,
+<a href="#pf"><code>pf</code></a> to the cumulative distribution function, <a href="#qf"><code>qf</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rf"><code>rf</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#fdistr"><code>fdistr</code></a> to obtain an object
+representing the F distribution for given values of
+<code>df1</code> and <code>df2</code>.</p>
+          <div>
+            <h4 id="df"><code>df(df1, df2, logp)(x)</code></h4>
+            <p>Evaluates the F distribution's density function at <code>x</code>, where
+$x \geq 0$.</p>
+<p>Expects <code>df1</code> and <code>df2</code> to be positive.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+<p>Adapted from df.c in R's code.</p>
+          </div>
+          <div>
+            <h4 id="fdistr"><code>fdistr(df1, df2)</code></h4>
+            <p>Returns an object representing an F distribution with
+given degrees of freedom <code>df1</code> and <code>df2</code>.  The object has
+properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>fdistr(df1, df2).d(x, logp)            // same as df(df1, df2, logp)(x)
+fdistr(df1, df2).p(x, lowerTail, logp) // same as pf(df1, df2, lowerTail, logp)(x)
+fdistr(df1, df2).q(x, lowerTail, logp) // same as qf(df1, df2, lowerTail, logp)(x)
+fdistr(df1, df2).r()                   // same as rf(df1, df2)()</code></pre>
+          </div>
+          <div>
+            <h4 id="pf"><code>pf(df1, df2, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the F distribution.</p>
+<p>Expects <code>df1</code> and <code>df2</code> to be positive.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qf"><code>qf(df1, df2, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the F distribution's quantile function
+(inverse cdf) at <code>p</code>.</p>
+<p>Expects <code>df1</code> and <code>df2</code> to be positive.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+          </div>
+          <div>
+            <h4 id="rf"><code>rf(df1, df2)()</code></h4>
+            <p>Returns a random variate from the F distribution, computed as a ratio
+of chi square variates.</p>
+<p>Expects <code>df1</code> and <code>df2</code> to be positive.</p>
+          </div>
+        </div>
+        <div>
           <h2 id="finite"><code>finite</code></h2>
           <p>Provides probability mass function, constructor, cumulative distribution
 function, quantile function, and random number generator for finite
@@ -894,15 +1023,15 @@ corresponding to the values the distribution can take and their
 respective probabilities. In this case the <code>xs</code> are assumed to be distinct and
 in increasing order, and the <code>ws</code> are treated as weights, so if they do not add
 up to 1 then they will be scaled appropriately. The <code>ws</code> need to be positive.</li>
-<li>It can have properties <code>f</code>, <code>min</code>, <code>max</code>, where <code>min</code> and <code>max</code> are numbers
-and <code>f(i)</code> is a function. Then the distribution's values are meant to be the
+<li>It can have properties <a href="#f"><code>f</code></a>, <code>min</code>, <code>max</code>, where <code>min</code> and <code>max</code> are numbers
+and <a href="#f"><code>f(i)</code></a> is a function. Then the distribution's values are meant to be the
 sequential numbers (arithmetic sequence) from <code>min</code> to <code>max</code> with
-an increment of 1, and <code>f(i)</code> gives the probability of the value <code>i</code>
+an increment of 1, and <a href="#f"><code>f(i)</code></a> gives the probability of the value <code>i</code>
 (similar to the <code>ws</code>).</li>
 </ul>
 <p><a href="#finite"><code>finite</code></a> returns an object representing the distribution, <a href="#dfinite"><code>dfinite</code></a> returns
-the pmf, <a href="#pfinite"><code>pfinite</code></a> the cdf, <a href="#qfinite"><code>qfinite</code></a> the inverse cdf, and <a href="#rfinite"><code>rfinite</code></a> generates
-random variates.</p>
+the probability mass function, <a href="#pfinite"><code>pfinite</code></a> the cumulative distribution function,
+<a href="#qfinite"><code>qfinite</code></a> the inverse cdf, and <a href="#rfinite"><code>rfinite</code></a> generates random variates.</p>
 <p>Examples:</p>
 <pre class="prettyprint source"><code>finite({ min: 1, max: 10, f: function() { return 1; } })  // 10-sided fair die
 finite({ xs: [0, 1], ws: [2, 1] }) // Bernoulli trial P(0) = 2/3</code></pre>
@@ -1036,13 +1165,13 @@ by Gentle, Springer 2005</p>
         </div>
         <div>
           <h2 id="geometric"><code>geometric</code></h2>
-          <p>Provides density function, cumulative distribution function,
+          <p>Provides probability mass function, cumulative distribution function,
 quantile function, and random number generator
 for the geometric distribution with parameter the probability $p$, which
 is defined by the pdf
 $$ f(x; p) = p (1-p)^x$$
 where $0 &lt; p \leq 1$ and $x \in\left\{0,1,2,\ldots\right\}$.</p>
-<p><a href="#dgeom"><code>dgeom</code></a> provides access to this probability density function,
+<p><a href="#dgeom"><code>dgeom</code></a> provides access to this probability mass function,
 <a href="#pgeom"><code>pgeom</code></a> to the cumulative distribution function, <a href="#qgeom"><code>qgeom</code></a> to the
 quantile function (inverse cdf)
 and <a href="#rgeom"><code>rgeom</code></a> to random deviates.</p>
@@ -1051,7 +1180,7 @@ representing the geometric distribution for a given value of
 the probability parameter $p$.</p>
           <div>
             <h4 id="dgeom"><code>dgeom(prob, logp)(x)</code></h4>
-            <p>Evaluates the geometric distribution's density function at <code>x</code>:
+            <p>Evaluates the geometric distribution's probability mass function at <code>x</code>:
 $$\textrm{dgeom}(p)(x) = p(1-p)^x$$
 for $x \in\left\{0,1,2,\ldots\right\}$.</p>
 <p>Expects the probability $0 &lt; p\leq 1$.</p>
@@ -1098,6 +1227,125 @@ the logarithm of the desired probability.</p>
             <p>Returns a random variate from the geometric distribution.</p>
 <p>Expects the probability parameter $0 &lt; p \leq 1$.</p>
 <p>Following R's code (rgeom.c)</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="lognormal"><code>lognormal</code></h2>
+          <p>Provides density function, cumulative distribution function,
+quantile function, and random number generator
+for the lognormal distribution, with parameter $\mu$ (<code>meanlog</code>) and
+$\sigma$ (<code>sdlog</code>) for the associated normal distribution.</p>
+<p>The lognormal is defined by the pdf:
+$$f(x;\mu,\sigma) = \frac{1}{x\sigma \sqrt{2\pi}} e^{\displaystyle -\frac{(\ln x-\mu)^2}{2\sigma^2}}$$
+where $x\in(0,\infty)$.</p>
+<p><a href="#dlnorm"><code>dlnorm</code></a> provides access to this probability density function,
+<a href="#plnorm"><code>plnorm</code></a> to the cumulative distribution function, <a href="#qlnorm"><code>qlnorm</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rlnorm"><code>rlnorm</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#lognormal"><code>lognormal</code></a> to obtain an object
+representing the distribution for some values of the parameters.</p>
+          <div>
+            <h4 id="dlnorm"><code>dlnorm(meanlog, sdlog, logp)(x)</code></h4>
+            <p>Evaluates the lognormal distribution's density function at <code>x</code>.</p>
+<p>Expects $x &gt; 0$ and $\textrm{sdlog} &gt; 0$.</p>
+          </div>
+          <div>
+            <h4 id="lognormal"><code>lognormal(meanlog, sdlog)</code></h4>
+            <p>Returns an object representing a normal distribution, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>lognormal(meanlog, sdlog).d(x, logp)            // same as dlnorm(meanlog, sdlog, logp)(x)
+lognormal(meanlog, sdlog).p(x, lowerTail, logp) // same as plnorm(meanlog, sdlog, lowerTail, logp)(x)
+lognormal(meanlog, sdlog).q(x, lowerTail, logp) // same as qlnorm(meanlog, sdlog, lowerTail, logp)(x)
+lognormal(meanlog, sdlog).r()                   // same as rlnorm(meanlog, sdlog)()</code></pre>
+          </div>
+          <div>
+            <h4 id="plnorm"><code>plnorm(meanlog, sdlog, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the lognormal distribution:
+$$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{2}\left(1 + \textrm{erf}\left(\frac{\ln x - \mu}{\sigma\sqrt{2}}\right)\right)$$</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+<p>Expects $\textrm{sdlog} &gt; 0$ and $x &gt; 0$.</p>
+          </div>
+          <div>
+            <h4 id="qlnorm"><code>qlnorm(meanlog, sdlog, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the lognormal distribution's quantile function (inverse cdf) at <code>p</code>:
+$$\textrm{qlnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the lognormal distribution.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+<p>Expects $\textrm{sdlog} &gt; 0$.</p>
+          </div>
+          <div>
+            <h4 id="rlnorm"><code>rlnorm(meanlog, sdlog)()</code></h4>
+            <p>Returns a random variate from the lognormal distribution.</p>
+<p>Expects $\textrm{sdlog} &gt; 0$.</p>
+<p>Uses a rejection polar method.</p>
+          </div>
+        </div>
+        <div>
+          <h2 id="nbinom"><code>nbinom</code></h2>
+          <p>Provides probability mass function, cumulative distribution function,
+quantile function, and random number generator
+for the negative binomial distribution with parameters <code>size</code> and <code>prob</code>.</p>
+<p>This represents the number of failures which occur in a sequence of Bernoulli
+trials before a target number (<code>size</code>) of successes is reached. The parameter
+<code>prob</code> represents the probability of success in each trial.</p>
+<p><code>size</code> must be strictly positive, and <code>prob</code> must be in <code>(0, 1]</code>.</p>
+<p><a href="#dnbinom"><code>dnbinom</code></a> provides access to the probability mass function,
+<a href="#pnbinom"><code>pnbinom</code></a> to the cumulative distribution function, <a href="#qnbinom"><code>qnbinom</code></a> to the
+quantile function (inverse cdf)
+and <a href="#rnbinom"><code>rnbinom</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#nbinom"><code>nbinom</code></a> to obtain an object
+representing the negative binomial distribution for given values of
+<code>size</code> and <code>prob</code>.</p>
+          <div>
+            <h4 id="dnbinom"><code>dnbinom(size, prob, logp)(x)</code></h4>
+            <p>Evaluates the negative binomial distribution's probability mass function
+at <code>x</code>, where $x \geq 0$.</p>
+<p><code>size</code> must be strictly positive, and <code>prob</code> must be in <code>(0, 1]</code>.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
+logarithm of the result.</p>
+<p>Adapted from dnbinom.c in R's code.</p>
+          </div>
+          <div>
+            <h4 id="nbinom"><code>nbinom(size, prob)</code></h4>
+            <p>Returns an object representing a negative binomial distribution with
+given parameters <code>size</code> and <code>prob</code>.  The object has
+properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<p><code>size</code> must be strictly positive, and <code>prob</code> must be in <code>(0, 1]</code>.</p>
+<pre class="prettyprint source"><code>nbinom(size, prob).d(x, logp)            // same as dnbinom(size, prob, logp)(x)
+nbinom(size, prob).p(x, lowerTail, logp) // same as pnbinom(size, prob, lowerTail, logp)(x)
+nbinom(size, prob).q(x, lowerTail, logp) // same as qnbinom(size, prob, lowerTail, logp)(x)
+nbinom(size, prob).r()                   // same as rnbinom(size, prob)()</code></pre>
+          </div>
+          <div>
+            <h4 id="pnbinom"><code>pnbinom(size, prob, lowerTail, logp)(x)</code></h4>
+            <p>Evaluates the lower-tail cdf at <code>x</code> for the negative binomial distribution.</p>
+<p><code>size</code> must be strictly positive, and <code>prob</code> must be in <code>(0, 1]</code>.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
+the upper tail probability instead.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
+of the result.</p>
+          </div>
+          <div>
+            <h4 id="qnbinom"><code>qnbinom(size, prob, lowerTail, logp)(p)</code></h4>
+            <p>Evaluates the negative binomial distribution's quantile function
+(inverse cdf) at <code>p</code>.</p>
+<p><code>size</code> must be strictly positive, and <code>prob</code> must be in <code>(0, 1]</code>.</p>
+<p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
+<p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
+the logarithm of the desired probability.</p>
+          </div>
+          <div>
+            <h4 id="rnbinom"><code>rnbinom(size, prob)()</code></h4>
+            <p>Returns a random variate from the negative binomial distribution.</p>
+<p><code>size</code> must be strictly positive, and <code>prob</code> must be in <code>(0, 1]</code>.</p>
           </div>
         </div>
         <div>
@@ -1174,7 +1422,7 @@ and <a href="#rpois"><code>rpois</code></a> to random deviates.</p>
 representing the Poisson distribution for a given value of $\lambda$.</p>
           <div>
             <h4 id="dpois"><code>dpois(lambda, logp)(x)</code></h4>
-            <p>Evaluates the Poisson pmf at <code>x</code>:
+            <p>Evaluates the Poisson probability mass function at <code>x</code>:
 $$\textrm{dpois}(\lambda)(x) = \frac{\lambda^x}{x!}e^{-\lambda}$$</p>
 <p>Expects $\lambda &gt; 0$.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the

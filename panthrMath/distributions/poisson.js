@@ -35,7 +35,7 @@ define(function(require) {
    utils = require('../utils');
 
    /**
-    * Evaluates the Poisson pmf at `x`:
+    * Evaluates the Poisson probability mass function at `x`:
     * $$\textrm{dpois}(\lambda)(x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
     *
     * Expects $\lambda > 0$.

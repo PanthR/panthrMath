@@ -106,6 +106,16 @@ Based on: \emph{Algorithm 708: Significant Digit Computation of the Incomplete B
 Ratios}, by DiDonato and Morris, 1992
 
 
+    \subsection*{dbinomLog(size, p)}
+    \addcontentsline{toc}{subsection}{dbinomLog(size, p)}
+    Performs the raw binomial log computation, even when $x$ is not an
+integer.
+
+
+Based on:  \emph{Fast and Accurate Computation of Binomial Probabilities},
+by Catherine Loader, 2000
+
+
     \subsection*{erf(x)}
     \addcontentsline{toc}{subsection}{erf(x)}
     Implementation for erf, the real error function:
@@ -331,6 +341,11 @@ by Catherine Loader, 2000
     The exponential distribution. See \texttt{module:exponential}.
 
 
+    \subsection*{f}
+    \addcontentsline{toc}{subsection}{f}
+    The f distribution. See \texttt{module:f}.
+
+
     \subsection*{finite}
     \addcontentsline{toc}{subsection}{finite}
     Constructor for finite distributions. See \texttt{module:finite}.
@@ -343,7 +358,17 @@ by Catherine Loader, 2000
 
     \subsection*{geom}
     \addcontentsline{toc}{subsection}{geom}
-    The binomial distribution. See \texttt{module:geometric}.
+    The geometric distribution. See \texttt{module:geometric}.
+
+
+    \subsection*{lognormal}
+    \addcontentsline{toc}{subsection}{lognormal}
+    The lognormal distribution. See \texttt{module:lognormal}.
+
+
+    \subsection*{nbinom}
+    \addcontentsline{toc}{subsection}{nbinom}
+    The negative binomial distribution. See \texttt{module:nbinom}.
 
 
     \subsection*{normal}
@@ -497,8 +522,8 @@ $$\textrm{pbinom}(\textrm{size}, p, \textrm{false})(x) = \sum\_{k\&gt;x} \binom{
 of the result.
 
 
-    \subsection*{qbinom(size, p, lowerTail, logp)(prob)}
-    \addcontentsline{toc}{subsection}{qbinom(size, p, lowerTail, logp)(prob)}
+    \subsection*{qbinom(size, prob, lowerTail, logp)(prob)}
+    \addcontentsline{toc}{subsection}{qbinom(size, prob, lowerTail, logp)(prob)}
     Returns the quantile corresponding to \texttt{prob}
 for the $\textrm{Binomial}(size, p)$ distribution.
 In general, for a discrete probability
@@ -671,6 +696,79 @@ Expects the rate $\lambda \&gt; 0$.
 
 
 Based on the R code in sexp.c (nmath)
+
+
+  \section{f}
+    \subsection*{df(df1, df2, logp)(x)}
+    \addcontentsline{toc}{subsection}{df(df1, df2, logp)(x)}
+    Evaluates the F distribution's density function at \texttt{x}, where
+$x \geq 0$.
+
+
+Expects \texttt{df1} and \texttt{df2} to be positive.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+Adapted from df.c in R's code.
+
+
+    \subsection*{fdistr(df1, df2)}
+    \addcontentsline{toc}{subsection}{fdistr(df1, df2)}
+    Returns an object representing an F distribution with
+given degrees of freedom \texttt{df1} and \texttt{df2}.  The object has
+properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{fdistr(df1, df2).d(x, logp)            // same as df(df1, df2, logp)(x)
+fdistr(df1, df2).p(x, lowerTail, logp) // same as pf(df1, df2, lowerTail, logp)(x)
+fdistr(df1, df2).q(x, lowerTail, logp) // same as qf(df1, df2, lowerTail, logp)(x)
+fdistr(df1, df2).r()                   // same as rf(df1, df2)()}\end{lstlisting}
+
+    \subsection*{pf(df1, df2, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pf(df1, df2, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the F distribution.
+
+
+Expects \texttt{df1} and \texttt{df2} to be positive.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qf(df1, df2, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qf(df1, df2, lowerTail, logp)(p)}
+    Evaluates the F distribution's quantile function
+(inverse cdf) at \texttt{p}.
+
+
+Expects \texttt{df1} and \texttt{df2} to be positive.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+    \subsection*{rf(df1, df2)()}
+    \addcontentsline{toc}{subsection}{rf(df1, df2)()}
+    Returns a random variate from the F distribution, computed as a ratio
+of chi square variates.
+
+
+Expects \texttt{df1} and \texttt{df2} to be positive.
 
 
   \section{finite}
@@ -853,7 +951,7 @@ by Gentle, Springer 2005
   \section{geometric}
     \subsection*{dgeom(prob, logp)(x)}
     \addcontentsline{toc}{subsection}{dgeom(prob, logp)(x)}
-    Evaluates the geometric distribution's density function at \texttt{x}:
+    Evaluates the geometric distribution's probability mass function at \texttt{x}:
 $$\textrm{dgeom}(p)(x) = p(1-p)^x$$
 for $x \in\left\{0,1,2,\ldots\right\}$.
 
@@ -932,6 +1030,148 @@ Expects the probability parameter $0 \&lt; p \leq 1$.
 Following R's code (rgeom.c)
 
 
+  \section{lognormal}
+    \subsection*{dlnorm(meanlog, sdlog, logp)(x)}
+    \addcontentsline{toc}{subsection}{dlnorm(meanlog, sdlog, logp)(x)}
+    Evaluates the lognormal distribution's density function at \texttt{x}.
+
+
+Expects $x \&gt; 0$ and $\textrm{sdlog} \&gt; 0$.
+
+
+    \subsection*{lognormal(meanlog, sdlog)}
+    \addcontentsline{toc}{subsection}{lognormal(meanlog, sdlog)}
+    Returns an object representing a normal distribution, with properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\begin{lstlisting}
+\texttt{lognormal(meanlog, sdlog).d(x, logp)            // same as dlnorm(meanlog, sdlog, logp)(x)
+lognormal(meanlog, sdlog).p(x, lowerTail, logp) // same as plnorm(meanlog, sdlog, lowerTail, logp)(x)
+lognormal(meanlog, sdlog).q(x, lowerTail, logp) // same as qlnorm(meanlog, sdlog, lowerTail, logp)(x)
+lognormal(meanlog, sdlog).r()                   // same as rlnorm(meanlog, sdlog)()}\end{lstlisting}
+
+    \subsection*{plnorm(meanlog, sdlog, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{plnorm(meanlog, sdlog, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the lognormal distribution:
+$$\textrm{pnorm}(\mu, \sigma)(x) = \frac{1}{2}\left(1 + \textrm{erf}\left(\frac{\ln x - \mu}{\sigma\sqrt{2}}\right)\right)$$
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+Expects $\textrm{sdlog} \&gt; 0$ and $x \&gt; 0$.
+
+
+    \subsection*{qlnorm(meanlog, sdlog, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qlnorm(meanlog, sdlog, lowerTail, logp)(p)}
+    Evaluates the lognormal distribution's quantile function (inverse cdf) at \texttt{p}:
+$$\textrm{qlnorm}(\mu, \sigma)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
+where $X$ is a random variable with the lognormal distribution.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+Expects $\textrm{sdlog} \&gt; 0$.
+
+
+    \subsection*{rlnorm(meanlog, sdlog)()}
+    \addcontentsline{toc}{subsection}{rlnorm(meanlog, sdlog)()}
+    Returns a random variate from the lognormal distribution.
+
+
+Expects $\textrm{sdlog} \&gt; 0$.
+
+
+Uses a rejection polar method.
+
+
+  \section{nbinom}
+    \subsection*{dnbinom(size, prob, logp)(x)}
+    \addcontentsline{toc}{subsection}{dnbinom(size, prob, logp)(x)}
+    Evaluates the negative binomial distribution's probability mass function
+at \texttt{x}, where $x \geq 0$.
+
+
+\texttt{size} must be strictly positive, and \texttt{prob} must be in \texttt{(0, 1]}.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the
+logarithm of the result.
+
+
+Adapted from dnbinom.c in R's code.
+
+
+    \subsection*{nbinom(size, prob)}
+    \addcontentsline{toc}{subsection}{nbinom(size, prob)}
+    Returns an object representing a negative binomial distribution with
+given parameters \texttt{size} and \texttt{prob}.  The object has
+properties \texttt{d}, \texttt{p}, \texttt{q}, \texttt{r}.
+
+
+\texttt{size} must be strictly positive, and \texttt{prob} must be in \texttt{(0, 1]}.
+
+
+\begin{lstlisting}
+\texttt{nbinom(size, prob).d(x, logp)            // same as dnbinom(size, prob, logp)(x)
+nbinom(size, prob).p(x, lowerTail, logp) // same as pnbinom(size, prob, lowerTail, logp)(x)
+nbinom(size, prob).q(x, lowerTail, logp) // same as qnbinom(size, prob, lowerTail, logp)(x)
+nbinom(size, prob).r()                   // same as rnbinom(size, prob)()}\end{lstlisting}
+
+    \subsection*{pnbinom(size, prob, lowerTail, logp)(x)}
+    \addcontentsline{toc}{subsection}{pnbinom(size, prob, lowerTail, logp)(x)}
+    Evaluates the lower-tail cdf at \texttt{x} for the negative binomial distribution.
+
+
+\texttt{size} must be strictly positive, and \texttt{prob} must be in \texttt{(0, 1]}.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, returns
+the upper tail probability instead.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, returns the logarithm
+of the result.
+
+
+    \subsection*{qnbinom(size, prob, lowerTail, logp)(p)}
+    \addcontentsline{toc}{subsection}{qnbinom(size, prob, lowerTail, logp)(p)}
+    Evaluates the negative binomial distribution's quantile function
+(inverse cdf) at \texttt{p}.
+
+
+\texttt{size} must be strictly positive, and \texttt{prob} must be in \texttt{(0, 1]}.
+
+
+\texttt{lowerTail} defaults to \texttt{true}; if \texttt{lowerTail} is \texttt{false}, \texttt{p} is
+interpreted as an upper tail probability (returns
+$x$ such that $\textrm{prob}(X \&gt; x) = p)$.
+
+
+\texttt{logp} defaults to \texttt{false}; if \texttt{logp} is \texttt{true}, interprets \texttt{p} as
+the logarithm of the desired probability.
+
+
+    \subsection*{rnbinom(size, prob)()}
+    \addcontentsline{toc}{subsection}{rnbinom(size, prob)()}
+    Returns a random variate from the negative binomial distribution.
+
+
+\texttt{size} must be strictly positive, and \texttt{prob} must be in \texttt{(0, 1]}.
+
+
   \section{normal}
     \subsection*{dnorm(mu, sigma, logp)(x)}
     \addcontentsline{toc}{subsection}{dnorm(mu, sigma, logp)(x)}
@@ -1007,7 +1247,7 @@ Uses a rejection polar method.
   \section{poisson}
     \subsection*{dpois(lambda, logp)(x)}
     \addcontentsline{toc}{subsection}{dpois(lambda, logp)(x)}
-    Evaluates the Poisson pmf at \texttt{x}:
+    Evaluates the Poisson probability mass function at \texttt{x}:
 $$\textrm{dpois}(\lambda)(x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
 
 

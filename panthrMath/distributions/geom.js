@@ -3,14 +3,14 @@
 define(function(require) {
 
    /**
-    * Provides density function, cumulative distribution function,
+    * Provides probability mass function, cumulative distribution function,
     * quantile function, and random number generator
     * for the geometric distribution with parameter the probability $p$, which
     * is defined by the pdf
     * $$ f(x; p) = p (1-p)^x$$
     * where $0 < p \leq 1$ and $x \in\left\\{0,1,2,\ldots\right\\}$.
     *
-    * `dgeom` provides access to this probability density function,
+    * `dgeom` provides access to this probability mass function,
     * `pgeom` to the cumulative distribution function, `qgeom` to the
     * quantile function (inverse cdf)
     * and `rgeom` to random deviates.
@@ -33,7 +33,7 @@ define(function(require) {
    utils = require('../utils');
 
    /**
-    * Evaluates the geometric distribution's density function at `x`:
+    * Evaluates the geometric distribution's probability mass function at `x`:
     * $$\textrm{dgeom}(p)(x) = p(1-p)^x$$
     * for $x \in\left\\{0,1,2,\ldots\right\\}$.
     *

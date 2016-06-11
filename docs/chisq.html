@@ -30,9 +30,12 @@
         <a href="binomial.html"><li class="depth2"><code>binomial</code></li></a>
         <a href="chisq.html"><li class="depth2"><code>chisq</code></li></a>
         <a href="exponential.html"><li class="depth2"><code>exponential</code></li></a>
+        <a href="f.html"><li class="depth2"><code>f</code></li></a>
         <a href="finite.html"><li class="depth2"><code>finite</code></li></a>
         <a href="gamma.html"><li class="depth2"><code>gamma</code></li></a>
         <a href="geometric.html"><li class="depth2"><code>geometric</code></li></a>
+        <a href="lognormal.html"><li class="depth2"><code>lognormal</code></li></a>
+        <a href="nbinom.html"><li class="depth2"><code>nbinom</code></li></a>
         <a href="normal.html"><li class="depth2"><code>normal</code></li></a>
         <a href="poisson.html"><li class="depth2"><code>poisson</code></li></a>
         <a href="t.html"><li class="depth2"><code>t</code></li></a>
@@ -79,7 +82,7 @@ the degrees of freedom $k$.</p>
       </div>
       <div>
         <h4 id="chisq"><code>chisq(df)</code></h4>
-        <p>Returns an object representing a chi squared distribution for <code>df</code> degrees
+        <p>Returns an object representing a chi squared distribution for <a href="#df"><code>df</code></a> degrees
 of freedom, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
 <pre class="prettyprint source"><code>chisq(df).d(x, logp)            // same as dchisq(df, logp)(x)
 chisq(df).p(x, lowerTail, logp) // same as pchisq(df, lowerTail, logp)(x)
@@ -89,7 +92,7 @@ chisq(df).r()                   // same as rchisq(df)()</code></pre>
       <div>
         <h4 id="dchisq"><code>dchisq(df, logp)(x)</code></h4>
         <p>Evaluates the chi squared distribution's density function at <code>x</code>.</p>
-<p><code>df</code> is the degrees of freedom $k$.</p>
+<p><a href="#df"><code>df</code></a> is the degrees of freedom $k$.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
 logarithm of the result.</p>
       </div>
@@ -98,7 +101,7 @@ logarithm of the result.</p>
         <p>Evaluates the lower-tail cdf at <code>x</code> for the chi squared distribution:
 $$\textrm{pchisq}(k)(x) = \frac{\gamma(k/2, x/2)}{\Gamma(k/2)}$$</p>
 <p>where $\gamma$ is the incomplete gamma function, and
-<code>df</code> is the degrees of freedom $k$.</p>
+<a href="#df"><code>df</code></a> is the degrees of freedom $k$.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
 the upper tail probability instead.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
@@ -110,7 +113,7 @@ of the result.</p>
 (inverse cdf) at <code>p</code>:
 $$\textrm{qchisq}(k)(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
 where $X$ is a random variable with the chi-squared distribution.</p>
-<p><code>df</code> is the degrees of freedom $k$.</p>
+<p><a href="#df"><code>df</code></a> is the degrees of freedom $k$.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
 interpreted as an upper tail probability (returns
 $x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
@@ -119,7 +122,7 @@ the logarithm of the desired probability.</p>
       </div>
       <div>
         <h4 id="rchisq"><code>rchisq(df)()</code></h4>
-        <p>Returns a random variate from the chi squared distribution with <code>df</code> degrees
+        <p>Returns a random variate from the chi squared distribution with <a href="#df"><code>df</code></a> degrees
 of freedom.</p>
       </div>
     </div>

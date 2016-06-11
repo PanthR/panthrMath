@@ -3,7 +3,7 @@
 define(function(require) {
 
    /**
-    * Provides density function, cumulative distribution function,
+    * Provides probability mass function, cumulative distribution function,
     * quantile function, and random number generator
     * for the negative binomial distribution with parameters `size` and `prob`.
     *
@@ -13,7 +13,7 @@ define(function(require) {
     *
     * `size` must be strictly positive, and `prob` must be in `(0, 1]`.
     *
-    * `dnbinom` provides access to the probability density function,
+    * `dnbinom` provides access to the probability mass function,
     * `pnbinom` to the cumulative distribution function, `qnbinom` to the
     * quantile function (inverse cdf)
     * and `rnbinom` to random deviates.
@@ -36,8 +36,8 @@ define(function(require) {
    rgamma = require('./gamma').rgamma;
 
    /**
-    * Evaluates the negative binomial distribution's density function at `x`,
-    * where $x \geq 0$.
+    * Evaluates the negative binomial distribution's probability mass function
+    * at `x`, where $x \geq 0$.
     *
     * `size` must be strictly positive, and `prob` must be in `(0, 1]`.
     *

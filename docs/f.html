@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="doc.css" type="text/css" media="screen" title="no title" charset="utf-8">
-    <title>t</title>
+    <title>f</title>
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
@@ -14,7 +14,7 @@
   </head>
   <body>
     <div id="header">
-    <h1>Documentation for module <code>t</code>
+    <h1>Documentation for module <code>f</code>
       
       </h1>
     </div>
@@ -47,80 +47,80 @@
         <h3>Contents</h3>
       <ul>
         
-        <a href="#dt"><li><code>dt</code></li></a>
+        <a href="#df"><li><code>df</code></li></a>
         
-        <a href="#pt"><li><code>pt</code></li></a>
+        <a href="#fdistr"><li><code>fdistr</code></li></a>
         
-        <a href="#qt"><li><code>qt</code></li></a>
+        <a href="#pf"><li><code>pf</code></li></a>
         
-        <a href="#rt"><li><code>rt</code></li></a>
+        <a href="#qf"><li><code>qf</code></li></a>
         
-        <a href="#tdistr"><li><code>tdistr</code></li></a>
+        <a href="#rf"><li><code>rf</code></li></a>
         
       </ul>
       </div>
     </div>
     <div id="main">
       <div class="moduleInfo">
-        <h2>Module <code>t</code></h2>
+        <h2>Module <code>f</code></h2>
         <p>Author(s): <a class="author" href="mailto:skiadas@hanover.edu">Haris Skiadas</a>, <a class="author" href="mailto:wahl@hanover.edu">Barb Wahl</a><p>
         <p>Provides density function, cumulative distribution function,
 quantile function, and random number generator
-for the Student's t distribution, which is defined by the pdf
-$$f(x;\nu) = \frac{1}{\sqrt{\nu}\,\textrm{B}(1/2, \nu/2)} \left(1+\frac{x^2}{\nu} \right)^{-\frac{\nu + 1}{2}}$$
-where B is the Beta function, $x \in (-\infty, \infty)$ and $\nu &gt;0$ is the <em>degrees of freedom</em>.</p>
-<p><a href="#dt"><code>dt</code></a> provides access to this probability density function,
-<a href="#pt"><code>pt</code></a> to the cumulative distribution function, <a href="#qt"><code>qt</code></a> to the
+for the Fisher-Snedecor F distribution with parameters <code>df1</code> and <code>df2</code>
+(degrees of freedom).  It is the distribution of the ratio of the mean
+squares of <code>df1</code> and <code>df2</code> independent standard normal variates.</p>
+<p><a href="#df"><code>df</code></a> provides access to the probability density function,
+<a href="#pf"><code>pf</code></a> to the cumulative distribution function, <a href="#qf"><code>qf</code></a> to the
 quantile function (inverse cdf)
-and <a href="#rt"><code>rt</code></a> to random deviates.</p>
-<p>Finally, you can use <a href="#tdistr"><code>tdistr</code></a> to obtain an object
-representing the t distribution for a given value of $\nu$.</p>
+and <a href="#rf"><code>rf</code></a> to random deviates.</p>
+<p>Finally, you can use <a href="#fdistr"><code>fdistr</code></a> to obtain an object
+representing the F distribution for given values of
+<code>df1</code> and <code>df2</code>.</p>
       </div>
       <div>
-        <h4 id="dt"><code>dt(df, logp)(x)</code></h4>
-        <p>Evaluates the t density function at <code>x</code>:
-$$\textrm{dt}(\textrm{df})(x) = \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$</p>
-<p>Expects $\textrm{df} &gt; 0$.</p>
+        <h4 id="df"><code>df(df1, df2, logp)(x)</code></h4>
+        <p>Evaluates the F distribution's density function at <code>x</code>, where
+$x \geq 0$.</p>
+<p>Expects <code>df1</code> and <code>df2</code> to be positive.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the
 logarithm of the result.</p>
+<p>Adapted from df.c in R's code.</p>
       </div>
       <div>
-        <h4 id="pt"><code>pt(df, lowerTail, logp)(x)</code></h4>
-        <p>Evaluates the lower-tail cdf at <code>x</code> for the t distribution:
-$$\textrm{pt}(\textrm{df})(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{\textrm{df}}\,\textrm{B}(1/2, \textrm{df}/2)} \left(1+\frac{x^2}{\textrm{df}} \right)^{-\frac{\textrm{df} + 1}{2}}$$</p>
-<p>Expects $\textrm{df} &gt; 0$.</p>
+        <h4 id="fdistr"><code>fdistr(df1, df2)</code></h4>
+        <p>Returns an object representing an F distribution with
+given degrees of freedom <code>df1</code> and <code>df2</code>.  The object has
+properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
+<pre class="prettyprint source"><code>fdistr(df1, df2).d(x, logp)            // same as df(df1, df2, logp)(x)
+fdistr(df1, df2).p(x, lowerTail, logp) // same as pf(df1, df2, lowerTail, logp)(x)
+fdistr(df1, df2).q(x, lowerTail, logp) // same as qf(df1, df2, lowerTail, logp)(x)
+fdistr(df1, df2).r()                   // same as rf(df1, df2)()</code></pre>
+      </div>
+      <div>
+        <h4 id="pf"><code>pf(df1, df2, lowerTail, logp)(x)</code></h4>
+        <p>Evaluates the lower-tail cdf at <code>x</code> for the F distribution.</p>
+<p>Expects <code>df1</code> and <code>df2</code> to be positive.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, returns
 the upper tail probability instead.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, returns the logarithm
 of the result.</p>
       </div>
       <div>
-        <h4 id="qt"><code>qt(df, lowerTail, logp)(p)</code></h4>
-        <p>Evaluates the t distribution's quantile function
-(inverse cdf) at <code>p</code>:
-$$\textrm{qt}(\textrm{df})(p) = x \textrm{ such that } \textrm{prob}(X \leq x) = p$$
-where $X$ is a random variable with the $t(\textrm{df})$ distribution.</p>
-<p>Expects $\textrm{df} &gt; 0$ and $0 \leq p \leq 1$.</p>
+        <h4 id="qf"><code>qf(df1, df2, lowerTail, logp)(p)</code></h4>
+        <p>Evaluates the F distribution's quantile function
+(inverse cdf) at <code>p</code>.</p>
+<p>Expects <code>df1</code> and <code>df2</code> to be positive.</p>
 <p><code>lowerTail</code> defaults to <code>true</code>; if <code>lowerTail</code> is <code>false</code>, <code>p</code> is
 interpreted as an upper tail probability (returns
 $x$ such that $\textrm{prob}(X &gt; x) = p)$.</p>
 <p><code>logp</code> defaults to <code>false</code>; if <code>logp</code> is <code>true</code>, interprets <code>p</code> as
 the logarithm of the desired probability.</p>
-<p>Based on: R code</p>
       </div>
       <div>
-        <h4 id="rt"><code>rt(df)()</code></h4>
-        <p>Returns a random variate from the $t(\textrm{df})$ distribution.</p>
-<p>Expects $\textrm{df} &gt; 0$.</p>
-      </div>
-      <div>
-        <h4 id="tdistr"><code>tdistr(df)</code></h4>
-        <p>Returns an object representing a t distribution with $\textrm{df} &gt; 0$
-degrees of freedom, with properties <code>d</code>, <code>p</code>, <code>q</code>, <code>r</code>.</p>
-<pre class="prettyprint source"><code>tdistr(a, b).d(x, logp)            // same as dt(a, b, logp)(x)
-tdistr(a, b).p(x, lowerTail, logp) // same as pt(a, b, lowerTail, logp)(x)
-tdistr(a, b).q(x, lowerTail, logp) // same as qt(a, b, lowerTail, logp)(x)
-tdistr(a, b).r()                   // same as rt(a, b)()</code></pre>
+        <h4 id="rf"><code>rf(df1, df2)()</code></h4>
+        <p>Returns a random variate from the F distribution, computed as a ratio
+of chi square variates.</p>
+<p>Expects <code>df1</code> and <code>df2</code> to be positive.</p>
       </div>
     </div>
   </body>
