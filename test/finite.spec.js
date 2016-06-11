@@ -102,5 +102,58 @@ describe('finite distribution', function() {
       expect(o1.r()).to.be.NaN;
       expect(o2.r()).to.be.NaN;
    });
+   it('handles exceptional inputs properly', function() {
+      var o = main.finite({ xs: [1, 2, 3], ws: [0.25, 0.5, 0.25] });
 
+      expect(o.d(NaN)).to.be.NaN;
+      expect(o.d(NaN, true)).to.be.NaN;
+      expect(o.p(NaN)).to.be.NaN;
+      expect(o.p(NaN, false)).to.be.NaN;
+      expect(o.p(NaN, true, true)).to.be.NaN;
+      expect(o.p(NaN, false, true)).to.be.NaN;
+      expect(o.q(NaN, true)).to.be.NaN;
+      expect(o.q(NaN, false)).to.be.NaN;
+      expect(o.q(NaN, true, true)).to.be.NaN;
+      expect(o.q(NaN, false, true)).to.be.NaN;
+
+      [
+         [-Infinity, 0, 0, 1],
+         [0, 0, 0, 1],
+         [4, 0, 1, 0],
+         [Infinity, 0, 1, 0]
+      ].forEach(function(tuple) {
+         var x, d, p, q;
+
+         x = tuple[0];
+         d = tuple[1];
+         p = tuple[2];
+         q = tuple[3];
+         expect(o.d(x)).to.equal(d);
+         expect(o.d(x, true)).to.equal(Math.log(d));
+         expect(o.p(x)).to.equal(p);
+         expect(o.p(x, false)).to.equal(q);
+         expect(o.p(x, true, true)).to.equal(Math.log(p));
+         expect(o.p(x, false, true)).to.equal(Math.log(q));
+      });
+      [
+         [-Infinity, 1, 3],
+         [-1, 1, 3],
+         [0, 1, 3],
+         [1, 3, 1],
+         [2, 3, 1],
+         [Infinity, 3, 1]
+      ].forEach(function(tuple) {
+         var p, x1, x2;
+
+         p = tuple[0];
+         x1 = tuple[1];
+         x2 = tuple[2];
+         expect(o.q(p, true, false)).to.equal(x1);
+         expect(o.q(p, false, false)).to.equal(x2);
+         if (p >= 0) {
+            expect(o.q(Math.log(p), true, true)).to.equal(x1);
+            expect(o.q(Math.log(p), false, true)).to.equal(x2);
+         }
+      });
+   });
 });

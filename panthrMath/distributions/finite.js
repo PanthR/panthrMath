@@ -69,8 +69,8 @@ define(function(require) {
          throw new Error('finite: xs and ws need to have the same length');
       }
       // Check that the xs don't contain NaNs
-      if (!xs.every(function(v, i) { return !utils.hasNaN(v, ws[i]); })) {
-         return nanObject;
+      for (i = 0; i < xs.length; i += 1) {
+         if (utils.hasNaN(xs[i], ws[i])) { return nanObject; }
       }
       // Check that xs are strictly increasing
       xs.reduce(function(acc, v) {
@@ -99,6 +99,7 @@ define(function(require) {
             var ind, ret;
 
             logp = logp === true;
+            if (utils.hasNaN(x)) { return NaN; }
             if (x < xs[0] || x > xs[xs.length - 1]) {
                ret = 0;
             } else {
@@ -113,7 +114,8 @@ define(function(require) {
 
             logp = logp === true;
             lowerTail = lowerTail !== false;
-            if (isNaN(q)) { return NaN; }
+
+            if (utils.hasNaN(q)) { return NaN; }
             if (q < xs[0]) {
                ret = lowerTail ? 0 : 1;
             } else if (q >= xs[xs.length - 1]) {
@@ -129,10 +131,9 @@ define(function(require) {
             logp = logp === true;
             lowerTail = lowerTail !== false;
             if (logp) { p = Math.exp(p); }
-            if (isNaN(p)) { return NaN; }
-            if (p < 0 || p > 1) { return NaN; }
-            if (p === 1) { return lowerTail ? xs[xs.length - 1] : xs[0]; }
-            if (p === 0) { return lowerTail ? xs[0] : xs[xs.length - 1]; }
+            if (utils.hasNaN(p)) { return NaN; }
+            if (p >= 1) { return lowerTail ? xs[xs.length - 1] : xs[0]; }
+            if (p <= 0) { return lowerTail ? xs[0] : xs[xs.length - 1]; }
             if (lowerTail) {
                // we need the smallest x such that the area left and equal
                // to x is >= p
