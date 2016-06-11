@@ -23,11 +23,12 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var sexp, log1p, expm1, rand;
+   var sexp, log1p, expm1, rand, utils;
 
    log1p = require('../basicFunc/log1p').log1p;
    expm1 = require('../basicFunc/expm1').expm1;
    rand = require('../rgen/rgen').random;
+   utils = require('../utils');
 
    /**
     * Evaluates the exponential distribution's density function at `x`:
@@ -45,9 +46,10 @@ define(function(require) {
    function dexp(rate, logp) {
       logp = logp === true;
 
-      if (rate <= 0) { return function(x) { return NaN; }; }
+      if (utils.hasNaN(rate) || rate < 0) { return function(x) { return NaN; }; }
 
       return function(x) {
+         if (rate === Infinity) { return NaN; }
          if (x < 0) {
             return logp ? -Infinity : 0;
          }
@@ -74,12 +76,14 @@ define(function(require) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      if (rate <= 0) { return function(x) { return NaN; }; }
+      if (utils.hasNaN(rate)) { return function(x) { return NaN; }; }
 
       return function(x) {
          var ret;
 
-         if (x < 0) {
+         if (utils.hasNaN(x)) { return NaN; }
+         if (rate < 0 && rate !== -Infinity) { return NaN; }
+         if (x <= 0) {
             ret = lowerTail ? 0 : 1;
             return logp ? Math.log(ret) : ret;
          }
@@ -116,19 +120,17 @@ define(function(require) {
       logp = logp === true;
       lowerTail = lowerTail !== false;
 
-      if (rate <= 0) { return function(x) { return NaN; }; }
+      if (utils.hasNaN(rate)) { return function(x) { return NaN; }; }
 
-      return function(p) {
+      return utils.qhelper(lowerTail, logp, 0, Infinity, function(p) {
+         if (rate < 0 && rate !== -Infinity) { return NaN; }
          if (logp) {
-            if (p > 0) { return NaN; }
             return lowerTail ? -Math.log(-expm1(p)) / rate
                              : -p / rate;
          }
-         // else, not log
-         if (!(p >= 0 && p <= 1)) { return NaN; }
          return lowerTail ? -log1p(-p) / rate
                           : -Math.log(p) / rate;
-      };
+      });
    }
 
    // helper function for rexp

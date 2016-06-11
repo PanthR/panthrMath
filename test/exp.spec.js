@@ -362,5 +362,136 @@ describe('Exponential Distribution', function() {
          }
       });
    });
+   /* Rcode generating the tests:
+      options(digits = 20)
+      x = c(NaN, -Inf, -1.3, 0, 1, 2, 1.5, Inf)
+      rate = c(NaN, -Inf, -1.3, 0, 1.5, Inf)
+      g = expand.grid(x=x, rate=rate)
+      g$d = dexp(g$x, g$rate, log=TRUE)
+      g$p = pexp(g$x, g$rate, log.p=TRUE)
+      g$q = pexp(g$x, g$rate, lower.tail=FALSE, log.p=TRUE)
+      s = paste(g$x, g$rate, g$d, g$p, g$q, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+   */
+   it('pexp, dexp handle inappropriate inputs', function() {
+      [
+      [NaN, NaN, NaN, NaN, NaN],
+      [-Infinity, NaN, NaN, NaN, NaN],
+      [-1.3, NaN, NaN, NaN, NaN],
+      [0, NaN, NaN, NaN, NaN],
+      [1, NaN, NaN, NaN, NaN],
+      [2, NaN, NaN, NaN, NaN],
+      [1.5, NaN, NaN, NaN, NaN],
+      [Infinity, NaN, NaN, NaN, NaN],
+      [NaN, -Infinity, NaN, NaN, NaN],
+      [-Infinity, -Infinity, NaN, -Infinity, 0],
+      [-1.3, -Infinity, NaN, -Infinity, 0],
+      [0, -Infinity, NaN, -Infinity, 0],
+      [1, -Infinity, NaN, NaN, Infinity],
+      [2, -Infinity, NaN, NaN, Infinity],
+      [1.5, -Infinity, NaN, NaN, Infinity],
+      [Infinity, -Infinity, NaN, NaN, Infinity],
+      [NaN, -1.3, NaN, NaN, NaN],
+      [-Infinity, -1.3, NaN, NaN, NaN],
+      [-1.3, -1.3, NaN, NaN, NaN],
+      [0, -1.3, NaN, NaN, NaN],
+      [1, -1.3, NaN, NaN, NaN],
+      [2, -1.3, NaN, NaN, NaN],
+      [1.5, -1.3, NaN, NaN, NaN],
+      [Infinity, -1.3, NaN, NaN, NaN],
+      [NaN, 0, NaN, NaN, NaN],
+      [-Infinity, 0, -Infinity, -Infinity, 0],
+      [-1.3, 0, -Infinity, -Infinity, 0],
+      [0, 0, -Infinity, -Infinity, 0],
+      [1, 0, -Infinity, -Infinity, 0],
+      [2, 0, -Infinity, -Infinity, 0],
+      [1.5, 0, -Infinity, -Infinity, 0],
+      [Infinity, 0, NaN, NaN, NaN],
+      [NaN, 1.5, NaN, NaN, NaN],
+      [-Infinity, 1.5, -Infinity, -Infinity, 0],
+      [-1.3, 1.5, -Infinity, -Infinity, 0],
+      [0, 1.5, 0.405465108108164, -Infinity, 0],
+      [1, 1.5, -1.09453489189184, -0.252482458925454, -1.5],
+      [2, 1.5, -2.59453489189184, -0.0510691809427016, -3],
+      [1.5, 1.5, -1.84453489189184, -0.111377721185044, -2.25],
+      [Infinity, 1.5, -Infinity, 0, -Infinity],
+      [NaN, Infinity, NaN, NaN, NaN],
+      [-Infinity, Infinity, NaN, -Infinity, 0],
+      [-1.3, Infinity, NaN, -Infinity, 0],
+      [0, Infinity, NaN, -Infinity, 0],
+      [1, Infinity, NaN, 0, -Infinity],
+      [2, Infinity, NaN, 0, -Infinity],
+      [1.5, Infinity, NaN, 0, -Infinity],
+      [Infinity, Infinity, NaN, 0, -Infinity]
+      ].forEach(function(tuple) {
+         var x, rate, rlogp, rlogq, rlogd, logp, logq, logd;
+         x = tuple[0];
+         rate = tuple[1];
+         rlogd = tuple[2];
+         rlogp = tuple[3];
+         rlogq = tuple[4];
+         logd = main.dexp(rate, true)(x);
+         logp = main.pexp(rate, true, true)(x);
+         logq = main.pexp(rate, false, true)(x);
+         expect(utils.relativelyCloseTo(logd, rlogd)).to.equal(true);
+         expect(utils.relativelyCloseTo(logp, rlogp)).to.equal(true);
+         expect(utils.relativelyCloseTo(logq, rlogq)).to.equal(true);
+      });
+   });
 
+   /* Rcode generating the tests:
+      options(digits = 20)
+      p = c(NaN, -Inf, -1, 0, 0.3, 1, Inf)
+      rate = c(NaN, -1.3, 0, 1.5)
+      g = expand.grid(p=p, rate=rate)
+      g$x1 = qexp(g$p, g$rate, lower.tail=TRUE, log.p=FALSE)
+      g$x2 = qexp(g$p, g$rate, lower.tail=FALSE, log.p=FALSE)
+      s = paste(g$p, g$rate, g$x1, g$x2, sep=", ", collapse="],\n[")
+      s = paste("[", s, "]", sep="")
+      WARNING: WE HAVE MANUALLY CHANGED THE TEST:
+      FOR p=0/1 and inappropriate rate, return 0/Infinity
+      ALSO: TOOK OUT RATE = +/- INFINITY
+   */
+   it('qexp handles inappropriate inputs', function() {
+      [
+      [NaN, NaN, NaN, NaN],
+      [-Infinity, NaN, NaN, NaN],
+      [-1, NaN, NaN, NaN],
+      [0, NaN, NaN, NaN],
+      [0.3, NaN, NaN, NaN],
+      [1, NaN, NaN, NaN],
+      [Infinity, NaN, NaN, NaN],
+      [NaN, -1.3, NaN, NaN],
+      [-Infinity, -1.3, NaN, NaN],
+      [-1, -1.3, NaN, NaN],
+      [0, -1.3, 0, Infinity],
+      [0.3, -1.3, NaN, NaN],
+      [1, -1.3, Infinity, 0],
+      [Infinity, -1.3, NaN, NaN],
+      [NaN, 0, NaN, NaN],
+      [-Infinity, 0, NaN, NaN],
+      [-1, 0, NaN, NaN],
+      [0, 0, 0, Infinity],
+      [0.3, 0, Infinity, Infinity],
+      [1, 0, Infinity, 0],
+      [Infinity, 0, NaN, NaN],
+      [NaN, 1.5, NaN, NaN],
+      [-Infinity, 1.5, NaN, NaN],
+      [-1, 1.5, NaN, NaN],
+      [0, 1.5, 0, Infinity],
+      [0.3, 1.5, 0.237783295959155, 0.802648536217291],
+      [1, 1.5, Infinity, 0],
+      [Infinity, 1.5, NaN, NaN],
+      ].forEach(function(tuple) {
+         var p, rate, x1r, x2r, x1, x2;
+         p = tuple[0];
+         rate = tuple[1];
+         x1r = tuple[2];
+         x2r = tuple[3];
+         x1 = main.qexp(rate, true, false)(p);
+         x2 = main.qexp(rate, false, false)(p);
+         expect(utils.relativelyCloseTo(x1r, x1)).to.equal(true);
+         expect(utils.relativelyCloseTo(x2r, x2)).to.equal(true);
+      });
+   });
 });
