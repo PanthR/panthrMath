@@ -34,7 +34,7 @@ define(function(require) {
     * @memberof distributions
     * @author Haris Skiadas <skiadas@hanover.edu>, Barb Wahl <wahl@hanover.edu>
     */
-   var utils, rgen;
+   var utils, rgen, nanObject;
 
    utils = require('../utils');
    rgen = require('../rgen/rgen');
@@ -62,8 +62,26 @@ define(function(require) {
       xs = o.xs;
       ws = o.ws;
 
-      sum = ws.reduce(function(v, acc) {
-         if (!(v >= 0)) { throw new Error('finite: Negative weights'); }
+      // Check that xs are nonempty
+      if (xs.length === 0) { throw new Error('finite: Need at least one x'); }
+      // Check that xs, ws have same length
+      if (xs.length !== ws.length) {
+         throw new Error('finite: xs and ws need to have the same length');
+      }
+      // Check that the xs don't contain NaNs
+      if (!xs.every(function(v, i) { return !utils.hasNaN(v, ws[i]); })) {
+         return nanObject;
+      }
+      // Check that xs are strictly increasing
+      xs.reduce(function(acc, v) {
+         if (v <= acc) {
+            throw new Error('finite: xs must be strictly increasing');
+         }
+         return v;
+      });
+
+      sum = ws.reduce(function(acc, v) {
+         if (!(v >= 0)) { throw new Error('finite: Cannot have negative weights'); }
          return v + acc;
       }, 0);
       if (!utils.relativelyCloseTo(sum, 1)) {
@@ -198,6 +216,14 @@ define(function(require) {
 
       return obj;
    }
+
+   // Object to be returned if we need to return a "NaN" distribution
+   nanObject = {
+      d: function() { return NaN; },
+      p: function() { return NaN; },
+      q: function() { return NaN; },
+      r: function() { return NaN; }
+   };
 
    return {
       finite: finite,

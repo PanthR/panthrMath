@@ -79,4 +79,28 @@ describe('finite distribution', function() {
          }
       }
    });
+   it('requires a nonnegative weights', function() {
+      expect(function() { main.finite({ xs: [2, 3, 5], ws: [2, -1, 3] }) }).to.throw(Error);
+   });
+   it('requires a nonempty list of xs', function() {
+      expect(function() { main.finite({ xs: [], ws: [] }) }).to.throw(Error);
+   });
+   it('requires equal length lists for xs, ws', function() {
+      expect(function() {
+         main.finite({ xs: [2, 3], ws: [4, 2, 1] })
+      }).to.throw(Error);
+   });
+   it('returns special NaN object if xs or ws have NaN', function() {
+      var o1 = main.finite({ xs: [1, NaN, 3], ws: [1, 4, 2] });
+      var o2 = main.finite({ xs: [1, 2, 3], ws: [4, NaN, 2] });
+      expect(o1.d(1)).to.be.NaN;
+      expect(o2.d(1)).to.be.NaN;
+      expect(o1.p(1)).to.be.NaN;
+      expect(o2.p(1)).to.be.NaN;
+      expect(o1.q(0.3)).to.be.NaN;
+      expect(o2.q(0.3)).to.be.NaN;
+      expect(o1.r()).to.be.NaN;
+      expect(o2.r()).to.be.NaN;
+   });
+
 });
