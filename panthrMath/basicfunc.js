@@ -17,6 +17,8 @@ define(function(require) {
    mixin(basicFunc,
       require('./basicFunc/log1p'),
       require('./basicFunc/expm1'),
+      require('./basicFunc/dbinomlog'),
+      require('./basicFunc/lpoisson'),
       require('./basicFunc/erf'),
       require('./basicFunc/lbeta'),
       require('./basicFunc/lgamma'),
