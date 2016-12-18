@@ -2,7 +2,7 @@
 'use strict';
 define(function(require) {
 
-   var Rational, log1p;
+   var Rational, log1p, log2, log10;
 
    Rational = require('../rational');
 
@@ -37,7 +37,17 @@ define(function(require) {
       };
    }());
 
-   return { log1p: log1p };
+   log2 = typeof Math.log2 !== 'undefined' ? function(x) { return Math.log2(x); }
+                                           : function(x) { return Math.log(x) * Math.LOG2E; };
+
+   log10 = typeof Math.log10 !== 'undefined' ? function(x) { return Math.log10(x); }
+                                             : function(x) { return Math.log(x) * Math.LOG10E; };
+
+   return {
+      log1p: log1p,
+      log2: log2,
+      log10: log10
+   };
 
 });  // end define
 
