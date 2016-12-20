@@ -22,6 +22,7 @@ define(function(require) {
       require('./basicFunc/erf'),
       require('./basicFunc/lbeta'),
       require('./basicFunc/lgamma'),
+      require('./basicFunc/choose'),
       require('./basicFunc/bd0'),
       require('./basicFunc/gam1'),
       require('./basicFunc/phi'),
