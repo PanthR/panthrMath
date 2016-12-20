@@ -126,7 +126,11 @@ define(function(require) {
     * @memberof basicFunc
     */
    function gamma(x) {
-      return Math.exp(lgamma(x));
+      var expx;
+
+      expx = Math.exp(lgamma(x));
+
+      return x > 0 && x === Math.round(x) ? Math.round(expx) : expx;
    }
 
    return {
